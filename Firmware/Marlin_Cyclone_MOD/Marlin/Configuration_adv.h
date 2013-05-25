@@ -145,7 +145,7 @@
 //homing hits the endstop, then retracts by this distance, before it tries to slowly bump again:
 #define X_HOME_RETRACT_MM 3 
 #define Y_HOME_RETRACT_MM 3 
-#define Z_HOME_RETRACT_MM 1 
+#define Z_HOME_RETRACT_MM 1.5 
 //#define QUICK_HOME  //if this is defined, if both x and y are to be homed, a diagonal move will be performed initially.
 
 #define AXIS_RELATIVE_MODES {false, false, false, false}
@@ -178,7 +178,7 @@
 // Minimum planner junction speed. Sets the default minimum speed the planner plans for at the end
 // of the buffer and all stops. This should not be much greater than zero and should only be changed
 // if unwanted behavior is observed on a user's machine when running at very slow speeds.
-#define MINIMUM_PLANNER_SPEED 0//0.05// (mm/sec) // CGS MOD: Since Cyclone will be running at slow speeds, this value has been set to zero
+#define MINIMUM_PLANNER_SPEED 0.05//0.05// (mm/sec) // CGS MOD: Since Cyclone will be running at slow speeds, this value has been set to zero
 
 // MS1 MS2 Stepper Driver Microstepping mode table
 #define MICROSTEP1 LOW,LOW
@@ -274,13 +274,13 @@ const unsigned int dropsegments=5; //everything with less than this number of st
 #if defined SDSUPPORT
   #define BLOCK_BUFFER_SIZE 16   // SD,LCD,Buttons take more memory, block buffer needs to be smaller
 #else
-  #define BLOCK_BUFFER_SIZE 4 // maximize block buffer // CGS MOD: Reduced the buffering to reduce jitter when stopping the machine and prevent damage
+  #define BLOCK_BUFFER_SIZE 16 // maximize block buffer // CGS MOD: Should we reduce the buffering to minimize jitter when stopping the machine and prevent damage
 #endif
 
 
 //The ASCII buffer for recieving from the serial:
 #define MAX_CMD_SIZE 96
-#define BUFSIZE 4 // CGS MOD: Reduced the buffering to reduce jitter when stopping the machine and prevent damage
+#define BUFSIZE 16 // CGS MOD: Should we reduce the buffering to minimize jitter when stopping the machine and prevent damage?
 
 
 // Firmware based and LCD controled retract
