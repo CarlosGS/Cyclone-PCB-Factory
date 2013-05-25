@@ -75,7 +75,7 @@ Credit for the ideas used
 The origin of Cyclone took place while I was inside the __Panda CNC__ community (https://plus.google.com/u/0/communities/102402711800402614517). This is from December 2012 to mid-February 2013.  
 Here is the credit for the ideas that were used:  
 
-* __Letâ€™s design a 3D-printable CNC for PCB milling, it will be named Panda:__ Guillermo Welch (mid-December, via Google Talk)  
+* __Let's design a 3D-printable CNC for PCB milling, it will be named Panda:__ Guillermo Welch (mid-December, via Google Talk)  
 * __X carriage rod distribution:__ CÃ©sar Augusto FernÃ¡ndez Cano claims Cyclone's X axis is a derivate of his concept: https://plus.google.com/u/0/111421387442355054591/posts/QrfYtEuZBaj  
 * __100x160mm workspace:__ David Martin https://dl.dropboxusercontent.com/u/16122275/PandaCNC_credit/workplace_size.png  
 * __Using gears to drive the X-Y axes:__ Guillermo Welch https://plus.google.com/u/0/101232926728463427403/posts/QjZGNcWcgGg  
