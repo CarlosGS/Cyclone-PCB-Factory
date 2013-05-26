@@ -42,10 +42,13 @@ Notes:
 
 To-Do list:  
 --  
-- [99% DONE] Design parts for the X axis (this includes Z axis too, **will be using a proper spindle instead of a hand-drill**)  
+- [DONE] Design parts for the X axis (this includes Z axis too, **will be using a proper spindle instead of a hand-drill**)  
 - [DONE] Design parts for the Y axis  
 - [DONE] Create template for the screws in the wood base  
-- Software, testing, milling a PCB (till then, it can't be v1.0 :P)...  
+- Hardware: Reinforce left&right frames  
+- Firmware: Test various buffering/jerk configurations for Marlin  
+- Software: Export Z probing to a standarized file, add bilinear interpolation  
+- Manufacture a PCB (till then, it can't be v1.0 :P)...  
 
 Software  
 --  
@@ -72,7 +75,7 @@ License: CC-BY-SA
 --  
 Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/).  
 
-Derived/uses:
+Derived from / we have used / inspirational:
 --
 - "Linear actuator concept for CNC machines" by Carlosgs (http://www.thingiverse.com/thing:45103)  
 - "Parametric openscad beveled cube" by Obijuan (http://www.thingiverse.com/thing:29842)  
@@ -84,6 +87,7 @@ Derived/uses:
 
 Special thanks:  
 --  
+- Y axis improvement by **yOPERO** https://github.com/carlosgs/Cyclone-PCB-Factory/pull/1
 - Z axis concepts by **Quim Borras** and the spindle motor holder by **Misan** were really useful!! Also, **Diego Viejo**'s machine was of great inspiration for the Z axis (https://plus.google.com/u/0/photos/113930344830086538817/albums/5868944432651911713?authkey=CLDJgdehlN773gE) **Thank you all!!**  
 - This design woudn't have been possible without the encouragement of the **Panda CNC community** (https://plus.google.com/u/0/communities/102402711800402614517)  
 - Also, thanks to **Obijuan** (http://iearobotics.com) for naming the machine Cyclone :)  
