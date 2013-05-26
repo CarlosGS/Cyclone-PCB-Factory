@@ -53,7 +53,9 @@ base_screw_distance = 33;
 Y_rod_height = 40;
 Y_rod_dist_from_wall = 15;
 
-Y_rod_support_lenght = Y_rod_dist_from_wall+smooth_rod_screw_sep+smooth_rod_screw_diam;
+Y_rod_support_lenght = Y_rod_dist_from_wall+smooth_rod_screw_sep+smooth_rod_screw_diam+3;
+
+motor_adjust_margin = 3;
 
 if(show_printbed) {
 //for display only, doesn't contribute to final object
@@ -129,28 +131,38 @@ difference() {
     cylinder(r=bearing_diameter/2,h=motor_stand_thickness,center=true,$fn=40);
 
   if(with_motor) {
-
+// ------- BEGIN MOTOR HOLES --------
   // Center is the motor shaft, and we apply the rotation keeping the motor horizontal
   // Screws for holding the motor
-  rotate([0,0,-motor_axis_angle]) translate([motor_axis_distance,0,0]) rotate([0,0,motor_axis_angle]) {
-    for(i=[-1,1])
-      for(j=[-1,1]) {
-        translate([i*motor_screw_distance/2,j*motor_screw_distance/2,0]) {
-          // Screw hole
-          translate([0,0,motor_stand_thickness/2])
-            cylinder(r=motor_screw_diameter/2,h=10*frame_thickness,center=true,$fn=40);
-        }
+  rotate([0,0,-motor_axis_angle]) translate([motor_axis_distance,0,0]) rotate([0,0,90+motor_axis_angle]) {
+    
+    // Hole for the motor shaft
+    hull() {
+      translate([0,motor_adjust_margin/2,0])
+        cylinder(r=motor_center_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+      translate([0,-motor_adjust_margin/2,0])
+        cylinder(r=motor_center_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+    }
+
+    // Screws for holding the motor
+    for(i=[-1,1]) for(j=[-1,1])
+    translate([i*motor_screw_distance/2,j*motor_screw_distance/2,0]) {
+      hull() {
+        translate([0,motor_adjust_margin/2,0])
+          cylinder(r=motor_screw_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+        translate([0,-motor_adjust_margin/2,0])
+          cylinder(r=motor_screw_diameter/2,h=10*wall_thickness,center=true,$fn=40);
       }
+    }
 
-  // Hole for the motor shaft
-  translate([frame_width/2,0,0])
-      cube([frame_width,20,10*motor_stand_thickness],cr=4,cres=10,center=true);
-    cylinder(r=motor_center_diameter/2,h=10*motor_stand_thickness,center=true,$fn=40);
-
-  // Level the motor area
-  translate([0,0,motor_stand_thickness*2])
-      bcube([motor_width,motor_width,frame_thickness],cr=5,cres=10);
-
+    // Level the motor area
+    hull() {
+      translate([0,motor_adjust_margin/2-10,motor_stand_thickness*2])
+        bcube([motor_width,motor_width+20,frame_thickness],cr=5,cres=10);
+      translate([0,-motor_adjust_margin/2,motor_stand_thickness*2])
+        bcube([motor_width,motor_width,frame_thickness],cr=5,cres=10);
+    }
+// ------- END MOTOR HOLES --------
   } // End of centering over motor shaft
 
   } // End of if(with_motor)

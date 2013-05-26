@@ -12,7 +12,7 @@ This hardware/software is provided "as is", and you use the hardware/software at
 News  
 --  
 **Hardware**  
-- v0.9.6 has a robust Y axis motor stand (improvement suggested and tested by Yopero), and the Z carriage now shows the name of the machine (how cool is that? :P)  
+- v0.9.6 has a robust Y axis motor stand (improvement suggested and tested by **Yopero**), and the Z carriage now shows the name of the machine (how cool is that? :P)  
 
 **Software**  
 - First Z probing results are promising, read: <https://plus.google.com/u/0/113437723819360223498/posts/9VCHqqnirj6> and <https://plus.google.com/u/0/113437723819360223498/posts/89W2cv1fgQW>  
