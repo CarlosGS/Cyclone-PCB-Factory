@@ -7,19 +7,19 @@ Disclaimer
 --
 This hardware/software is provided “as is," and you use the hardware/software at your own risk. Under nocircumstances shall Carlosgs be liable for direct, indirect, special, incidental, or consequential damages resulting from the use, misuse, or inability to use this hardware/software, even if Carlosgs has been advised of the possibility of such damages.  
 
-News:  
+News  
 --  
-**Hardware:**  
+**Hardware**  
 * v0.9.6 has a robust Y axis motor stand (improvement suggested and tested by Yopero), and the Z carriage now shows the name of the machine (how cool is that? :P)  
 
-**Software:**  
+**Software**  
 * First Z probing results are promising, read: https://plus.google.com/u/0/113437723819360223498/posts/9VCHqqnirj6  and https://plus.google.com/u/0/113437723819360223498/posts/89W2cv1fgQW  
 * Added the python probing script (v0.1) and Octave/Matlab visualizer  
 
-**Firmware:**  
+**Firmware**  
 * No news, it is Marlin with support for G30 probing command  
 
-Videos:  
+Videos  
 --  
 - v0.9.6 Y axis concept by Yopero http://www.youtube.com/watch?v=XzcobonQP40
 - v0.9.5 Probing a PCB http://www.youtube.com/watch?v=m5zXL8k5T9E  
@@ -28,11 +28,12 @@ Videos:
 - v0.7.5 XY axis test: http://www.youtube.com/watch?v=9umlq4oHG64  
 - v0.7.5 High speed XY test: http://www.youtube.com/watch?v=H3uYCXryj60  
 
-Bill of materials:  
+Bill of materials  
 --  
 https://docs.google.com/spreadsheet/ccc?key=0AsQp8IK25R4IdGk3LTdOWmpFR0Nrc0RhaVJaUC1CMUE  
+TODO: Add general hardware, motors and electronics to the list.
 
-Notes:  
+Notes  
 --  
 - Using a thick wood piece as the main base.  
 - As shown in one of the pictures, a cheap dremel-like drill has nice bearings and is a good option as the main tool. **Finally it will be using a proper spindle** (check the BOM for the reference).  
@@ -40,7 +41,7 @@ Notes:
 - Parts are designed to be printable with the small volume of a Printrbot Jr  
 - Bed leveling will be done with probing and an appropriate software.  
 
-To-Do list:  
+To-Do list  
 --  
 - [DONE] Design parts for the X axis (this includes Z axis too, **will be using a proper spindle instead of a hand-drill**)  
 - [DONE] Design parts for the Y axis  
@@ -75,7 +76,7 @@ License: CC-BY-SA
 --  
 Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/).  
 
-Derived from / we have used / inspirational:
+Derived from / we have used / inspirational
 --
 - "Linear actuator concept for CNC machines" by Carlosgs (http://www.thingiverse.com/thing:45103)  
 - "Parametric openscad beveled cube" by Obijuan (http://www.thingiverse.com/thing:29842)  
@@ -85,7 +86,7 @@ Derived from / we have used / inspirational:
 - Write.scad (and DXF fonts) by HarlanDMii (http://www.thingiverse.com/thing:16193)  
 - "PCB Machining Vise" by Forgetful_Guy (http://www.thingiverse.com/thing:63578)  
 
-Special thanks:  
+Special thanks  
 --  
 - Y axis improvement by **yOPERO** https://github.com/carlosgs/Cyclone-PCB-Factory/pull/1
 - Z axis concepts by **Quim Borras** and the spindle motor holder by **Misan** were really useful!! Also, **Diego Viejo**'s machine was of great inspiration for the Z axis (https://plus.google.com/u/0/photos/113930344830086538817/albums/5868944432651911713?authkey=CLDJgdehlN773gE) **Thank you all!!**  
