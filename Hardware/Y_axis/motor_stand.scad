@@ -18,6 +18,8 @@ motor_center_diameter = 23;
 motor_screw_diameter = 3.7;
 motor_screw_head_diameter = 8;
 
+motor_adjust_margin = 3;
+
 bearing_diameter = 22.4;
 M8_rod_diameter = 8.2;
 
@@ -29,26 +31,48 @@ wall_width = 70;
 
 idler_width = 25;
 
-module motor_stand_no_base(with_motor=true) {
-difference() {
-  translate([wall_height/2,wall_width/2,wall_thickness/2])
-    bcube([wall_height,wall_width,wall_thickness],cr=4,cres=10);
+wall_extraWidth_left = base_width+5;
+wall_extraWidth_right = 5;
 
-  // Position relative to motor shaft
-  translate([motor_width/2,motor_width/2,wall_thickness/2]) {
-    if(with_motor) {
+totalWallWidth = wall_width+wall_extraWidth_left+wall_extraWidth_right;
+
+module motorHoles() {
     // Hole for the motor shaft
-    translate([0,-wall_width/2,0])
-      cube([20,wall_width,10*wall_thickness],cr=4,cres=10,center=true);
-    cylinder(r=motor_center_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+    hull() {
+      translate([0,motor_adjust_margin/2,0])
+        cylinder(r=motor_center_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+      translate([0,-motor_adjust_margin/2,0])
+        cylinder(r=motor_center_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+    }
 
     // Screws for holding the motor
     for(i=[-1,1]) for(j=[-1,1])
     translate([i*motor_screw_distance/2,j*motor_screw_distance/2,0]) {
-      cylinder(r=motor_screw_diameter/2,h=10*wall_thickness,center=true,$fn=40);
-      cylinder(r=motor_screw_head_diameter/2,h=10*wall_thickness,center=false,$fn=40);
+      hull() {
+        translate([0,motor_adjust_margin/2,0])
+          cylinder(r=motor_screw_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+        translate([0,-motor_adjust_margin/2,0])
+          cylinder(r=motor_screw_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+      }
+      hull() {
+        translate([0,motor_adjust_margin/2,0])
+          cylinder(r=motor_screw_head_diameter/2,h=10*wall_thickness,center=false,$fn=40);
+        translate([0,-motor_adjust_margin/2,0])
+          cylinder(r=motor_screw_head_diameter/2,h=10*wall_thickness,center=false,$fn=40);
+      }
     }
-    } // End if with motor
+}
+
+module motor_stand_no_base(with_motor=true) {
+difference() {
+  translate([wall_height/2,totalWallWidth/2-wall_extraWidth_left,wall_thickness/2])
+    bcube([wall_height,totalWallWidth,wall_thickness],cr=4,cres=10);
+
+  // Position relative to motor shaft
+  translate([motor_width/2,motor_width/2,wall_thickness/2]) {
+
+    if(with_motor)
+      motorHoles();
 
     // Bearing holes
     rotate([0,0,15]) translate([0,axis_distance,0]) {
@@ -61,29 +85,35 @@ difference() {
 } // End of difference
 }
 
-module motor_stand(with_motor=true) {
-  union() {
-    motor_stand_no_base(with_motor);
+module holder(h=35,noScrews=false,base_width_inc=0) {
     difference() {
       union() {
-        translate([wall_height-bottom_thickness,wall_width-base_width]) {
-          cube([bottom_thickness,base_width,base_length]);
+        translate([wall_height-bottom_thickness,0]) {
+          if(!noScrews) cube([bottom_thickness,base_width+base_width_inc,base_length]);
           hull() {
             cube([bottom_thickness,5,base_length]);
-            translate([-18,0,0])
+            translate([-h,0,0])
               cube([0.001,5,0.001]);
           }
         }
       }
       // --- screws for the base ---
-      translate([wall_height,wall_width-5,15])
+      if(!noScrews) translate([wall_height,base_width/2+2.5,15])
         rotate([0,90,0]) {
           translate([-5,0,0])
-            cylinder(r=base_screw_diameter/2,h=100,center=true,$fn=6);
+            cylinder(r=base_screw_diameter/2,h=100,center=true,$fn=7);
           translate([5,0,0])
-            cylinder(r=base_screw_diameter/2,h=100,center=true,$fn=6);
+            cylinder(r=base_screw_diameter/2,h=100,center=true,$fn=7);
         }
     } // End of difference
+}
+
+module motor_stand(with_motor=true) {
+  union() {
+    motor_stand_no_base(with_motor);
+    translate([0,wall_width]) holder(noScrews=true);
+    translate([0,52.4-5/2]) holder(h=15,base_width_inc=1);
+    translate([0,-wall_extraWidth_left+base_width]) scale([1,-1,1]) holder();
   }
 }
 

@@ -1,4 +1,4 @@
-Cyclone-PCB-Factory  
+Cyclone-PCB-Factory v0.9.6  
 ===================
 
 The first 3D-printable (Rep-Rap alike) CNC machine, intended for PCB manufacture.
@@ -9,8 +9,13 @@ This hardware/software is provided “as is," and you use the hardware/software 
 
 News:  
 --  
+**Hardware:**  
+* v0.9.6 has a robust Y axis motor stand (improvement suggested and tested by Yopero), and the Z carriage now shows the name of the machine (how cool is that? :P)
+**Software:**  
 * First Z probing results are promising, read: https://plus.google.com/u/0/113437723819360223498/posts/9VCHqqnirj6  and https://plus.google.com/u/0/113437723819360223498/posts/89W2cv1fgQW  
 * Added the python probing script (v0.1) and Octave/Matlab visualizer  
+**Firmware:**  
+* No news, it is Marlin with support for G30 probing command
 
 Videos:  
 --  
@@ -63,6 +68,16 @@ Here is a compilation of links that I find interesting for the software controll
 License: CC-BY-SA  
 --  
 Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/).  
+
+Derived/uses:
+--
+- "Linear actuator concept for CNC machines" by Carlosgs (http://www.thingiverse.com/thing:45103)  
+- "Parametric openscad beveled cube" by Obijuan (http://www.thingiverse.com/thing:29842)  
+- "Minimal footprint friction-fit LM8UU holder" by thantik (http://www.thingiverse.com/thing:23041)  
+- "Spindle mount for ShapeOko" by Misan (http://www.thingiverse.com/thing:26740)  
+- "Carro Z para Cyclone CNC mill intended for PCB" by Quim (http://www.thingiverse.com/thing:80718)  
+- Write.scad (and DXF fonts) by HarlanDMii (http://www.thingiverse.com/thing:16193)  
+- "PCB Machining Vise" by Forgetful_Guy (http://www.thingiverse.com/thing:63578)  
 
 Special thanks:  
 --  

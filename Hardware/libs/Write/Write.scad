@@ -31,7 +31,8 @@
 	t = 1; 			//mm letter thickness
 	space =1; 			//extra space between characters in (character widths)
 	rotate=0;			// text rotation (clockwise)
-	font = "../libs/Write/Letters.dxf";	//default for aditional fonts
+	font = "Letters.dxf";	//default for aditional fonts
+	fontPath = "../libs/Write/"; // CGS MOD: Path for the DXF font files
 
 
 // write cube defaults
@@ -300,7 +301,7 @@ rotate(rotate,[0,0,-1]){
 					scale([.125*h,.125*h,t]){	
 						translate([ (-len(word)*5.5*space/2) + (r*5.5*space),0,0])
 						linear_extrude(height=1,convexity=10,center=true){
-							import(file = font,layer=str(word[r],"_"));
+							import(file = str(fontPath,font) ,layer=str(word[r],"_"));
 						}
 					}
 				}
@@ -309,7 +310,7 @@ rotate(rotate,[0,0,-1]){
 					scale([.125*h,.125*h,t]){	
 						translate([r*5.5*space,0,0])
 						linear_extrude(height=1,convexity=10,center=true){
-							import(file = font,layer=str(word[r],"_"));
+							import(file = str(fontPath,font) ,layer=str(word[r],"_"));
 						}
 					}
 				}
@@ -321,7 +322,7 @@ rotate(rotate,[0,0,-1]){
 					scale([.125*h,.125*h,t]){
 						translate([ (-len(word)*5.5*space/2) + (r*5.5*space),0,0])
 						linear_extrude(height=1,convexity=10,center=true){
-							import(file = font,layer=str(word[r]));
+							import(file = str(fontPath,font) ,layer=str(word[r]));
 						}
 					}
 				}
@@ -330,7 +331,7 @@ rotate(rotate,[0,0,-1]){
 					scale([.125*h,.125*h,t]){
 						translate([r*5.5*space,0,0])
 						linear_extrude(height=1,convexity=10,center=true){
-							import(file = font,layer=str(word[r]));
+							import(file = str(fontPath,font) ,layer=str(word[r]));
 						}
 					}
 				}

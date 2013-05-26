@@ -4,6 +4,7 @@
 
 use <../libs/obiscad/bcube.scad>
 use <../libs/build_plate.scad>
+use <../libs/Write/Write.scad>
 
 include <./lm8uu_holder.scad>
 
@@ -37,6 +38,9 @@ Z_threaded_pos = motor_width/2+axis_distance;
 
 Z_smooth_rods_sep = 55;
 
+textHscale = 0.8;
+textThickness = 1.5;
+
 // Derived from Spindle mount for ShapeOko by Misan (http://www.thingiverse.com/thing:26740)
 module spindle_holder(length=50,showSpindle=true) {
 	$fn=6;
@@ -54,8 +58,16 @@ module spindle_holder(length=50,showSpindle=true) {
 	difference() {
 	union() {
 	cylinder(r=30,h=length,$fn=60);
+
+	// Write text in the front
+	color([0.5,0.5,0.5]) scale([-1,1,-textHscale]) writecylinder("CYCLONE",[0,0,-length/(3*textHscale)],30,0,font="orbitron.dxf",space=1.1,h=12,t=textThickness,center=true,ccw=true);
 	translate ([-30,0,0]) cube([60,38,length]);
 	translate([28,-7,0]) cube([20,20,length]);
+
+	color([0.5,0.5,0.5]) scale([-1,1,-textHscale]) writecylinder("PCB Factory",[0,0,-length/(1.5*textHscale)],30,0,font="orbitron.dxf",space=1.1,h=14/2,t=textThickness,center=true,ccw=true);
+	translate ([-30,0,0]) cube([60,38,length]);
+	translate([28,-7,0]) cube([20,20,length]);
+
 	}
 	
 	translate([0,0,-0.05]) cylinder(r=26,h=length+2,$fn=60);
