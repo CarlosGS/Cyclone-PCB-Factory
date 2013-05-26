@@ -33,7 +33,7 @@ Videos
 Bill of materials  
 --  
 <https://docs.google.com/spreadsheet/ccc?key=0AsQp8IK25R4IdGk3LTdOWmpFR0Nrc0RhaVJaUC1CMUE>  
-TODO: Add general hardware, motors and electronics to the list.  
+**TODO:** Add general hardware, motors and electronics to the list.  
 
 Notes  
 --  
@@ -74,19 +74,20 @@ Here is a compilation of links that I find interesting for the software controll
 - <http://replicat.org/generators>  
 - For arranging panels: <http://ruggedcircuits.com/gerbmerge/>  
 
-License: CC-BY-SA  
---  
-Attribution - Share Alike - Creative Commons (<http://creativecommons.org/licenses/by-sa/3.0/>).  
+License  
+--
+License: **Attribution - Share Alike - Creative Commons (<http://creativecommons.org/licenses/by-sa/3.0/>)**  
+Author (_unless otherwise specified_): **Carlosgs (<http://carlosgs.es>)**
 
 Derived from / we have used / inspirational  
 --
-- "Linear actuator concept for CNC machines" by Carlosgs (<http://www.thingiverse.com/thing:45103>)  
-- "Parametric openscad beveled cube" by Obijuan (<http://www.thingiverse.com/thing:29842>)  
-- "Minimal footprint friction-fit LM8UU holder" by thantik (<http://www.thingiverse.com/thing:23041>)  
-- "Spindle mount for ShapeOko" by Misan (<http://www.thingiverse.com/thing:26740>)  
-- "Carro Z para Cyclone CNC mill intended for PCB" by Quim (<http://www.thingiverse.com/thing:80718>)  
-- Write.scad (and DXF fonts) by HarlanDMii (<http://www.thingiverse.com/thing:16193>)  
-- "PCB Machining Vise" by Forgetful_Guy (<http://www.thingiverse.com/thing:63578>)  
+- "Linear actuator concept for CNC machines" by **Carlosgs** (<http://www.thingiverse.com/thing:45103>)  
+- "Parametric openscad beveled cube" by **Obijuan** (<http://www.thingiverse.com/thing:29842>)  
+- "Minimal footprint friction-fit LM8UU holder" by **thantik** (<http://www.thingiverse.com/thing:23041>)  
+- "Spindle mount for ShapeOko" by **Misan** (<http://www.thingiverse.com/thing:26740>)  
+- "Carro Z para Cyclone CNC mill intended for PCB" by **Quim** (<http://www.thingiverse.com/thing:80718>)  
+- Write.scad (and DXF fonts) by **HarlanDMii** (<http://www.thingiverse.com/thing:16193>)  
+- "PCB Machining Vise" by **Forgetful_Guy** (<http://www.thingiverse.com/thing:63578>)  
 
 Special thanks  
 --  
@@ -97,15 +98,15 @@ Special thanks
 
 Credit for the ideas used  
 --  
-The origin of Cyclone took place while I was inside the __Panda CNC__ community (<https://plus.google.com/u/0/communities/102402711800402614517>). This is from December 2012 to mid-February 2013.  
+The origin of Cyclone took place while I was inside the **Panda CNC** community (<https://plus.google.com/u/0/communities/102402711800402614517>). This is from December 2012 to mid-February 2013.  
 Here is the credit for the ideas that were used:  
 
-* __Let's design a 3D-printable CNC for PCB milling, it will be named Panda:__ Guillermo Welch (mid-December, via Google Talk)  
-* __X carriage rod distribution:__ César Augusto Fernández Cano claims Cyclone's X axis is a derivate of his concept: <https://plus.google.com/u/0/111421387442355054591/posts/QrfYtEuZBaj>  
-* __100x160mm workspace:__ David Martin <https://dl.dropboxusercontent.com/u/16122275/PandaCNC_credit/workplace_size.png>  
-* __Using gears to drive the X-Y axes:__ Guillermo Welch <https://plus.google.com/u/0/101232926728463427403/posts/QjZGNcWcgGg>  
-* __Regarding the woodbase:__ Guillermo Welch always contemplated the possibility of attaching the machine (optionally) to a woodbase. I decided to use the base as a main structural part instead. See <https://dl.dropboxusercontent.com/u/16122275/PandaCNC_credit/woodbase.png (screenshot from <https://plus.google.com/u/0/113437723819360223498/posts/8LDCSSVWqCS)>  
-* __List of CNC endmill types:__ David Martin <https://dl.dropboxusercontent.com/u/16122275/PandaCNC_credit/cnc_endmill_types.png>  
+* _Let's design a 3D-printable CNC for PCB milling, it will be named Panda:_ **Guillermo Welch** (mid-December, via Google Talk)  
+* _X carriage rod distribution:_ **César Augusto Fernández Cano** claims Cyclone's X axis is a derivate of his concept: <https://plus.google.com/u/0/111421387442355054591/posts/QrfYtEuZBaj>  
+* _100x160mm workspace:_ **David Martin** <https://dl.dropboxusercontent.com/u/16122275/PandaCNC_credit/workplace_size.png>  
+* _Using gears to drive the X-Y axes:_ **Guillermo Welch** <https://plus.google.com/u/0/101232926728463427403/posts/QjZGNcWcgGg>  
+* _Regarding the woodbase:_ **Guillermo Welch** always contemplated the possibility of attaching the machine (optionally) to a woodbase. I decided to use the base as a main structural part instead. See <https://dl.dropboxusercontent.com/u/16122275/PandaCNC_credit/woodbase.png> (screenshot from <https://plus.google.com/u/0/113437723819360223498/posts/8LDCSSVWqCS)>  
+* _List of CNC endmill types:_ **David Martin** <https://dl.dropboxusercontent.com/u/16122275/PandaCNC_credit/cnc_endmill_types.png>  
 
 Please note I have taken screenshots of the post that are on the closed G+ Panda community (<https://plus.google.com/u/0/communities/116318709564872967169). You can register and see by yourself.>  
 
