@@ -36,7 +36,7 @@ wall_extraWidth_right = 5;
 
 totalWallWidth = wall_width+wall_extraWidth_left+wall_extraWidth_right;
 
-module motorHoles() {
+module motorHolesY() {
     // Hole for the motor shaft
     hull() {
       translate([0,motor_adjust_margin/2,0])
@@ -72,7 +72,7 @@ difference() {
   translate([motor_width/2,motor_width/2,wall_thickness/2]) {
 
     if(with_motor)
-      motorHoles();
+      motorHolesY();
 
     // Bearing holes
     rotate([0,0,15]) translate([0,axis_distance,0]) {
