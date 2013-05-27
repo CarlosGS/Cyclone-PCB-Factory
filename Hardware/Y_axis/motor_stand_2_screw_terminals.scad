@@ -1,5 +1,6 @@
 // Cyclone PCB Factory: a 3D printable CNC machine for PCB manufacture
 // Created by Carlosgs (http://carlosgs.es)
+// Modified by @yopero 05/27/2013
 // License: Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/)
 
 use <../libs/obiscad/bcube.scad>
