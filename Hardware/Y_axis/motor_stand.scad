@@ -1,6 +1,9 @@
 // Cyclone PCB Factory: a 3D printable CNC machine for PCB manufacture
 // Created by Carlosgs (http://carlosgs.es)
 // License: Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/)
+// History:
+//  - (05/25/2013) Added @yopero's four screw suggestion for the motor stand
+//  - (05/28/2013) Added @yopero's four screw suggestion for the idle stand
 
 use <../libs/obiscad/bcube.scad>
 use <../libs/build_plate.scad>
@@ -119,11 +122,15 @@ module motor_stand(with_motor=true) {
 
 
 module idle_stand() {
-  intersection() { // Remove the motor part
-    motor_stand(with_motor=false);
-    translate([wall_height/2,wall_width/2+35,wall_thickness/2])
-      bcube([wall_height,wall_width,100],cr=4,cres=10);
-  }
+	union() {
+		intersection() { // Remove the motor part
+			motor_stand(with_motor=false);
+			translate([wall_height/2,wall_width/2+52.4-(wall_width+wall_extraWidth_right-52.4),wall_thickness/2])
+			bcube([wall_height,wall_width,100],cr=4,cres=10);
+		}
+		translate([0,wall_width+5-2*(wall_width+wall_extraWidth_right-52.4)]) holder(noScrews=true);
+		translate([0,52.4+5/2]) scale([1,-1,1]) holder(h=15,base_width_inc=1);
+	}
 }
 
 //for display only, doesn't contribute to final object
