@@ -62,6 +62,8 @@ GCODE_EXT = '*.ngc'
 GDRILL_EXT = '*.ngc'
 GEDGE_EXT = '*.ngc'
 
+MM_PER_ARC_SEGMENT = 0.2 # mm
+
 #View
 GERBER_COLOR = 'BLACK'	#black
 DRILL_COLOR = 'BLUE'
@@ -221,6 +223,8 @@ class GCODE:
 def main():
 	if len(sys.argv) > 1:
 		read_config(sys.argv[1])
+	else :
+		read_config("pygerber2gcode_cui_MOD.conf")
 	set_unit()
 	gcode_init()
 	front_poly = []
@@ -637,10 +641,17 @@ def polygon(points):
 		gYMAX=y_max
 
 def circle_points(cx,cy,r,points_num):
+	int(points_num)
+	points_num = int( (2.0*pi*r)/float(MM_PER_ARC_SEGMENT) ) # Automatic resolution (reduces gcode file size)
+	if points_num < 10 :
+		points_num = 10;
+	elif  points_num > 100 :
+		points_num = 100;
+#	print "Circle: Radius:", str(r), "Points:", points_num
 	points=[]
-	if(points_num <= 2):
-		print "Too small angle at Circle"
-		return
+#	if(points_num <= 2):
+#		print "Too small angle at Circle"
+#		return
 	i = points_num
 	while i > 0:
 		cir_x=cx+r*cos(2.0*pi*float(i)/float(points_num))
@@ -760,12 +771,19 @@ def move(x,y):
 	return ret_data
 
 def arc_points(cx,cy,r,s_angle,e_angle,kaku):
+	int(kaku)
+	arc_angle = abs(s_angle-e_angle)
+	kaku = int( (2.0*pi*r)/(arc_angle*float(MM_PER_ARC_SEGMENT)) ) # Automatic resolution (reduces gcode file size)
+	if kaku < 5 :
+		kaku = 5;
+	elif  kaku > 100 :
+		kaku = 100;
+#	print "Arc: Radius:", str(r), "Points:", kaku
 	points=[]
 	if(s_angle == e_angle):
 		print "Start and End angle are same"
-	int(kaku)
-	if(kaku <= 2):
-		print "Too small angle"
+#	if(kaku <= 2):
+#		print "Too small angle"
 	ang_step=(e_angle-s_angle)/(kaku-1)
 	i = 0
 	while i < kaku:

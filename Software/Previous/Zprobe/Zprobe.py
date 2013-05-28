@@ -200,12 +200,12 @@ Z_probing_lift = 0.5 # lift between Z probings [mm]
 # But PLEASE keep an eye for possible collisions!
 
 for x_i in range(grid_N_X): # For each point on the grid...
-	x_val = float(x_i)*grid_inc_X + grid_origin_X; # Calculate X coordinate
+	x_val = float(x_i)*grid_inc_X + grid_origin_X # Calculate X coordinate
 	optimal_range = range(grid_N_Y)
 	if isOdd(x_i): # This optimises a bit the probing path
 		optimal_range = reversed(optimal_range)
 	for y_i in optimal_range:
-		y_val = float(y_i)*grid_inc_Y + grid_origin_Y; # Calculate Y coordinate
+		y_val = float(y_i)*grid_inc_Y + grid_origin_Y # Calculate Y coordinate
 		machineToCoordsXY(x_val, y_val, F_fastMove) # Move to position
 		probe_grid[y_i][x_i] = machineProbeZ() # Do the Z probing
 		machineToCoordsZrelative(Z_probing_lift, F_fastMove/2) # Lift the probe

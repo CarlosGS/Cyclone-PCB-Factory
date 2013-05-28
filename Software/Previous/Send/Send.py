@@ -85,7 +85,7 @@ def waitForOK(): # This is a blocking function
 		print "  Checking again..."
 		time.sleep(millis_wait) # Wait some milliseconds between attempts
 
-def sendCommandToMachine(command): # Send command and wait for OK
+def cyclone.sendCommand(command): # Send command and wait for OK
 	if len(command) > 2:
 		sendToMachine(command)
 		waitForOK()
@@ -98,27 +98,17 @@ def checkConnection():
 		sendToMachine("G21\n")
 		time.sleep(millis_wait) # Wait some milliseconds between attempts
 
-print "Connecting to Cyclone..."
+cyclone.connect(BAUDRATE, DEVICE)
 
-CNC_Machine = serial.Serial(DEVICE, BAUDRATE, timeout = serial_timeout)
-
-print "Serial port opened, checking connection..."
-
-time.sleep(1)
-
-checkConnection();
-
-print "CONNECTED"
-
-sendCommandToMachine("G90\n") # Set absolute positioning
+cyclone.sendCommand("G90\n") # Set absolute positioning
 
 def machineHomeZXY():
 	print "Homing all axis..."
-	sendCommandToMachine("G28 Z0\n") # move Z to min endstop
-	sendCommandToMachine("G28 X0\n") # move X to min endstop
-	sendCommandToMachine("G28 Y0\n") # move Y to min endstop
+	cyclone.sendCommand("G28 Z0\n") # move Z to min endstop
+	cyclone.sendCommand("G28 X0\n") # move X to min endstop
+	cyclone.sendCommand("G28 Y0\n") # move Y to min endstop
 
-machineHomeZXY() # Home all the axis
+homeZXY() # Home all the axis
 
 
 F_slowMove = 200 # Move speed [mm/min?]
@@ -129,21 +119,21 @@ def floats(val): # This is used to convert a float value to a string (avoiding e
 
 def machineToCoords(X, Y, Z, F):
 	print "Moving to:"
-	sendCommandToMachine("G1 X"+floats(X)+" Y"+floats(Y)+" Z"+floats(Z)+" F"+floats(F)+"\n")
+	cyclone.sendCommand("G1 X"+floats(X)+" Y"+floats(Y)+" Z"+floats(Z)+" F"+floats(F)+"\n")
 
 def machineToCoordsXY(X, Y, F):
 	print "Moving to:"
-	sendCommandToMachine("G1 X"+floats(X)+" Y"+floats(Y)+" F"+floats(F)+"\n")
+	cyclone.sendCommand("G1 X"+floats(X)+" Y"+floats(Y)+" F"+floats(F)+"\n")
 
 def machineToCoordsZ(Z, F):
 	print "Moving Z absolute:"
-	sendCommandToMachine("G1 Z"+floats(Z)+" F"+floats(F)+"\n")
+	cyclone.sendCommand("G1 Z"+floats(Z)+" F"+floats(F)+"\n")
 
 def machineToCoordsZrelative(Z, F):
 	print "Moving Z relative:"
-	sendCommandToMachine("G91\n") # Set relative positioning
-	sendCommandToMachine("G1 Z"+floats(Z)+" F"+floats(F)+"\n")
-	sendCommandToMachine("G90\n") # Set absolute positioning
+	cyclone.sendCommand("G91\n") # Set relative positioning
+	cyclone.sendCommand("G1 Z"+floats(Z)+" F"+floats(F)+"\n")
+	cyclone.sendCommand("G90\n") # Set absolute positioning
 
 '''
 
@@ -174,9 +164,9 @@ machineToCoordsXY(grid_origin_X, grid_origin_Y, F_fastMove)
 
 # Warning: Do not lower too much or you will potentially cause damage!
 initial_Z_lowering_distance = -15
-sendCommandToMachine("M121\n") # Enable endstops (for protection! it should tap the copper SLOWLY)
+cyclone.sendCommand("M121\n") # Enable endstops (for protection! it should tap the copper SLOWLY)
 machineToCoordsZrelative(initial_Z_lowering_distance,F_slowMove) # Move Z towards the PCB (saves some probing time for the first coord)
-sendCommandToMachine("M120\n") # Disable endstops (we only use them for homing)
+cyclone.sendCommand("M120\n") # Disable endstops (we only use them for homing)
 
 def machineProbeZ():
 	print "Probing Z"
@@ -246,12 +236,12 @@ totalLines = len(lines)
 for line in lines:
 	currentLine = currentLine + 1
 	print line, "({0:.1f}%)".format((currentLine / totalLines)*100)
-	sendCommandToMachine(line)
+	cyclone.sendCommand(line)
 
 gcode.close()
 
 # IMPORTANT: Before closing the serial port we must make a blocking move in order to wait for all the buffered commands to end
-sendCommandToMachine("G28 Z0\n") # move Z to min endstop
+cyclone.sendCommand("G28 Z0\n") # move Z to min endstop
 
 CNC_Machine.close() # Close the serial port connection
 
