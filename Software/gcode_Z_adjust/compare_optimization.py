@@ -36,15 +36,17 @@ fileName = "printshield" # sys.argv[1]
 def plotPoints(path_list, color, linewidth): # Thanks to pprzemek (http://stackoverflow.com/questions/2282727/draw-points-using-matplotlib-pyplot-x1-y1-x2-y2)
 	for path in path_list :
 		a = np.array(path) # Give to plot() the points in the adequate format
-		line, = plt.plot(a[:,0], a[:,1], color, linewidth=linewidth*2)
-		line.set_antialiased(False) # turn off antialising
+		line, = plt.plot(a[:,0], a[:,1], color, linewidth=linewidth*3)
+		#line.set_antialiased(False) # turn off antialising
 
 plt.figure(1)
 
 drill_diam = 0.8
 etch_diam = 0.1
+etch2pass_diam = 0.5
+etch3pass_diam = 1
 edge_diam = 2.4
-linewidth_travel_move = etch_diam/2
+linewidth_travel_move = etch_diam
 
 #	b: blue
 #	g: green
@@ -56,9 +58,12 @@ linewidth_travel_move = etch_diam/2
 #	w: white
 
 drill_color = 'r'
-etch_color = 'g'
+etch_color = '#00DF00'
+etch2pass_color = '#00EF00'
+etch3pass_color =  '#00FF00'
 edge_color = 'b'
 travel_color = 'c'
+
 
 plt.subplot(121)
 plt.hold(True)
@@ -69,6 +74,18 @@ print "\n Loading etch..."
 gcode_file = filePath+fileName+"_etch.gcode"
 (etch_moves, travel_moves, grid_origin, grid_size) = gcp.parseGcodeRaw(gcode_file)
 plotPoints(etch_moves, etch_color, etch_diam)
+plotPoints(travel_moves, travel_color, linewidth_travel_move)
+
+print "\n Loading etch (2nd pass)..."
+gcode_file = filePath+fileName+"_etch2pass.gcode"
+(etch_moves, travel_moves, grid_origin, grid_size) = gcp.parseGcodeRaw(gcode_file)
+plotPoints(etch_moves, etch2pass_color, etch2pass_diam)
+plotPoints(travel_moves, travel_color, linewidth_travel_move)
+
+print "\n Loading etch (3nd pass)..."
+gcode_file = filePath+fileName+"_etch3pass.gcode"
+(etch_moves, travel_moves, grid_origin, grid_size) = gcp.parseGcodeRaw(gcode_file)
+plotPoints(etch_moves, etch3pass_color, etch3pass_diam)
 plotPoints(travel_moves, travel_color, linewidth_travel_move)
 
 print "\n Loading drill..."
@@ -84,6 +101,7 @@ plotPoints(etch_moves, edge_color, edge_diam)
 plotPoints(travel_moves, travel_color, linewidth_travel_move)
 
 
+
 plt.subplot(122)
 plt.hold(True)
 plt.title("Optimized (closest neighbour)")
@@ -94,6 +112,20 @@ gcode_file = filePath+fileName+"_etch.gcode"
 (etch_moves, travel_moves, grid_origin, grid_size) = gcp.parseGcodeRaw(gcode_file)
 (etch_moves, travel_moves) = gcp.optimize(etch_moves)
 plotPoints(etch_moves, etch_color, etch_diam)
+plotPoints(travel_moves, travel_color, linewidth_travel_move)
+
+print "\n Loading etch (2nd pass)..."
+gcode_file = filePath+fileName+"_etch2pass.gcode"
+(etch_moves, travel_moves, grid_origin, grid_size) = gcp.parseGcodeRaw(gcode_file)
+(etch_moves, travel_moves) = gcp.optimize(etch_moves)
+plotPoints(etch_moves, etch2pass_color, etch2pass_diam)
+plotPoints(travel_moves, travel_color, linewidth_travel_move)
+
+print "\n Loading etch (3nd pass)..."
+gcode_file = filePath+fileName+"_etch3pass.gcode"
+(etch_moves, travel_moves, grid_origin, grid_size) = gcp.parseGcodeRaw(gcode_file)
+(etch_moves, travel_moves) = gcp.optimize(etch_moves)
+plotPoints(etch_moves, etch3pass_color, etch3pass_diam)
 plotPoints(travel_moves, travel_color, linewidth_travel_move)
 
 print "\n Loading drill..."

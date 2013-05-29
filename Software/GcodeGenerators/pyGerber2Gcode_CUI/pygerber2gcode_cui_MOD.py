@@ -36,7 +36,9 @@ Z_SPEED = 60
 DRILL_SPEED = 50	#Drill down speed
 DRILL_DEPTH = -1.2#Drill depth
 CUT_DEPTH = -0.07	#pattern cutting depth
-TOOL_D = 0.2		#Tool diameter
+TOOL_D = 0.1		#Tool diameter
+TOOL_2PASS_D = 0.5		#Tool diameter
+TOOL_3PASS_D = 1		#Tool diameter
 DRILL_D = 0.8		#Drill diameter
 EDGE_TOOL_D = 1.0		#Edge Tool diameter
 EDGE_DEPTH = -1.2 #edge depth
@@ -83,7 +85,11 @@ MIRROR_EDGE = 0
 ROT_ANG = 0
 OUT_DIR = ""
 OUT_FRONT_FILE = ""
+OUT_FRONT_2PASS_FILE = ""
+OUT_FRONT_3PASS_FILE = ""
 OUT_BACK_FILE = ""
+OUT_BACK_2PASS_FILE = ""
+OUT_BACK_3PASS_FILE = ""
 OUT_DRILL_FILE = ""
 OUT_EDGE_FILE = ""
 
@@ -96,6 +102,10 @@ gXSHIFT = 0
 gYSHIFT = 0
 gFRONT_DATA = ""
 gBACK_DATA = ""
+gFRONT_2PASS_DATA = ""
+gBACK_2PASS_DATA = ""
+gFRONT_3PASS_DATA = ""
+gBACK_3PASS_DATA = ""
 gDRILL_DATA = ""
 gEDGE_DATA = ""
 gTMP_X = INI_X 
@@ -221,6 +231,7 @@ class GCODE:
 
 #functions
 def main():
+	global TOOL_D
 	if len(sys.argv) > 1:
 		read_config(sys.argv[1])
 	else :
@@ -229,6 +240,10 @@ def main():
 	gcode_init()
 	front_poly = []
 	back_poly = []
+	front_poly_2pass = []
+	back_poly_2pass = []
+	front_poly_3pass = []
+	back_poly_3pass = []
 	if FRONT_FILE:
 		#print "Front file =",FRONT_FILE
 		front_gerber = read_Gerber(GERBER_DIR,FRONT_FILE)
@@ -243,6 +258,42 @@ def main():
 		if MIRROR_FRONT:
 			front_poly = mirror_poly(front_poly)
 		print len(front_poly)
+		if TOOL_2PASS_D > 0:
+			print "Processing 2nd pass..."
+			PREV_TOOL_D = TOOL_D
+			TOOL_D = TOOL_2PASS_D # Set the thicker tool
+			#print "Front file =",FRONT_FILE
+			front_gerber_2pass = read_Gerber(GERBER_DIR,FRONT_FILE)
+			#front_gerber = gm.merge_lines(front_gerber)
+			front_gerber_2pass = gm.check_duplication(front_gerber_2pass)
+			#print len(front_gerber)
+			front_poly_2pass = gerber2polygon(front_gerber_2pass)
+			#print len(front_poly)
+			front_poly_2pass = gm.merge(front_poly_2pass, LINE, gLINES,gLINES2)
+			if abs(float(ROT_ANG)) > TINY:
+				front_poly_2pass = rot_poly(front_poly_2pass)
+			if MIRROR_FRONT:
+				front_poly_2pass = mirror_poly(front_poly_2pass)
+			print len(front_poly_2pass)
+			TOOL_D = PREV_TOOL_D
+		if TOOL_3PASS_D > 0:
+			print "Processing 3nd pass..."
+			PREV_TOOL_D = TOOL_D
+			TOOL_D = TOOL_3PASS_D # Set the thicker tool
+			#print "Front file =",FRONT_FILE
+			front_gerber_3pass = read_Gerber(GERBER_DIR,FRONT_FILE)
+			#front_gerber = gm.merge_lines(front_gerber)
+			front_gerber_3pass = gm.check_duplication(front_gerber_3pass)
+			#print len(front_gerber)
+			front_poly_3pass = gerber2polygon(front_gerber_3pass)
+			#print len(front_poly)
+			front_poly_3pass = gm.merge(front_poly_3pass, LINE, gLINES,gLINES2)
+			if abs(float(ROT_ANG)) > TINY:
+				front_poly_3pass = rot_poly(front_poly_3pass)
+			if MIRROR_FRONT:
+				front_poly_3pass = mirror_poly(front_poly_3pass)
+			print len(front_poly_3pass)
+			TOOL_D = PREV_TOOL_D
 	if BACK_FILE:
 		back_gerber = read_Gerber(GERBER_DIR,BACK_FILE)
 		#back_gerber = gm.merge_lines(back_gerber)
@@ -254,6 +305,36 @@ def main():
 		if MIRROR_BACK:
 			back_poly = mirror_poly(back_poly)
 		print len(back_poly)
+		if TOOL_2PASS_D > 0:
+			print "Processing 2nd pass..."
+			PREV_TOOL_D = TOOL_D
+			TOOL_D = TOOL_2PASS_D # Set the thicker tool
+			back_gerber_2pass = read_Gerber(GERBER_DIR,BACK_FILE)
+			#back_gerber = gm.merge_lines(back_gerber)
+			back_gerber_2pass = gm.check_duplication(back_gerber_2pass)
+			back_poly_2pass = gerber2polygon(back_gerber_2pass)
+			back_poly_2pass = gm.merge(back_poly_2pass, LINE, gLINES,gLINES2)
+			if abs(float(ROT_ANG)) > TINY:
+				back_poly_2pass = rot_poly(back_poly_2pass)
+			if MIRROR_BACK:
+				back_poly_2pass = mirror_poly(back_poly_2pass)
+			print len(back_poly_2pass)
+			TOOL_D = PREV_TOOL_D
+		if TOOL_3PASS_D > 0:
+			print "Processing 3nd pass..."
+			PREV_TOOL_D = TOOL_D
+			TOOL_D = TOOL_3PASS_D # Set the thicker tool
+			back_gerber_3pass = read_Gerber(GERBER_DIR,BACK_FILE)
+			#back_gerber = gm.merge_lines(back_gerber)
+			back_gerber_3pass = gm.check_duplication(back_gerber_3pass)
+			back_poly_3pass = gerber2polygon(back_gerber_3pass)
+			back_poly_3pass = gm.merge(back_poly_3pass, LINE, gLINES,gLINES2)
+			if abs(float(ROT_ANG)) > TINY:
+				back_poly_3pass = rot_poly(back_poly_3pass)
+			if MIRROR_BACK:
+				back_poly_3pass = mirror_poly(back_poly_3pass)
+			print len(back_poly_3pass)
+			TOOL_D = PREV_TOOL_D
 	if DRILL_FILE:
 		read_Drill_file(GERBER_DIR,DRILL_FILE)
 		if(len(gDRILLS) > 0):
@@ -265,12 +346,12 @@ def main():
 			edge2gcode()
 	#gm.merge(gPOLYGONS, LINE, gLINES,gLINES2)
 
-	end(front_poly,back_poly)
+	end(front_poly,back_poly,front_poly_2pass,back_poly_2pass,front_poly_3pass,back_poly_3pass)
 
 def read_config(config_file):
-	global INI_X, INI_Y, INI_Z, MOVE_HEIGHT, OUT_INCH_FLAG, IN_INCH_FLAG, MCODE_FLAG, XY_SPEED, Z_SPEED, LEFT_X, LOWER_Y, DRILL_SPEED, DRILL_DEPTH, CUT_DEPTH, TOOL_D, DRILL_D, CAD_UNIT, EDGE_TOOL_D, EDGE_DEPTH, EDGE_SPEED, EDGE_Z_SPEED, MERGE_DRILL_DATA, Z_STEP, GERBER_COLOR, DRILL_COLOR, EDGE_COLOR , CONTOUR_COLOR, GERBER_EXT, DRILL_EXT, EDGE_EXT, GCODE_EXT, GDRILL_EXT, GEDGE_EXT, DRILL_UNIT, EDGE_UNIT, CUT_FLAG, CUT_OV
+	global INI_X, INI_Y, INI_Z, MOVE_HEIGHT, OUT_INCH_FLAG, IN_INCH_FLAG, MCODE_FLAG, XY_SPEED, Z_SPEED, LEFT_X, LOWER_Y, DRILL_SPEED, DRILL_DEPTH, CUT_DEPTH, TOOL_D, TOOL_2PASS_D, TOOL_3PASS_D, DRILL_D, CAD_UNIT, EDGE_TOOL_D, EDGE_DEPTH, EDGE_SPEED, EDGE_Z_SPEED, MERGE_DRILL_DATA, Z_STEP, GERBER_COLOR, DRILL_COLOR, EDGE_COLOR , CONTOUR_COLOR, GERBER_EXT, DRILL_EXT, EDGE_EXT, GCODE_EXT, GDRILL_EXT, GEDGE_EXT, DRILL_UNIT, EDGE_UNIT, CUT_FLAG, CUT_OV
 	global GERBER_DIR,FRONT_FILE,BACK_FILE,DRILL_FILE,EDGE_FILE,MIRROR_FRONT,MIRROR_BACK,MIRROR_DRILL,MIRROR_EDGE,ROT_ANG
-	global OUT_DIR,OUT_FRONT_FILE,OUT_BACK_FILE,OUT_DRILL_FILE,OUT_EDGE_FILE
+	global OUT_DIR,OUT_FRONT_FILE,OUT_FRONT_2PASS_FILE,OUT_FRONT_3PASS_FILE,OUT_BACK_FILE,OUT_BACK_2PASS_FILE,OUT_BACK_3PASS_FILE,OUT_DRILL_FILE,OUT_EDGE_FILE
 	try:
 		f = open(config_file,'r')
 	except IOError, (errno, strerror):
@@ -282,8 +363,9 @@ def read_config(config_file):
 			if not config:
 				break
 			#cfg = re.search("([A-Z\_]+)[\d\s\ ]*\=[\ \"]*([\s\/\-\d\.\_]+)\"*",config)
-			cfg = re.search("([A-Z\_]+)[\d\s\ ]*\=[\ \"]*([^\ \"\n\r]+)\"*",config)
+			cfg = re.search("([A-Z0-9\_]+)[\d\s\ ]*\=[\ \"]*([^\ \"\n\r]+)\"*",config) # FIXED: Now variable names can have numbers
 			if (cfg):
+				#print str(cfg.group(1)),"=",str(cfg.group(2))
 				if(cfg.group(1)=="INI_X"):
 					#print "ini x =",cfg.group(2)
 					INI_X = float(cfg.group(2))
@@ -319,6 +401,10 @@ def read_config(config_file):
 					CUT_DEPTH = float(cfg.group(2))
 				if(cfg.group(1)=="TOOL_D"):
 					TOOL_D = float(cfg.group(2))
+				if(cfg.group(1)=="TOOL_2PASS_D"):
+					TOOL_2PASS_D = float(cfg.group(2))
+				if(cfg.group(1)=="TOOL_3PASS_D"):
+					TOOL_3PASS_D = float(cfg.group(2))
 				if(cfg.group(1)=="DRILL_D"):
 					DRILL_D = float(cfg.group(2))
 				if(cfg.group(1)=="CAD_UNIT"):
@@ -388,6 +474,14 @@ def read_config(config_file):
 					OUT_FRONT_FILE = str(cfg.group(2))
 				if(cfg.group(1)=="OUT_BACK_FILE"):
 					OUT_BACK_FILE = str(cfg.group(2))
+				if(cfg.group(1)=="OUT_FRONT_2PASS_FILE"):
+					OUT_FRONT_2PASS_FILE = str(cfg.group(2))
+				if(cfg.group(1)=="OUT_BACK_2PASS_FILE"):
+					OUT_BACK_2PASS_FILE = str(cfg.group(2))
+				if(cfg.group(1)=="OUT_FRONT_3PASS_FILE"):
+					OUT_FRONT_3PASS_FILE = str(cfg.group(2))
+				if(cfg.group(1)=="OUT_BACK_3PASS_FILE"):
+					OUT_BACK_3PASS_FILE = str(cfg.group(2))
 				if(cfg.group(1)=="OUT_DRILL_FILE"):
 					OUT_DRILL_FILE = str(cfg.group(2))
 				if(cfg.group(1)=="OUT_EDGE_FILE"):
@@ -414,11 +508,11 @@ def points_revers(points):
 	return return_points
 
 def gcode_init():
-	global gFRONT_DATA, gBACK_DATA, gDRILL_DATA, gEDGE_DATA
+	global gFRONT_DATA, gBACK_DATA, gFRONT_2PASS_DATA, gBACK_2PASS_DATA, gFRONT_3PASS_DATA, gBACK_3PASS_DATA, gDRILL_DATA, gEDGE_DATA
 	gFRONT_DATA += "(Generated by " + sys.argv[0] +" )\n"
 	gFRONT_DATA += "( " + get_date() +" )\n"
 	gFRONT_DATA += "(Initialize)\n"
-	gFRONT_DATA += "G92 X" + floats(INI_X) + " Y" + floats(INI_Y) + " Z" + floats(INI_Z) + "\n"
+	#gFRONT_DATA += "G92 X" + floats(INI_X) + " Y" + floats(INI_Y) + " Z" + floats(INI_Z) + "\n"
 	if OUT_INCH_FLAG:
 		gFRONT_DATA += "(Set to inch unit)\n"
 		gFRONT_DATA += "G20\n"
@@ -431,6 +525,10 @@ def gcode_init():
 	gBACK_DATA = gFRONT_DATA
 	gDRILL_DATA = gFRONT_DATA
 	gEDGE_DATA = gFRONT_DATA
+	gBACK_2PASS_DATA = gFRONT_DATA
+	gFRONT_2PASS_DATA = gFRONT_DATA
+	gBACK_3PASS_DATA = gFRONT_DATA
+	gFRONT_3PASS_DATA = gFRONT_DATA
 
 def get_date():
 	#d = datetime.datetime.today()
@@ -442,7 +540,7 @@ def read_Gerber(dirname,filename):
 	global gGCODES
 	gGCODES = []
 	print "Parse Gerber data"
-	data = open_file(dirname, filename)
+	(data,f) = open_file(dirname, filename)
 	for gerber in data:
 		if not gerber:
 			break
@@ -462,6 +560,7 @@ def read_Gerber(dirname,filename):
 		#if (find(gerber, "X") != -1 or find(gerber, "Y") != -1):
 		if (find(gerber, "X") == 0):
 			parse_xy(gerber)
+	f.close()
 	return gGCODES
 
 def parse_add(gerber):
@@ -536,12 +635,11 @@ def parse_data(x,y,d):
 		elif(gDCODE[int(gFIG_NUM)].atype ==  "R"):
 			#Rect
 			#Change to line
-			gGCODES.append(GCODE(x-mod1/2,y,x+mod1/2,y,4,mod1,mod2))
+			gGCODES.append(GCODE(x,y,0,0,2,mod1,mod2))
 		elif(gDCODE[int(gFIG_NUM)].atype ==  "O"):
-			#Rect
-			#Change to line
-			gGCODES.append(GCODE(x-mod1/2,y,x+mod1/2,y,6,mod1,mod2))
-		else: print "UNSUPPORTED TYPE:",gDCODE[int(gFIG_NUM)].atype
+			gGCODES.append(GCODE(x,y,0,0,6,mod1,mod2))
+			#print "Oval 03"
+		else: print "UNSUPPORTED SHAPE TYPE:",gDCODE[int(gFIG_NUM)].atype
 	elif(d == "02" or d == "2"):
 		#move  w light off
 		gGERBER_TMP_X = x
@@ -554,9 +652,9 @@ def parse_data(x,y,d):
 			#Rect
 			gGCODES.append(GCODE(gGERBER_TMP_X,gGERBER_TMP_Y,x,y,4,mod1,mod2))
 		elif(gDCODE[int(gFIG_NUM)].atype == "O"):
-			#Rect
-			gGCODES.append(GCODE(gGERBER_TMP_X,gGERBER_TMP_Y,x,y,6,mod1,mod2))
-		else: print "UNSUPPORTED TYPE:",gDCODE[int(gFIG_NUM)].atype
+			gGCODES.append(GCODE(gGERBER_TMP_X,gGERBER_TMP_Y,x,y,4,mod1,mod2)) # TODO FIX: This oval will be shown as a rectangle!
+			print "Oval pad will appear as a rectangle!"
+		else: print "UNSUPPORTED SHAPE TYPE:",gDCODE[int(gFIG_NUM)].atype
 		gGERBER_TMP_X = x
 		gGERBER_TMP_Y = y
 
@@ -575,11 +673,9 @@ def gerber2polygon(gGCODES):
 		mod1=gcode.mod1 + float(TOOL_D)
 		mod2=gcode.mod2 + float(TOOL_D)
 		if(gcode.gtype == 1):
-			#polygon(circle_points(x1,y1,mod1/2,20))
 			gPOLYGONS.append(POLYGON(x1-mod1/2,x1+mod1/2,y1-mod1/2,y1+mod1/2,circle_points(x1,y1,mod1/2,20),0))
 		elif(gcode.gtype == 2):
 			points = [x1-mod1/2,y1-mod2/2,x1-mod1/2,y1+mod2/2,x1+mod1/2,y1+mod2/2,x1+mod1/2,y1-mod2/2,x1-mod1/2,y1-mod2/2]
-			#polygon([x1-mod1/2,y1-mod2/2,x1-mod1/2,y1+mod2/2,x1+mod1/2,y1+mod2/2,x1+mod1/2,y1-mod2/2,x1-mod1/2,y1-mod2/2])
 			gPOLYGONS.append(POLYGON(x1-mod1/2,x1+mod1/2,y1-mod2/2,y1+mod2/2,points,0))
 		elif(gcode.gtype == 3):
 			line2poly(x1,y1,x2,y2,mod1/2,1,8)
@@ -587,8 +683,31 @@ def gerber2polygon(gGCODES):
 			line2poly(x1,y1,x2,y2,mod2/2,0,8)
 		elif(gcode.gtype == 5):
 			line2poly(x1,y1,x2,y2,mod1/2,2,8)
-		elif(gcode.gtype == 6): # Oval
-			line2poly(x1,y1,x2,y2,mod2/2,3,8)
+		elif(gcode.gtype == 6): # Oval (no rotation)
+			width = abs(mod1) # abs((x1+mod1/2)-(x1-mod1/2)) # abs(x_max-x_min)
+			height = abs(mod2) # abs((y1+mod2/2)-(y1-mod2/2)) # abs(y_max-y_min)
+			deg90=pi/2.0
+			npoints = 16
+			x1 = x1 - width/2
+			y1 = y1 - height/2
+			if width > height: # (___)
+				radius = height/2
+				# arc_points(cx,cy,r,s_angle,e_angle,kaku)
+				points = [x1+width-radius,y1]
+				points = points + arc_points(x1+width-radius,y1+radius,radius,-deg90,deg90,npoints)
+				points = points + arc_points(x1+radius,y1+radius,radius,deg90,3*deg90,npoints)
+				points = points + [x1+width-radius,y1]
+			else: # 0
+				radius = width/2
+				# arc_points(cx,cy,r,s_angle,e_angle,kaku)
+				points = [x1+width,y1+height-radius]
+				points = points + arc_points(x1+radius,y1+height-radius,radius,0,2*deg90,npoints)
+				points = points + arc_points(x1+radius,y1+radius,radius,2*deg90,4*deg90,npoints)
+				points = points + [x1+width,y1+height-radius]
+			#points = [x1-mod1/2,y1-mod2/2,x1-mod1/2,y1+mod2/2,x1+mod1/2,y1+mod2/2,x1+mod1/2,y1-mod2/2,x1-mod1/2,y1-mod2/2]
+			#gPOLYGONS.append(POLYGON(x1-mod1/2,x1+mod1/2,y1-mod2/2,y1+mod2/2,points,0))
+			polygon(points)
+			# POLYGON arguments: (x_min, x_max, y_min, y_max, points, delete)
 	return gPOLYGONS
 
 def line2poly(x1,y1,x2,y2,r,atype,ang_n):
@@ -613,19 +732,20 @@ def line2poly(x1,y1,x2,y2,r,atype,ang_n):
 		points = points + [xa2,ya2,xa1,ya1]
 		points = points + arc_points(x2,y2,r,ang+deg90,ang-deg90,ang_n)
 		points = points + [xa2,ya2]
-	elif(atype==3): # Oval
-		width = abs(xa1-xb2)
-		height = abs(ya1-yb2)
-		if width > height:
-			points = points + arc_points(x1+r,y1,r,ang+3*deg90,ang+deg90,ang_n)
-			points = points + arc_points(x2-r,y2,r,ang+1*deg90,ang-deg90,ang_n)
-			points = points + [xa2+r,ya2]
-		else:
-			r = width/2
-			points = points + arc_points(x1+r,y1+r,r,ang+2*deg90,ang+deg90-deg90,ang_n)
-			points = points + arc_points(x2-r,y2-r,r,ang+0*deg90,ang-deg90-deg90,ang_n)
-			ya1=y1+r*sin(ang+deg90)
-			points = points + [xa1,ya1]
+	elif(atype==3): # Oval #TODO FIX
+		points = (xa1,ya1,xb1,yb1,xb2,yb2,xa2,ya2,xa1,ya1)
+#		width = abs(xa1-xb2)
+#		height = abs(ya1-yb2)
+#		if width > height:
+#			points = points + arc_points(x1+r,y1,r,ang+3*deg90,ang+deg90,ang_n)
+#			points = points + arc_points(x2-r,y2,r,ang+1*deg90,ang-deg90,ang_n)
+#			points = points + [xa2+r,ya2]
+#		else:
+#			r = width/2
+#			points = points + arc_points(x1+r,y1+r,r,ang+2*deg90,ang+deg90-deg90,ang_n)
+#			points = points + arc_points(x2-r,y2-r,r,ang+0*deg90,ang-deg90-deg90,ang_n)
+#			ya1=y1+r*sin(ang+deg90)
+#			points = points + [xa1,ya1]
 	else:
 		points = (xa1,ya1,xb1,yb1,xb2,yb2,xa2,ya2,xa1,ya1)
 	polygon(points)
@@ -709,16 +829,32 @@ def gcode_end():
 	#end_data += "%\n"
 	return end_data
 
-def end(front_poly,back_poly):
-	global gFRONT_DATA, gBACK_DATA, gDRILL_DATA, gEDGE_DATA
+def end(front_poly,back_poly,front_poly_2pass,back_poly_2pass,front_poly_3pass,back_poly_3pass):
+	global gFRONT_DATA, gBACK_DATA, gFRONT_2PASS_DATA, gBACK_2PASS_DATA, gFRONT_3PASS_DATA, gBACK_3PASS_DATA, gDRILL_DATA, gEDGE_DATA
 	if OUT_FRONT_FILE and front_poly:
 		gFRONT_DATA += polygon2gcode(front_poly,CUT_DEPTH,XY_SPEED, Z_SPEED)
 		gFRONT_DATA += gcode_end()
 		write_file(OUT_DIR,OUT_FRONT_FILE,gFRONT_DATA)
+	if OUT_FRONT_2PASS_FILE and front_poly_2pass:
+		gFRONT_2PASS_DATA += polygon2gcode(front_poly_2pass,CUT_DEPTH,XY_SPEED, Z_SPEED)
+		gFRONT_2PASS_DATA += gcode_end()
+		write_file(OUT_DIR,OUT_FRONT_2PASS_FILE,gFRONT_2PASS_DATA)
+	if OUT_FRONT_3PASS_FILE and front_poly_3pass:
+		gFRONT_3PASS_DATA += polygon2gcode(front_poly_3pass,CUT_DEPTH,XY_SPEED, Z_SPEED)
+		gFRONT_3PASS_DATA += gcode_end()
+		write_file(OUT_DIR,OUT_FRONT_3PASS_FILE,gFRONT_3PASS_DATA)
 	if OUT_BACK_FILE and back_poly:
 		gBACK_DATA += polygon2gcode(back_poly,CUT_DEPTH,XY_SPEED, Z_SPEED)
 		gBACK_DATA += gcode_end()
 		write_file(OUT_DIR,OUT_BACK_FILE,gBACK_DATA)
+	if OUT_BACK_2PASS_FILE and back_poly_2pass:
+		gBACK_2PASS_DATA += polygon2gcode(back_poly_2pass,CUT_DEPTH,XY_SPEED, Z_SPEED)
+		gBACK_2PASS_DATA += gcode_end()
+		write_file(OUT_DIR,OUT_BACK_2PASS_FILE,gBACK_2PASS_DATA)
+	if OUT_BACK_3PASS_FILE and back_poly_3pass:
+		gBACK_3PASS_DATA += polygon2gcode(back_poly_3pass,CUT_DEPTH,XY_SPEED, Z_SPEED)
+		gBACK_3PASS_DATA += gcode_end()
+		write_file(OUT_DIR,OUT_BACK_3PASS_FILE,gBACK_3PASS_DATA)
 	if OUT_DRILL_FILE:
 		gDRILL_DATA += gcode_end()
 		write_file(OUT_DIR,OUT_DRILL_FILE,gDRILL_DATA)
@@ -800,16 +936,16 @@ def arc_points(cx,cy,r,s_angle,e_angle,kaku):
 	float(r)
 	float(cx)
 	float(cy)
-	arc_angle = abs(s_angle-e_angle)
-	
-	new_kaku = int( (2.0*pi*float(r))/(arc_angle*float(MM_PER_ARC_SEGMENT)) ) # Automatic resolution (reduces gcode file size)
-	if new_kaku < 8 :
-		new_kaku = 8;
-	elif new_kaku > 100 :
-		new_kaku = 100;
-	
+#	arc_angle = abs(s_angle-e_angle)
+#	
+#	new_kaku = int( (2.0*pi*float(r))/(arc_angle*float(MM_PER_ARC_SEGMENT)) ) # Automatic resolution (reduces gcode file size)
+#	if new_kaku < 8 :
+#		new_kaku = 8;
+#	elif new_kaku > 100 :
+#		new_kaku = 100;
+#	
 #	print "Modifying ARC points from",kaku,"to",new_kaku
-	kaku = new_kaku
+#	kaku = new_kaku
 #	print "Arc: Radius:", str(r), "Points:", kaku
 	
 	points=[]
@@ -904,7 +1040,7 @@ def mirror_point(x,y):
 #Drill 
 def read_Drill_file(dirname,drill_file):
 	global gDRILL_D, gDRILL_TYPE, DRILL_UNIT,gUNIT,INCH
-	data = open_file(dirname, drill_file)
+	(data,f) = open_file(dirname, drill_file)
 	print "Read and Parse Drill data"
 	drill_d_unit = DRILL_UNIT
 	for drill in data:
@@ -928,6 +1064,8 @@ def read_Drill_file(dirname,drill_file):
 		if (find(drill, "M72") != -1):
 			#print "Drill unit = INCH"
 			DRILL_UNIT = INCH
+	f.close()
+
 def parse_drill_g(drill):
 	global gDRILL_LINES, gDRILL_D, DRILL_UNIT
 	#print "Drill G";
@@ -1211,7 +1349,7 @@ def drill_hole_test(cx,cy,r):
 #For edge
 def readEdgeFile(dirname,edge_file):
 	global gTMP_EDGE_X, gTMP_EDGE_Y, gTMP_EDGE_Z, gEDGE_DATA, gEDGES
-	data = open_file(dirname, edge_file)
+	(data,f) = open_file(dirname, edge_file)
 
 	pre_x = gTMP_EDGE_X
 	pre_y = gTMP_EDGE_Y
@@ -1236,6 +1374,8 @@ def readEdgeFile(dirname,edge_file):
 			elif(dd.group(1) == "2" or dd.group(1) == "02"):
 				pre_x = x
 				pre_y = y
+	f.close()
+
 def mergeEdge():
 	global gTMP_EDGE_X, gTMP_EDGE_Y, gTMP_EDGE_Z, gEDGE_DATA, gEDGES, MERGINE
 	for edge1 in gEDGES:
@@ -1368,7 +1508,7 @@ def open_file(dirname, filename):
 		return []
 	else:
 		ret = f.read()
-		return ret.split("\n")
+		return (ret.split("\n"),f)
 def write_file(dirname,filename,datas):
 	file_name = os.path.join(dirname, filename)
 	if(datas):
