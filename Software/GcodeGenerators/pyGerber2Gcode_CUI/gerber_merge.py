@@ -10,7 +10,7 @@ import sys
 import locale
 import re
 TINY = 1e-6
-SMALL = 1e-2
+SMALL = 1e-3
 TEST_POINTS1 =[]
 TEST_POINTS2 =[]
 TEST_POINT_R = 0.01

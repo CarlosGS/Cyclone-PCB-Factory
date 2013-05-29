@@ -17,7 +17,7 @@ import gerber_merge as gm
 #Global Constant
 HUGE = 1e10
 TINY = 1e-6
-SMALL = 1e-2
+SMALL = 1e-3
 MERGINE = 1e-4
 INCH = 25.4 #mm
 MIL = INCH/1000
@@ -62,7 +62,7 @@ GCODE_EXT = '*.ngc'
 GDRILL_EXT = '*.ngc'
 GEDGE_EXT = '*.ngc'
 
-MM_PER_ARC_SEGMENT = 0.2 # mm
+MM_PER_ARC_SEGMENT = 0.05 # mm
 
 #View
 GERBER_COLOR = 'BLACK'	#black
@@ -446,7 +446,7 @@ def read_Gerber(dirname,filename):
 	for gerber in data:
 		if not gerber:
 			break
-		#print gerber
+		# print gerber
 		if (find(gerber, "%MOIN") != -1):
 			IN_INCH_FLAG = 1
 
@@ -533,11 +533,15 @@ def parse_data(x,y,d):
 		if( gDCODE[int(gFIG_NUM)].atype == "C"):
 			#Circle
 			gGCODES.append(GCODE(x,y,0,0,1,mod1,0))
-		else:
-		#elif(gDCODE[int(gFIG_NUM)].atype ==  "R"): # DIRTY PATCH, RENDERS OVALS AS RECTANGLES!
+		elif(gDCODE[int(gFIG_NUM)].atype ==  "R"):
 			#Rect
 			#Change to line
 			gGCODES.append(GCODE(x-mod1/2,y,x+mod1/2,y,4,mod1,mod2))
+		elif(gDCODE[int(gFIG_NUM)].atype ==  "O"):
+			#Rect
+			#Change to line
+			gGCODES.append(GCODE(x-mod1/2,y,x+mod1/2,y,6,mod1,mod2))
+		else: print "UNSUPPORTED TYPE:",gDCODE[int(gFIG_NUM)].atype
 	elif(d == "02" or d == "2"):
 		#move  w light off
 		gGERBER_TMP_X = x
@@ -546,10 +550,13 @@ def parse_data(x,y,d):
 		#move w Light on
 		if(gDCODE[int(gFIG_NUM)].atype == "C"):
 			gGCODES.append(GCODE(gGERBER_TMP_X,gGERBER_TMP_Y,x,y,3,mod1,mod2))
-		else:
-		#elif(gDCODE[int(gFIG_NUM)].atype == "R"): # DIRTY PATCH, RENDERS OVALS AS RECTANGLES!
+		elif(gDCODE[int(gFIG_NUM)].atype == "R"):
 			#Rect
 			gGCODES.append(GCODE(gGERBER_TMP_X,gGERBER_TMP_Y,x,y,4,mod1,mod2))
+		elif(gDCODE[int(gFIG_NUM)].atype == "O"):
+			#Rect
+			gGCODES.append(GCODE(gGERBER_TMP_X,gGERBER_TMP_Y,x,y,6,mod1,mod2))
+		else: print "UNSUPPORTED TYPE:",gDCODE[int(gFIG_NUM)].atype
 		gGERBER_TMP_X = x
 		gGERBER_TMP_Y = y
 
@@ -580,6 +587,8 @@ def gerber2polygon(gGCODES):
 			line2poly(x1,y1,x2,y2,mod2/2,0,8)
 		elif(gcode.gtype == 5):
 			line2poly(x1,y1,x2,y2,mod1/2,2,8)
+		elif(gcode.gtype == 6): # Oval
+			line2poly(x1,y1,x2,y2,mod2/2,3,8)
 	return gPOLYGONS
 
 def line2poly(x1,y1,x2,y2,r,atype,ang_n):
@@ -604,8 +613,21 @@ def line2poly(x1,y1,x2,y2,r,atype,ang_n):
 		points = points + [xa2,ya2,xa1,ya1]
 		points = points + arc_points(x2,y2,r,ang+deg90,ang-deg90,ang_n)
 		points = points + [xa2,ya2]
+	elif(atype==3): # Oval
+		width = abs(xa1-xb2)
+		height = abs(ya1-yb2)
+		if width > height:
+			points = points + arc_points(x1+r,y1,r,ang+3*deg90,ang+deg90,ang_n)
+			points = points + arc_points(x2-r,y2,r,ang+1*deg90,ang-deg90,ang_n)
+			points = points + [xa2+r,ya2]
+		else:
+			r = width/2
+			points = points + arc_points(x1+r,y1+r,r,ang+2*deg90,ang+deg90-deg90,ang_n)
+			points = points + arc_points(x2-r,y2-r,r,ang+0*deg90,ang-deg90-deg90,ang_n)
+			ya1=y1+r*sin(ang+deg90)
+			points = points + [xa1,ya1]
 	else:
-		points=(xa1,ya1,xb1,yb1,xb2,yb2,xa2,ya2,xa1,ya1)
+		points = (xa1,ya1,xb1,yb1,xb2,yb2,xa2,ya2,xa1,ya1)
 	polygon(points)
 
 def polygon(points):
@@ -642,11 +664,15 @@ def polygon(points):
 
 def circle_points(cx,cy,r,points_num):
 	int(points_num)
-	points_num = int( (2.0*pi*r)/float(MM_PER_ARC_SEGMENT) ) # Automatic resolution (reduces gcode file size)
-	if points_num < 10 :
-		points_num = 10;
-	elif  points_num > 100 :
-		points_num = 100;
+	
+	new_points_num = int( (2.0*pi*float(r))/float(MM_PER_ARC_SEGMENT) ) # Automatic resolution (reduces gcode file size)
+	if new_points_num < 8 :
+		new_points_num = 8;
+	elif  new_points_num > 100 :
+		new_points_num = 100;
+	
+#	print "Modifyin CIRCLE points_num from",points_num,"to",new_points_num
+	points_num = new_points_num
 #	print "Circle: Radius:", str(r), "Points:", points_num
 	points=[]
 #	if(points_num <= 2):
@@ -654,7 +680,6 @@ def circle_points(cx,cy,r,points_num):
 #		return
 	i = points_num
 	while i > 0:
-		cir_x=cx+r*cos(2.0*pi*float(i)/float(points_num))
 		cir_x=cx+r*cos(2.0*pi*float(i)/float(points_num))
 		cir_y=cy+r*sin(2.0*pi*float(i)/float(points_num))
 		points.extend([cir_x,cir_y])
@@ -772,23 +797,31 @@ def move(x,y):
 
 def arc_points(cx,cy,r,s_angle,e_angle,kaku):
 	int(kaku)
+	float(r)
+	float(cx)
+	float(cy)
 	arc_angle = abs(s_angle-e_angle)
-	kaku = int( (2.0*pi*r)/(arc_angle*float(MM_PER_ARC_SEGMENT)) ) # Automatic resolution (reduces gcode file size)
-	if kaku < 5 :
-		kaku = 5;
-	elif  kaku > 100 :
-		kaku = 100;
+	
+	new_kaku = int( (2.0*pi*float(r))/(arc_angle*float(MM_PER_ARC_SEGMENT)) ) # Automatic resolution (reduces gcode file size)
+	if new_kaku < 8 :
+		new_kaku = 8;
+	elif new_kaku > 100 :
+		new_kaku = 100;
+	
+#	print "Modifying ARC points from",kaku,"to",new_kaku
+	kaku = new_kaku
 #	print "Arc: Radius:", str(r), "Points:", kaku
+	
 	points=[]
 	if(s_angle == e_angle):
 		print "Start and End angle are same"
-#	if(kaku <= 2):
-#		print "Too small angle"
-	ang_step=(e_angle-s_angle)/(kaku-1)
+	if(kaku <= 2):
+		print "Too small angle"
+	ang_step=float((float(e_angle)-float(s_angle))/float(kaku-1))
 	i = 0
 	while i < kaku:
-		arc_x=cx+r*cos(s_angle+ang_step*float(i))
-		arc_y=cy+r*sin(s_angle+ang_step*float(i))
+		arc_x=float(cx+r*cos(float(s_angle)+ang_step*float(i)))
+		arc_y=float(cy+r*sin(float(s_angle)+ang_step*float(i)))
 		points.extend([arc_x,arc_y])
 		i += 1
 

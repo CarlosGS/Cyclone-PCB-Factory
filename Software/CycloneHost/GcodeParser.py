@@ -18,7 +18,7 @@
 import os.path
 # End modules
 
-def parseGcodeRaw(filePath, etch_definition = 0): # Gcode parser from Etch_Z_adjust.1.8.py (modified by Carlosgs to output toolpaths)
+def parseGcodeRaw(filePath, etch_definition = 0, close_shapes = 0): # Gcode parser from Etch_Z_adjust.1.8.py (modified by Carlosgs to output toolpaths)
 	
 	gcode_size = (0,0)
 	gcode_origin = (0,0)
@@ -67,6 +67,15 @@ def parseGcodeRaw(filePath, etch_definition = 0): # Gcode parser from Etch_Z_adj
 		elif Y_dest > Y_max : Y_max = Y_dest
 		return Y_min, Y_max
 	
+	def isSame(list1, list2): # Compare two lists, returns True if they have same values
+		i = 0
+		for val1 in list1:
+			val2 = list2[i]
+			if val1 != val2:
+				return False
+			i = i + 1
+		return True
+	
 	etchMove = False
 	
 	currentLine = 0.0
@@ -104,7 +113,11 @@ def parseGcodeRaw(filePath, etch_definition = 0): # Gcode parser from Etch_Z_adj
 					travel_moves.append(path)
 					path = []
 					etchMove = True # Set etch mode
-				path.append([X_dest,Y_dest,Z_dest])
+					path.append([X_dest,Y_dest,Z_dest])
+				
+				destPoint = [X_dest,Y_dest,Z_dest]
+				if len(path) == 0 or isSame(destPoint,path[-1]) == False: # Don't add same point twice
+					path.append(destPoint)
 				
 				# and now check for max and min X and Y values
 				if is_first_X == True :
@@ -120,10 +133,17 @@ def parseGcodeRaw(filePath, etch_definition = 0): # Gcode parser from Etch_Z_adj
 				else : (Y_min, Y_max) = test_Y(Y_min, Y_max)
 			else :
 				if etchMove == True :
+					if close_shapes : # Return to the start point
+						path.append(path[0])
 					etch_moves.append(path)
 					path = []
 					etchMove = False # Set travel mode
-				path.append([X_dest,Y_dest,Z_dest])
+					path.append([X_dest,Y_dest,Z_dest])
+				
+				destPoint = [X_dest,Y_dest,Z_dest]
+				if len(path) == 0 or isSame(destPoint,path[-1]) == False: # Don't add same point twice
+					path.append(destPoint)
+				
 		#file_out.append(line)
 	
 	if is_first_X == False :
@@ -173,6 +193,7 @@ def optimize(etch_moves_in, origin=[0,0], travel_height = 5): # Optimizes the to
 					closest = distance
 					closestMove_i = i
 					reverse = 1 # Flag set to reverse the path
+					#print "Using a reverse path did optimize!"
 			i = i + 1
 		
 		path = etch_moves_in[closestMove_i] # Select the closest that has been found
