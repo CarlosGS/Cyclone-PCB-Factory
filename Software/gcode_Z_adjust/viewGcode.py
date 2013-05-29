@@ -19,16 +19,16 @@ import GcodeViewer as gcv
 # End modules
 
 # Temporary path to speedup testing
-#import os
-#from subprocess import call
-#os.chdir("../GcodeGenerators/pyGerber2Gcode_CUI/")
-#call(["pypy","./pygerber2gcode_cui_MOD.py"])
-#os.chdir("../../gcode_Z_adjust")
+import os
+from subprocess import call
+os.chdir("../GcodeGenerators/pyGerber2Gcode_CUI/")
+call(["pypy","./pygerber2gcode_cui_MOD.py"])
+os.chdir("../../gcode_Z_adjust")
 
 filePath = "../GcodeGenerators/pyGerber2Gcode_CUI/out/"
 fileName = "printshield" # sys.argv[1]
 
-gcv.view(filePath,fileName)
+gcv.view(filePath,fileName,showAll=1)
 
 raw_input("Press enter to exit...")
 

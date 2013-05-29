@@ -36,7 +36,7 @@ import serial
 import time
 from datetime import datetime
 
-import helper
+from helper import *
 # End modules
 
 # Begin configuration. It is overwritten when running setup(baudrate, device)
@@ -49,7 +49,10 @@ serial_timeout = 5 # Timeout for the serial port [seconds]
 
 OK_response = "ok" # First two characters of an OK response (case insensitive)
 
+CNC_Machine = []
+
 def connect(baudrate, device):
+	global CNC_Machine
 	BAUDRATE = baudrate
 	DEVICE = device
 	print "Connecting to Cyclone..."
@@ -69,14 +72,12 @@ def flushRecvBuffer(): # We could also use flushInput(), but showing the data th
 def sendLine(line):
 	flushRecvBuffer()
 	CNC_Machine.write(line)
-	print "SENT: ", line
+	#print "SENT: ", line
 
 def recvLine():
 	response = CNC_Machine.readline()
-	if response != '':
-		print "RECV: ", response
-	else:
-		print "RECV: Receive timed out!"
+	#if response != '': print "RECV: ", response
+	#else: print "RECV: Receive timed out!"
 	return response
 
 def recvOK():
@@ -86,9 +87,9 @@ def recvOK():
 	return 0
 
 def waitForOK(): # This is a blocking function
-	print "Waiting for confirmation"
+	#print "Waiting for confirmation"
 	while recvOK() != 1:
-		print "  Checking again..."
+		#print "  Checking again..."
 		time.sleep(millis_wait) # Wait some milliseconds between attempts
 
 def sendCommand(command): # Send command and wait for OK
@@ -109,28 +110,28 @@ def homeZXY():
 	sendCommand("G28 X0\n") # move X to min endstop
 	sendCommand("G28 Y0\n") # move Y to min endstop
 
-def move(X, Y, Z, F):
-	print "Moving to:"
+def moveXYZ(X, Y, Z, F):
+	#print "Moving to:"
 	sendCommand("G1 X"+floats(X)+" Y"+floats(Y)+" Z"+floats(Z)+" F"+floats(F)+"\n")
 
 def moveXY(X, Y, F):
-	print "Moving to:"
+	#print "Moving to:"
 	sendCommand("G1 X"+floats(X)+" Y"+floats(Y)+" F"+floats(F)+"\n")
 
 def moveZ(Z, F):
-	print "Moving Z absolute:"
+	#print "Moving Z absolute:"
 	sendCommand("G1 Z"+floats(Z)+" F"+floats(F)+"\n")
 
 def moveZrel(Z, F):
-	print "Moving Z relative:"
+	#print "Moving Z relative:"
 	sendCommand("G91\n") # Set relative positioning
 	sendCommand("G1 Z"+floats(Z)+" F"+floats(F)+"\n")
 	sendCommand("G90\n") # Set absolute positioning
 
 def moveZrelSafe(Z, F):
-	cy.sendCommand("M121\n") # Enable endstops (for protection! usually it should **NOT** hit neither the endstop nor the PCB)
+	sendCommand("M121\n") # Enable endstops (for protection! usually it should **NOT** hit neither the endstop nor the PCB)
 	moveZrel(Z, F)
-	cy.sendCommand("M120\n") # Disable endstops (we only use them for homing)
+	sendCommand("M120\n") # Disable endstops (we only use them for homing)
 
 def probeZ():
 	print "Probing Z"
@@ -164,16 +165,19 @@ def probeGrid(grid_origin, grid_len, grid_N, Zlift):
 	
 	Z_probing_lift = float(Zlift) # lift between Z probings [mm]
 	
+	F_fastMove = 400
+	F_slowMove = 100
+	
 	grid_inc_X = grid_len_X/float(grid_N_X-1) # [mm]
 	grid_inc_Y = grid_len_Y/float(grid_N_Y-1)
 	
 	x_points = [ float(x_i)*grid_inc_X + grid_origin_X for x_i in range(grid_N_X) ] # Calculate X coordinates
 	y_points = [ float(y_i)*grid_inc_Y + grid_origin_Y for y_i in range(grid_N_Y) ] # Calculate X coordinates
 	
-	probe_result = [ [ 0 for j in range(grid_N_Y) ] for i in range(grid_N_X) ]
+	probe_result = [ [ 0 for j in range(grid_N_X) ] for i in range(grid_N_Y) ]
 	
 	# Show our grid (initialised as zeros)
-	for row in probe_grid:
+	for row in probe_result:
 		print row
 	
 	print "Probing begins!"
@@ -181,7 +185,7 @@ def probeGrid(grid_origin, grid_len, grid_N, Zlift):
 	beginTime = datetime.now() # Store current time in a variable, will be used to measure duration of the probing
 	
 	 # Move to grid's origin
-	machineToCoordsXY(grid_origin_X, grid_origin_Y, F_fastMove)
+	moveXY(grid_origin_X, grid_origin_Y, F_fastMove)
 	
 	for x_i in range(grid_N_X): # For each point on the grid...
 		x_val = float(x_i)*grid_inc_X + grid_origin_X; # Calculate X coordinate
@@ -190,22 +194,25 @@ def probeGrid(grid_origin, grid_len, grid_N, Zlift):
 			optimal_range = reversed(optimal_range)
 		for y_i in optimal_range:
 			y_val = float(y_i)*grid_inc_Y + grid_origin_Y; # Calculate Y coordinate
-			machineToCoordsXY(x_val, y_val, F_fastMove) # Move to position
-			probe_result[x_i][y_i] = machineProbeZ() # Do the Z probing
-			machineToCoordsZrelative(Z_probing_lift, F_fastMove/2) # Lift the probe
+			moveXY(x_val, y_val, F_fastMove) # Move to position
+			probe_result[y_i][x_i] = probeZ() # Do the Z probing
+			moveZrel(Z_probing_lift, F_fastMove/2) # Lift the probe
 
 	# Once we have all the points, we set the origin as (0,0) and offset the rest of values
-	Z_offset = probe_grid[0][0]
+	Z_offset = probe_result[0][0]
 	print "The origin Z height is", Z_offset
-	probe_grid = [[elem - Z_offset for elem in row] for row in probe_grid]
+	probe_result = [[elem - Z_offset for elem in row] for row in probe_result]
 
 	# Return to the grid's origin
-	machineToCoordsZrelative(10, F_slowMove) # Lift Z
-	machineToCoordsXY(grid_origin_X, grid_origin_Y, F_fastMove) # Move to grid's origin
+	moveZrel(10, F_slowMove) # Lift Z
+	moveXY(grid_origin_X, grid_origin_Y, F_fastMove) # Move to grid's origin
 	
 	duration = datetime.now() - beginTime
 	print "Probing duration:", str(duration)
 	duration_s = duration.total_seconds()
 	
 	return (x_points, y_points, probe_result, Z_offset, duration_s)
+
+
+
 

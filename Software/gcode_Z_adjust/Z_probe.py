@@ -40,11 +40,18 @@ grid_N = (12,6)	# Number of points
 
 Zlift = 0.5 # mm
 
+F_slowMove = 100
+
 # Warning: Do not lower too much or you will potentially cause damage!
 initial_Z_lowering_distance = -15
 cy.moveZrelSafe(initial_Z_lowering_distance,F_slowMove) # Move Z towards the PCB (saves some probing time for the first coord)
 
-(x_points, y_points, probe_result, Z_offset, duration) = cy.probeGrid(grid_origin, grid_len, grid_N, Zlift)
+#(x_points, y_points, probe_result, Z_offset, duration) = cy.probeGrid(grid_origin, grid_len, grid_N, Zlift)
+
+x_points = [0.0, 12.272727272727273, 24.545454545454547, 36.81818181818182, 49.09090909090909, 61.36363636363637, 73.63636363636364, 85.9090909090909, 98.18181818181819, 110.45454545454547, 122.72727272727273, 135.0]
+y_points = [0.0, 16.8, 33.6, 50.400000000000006, 67.2, 84.0]
+probe_result = [[0.0, 0.2, 0.4, 0.53, 0.58, 0.6, 0.56, 0.53, 0.5, 0.44, 0.33, 0.2], [-0.03, 0.07, 0.16, 0.26, 0.32, 0.33, 0.33, 0.33, 0.29, 0.23, 0.15, 0.05], [-0.07, 0.0, 0.05, 0.12, 0.16, 0.2, 0.2, 0.22, 0.2, 0.16, 0.08, 0.0], [-0.07, -0.03, 0.04, 0.11, 0.15, 0.19, 0.2, 0.22, 0.22, 0.19, 0.11, 0.04], [0.0, 0.04, 0.08, 0.19, 0.23, 0.29, 0.33, 0.36, 0.37, 0.32, 0.2, 0.11], [0.13, 0.2, 0.27, 0.37, 0.44, 0.51, 0.55, 0.61, 0.64, 0.55, 0.41, 0.22]]
+duration = 346.076061
 
 # Show our grid
 print "--- Probing results ---"
@@ -53,13 +60,38 @@ print "-> Y points:", y_points
 print "-> Grid:", probe_result
 print "-> Duration:", duration
 
-plt.ion() # Enable real-time plotting to avoid blocking behaviour for pyplot
+# Must be converted into arrays to use scipy
+x_points = np.array(x_points)
+y_points = np.array(y_points)
+probe_result = np.array(probe_result)
 
-plt.figure(1)
-plt.pcolor(np.array(x_points), np.array(y_points), np.array(probe_result))
+def pltShowNonBlocking():
+	plt.ion() # Enable real-time plotting to avoid blocking behaviour for plt.show()
+	plt.show()
+	plt.ioff() # Disable real-time plotting
+
+plt.figure()
+plt.pcolor(x_points, y_points, probe_result)
 plt.colorbar()
 plt.title("Z probing results [mm]")
-plt.show()
+plt.axis('equal') # 1:1 aspect ratio
+pltShowNonBlocking()
+
+# Interpolation
+Z_workbed_surface = interpolate.RectBivariateSpline(y_points, x_points, probe_result)
+
+x_points = np.linspace(min(x_points),max(x_points),100) 
+y_points = np.linspace(min(y_points),max(y_points),100) 
+
+z_points = Z_workbed_surface(y_points,x_points)
+print z_points
+
+plt.figure()
+plt.pcolor(x_points, y_points, z_points)
+plt.colorbar()
+plt.title("Z probing results (interpolated) [mm]")
+plt.axis('equal') # 1:1 aspect ratio
+pltShowNonBlocking()
 
 # TODO:
 # - Export results to a file with a standarized format

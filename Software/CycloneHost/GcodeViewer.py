@@ -31,12 +31,17 @@ def plotPath(etch_moves, travel_moves, etch_color, travel_color, etch_diam, trav
 	plotPoints(etch_moves, etch_color, etch_diam)
 	plotPoints(travel_moves, travel_color, travel_diam)
 
-def view(filePath,fileName):
+def pltShowNonBlocking():
+	plt.ion() # Enable real-time plotting to avoid blocking behaviour for plt.show()
+	plt.show()
+	plt.ioff() # Disable real-time plotting
+
+def view(filePath,fileName,showAll=0,showEtch=0,showEtch2=0,showEtch3=0,showDrill=0,showEdge=0):
 	
 	#filePath = "../GcodeGenerators/pyGerber2Gcode_CUI/out/"
 	#fileName = "printshield" # sys.argv[1]
 	
-	plt.figure()
+	fig = plt.figure()
 	
 	drill_diam = 0.8
 	etch_diam = 0.1
@@ -65,38 +70,42 @@ def view(filePath,fileName):
 	plt.title("Gcode viewer")
 	plt.axis('equal') # 1:1 aspect ratio
 	
-	print "\n Loading etch..."
-	gcode_file = filePath+fileName+"_etch.gcode"
-	(etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
-	(etch_moves, travel_moves) = gcp.optimize(etch_moves)
-	plotPath(etch_moves, travel_moves, etch_color, travel_color, etch_diam, travel_diam)
+	if showAll or showEtch:
+		print "\n Loading etch..."
+		gcode_file = filePath+fileName+"_etch.gcode"
+		(etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
+		(etch_moves, travel_moves) = gcp.optimize(etch_moves)
+		plotPath(etch_moves, travel_moves, etch_color, travel_color, etch_diam, travel_diam)
 	
-	print "\n Loading etch (2nd pass)..."
-	gcode_file = filePath+fileName+"_etch2pass.gcode"
-	(etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
-	(etch_moves, travel_moves) = gcp.optimize(etch_moves)
-	plotPath(etch_moves, travel_moves, etch2pass_color, travel_color, etch2pass_diam, travel_diam)
+	if showAll or showEtch2:
+		print "\n Loading etch (2nd pass)..."
+		gcode_file = filePath+fileName+"_etch2pass.gcode"
+		(etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
+		(etch_moves, travel_moves) = gcp.optimize(etch_moves)
+		plotPath(etch_moves, travel_moves, etch2pass_color, travel_color, etch2pass_diam, travel_diam)
 	
-	print "\n Loading etch (3nd pass)..."
-	gcode_file = filePath+fileName+"_etch3pass.gcode"
-	(etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
-	(etch_moves, travel_moves) = gcp.optimize(etch_moves)
-	plotPath(etch_moves, travel_moves, etch3pass_color, travel_color, etch3pass_diam, travel_diam)
+	if showAll or showEtch3:
+		print "\n Loading etch (3nd pass)..."
+		gcode_file = filePath+fileName+"_etch3pass.gcode"
+		(etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
+		(etch_moves, travel_moves) = gcp.optimize(etch_moves)
+		plotPath(etch_moves, travel_moves, etch3pass_color, travel_color, etch3pass_diam, travel_diam)
 	
-	print "\n Loading drill..."
-	gcode_file = filePath+fileName+"_drill.gcode"
-	(etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
-	(etch_moves, travel_moves) = gcp.optimize(etch_moves)
-	plotPath(etch_moves, travel_moves, drill_color, travel_color, drill_diam, travel_diam)
+	if showAll or showDrill:
+		print "\n Loading drill..."
+		gcode_file = filePath+fileName+"_drill.gcode"
+		(etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
+		(etch_moves, travel_moves) = gcp.optimize(etch_moves)
+		plotPath(etch_moves, travel_moves, drill_color, travel_color, drill_diam, travel_diam)
 	
-	print "\n Loading edge..."
-	gcode_file = filePath+fileName+"_edge.gcode"
-	(etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
-	(etch_moves, travel_moves) = gcp.optimize(etch_moves)
-	plotPath(etch_moves, travel_moves, edge_color, travel_color, edge_diam, travel_diam)
+	if showAll or showEdge:
+		print "\n Loading edge..."
+		gcode_file = filePath+fileName+"_edge.gcode"
+		(etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
+		(etch_moves, travel_moves) = gcp.optimize(etch_moves)
+		plotPath(etch_moves, travel_moves, edge_color, travel_color, edge_diam, travel_diam)
 	
-	plt.ion() # Enable real-time plotting to avoid blocking behaviour for pyplot
-	plt.show()
+	pltShowNonBlocking()
 	
-	return plt
+	return (etch_moves, travel_moves, fig)
 
