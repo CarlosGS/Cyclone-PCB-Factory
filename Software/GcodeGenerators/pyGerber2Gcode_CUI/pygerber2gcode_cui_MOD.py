@@ -44,7 +44,8 @@ EDGE_TOOL_D = 1.0		#Edge Tool diameter
 EDGE_DEPTH = -1.2 #edge depth
 EDGE_SPEED = 80	#Edge cut speed
 EDGE_Z_SPEED = 60	#Edge down speed
-Z_STEP = -0.5
+Z_STEP_DRILL = -0.3
+Z_STEP_EDGE = -0.5
 
 #for convert
 MCODE_FLAG = 0
@@ -64,7 +65,7 @@ GCODE_EXT = '*.ngc'
 GDRILL_EXT = '*.ngc'
 GEDGE_EXT = '*.ngc'
 
-MM_PER_ARC_SEGMENT = 0.05 # mm
+MM_PER_ARC_SEGMENT = 0.5 # [mm] This is used to reduce resolution
 
 #View
 GERBER_COLOR = 'BLACK'	#black
@@ -349,7 +350,7 @@ def main():
 	end(front_poly,back_poly,front_poly_2pass,back_poly_2pass,front_poly_3pass,back_poly_3pass)
 
 def read_config(config_file):
-	global INI_X, INI_Y, INI_Z, MOVE_HEIGHT, OUT_INCH_FLAG, IN_INCH_FLAG, MCODE_FLAG, XY_SPEED, Z_SPEED, LEFT_X, LOWER_Y, DRILL_SPEED, DRILL_DEPTH, CUT_DEPTH, TOOL_D, TOOL_2PASS_D, TOOL_3PASS_D, DRILL_D, CAD_UNIT, EDGE_TOOL_D, EDGE_DEPTH, EDGE_SPEED, EDGE_Z_SPEED, MERGE_DRILL_DATA, Z_STEP, GERBER_COLOR, DRILL_COLOR, EDGE_COLOR , CONTOUR_COLOR, GERBER_EXT, DRILL_EXT, EDGE_EXT, GCODE_EXT, GDRILL_EXT, GEDGE_EXT, DRILL_UNIT, EDGE_UNIT, CUT_FLAG, CUT_OV
+	global INI_X, INI_Y, INI_Z, MOVE_HEIGHT, OUT_INCH_FLAG, IN_INCH_FLAG, MCODE_FLAG, XY_SPEED, Z_SPEED, LEFT_X, LOWER_Y, DRILL_SPEED, DRILL_DEPTH, CUT_DEPTH, TOOL_D, TOOL_2PASS_D, TOOL_3PASS_D, DRILL_D, CAD_UNIT, EDGE_TOOL_D, EDGE_DEPTH, EDGE_SPEED, EDGE_Z_SPEED, MERGE_DRILL_DATA, Z_STEP_DRILL, Z_STEP_EDGE, GERBER_COLOR, DRILL_COLOR, EDGE_COLOR , CONTOUR_COLOR, GERBER_EXT, DRILL_EXT, EDGE_EXT, GCODE_EXT, GDRILL_EXT, GEDGE_EXT, DRILL_UNIT, EDGE_UNIT, CUT_FLAG, CUT_OV
 	global GERBER_DIR,FRONT_FILE,BACK_FILE,DRILL_FILE,EDGE_FILE,MIRROR_FRONT,MIRROR_BACK,MIRROR_DRILL,MIRROR_EDGE,ROT_ANG
 	global OUT_DIR,OUT_FRONT_FILE,OUT_FRONT_2PASS_FILE,OUT_FRONT_3PASS_FILE,OUT_BACK_FILE,OUT_BACK_2PASS_FILE,OUT_BACK_3PASS_FILE,OUT_DRILL_FILE,OUT_EDGE_FILE
 	try:
@@ -423,8 +424,10 @@ def read_config(config_file):
 					EDGE_Z_SPEED = int(cfg.group(2))
 				if(cfg.group(1)=="MERGE_DRILL_DATA"):
 					MERGE_DRILL_DATA = int(cfg.group(2))
-				if(cfg.group(1)=="Z_STEP"):
-					Z_STEP = float(cfg.group(2))
+				if(cfg.group(1)=="Z_STEP_DRILL"):
+					Z_STEP_DRILL = float(cfg.group(2))
+				if(cfg.group(1)=="Z_STEP_EDGE"):
+					Z_STEP_EDGE = float(cfg.group(2))
 				if(cfg.group(1)=="GERBER_COLOR"):
 					GERBER_COLO = str(cfg.group(2))
 				if(cfg.group(1)=="DRILL_COLOR"):
@@ -786,12 +789,12 @@ def circle_points(cx,cy,r,points_num):
 	int(points_num)
 	
 	new_points_num = int( (2.0*pi*float(r))/float(MM_PER_ARC_SEGMENT) ) # Automatic resolution (reduces gcode file size)
-	if new_points_num < 8 :
-		new_points_num = 8;
-	elif  new_points_num > 100 :
-		new_points_num = 100;
+	if new_points_num < 4 :
+		new_points_num = 4
+	elif  new_points_num > 50 :
+		new_points_num = 50
 	
-#	print "Modifyin CIRCLE points_num from",points_num,"to",new_points_num
+	print "Modifyin CIRCLE points_num from",points_num,"to",new_points_num
 	points_num = new_points_num
 #	print "Circle: Radius:", str(r), "Points:", points_num
 	points=[]
@@ -936,16 +939,16 @@ def arc_points(cx,cy,r,s_angle,e_angle,kaku):
 	float(r)
 	float(cx)
 	float(cy)
-#	arc_angle = abs(s_angle-e_angle)
-#	
-#	new_kaku = int( (2.0*pi*float(r))/(arc_angle*float(MM_PER_ARC_SEGMENT)) ) # Automatic resolution (reduces gcode file size)
-#	if new_kaku < 8 :
-#		new_kaku = 8;
-#	elif new_kaku > 100 :
-#		new_kaku = 100;
-#	
-#	print "Modifying ARC points from",kaku,"to",new_kaku
-#	kaku = new_kaku
+	arc_angle = float(abs(s_angle-e_angle))
+	
+	new_kaku = int( (arc_angle*float(r))/float(MM_PER_ARC_SEGMENT) ) # Automatic resolution (reduces gcode file size)
+	if new_kaku < 8 :
+		new_kaku = 8
+	elif new_kaku > 50 :
+		new_kaku = 50
+	if kaku != new_kaku:
+		print "Modifying ARC points from",kaku,"to",new_kaku
+		kaku = new_kaku
 #	print "Arc: Radius:", str(r), "Points:", kaku
 	
 	points=[]
@@ -953,6 +956,13 @@ def arc_points(cx,cy,r,s_angle,e_angle,kaku):
 		print "Start and End angle are same"
 	if(kaku <= 2):
 		print "Too small angle"
+		arc_x=float(cx+r*cos(float(s_angle))) # Draw a line
+		arc_y=float(cy+r*sin(float(s_angle)))
+		points.extend([arc_x,arc_y])
+		arc_x=float(cx+r*cos(float(e_angle)))
+		arc_y=float(cy+r*sin(float(e_angle)))
+		points.extend([arc_x,arc_y])
+		return points
 	ang_step=float((float(e_angle)-float(s_angle))/float(kaku-1))
 	i = 0
 	while i < kaku:
@@ -1209,10 +1219,10 @@ def draw_drill_line(x1,y1,x2,y2,d):
 	return points
 
 def drill_line(x1,y1,x2,y2,d):
-	global MOVE_HEIGHT, gTMP_DRILL_X, gTMP_DRILL_Y, gTMP_DRILL_Z, DRILL_SPEED, DRILL_DEPTH, Z_STEP, XY_SPEED, DRILL_D ,gDRAWDRILL_LINE
+	global MOVE_HEIGHT, gTMP_DRILL_X, gTMP_DRILL_Y, gTMP_DRILL_Z, DRILL_SPEED, DRILL_DEPTH, Z_STEP_DRILL, XY_SPEED, DRILL_D ,gDRAWDRILL_LINE
 	out_data = ""
 	gcode_tmp_flag = 0
-	z_step_n = int(float(DRILL_DEPTH)/float(Z_STEP)) + 1
+	z_step_n = int(float(DRILL_DEPTH)/float(Z_STEP_DRILL)) + 1
 	z_step = float(DRILL_DEPTH)/z_step_n
 	if(MOVE_HEIGHT != gTMP_DRILL_Z):
 		gTMP_DRILL_Z = MOVE_HEIGHT
@@ -1278,10 +1288,10 @@ def drill_line(x1,y1,x2,y2,d):
 	return out_data
 
 def drill_hole(cx,cy,r):
-	global MOVE_HEIGHT, gTMP_DRILL_X, gTMP_DRILL_Y, gTMP_DRILL_Z, DRILL_SPEED, DRILL_DEPTH, Z_STEP, XY_SPEED
+	global MOVE_HEIGHT, gTMP_DRILL_X, gTMP_DRILL_Y, gTMP_DRILL_Z, DRILL_SPEED, DRILL_DEPTH, Z_STEP_DRILL, XY_SPEED
 	out_data = ""
 	gcode_tmp_flag = 0
-	z_step_n = int(float(DRILL_DEPTH)/float(Z_STEP)) + 1
+	z_step_n = int(float(DRILL_DEPTH)/float(Z_STEP_DRILL)) + 1
 	z_step = float(DRILL_DEPTH)/z_step_n
 	#print "r=" + str(r)
 	if(MOVE_HEIGHT != gTMP_DRILL_Z):
@@ -1321,10 +1331,10 @@ def drill_hole(cx,cy,r):
 	return out_data
 
 def drill_hole_test(cx,cy,r):
-	global MOVE_HEIGHT, gTMP_DRILL_X, gTMP_DRILL_Y, gTMP_DRILL_Z, DRILL_SPEED, DRILL_DEPTH, Z_STEP, XY_SPEED
+	global MOVE_HEIGHT, gTMP_DRILL_X, gTMP_DRILL_Y, gTMP_DRILL_Z, DRILL_SPEED, DRILL_DEPTH, Z_STEP_DRILL, XY_SPEED
 	out_data = ""
 	gcode_tmp_flag = 0
-	z_step_n = int(DRILL_DEPTH/Z_STEP) + 1
+	z_step_n = int(DRILL_DEPTH/Z_STEP_DRILL) + 1
 	z_step = DRILL_DEPTH/z_step_n
 	#print "r=" + str(r)
 	if(MOVE_HEIGHT != gTMP_DRILL_Z):
@@ -1414,10 +1424,10 @@ def mergeEdge():
 				edge2.delete = 1
 			edge1.points=tmp_points1
 def edge2gcode():
-	global gEDGE_DATA, gXSHIFT, gYSHIFT, gTMP_EDGE_X, gTMP_EDGE_Y, gTMP_EDGE_Z, gEDGES, EDGE_TOOL_D, EDGE_DEPTH, EDGE_SPEED, EDGE_Z_SPEED, Z_STEP
+	global gEDGE_DATA, gXSHIFT, gYSHIFT, gTMP_EDGE_X, gTMP_EDGE_Y, gTMP_EDGE_Z, gEDGES, EDGE_TOOL_D, EDGE_DEPTH, EDGE_SPEED, EDGE_Z_SPEED, Z_STEP_EDGE
 	out_data = "G1"
 	gcode_tmp_flag = 0
-	z_step_n = int(EDGE_DEPTH/Z_STEP) + 1
+	z_step_n = int(EDGE_DEPTH/Z_STEP_EDGE) + 1
 	z_step = EDGE_DEPTH/z_step_n
 	j = 1
 	while j <= z_step_n:

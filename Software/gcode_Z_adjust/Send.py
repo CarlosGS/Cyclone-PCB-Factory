@@ -54,7 +54,7 @@ def toolPos_draw(x, y, etching=0):
 	gcodeviewer.canvas.draw()
 
 toolRefreshSteps = 1
-toolRefresh = 50
+toolRefresh = 0
 def toolPos_refresh(x, y, etching=0):
 	global toolRefresh
 	if toolRefresh >= toolRefreshSteps:
@@ -71,7 +71,7 @@ def drawTool(x, y):
 F_slowMove = 200 # Move speed [mm/min?]
 F_fastMove = 700
 
-F_etchMove = 50
+F_etchMove = F_slowMove
 F_drillMove = 50
 F_edgeMove = 25
 
@@ -88,7 +88,7 @@ drawTool(10, 20) # Show a marker on the gcode plot
 
 # Warning: Do not lower too much or you will potentially cause damage!
 initial_Z_lowering_distance = -20
-cy.moveZrelSafe(initial_Z_lowering_distance,F_slowMove/2) # Move Z towards the PCB (saves some probing time for the first coord)
+#cy.moveZrelSafe(initial_Z_lowering_distance,F_slowMove/2) # Move Z towards the PCB (saves some probing time for the first coord)
 
 Z_origin_offset = cy.probeZ()
 print "Z offset:", Z_origin_offset
@@ -166,7 +166,45 @@ plt.figure(figId)
 
 Zlift = 0.5
 
-for path in etch_moves:
+Z_manual_offset = 0.02+10
+
+maxDistance = 1**2 # [mm^2] 5mm (longer moves will be split to regulate Z)
+minDistance = 0.005**2 # [mm^2] 0.005mm is the smallest distance that will be sent
+
+def splitLongEtchMove(distance):
+	global toolPos_X, toolPos_Y, toolPos_Z, X_dest, Y_dest, Z_dest
+	
+	X_dest_tmp = toolPos_X
+	Y_dest_tmp = toolPos_Y
+	Z_dest_tmp = toolPos_Z
+		
+	#distance = distance**0.5 # [mm]
+	N_steps = int((distance/maxDistance)**0.5) # **must be** >= 1
+	
+	print "Splitting", distance**0.5, "mm segment into", N_steps, "steps"
+	
+	print "Orig:", toolPos_X, toolPos_Y, toolPos_Z, "Dest:", X_dest, Y_dest, Z_dest
+	
+	X_step = (X_dest-toolPos_X)/float(N_steps)
+	Y_step = (Y_dest-toolPos_Y)/float(N_steps)
+	Z_step = (Z_dest-toolPos_Z)/float(N_steps)
+	
+	for i in range(N_steps) :
+		X_dest_tmp = toolPos_X + X_step
+		Y_dest_tmp = toolPos_Y + Y_step
+		Z_dest_tmp = toolPos_Z + Z_step
+	
+		Z_real = Z_dest_tmp+Z_origin_offset+getZoffset(X_dest_tmp, Y_dest_tmp)+Z_manual_offset
+		cy.moveXYZ(X_dest_tmp, Y_dest_tmp, Z_real, F_etchMove)
+		toolPos_refresh(X_dest_tmp, Y_dest_tmp, etching=1)
+		
+		print "Move:",X_dest_tmp, Y_dest_tmp, Z_dest_tmp
+		
+		toolPos_X = X_dest_tmp
+		toolPos_Y = Y_dest_tmp
+		toolPos_Z = Z_dest_tmp
+
+for path in etch_moves :
 	toolRefresh = 0
 	toolPos_draw(toolPos_X, toolPos_Y, etching=0)
 	cy.moveZrel(Zlift,F_fastMove) # Raise and move to next point
@@ -175,20 +213,31 @@ for path in etch_moves:
 	cy.moveXY(X_dest, Y_dest, F_fastMove)
 	toolPos_draw(X_dest, Y_dest, etching=0)
 	cy.moveZrel(-Zlift,F_slowMove)
-	for coord in path[1:]:
+	
+	toolPos_X = X_dest
+	toolPos_Y = Y_dest
+	toolPos_Z = Z_dest # Not sure..
+	
+	for coord in path[1:] :
 		X_dest = coord[0]
 		Y_dest = coord[1]
 		Z_dest = coord[2]
-		#print "Pos:",toolPos_X, toolPos_Y
-		Z_real = Z_dest+Z_origin_offset+getZoffset(X_dest, Y_dest)+0.02+10
-		cy.moveXYZ(X_dest, Y_dest, Z_real, F_slowMove)
-		toolPos_refresh(toolPos_X, toolPos_Y, etching=1)
+		
+		distance = (X_dest-toolPos_X)**2+(Y_dest-toolPos_Y)**2
+		if distance >= maxDistance :
+			splitLongEtchMove(distance)
+		if distance < minDistance :
+			print "Ignoring", distance**0.5, "mm segment!"
+			continue
+		Z_real = Z_dest+Z_origin_offset+getZoffset(X_dest, Y_dest)+Z_manual_offset
+		cy.moveXYZ(X_dest, Y_dest, Z_real, F_etchMove)
+		toolPos_refresh(X_dest, Y_dest, etching=1)
 		
 		toolPos_X = X_dest
 		toolPos_Y = Y_dest
 		toolPos_Z = Z_dest
 
-#cy.close() # Close the serial port connection
+cy.close() # Close the serial port connection
 
-raw_input("Press enter to exit...")
+raw_input("Done. Press enter to exit...")
 
