@@ -20,13 +20,13 @@ import os.path
 
 def parseGcodeRaw(filePath, etch_definition = 0, close_shapes = 0): # Gcode parser from Etch_Z_adjust.1.8.py (modified by Carlosgs to output toolpaths)
 	
-	gcode_size = (0,0)
-	gcode_origin = (0,0)
+	gcode_sizeXY = (0,0)
+	gcode_originXY = (0,0)
 	travel_moves = []
 	etch_moves = []
 	
 	if os.path.isfile(filePath) == False :
-		return etch_moves, travel_moves, gcode_origin, gcode_size
+		return etch_moves, travel_moves, gcode_originXY, gcode_sizeXY
 	
 	gcode = open(filePath, "r")
 	
@@ -42,6 +42,7 @@ def parseGcodeRaw(filePath, etch_definition = 0, close_shapes = 0): # Gcode pars
 	X_dest = 0
 	Y_dest = 0
 	Z_dest = 10
+	F_dest = 10
 	
 	path = []
 	
@@ -104,6 +105,8 @@ def parseGcodeRaw(filePath, etch_definition = 0, close_shapes = 0): # Gcode pars
 				Y_dest = float(get_num(line,char_ptr,num_chars))
 			elif char == 'Z' :
 				Z_dest = float(get_num(line,char_ptr,num_chars))
+			elif char == 'F' :
+				F_dest = float(get_num(line,char_ptr,num_chars))
 			char_ptr = char_ptr + 1
 		
 		if G_dest == 0 or G_dest == 1 :
@@ -113,9 +116,9 @@ def parseGcodeRaw(filePath, etch_definition = 0, close_shapes = 0): # Gcode pars
 					travel_moves.append(path)
 					path = []
 					etchMove = True # Set etch mode
-					path.append([X_dest,Y_dest,Z_dest])
+					path.append([X_dest,Y_dest,Z_dest,F_dest])
 				
-				destPoint = [X_dest,Y_dest,Z_dest]
+				destPoint = [X_dest,Y_dest,Z_dest,F_dest]
 				if len(path) == 0 or isSame(destPoint,path[-1]) == False: # Don't add same point twice
 					path.append(destPoint)
 				
@@ -138,9 +141,9 @@ def parseGcodeRaw(filePath, etch_definition = 0, close_shapes = 0): # Gcode pars
 					etch_moves.append(path)
 					path = []
 					etchMove = False # Set travel mode
-					path.append([X_dest,Y_dest,Z_dest])
+					path.append([X_dest,Y_dest,Z_dest,F_dest])
 				
-				destPoint = [X_dest,Y_dest,Z_dest]
+				destPoint = [X_dest,Y_dest,Z_dest,F_dest]
 				if len(path) == 0 or isSame(destPoint,path[-1]) == False: # Don't add same point twice
 					path.append(destPoint)
 				
@@ -149,16 +152,16 @@ def parseGcodeRaw(filePath, etch_definition = 0, close_shapes = 0): # Gcode pars
 	if is_first_X == False :
 		# then there were etch moves so get to work!
 		
-		gcode_size = (X_max - X_min, Y_max - Y_min)
-		gcode_origin = (X_min, Y_min)
+		gcode_sizeXY = (X_max - X_min, Y_max - Y_min)
+		gcode_originXY = (X_min, Y_min)
 		
-		print "Gcode XY origin:",str(gcode_origin)
-		print "Gcode XY length:",str(gcode_size)
+		print "Gcode XY origin:",str(gcode_originXY)
+		print "Gcode XY length:",str(gcode_sizeXY)
 	
 	else : print "No etch moves found!"
 	
 	gcode.close()
-	return etch_moves, travel_moves, gcode_origin, gcode_size
+	return etch_moves, travel_moves, gcode_originXY, gcode_sizeXY
 
 def optimize(etch_moves_in, origin=[0,0], travel_height = 5): # Optimizes the toolpath using closest neighbour (author: Carlosgs)
 	
@@ -170,7 +173,7 @@ def optimize(etch_moves_in, origin=[0,0], travel_height = 5): # Optimizes the to
 	
 	travel_moves = []
 	
-	toolPosition = [origin[0], origin[1], travel_height]
+	toolPosition = [origin[0], origin[1], travel_height, 10]
 	
 	minDistance = 1e9
 	
@@ -203,8 +206,8 @@ def optimize(etch_moves_in, origin=[0,0], travel_height = 5): # Optimizes the to
 		
 		firstPoint = path[0]
 		
-		if distance > 0.01 : # This will join etching moves closer than 0.01 mm
-			travel_moves.append([toolPosition, [firstPoint[0], firstPoint[1], travel_height]]) # Travel to the initial point of the etching
+		if distance > 0.0001 : # This will join etching moves closer than 0.01 mm (sqrt(0.0001)=0.01)
+			travel_moves.append([toolPosition, [firstPoint[0], firstPoint[1], travel_height, firstPoint[3]] ]) # Travel to the initial point of the etching
 		
 		if distance < minDistance :
 			minDistance = distance
@@ -216,6 +219,6 @@ def optimize(etch_moves_in, origin=[0,0], travel_height = 5): # Optimizes the to
 	
 	print "Minimum travel distance:", minDistance
 	
-	travel_moves.append([toolPosition, [origin[0], origin[1], travel_height]]) # Return to the origin
+	travel_moves.append([toolPosition, [origin[0], origin[1], travel_height, 10]]) # Return to the origin
 	return etch_moves, travel_moves
 
