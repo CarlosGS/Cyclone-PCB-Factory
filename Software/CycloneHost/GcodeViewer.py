@@ -24,8 +24,12 @@ import GcodeParser as gcp
 def plotPoints(path_list, color, linewidth): # Thanks to pprzemek (http://stackoverflow.com/questions/2282727/draw-points-using-matplotlib-pyplot-x1-y1-x2-y2)
 	for path in path_list :
 		a = np.array(path) # Give to plot() the points in the adequate format
-		line, = plt.plot(a[:,0], a[:,1], color, linewidth=linewidth*3)
-		#line.set_antialiased(False) # turn off antialising
+		if len(path) > 1:
+			line, = plt.plot(a[:,0], a[:,1], color, linewidth=linewidth*3)
+			#line.set_antialiased(False) # turn off antialising
+		else:
+			plt.plot(path[0][0], path[0][1], c=color, marker='x')
+			plt.plot(path[0][0], path[0][1], markersize=linewidth*5, c=color, marker='o', mfc='none')
 
 def plotPath(etch_moves, travel_moves, etch_color, travel_color, etch_diam, travel_diam):
 	plotPoints(etch_moves, etch_color, etch_diam)

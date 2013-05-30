@@ -794,7 +794,7 @@ def circle_points(cx,cy,r,points_num):
 	elif  new_points_num > 50 :
 		new_points_num = 50
 	
-	print "Modifyin CIRCLE points_num from",points_num,"to",new_points_num
+	print "Modifying CIRCLE points_num from",points_num,"to",new_points_num
 	points_num = new_points_num
 #	print "Circle: Radius:", str(r), "Points:", points_num
 	points=[]
@@ -1291,19 +1291,21 @@ def drill_hole(cx,cy,r):
 	global MOVE_HEIGHT, gTMP_DRILL_X, gTMP_DRILL_Y, gTMP_DRILL_Z, DRILL_SPEED, DRILL_DEPTH, Z_STEP_DRILL, XY_SPEED
 	out_data = ""
 	gcode_tmp_flag = 0
+#	r = r/2.0 # REDUCE DRILL SIZE
 	z_step_n = int(float(DRILL_DEPTH)/float(Z_STEP_DRILL)) + 1
 	z_step = float(DRILL_DEPTH)/z_step_n
 	#print "r=" + str(r)
 	if(MOVE_HEIGHT != gTMP_DRILL_Z):
 		gTMP_DRILL_Z = MOVE_HEIGHT
-		out_data += "G0 Z" + floats(gTMP_DRILL_Z) + "\n"
-	out_data += "G0 X" + floats(cx+r) + " Y" + floats(cy) + "\n"
-	out_data += "G17\n"	#Set XY plane
+		out_data += "G0 Z" + floats(gTMP_DRILL_Z) + " F" + floats(DRILL_SPEED) + "\n" # MOD
+#	out_data += "G0 X" + floats(cx+r) + " Y" + floats(cy) + "\n"\
+	out_data += "G0 X" + floats(cx) + " Y" + floats(cy) + "\n" # CENTER OF THE DRILL
+#	out_data += "G17\n"	#Set XY plane
 	points = circle_points(cx,cy,r,100)
 	i = 1
 	while i <= z_step_n:
 		gTMP_DRILL_Z = i*z_step
-		out_data += "G0 Z" + floats(gTMP_DRILL_Z) + " F" + floats(DRILL_SPEED) + "\n"
+#		out_data += "G0 Z" + floats(gTMP_DRILL_Z) + " F" + floats(DRILL_SPEED) + "\n"
 		j = 0
 		cricle_data = "G1"
 		while j< len(points):
@@ -1320,12 +1322,12 @@ def drill_hole(cx,cy,r):
 			if(gcode_tmp_flag):
 				#Goto initial X-Y position
 				cricle_data +=" F" + floats(XY_SPEED)
-				out_data += cricle_data + "\n"
+#				out_data += cricle_data + "\n" # DON'T MOVE XY WHILE DRILLING
 				cricle_data ="G1"
 			gcode_tmp_flag=0
 			j += 2
 		i += 1
-
+	out_data += "G0 Z" + floats(DRILL_DEPTH) + " F" + floats(DRILL_SPEED) + "\n" # MOD
 	gTMP_DRILL_X = cx+r
 	gTMP_DRILL_Y = cy
 	return out_data

@@ -45,7 +45,9 @@ DEVICE = "/dev/ttyUSB0"
 Emulate = 0
 # End configuration
 
-millis_wait = 0.5 # Delay used when re-trying to send/receive from the serial port [seconds]
+lastDrillPos = [0,0,0]
+
+seconds_wait = 0.5 # Delay used when re-trying to send/receive from the serial port [seconds]
 serial_timeout = 5 # Timeout for the serial port [seconds]
 
 OK_response = "ok" # First two characters of an OK response (case insensitive)
@@ -62,6 +64,7 @@ def connect(baudrate, device, emulate = 0):
 		Emulate = 0
 	else:
 		Emulate = 1
+		print "EMULATING MACHINE!"
 	print "Serial port opened, checking connection..."
 	time.sleep(2)
 	checkConnection()
@@ -72,23 +75,22 @@ def flushRecvBuffer(): # We could also use flushInput(), but showing the data th
 		return
 	while CNC_Machine.inWaiting() > 0:
 		response = CNC_Machine.readline()
-		if response != '':
-			print "IGNO: ", response
-		time.sleep(millis_wait) # Wait some milliseconds between attempts
+#		if response != '': print "IGNO: ", response
+		time.sleep(seconds_wait) # Wait some milliseconds between attempts
 
 def sendLine(line):
 	flushRecvBuffer()
 	if Emulate == 0:
 		CNC_Machine.write(line)
-	print "SENT: ", line
+#	print "SENT: ", line
 
 def recvLine():
 	if Emulate:
 		response = "ok Z30\n" # Asume OK + Z probing result
 	else:
 		response = CNC_Machine.readline()
-	if response != '': print "RECV: ", response
-	else: print "RECV: Receive timed out!"
+#	if response != '': print "RECV: ", response
+#	else: print "RECV: Receive timed out!"
 	return response
 
 def recvOK():
@@ -97,64 +99,86 @@ def recvOK():
 		return 1
 	return 0
 
-def waitForOK(): # This is a blocking function
-	print "Waiting for confirmation"
+def waitForOK(command="",timeoutResend=30): # This is a blocking function
+#	print "Waiting for confirmation"
+	i = 0
+	cmnd = command[:3].lower()
+	timeoutResend = float(timeoutResend)
+	#timeoutResend = 5.0 # Resend command every 5 seconds, error recovery
+	#if cmnd == "g28": timeoutResend = 60.0 # Homing moves will take more than 5 seconds
+	i_timeout = int(timeoutResend/float(serial_timeout+seconds_wait))
+#	print "i_timeout",i_timeout
 	while recvOK() != 1:
-		print "  Checking again..."
-		time.sleep(millis_wait) # Wait some milliseconds between attempts
+		print "  Checking again... timeout:",i_timeout
+		time.sleep(seconds_wait) # Wait some milliseconds between attempts
+		if cmnd != "g30" and i >= i_timeout: # WARNING: Commands that take >5s may have problems here!
+			print "  WATCHOUT! RESENDING:",command
+			sendLine(command)
+			i = 0
+		else:
+			i = i + 1
 
-def sendCommand(command): # Send command and wait for OK
+def sendCommand(command,timeoutResend=15): # Send command and wait for OK
 	sendLine(command)
-	waitForOK()
+	waitForOK(command,timeoutResend)
 
 def checkConnection():
-	print "Checking the connection..."
+#	print "Checking the connection..."
 	sendLine("G21\n") # We check the connection setting millimiters as the unit and waiting for the OK response
 	time.sleep(0.5)
 	while recvOK() != 1:
 		sendLine("G21\n")
-		time.sleep(millis_wait) # Wait some milliseconds between attempts
+		time.sleep(seconds_wait) # Wait some milliseconds between attempts
 
 def homeZXY():
+	global lastDrillPos
 	print "Homing all axis..."
-	sendCommand("G28 Z0\n") # move Z to min endstop
-	sendCommand("G28 X0\n") # move X to min endstop
-	sendCommand("G28 Y0\n") # move Y to min endstop
+	timeoutResend=30
+	sendCommand("G28 Z0\n",timeoutResend) # move Z to min endstop
+	sendCommand("G28 X0\n",timeoutResend) # move X to min endstop
+	sendCommand("G28 Y0\n",timeoutResend) # move Y to min endstop
 	if Emulate:
 		time.sleep(3)
+		lastDrillPos = [0,0,0]
 
 def moveXYZ(X, Y, Z, F):
-	print "Moving to:"
+	global lastDrillPos
+#	print "Moving to:"
 	if F <= 0:
 		print "ERROR: F <= 0"
 	sendCommand("G1 X"+floats(X)+" Y"+floats(Y)+" Z"+floats(Z)+" F"+floats(F)+"\n")
 	if Emulate:
-		dist = (X**2+Y**2+Z**2)**0.5 # [mm]
-		speed = F/60 # [mm/s]
-		time.sleep(dist/speed)
+		dist = ((X-lastDrillPos[0])**2+(Y-lastDrillPos[1])**2+(Z-lastDrillPos[2])**2)**0.5 # [mm]
+		speed = float(F)/60.0 # [mm/s]
+		time.sleep(float(dist)/speed)
+		lastDrillPos = [X,Y,Z]
 
 def moveXY(X, Y, F):
-	print "Moving to:"
+	global lastDrillPos
+#	print "Moving to:"
 	if F <= 0:
 		print "ERROR: F <= 0"
 	sendCommand("G1 X"+floats(X)+" Y"+floats(Y)+" F"+floats(F)+"\n")
 	if Emulate:
-		dist = (X**2+Y**2)**0.5 # [mm]
-		speed = F/60 # [mm/s]
-		time.sleep(dist/speed)
+		dist = ((X-lastDrillPos[0])**2+(Y-lastDrillPos[1])**2)**0.5 # [mm]
+		speed = float(F)/60.0 # [mm/s]
+		time.sleep(float(dist)/speed)
+		lastDrillPos = [X,Y,lastDrillPos[2]]
 
 def moveZ(Z, F):
-	print "Moving Z absolute:"
+	global lastDrillPos
+#	print "Moving Z absolute:"
 	if F <= 0:
 		print "ERROR: F <= 0"
 	sendCommand("G1 Z"+floats(Z)+" F"+floats(F)+"\n")
 	if Emulate:
-		dist = abs(Z) # [mm]
-		speed = F/60 # [mm/s]
-		time.sleep(dist/speed)
+		dist = abs(Z-lastDrillPos[2]) # [mm]
+		speed = float(F)/60.0 # [mm/s]
+		time.sleep(float(dist)/speed)
+		lastDrillPos = [lastDrillPos[0],lastDrillPos[1],Z]
 
 def moveZrel(Z, F):
-	print "Moving Z relative:"
+#	print "Moving Z relative:"
 	if F <= 0:
 		print "ERROR: F <= 0"
 	sendCommand("G91\n") # Set relative positioning
@@ -166,6 +190,12 @@ def moveZrelSafe(Z, F):
 		print "ERROR: F <= 0"
 	sendCommand("M121\n") # Enable endstops (for protection! usually it should **NOT** hit neither the endstop nor the PCB)
 	moveZrel(Z, F)
+	print "Moving Z safely..."
+	dist = abs(Z-lastDrillPos[2]) # [mm]
+	speed = float(F)/60.0 # [mm/s]
+	wait = float(dist)/speed # [s]
+	time.sleep(wait) # Wait for the movement to finish, this way the M121 command is effective
+	print "   Done moving Z!"
 	sendCommand("M120\n") # Disable endstops (we only use them for homing)
 
 def probeZ():
@@ -174,7 +204,7 @@ def probeZ():
 	response = recvLine() # Read the response, it is a variable run time so we may need to make multiple attempts
 	while response == '':
 		#print "."
-		time.sleep(millis_wait) # Wait some milliseconds between attempts
+		time.sleep(seconds_wait) # Wait some milliseconds between attempts
 		response = recvLine()
 	response_vals = response.split() # Split the response (i.e. "ok Z:1.23")
 	if response_vals[0][:2].lower() == OK_response.lower():
@@ -185,7 +215,7 @@ def probeZ():
 
 def close():
 	# IMPORTANT: Before closing the serial port we must make a blocking move in order to wait for all the buffered commands to end
-	sendCommand("G28 Z0\n") # move Z to min endstop
+	homeZXY()
 	if Emulate == 0:
 		CNC_Machine.close() # Close the serial port connection
 

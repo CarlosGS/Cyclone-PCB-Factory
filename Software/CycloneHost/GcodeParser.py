@@ -189,7 +189,7 @@ def optimize(etch_moves_in, origin=[0,0], travel_height = 5): # Optimizes the to
 			if distance < closest :
 				closest = distance
 				closestMove_i = i
-			else : # We also consider that paths can be made in reverse
+			elif path[-1][2] == path[0][2]: # We also consider that paths can be made in reverse # Only in case there is no Z lift
 				firstPoint = path[-1] # We check the last point first
 				distance = (toolPosition[0]-firstPoint[0])**2 + (toolPosition[1]-firstPoint[1])**2 # We only check XY
 				if distance < closest :
@@ -217,7 +217,7 @@ def optimize(etch_moves_in, origin=[0,0], travel_height = 5): # Optimizes the to
 		
 		toolPosition = path[-1] # Set our endpoint as the initial one for the next move
 	
-	print "Minimum travel distance:", minDistance
+	print "Minimum XY travel distance:", minDistance**0.5
 	
 	travel_moves.append([toolPosition, [origin[0], origin[1], travel_height, 10]]) # Return to the origin
 	return etch_moves, travel_moves
