@@ -42,6 +42,7 @@ from helper import *
 # Begin configuration. It is overwritten when running setup(baudrate, device)
 BAUDRATE = 115200
 DEVICE = "/dev/ttyUSB0"
+Emulate = 0
 # End configuration
 
 millis_wait = 0.5 # Delay used when re-trying to send/receive from the serial port [seconds]
@@ -51,18 +52,24 @@ OK_response = "ok" # First two characters of an OK response (case insensitive)
 
 CNC_Machine = []
 
-def connect(baudrate, device):
-	global CNC_Machine
+def connect(baudrate, device, emulate = 0):
+	global CNC_Machine, Emulate
 	BAUDRATE = baudrate
 	DEVICE = device
 	print "Connecting to Cyclone..."
-	CNC_Machine = serial.Serial(DEVICE, BAUDRATE, timeout = serial_timeout)
+	if emulate == 0:
+		CNC_Machine = serial.Serial(DEVICE, BAUDRATE, timeout = serial_timeout)
+		Emulate = 0
+	else:
+		Emulate = 1
 	print "Serial port opened, checking connection..."
 	time.sleep(2)
-	checkConnection();
+	checkConnection()
 	print "Connected!"
 
 def flushRecvBuffer(): # We could also use flushInput(), but showing the data that is being discarded is useful for debugging
+	if Emulate:
+		return
 	while CNC_Machine.inWaiting() > 0:
 		response = CNC_Machine.readline()
 		if response != '':
@@ -71,13 +78,17 @@ def flushRecvBuffer(): # We could also use flushInput(), but showing the data th
 
 def sendLine(line):
 	flushRecvBuffer()
-	CNC_Machine.write(line)
-	#print "SENT: ", line
+	if Emulate == 0:
+		CNC_Machine.write(line)
+	print "SENT: ", line
 
 def recvLine():
-	response = CNC_Machine.readline()
-	#if response != '': print "RECV: ", response
-	#else: print "RECV: Receive timed out!"
+	if Emulate:
+		response = "ok Z30\n" # Asume OK + Z probing result
+	else:
+		response = CNC_Machine.readline()
+	if response != '': print "RECV: ", response
+	else: print "RECV: Receive timed out!"
 	return response
 
 def recvOK():
@@ -87,9 +98,9 @@ def recvOK():
 	return 0
 
 def waitForOK(): # This is a blocking function
-	#print "Waiting for confirmation"
+	print "Waiting for confirmation"
 	while recvOK() != 1:
-		#print "  Checking again..."
+		print "  Checking again..."
 		time.sleep(millis_wait) # Wait some milliseconds between attempts
 
 def sendCommand(command): # Send command and wait for OK
@@ -109,26 +120,50 @@ def homeZXY():
 	sendCommand("G28 Z0\n") # move Z to min endstop
 	sendCommand("G28 X0\n") # move X to min endstop
 	sendCommand("G28 Y0\n") # move Y to min endstop
+	if Emulate:
+		time.sleep(3)
 
 def moveXYZ(X, Y, Z, F):
-	#print "Moving to:"
+	print "Moving to:"
+	if F <= 0:
+		print "ERROR: F <= 0"
 	sendCommand("G1 X"+floats(X)+" Y"+floats(Y)+" Z"+floats(Z)+" F"+floats(F)+"\n")
+	if Emulate:
+		dist = (X**2+Y**2+Z**2)**0.5 # [mm]
+		speed = F/60 # [mm/s]
+		time.sleep(dist/speed)
 
 def moveXY(X, Y, F):
-	#print "Moving to:"
+	print "Moving to:"
+	if F <= 0:
+		print "ERROR: F <= 0"
 	sendCommand("G1 X"+floats(X)+" Y"+floats(Y)+" F"+floats(F)+"\n")
+	if Emulate:
+		dist = (X**2+Y**2)**0.5 # [mm]
+		speed = F/60 # [mm/s]
+		time.sleep(dist/speed)
 
 def moveZ(Z, F):
-	#print "Moving Z absolute:"
+	print "Moving Z absolute:"
+	if F <= 0:
+		print "ERROR: F <= 0"
 	sendCommand("G1 Z"+floats(Z)+" F"+floats(F)+"\n")
+	if Emulate:
+		dist = abs(Z) # [mm]
+		speed = F/60 # [mm/s]
+		time.sleep(dist/speed)
 
 def moveZrel(Z, F):
-	#print "Moving Z relative:"
+	print "Moving Z relative:"
+	if F <= 0:
+		print "ERROR: F <= 0"
 	sendCommand("G91\n") # Set relative positioning
-	sendCommand("G1 Z"+floats(Z)+" F"+floats(F)+"\n")
+	moveZ(Z, F)
 	sendCommand("G90\n") # Set absolute positioning
 
 def moveZrelSafe(Z, F):
+	if F <= 0:
+		print "ERROR: F <= 0"
 	sendCommand("M121\n") # Enable endstops (for protection! usually it should **NOT** hit neither the endstop nor the PCB)
 	moveZrel(Z, F)
 	sendCommand("M120\n") # Disable endstops (we only use them for homing)
@@ -151,7 +186,8 @@ def probeZ():
 def close():
 	# IMPORTANT: Before closing the serial port we must make a blocking move in order to wait for all the buffered commands to end
 	sendCommand("G28 Z0\n") # move Z to min endstop
-	CNC_Machine.close() # Close the serial port connection
+	if Emulate == 0:
+		CNC_Machine.close() # Close the serial port connection
 
 def probeGrid(grid_origin, grid_len, grid_N, Zlift):
 	grid_origin_X = float(grid_origin[0]) # Initial point of the grid [mm]
@@ -188,12 +224,12 @@ def probeGrid(grid_origin, grid_len, grid_N, Zlift):
 	moveXY(grid_origin_X, grid_origin_Y, F_fastMove)
 	
 	for x_i in range(grid_N_X): # For each point on the grid...
-		x_val = float(x_i)*grid_inc_X + grid_origin_X; # Calculate X coordinate
+		x_val = float(x_i)*grid_inc_X + grid_origin_X # Calculate X coordinate
 		optimal_range = range(grid_N_Y)
 		if isOdd(x_i): # This optimises a bit the probing path
 			optimal_range = reversed(optimal_range)
 		for y_i in optimal_range:
-			y_val = float(y_i)*grid_inc_Y + grid_origin_Y; # Calculate Y coordinate
+			y_val = float(y_i)*grid_inc_Y + grid_origin_Y # Calculate Y coordinate
 			moveXY(x_val, y_val, F_fastMove) # Move to position
 			probe_result[y_i][x_i] = probeZ() # Do the Z probing
 			moveZrel(Z_probing_lift, F_fastMove/2) # Lift the probe

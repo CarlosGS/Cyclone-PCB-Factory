@@ -14,6 +14,7 @@
 # Begin configuration
 BAUDRATE = 115200
 DEVICE = "/dev/ttyUSB0"
+Emulate = 1
 # End configuration
 
 # Begin modules
@@ -76,7 +77,7 @@ F_drillMove = 50
 F_edgeMove = 25
 
 
-cy.connect(BAUDRATE, DEVICE)
+cy.connect(BAUDRATE, DEVICE, Emulate)
 
 cy.sendCommand("G90\n") # Set absolute positioning
 
