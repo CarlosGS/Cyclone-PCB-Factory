@@ -138,7 +138,7 @@ def homeZXY():
 	sendCommand("G28 X0\n",timeoutResend) # move X to min endstop
 	sendCommand("G28 Y0\n",timeoutResend) # move Y to min endstop
 	if Emulate:
-		time.sleep(3)
+		time.sleep(2)
 		lastDrillPos = [0,0,0]
 
 def moveXYZ(X, Y, Z, F):

@@ -35,70 +35,36 @@ from helper import *
 filePath = "../GcodeGenerators/pyGerber2Gcode_CUI/out/"
 fileName = "printshield" # sys.argv[1]
 
-# Display the Gcode that is going to be etched
-(etch_moves, travel_moves, gcodeviewer) = gcv.view(filePath,fileName,showEdge=1)
-figId = gcodeviewer.number
 
-def pltShowNonBlocking():
-	plt.ion() # Enable real-time plotting to avoid blocking behaviour for plt.show()
-	plt.show()
-	plt.ioff() # Disable real-time plotting
-
-toolPos_point = []
-
-def toolPos_draw(x, y, etching=0):
-	if etching:
-		color = 'r'
-	else:
-		color = 'g'
-	toolPos_point.set_data(x, y)
-	toolPos_point.set_color(color)
-	gcodeviewer.canvas.draw()
-
-toolRefreshSteps = 1
-toolRefresh = 0
-def toolPos_refresh(x, y, etching=0):
-	global toolRefresh
-	if toolRefresh >= toolRefreshSteps:
-		toolPos_draw(toolPos_X, toolPos_Y, etching)
-		toolRefresh = 0
-	toolRefresh = toolRefresh + 1
-
-def drawTool(x, y):
-	global toolPos_point
-	plt.figure(figId)
-	toolPos_point, = plt.plot(0, 0, markersize=12, c='g', marker='x')
-	pltShowNonBlocking()
-
-F_slowMove = 200 # Move speed [mm/min]
-F_fastMove = 700
-
-F_drillMove = 50
-F_edgeMove = 25
-F_etchMove = 100
-
-
-cy.connect(BAUDRATE, DEVICE, Emulate)
-
-cy.sendCommand("G90\n") # Set absolute positioning
-
-cy.homeZXY() # Home all the axis
-
-drawTool(10, 20) # Show a marker on the gcode plot
 
 
 
-# Warning: Do not lower too much or you will potentially cause damage!
-initial_Z_lowering_distance = -20
-cy.moveZrelSafe(initial_Z_lowering_distance,F_slowMove/2) # Move Z towards the PCB (saves some probing time for the first coord)
+def pltShowNonBlocking():
+	#plt.ion() # Enable real-time plotting to avoid blocking behaviour for plt.show()
+	plt.draw()
+	#plt.ioff() # Disable real-time plotting
 
-Z_origin_offset = cy.probeZ()
-print "Z offset:", Z_origin_offset
+def pltNewFig():
+	fig = plt.figure()
+	#plt.draw()
+	return fig
+
+def pltSetFig(fig):
+	plt.figure(fig.number)
+
+def pltRefresh(fig):
+	fig.canvas.draw()
+
+def pltShow():
+	plt.draw()
 
 
-Z_workbed_surface = []
 
-def probingResults():
+
+
+
+
+def probingResults(): # quick and dirty temporal code
 	global Z_workbed_surface
 	x_points = [0.0, 12.272727272727273, 24.545454545454547, 36.81818181818182, 49.09090909090909, 61.36363636363637, 73.63636363636364, 85.9090909090909, 98.18181818181819, 110.45454545454547, 122.72727272727273, 135.0]
 	y_points = [0.0, 16.8, 33.6, 50.400000000000006, 67.2, 84.0]
@@ -132,20 +98,94 @@ def probingResults():
 	
 	z_points = Z_workbed_surface(y_points,x_points)
 	
-	plt.figure()
+#	plt.figure()
+	plt.hold(True)
 	plt.pcolor(x_points, y_points, z_points)
 	plt.colorbar()
-	plt.title("Z probing results (interpolated) [mm]")
+#	plt.title("Z probing results (interpolated) [mm]")
 	plt.axis('equal') # 1:1 aspect ratio
-	pltShowNonBlocking()
+#	pltShowNonBlocking()
 
 def getZoffset(x,y):
 	return Z_workbed_surface(y,x)[0][0]
 
+
+
+
+
+
+
+plt.ion() # IMPORTANT: Enable real-time plotting
+
+gcodeviewer = pltNewFig() # Define a new figure, this doesnt open a window by itself
+
+
 probingResults()
-
-
 print "Must be zero:",floats(getZoffset(0,0))
+
+
+# Display the Gcode that is going to be etched
+(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEtch=1)
+#(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEtch1=1)
+#(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEtch2=1)
+#(etch_moves, travel_moves) = gcv.view(filePath,fileName,showDrill=1)
+#(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEdge=1)
+
+pltRefresh(gcodeviewer) # Draw the figure contents, still no window
+pltShow() # Open the window showing our figure
+
+plt.show() # THIS SHOULD BE COMMENTED, USE FOR DEBUG
+
+toolPos_point = []
+
+def toolPos_draw(x, y, etching=0):
+	if etching:
+		color = 'r'
+	else:
+		color = 'g'
+	toolPos_point.set_data(x, y)
+	toolPos_point.set_color(color)
+	gcodeviewer.canvas.draw()
+
+toolRefreshSteps = 1
+toolRefresh = 0
+def toolPos_refresh(x, y, etching=0):
+	global toolRefresh
+	if toolRefresh >= toolRefreshSteps:
+		toolPos_draw(toolPos_X, toolPos_Y, etching)
+		toolRefresh = 0
+	toolRefresh = toolRefresh + 1
+
+def drawTool(x, y):
+	global toolPos_point
+	pltSetFig(gcodeviewer)
+	toolPos_point, = plt.plot(0, 0, markersize=12, c='g', marker='x')
+	pltShowNonBlocking()
+
+F_slowMove = 200 # Move speed [mm/min]
+F_fastMove = 700
+
+F_drillMove = 50
+F_edgeMove = 25
+F_etchMove = 100
+
+
+cy.connect(BAUDRATE, DEVICE, Emulate)
+
+cy.sendCommand("G90\n") # Set absolute positioning
+
+cy.homeZXY() # Home all the axis
+
+drawTool(10, 20) # Show a marker on the gcode plot
+
+
+
+# Warning: Do not lower too much or you will potentially cause damage!
+initial_Z_lowering_distance = -20
+cy.moveZrelSafe(initial_Z_lowering_distance,F_slowMove/2) # Move Z towards the PCB (saves some probing time for the first coord)
+
+Z_origin_offset = cy.probeZ()
+print "Z offset:", Z_origin_offset
 
 
 
@@ -165,13 +205,13 @@ F_dest = F_fastMove
 cy.moveZrelSafe(5,F_slowMove)
 toolPos_Z = 5
 
-plt.figure(figId)
+pltSetFig(gcodeviewer)
 
 Zlift = 1.0
 
 Z_manual_offset = 0.0
 
-maxDistance = 3**2 # [mm^2] 3mm (longer moves will be split to regulate Z)
+maxDistance = 2**2 # [mm^2] 3mm (longer moves will be split to regulate Z)
 minDistance = 0.005**2 # [mm^2] 0.005mm is the smallest distance that will be sent
 
 def splitLongEtchMove(distance):
@@ -218,10 +258,10 @@ for path in etch_moves :
 	toolRefresh = 0
 	toolPos_draw(toolPos_X, toolPos_Y, etching=0)
 	cy.moveZ(Z_origin_offset+getZoffset(X_dest, Y_dest)+Z_manual_offset+Zlift,F_fastMove) # Raise and move to next point
-	print "  travel Z:",Z_manual_offset+Zlift
 	X_dest = path[0][0]
 	Y_dest = path[0][1]
 	F_dest = F_fastMove
+	print "  Traveling to:", str([X_dest, Y_dest]), "at Z:", Z_manual_offset+Zlift
 	cy.moveXY(X_dest, Y_dest, F_dest)
 	toolPos_draw(X_dest, Y_dest, etching=0)
 	Z_dest = path[0][2]
@@ -230,8 +270,8 @@ for path in etch_moves :
 	else:
 		F_dest = path[0][3] # We set the original speed if it is etching/drill
 	cy.moveZ(Z_dest+Z_origin_offset+getZoffset(X_dest, Y_dest)+Z_manual_offset,F_dest)
-	print "Speed:",F_dest
-	print "  drill Z:",Z_dest+Z_manual_offset
+#	print "Speed:",F_dest
+	print "  Etching at Z:",Z_dest+Z_manual_offset
 	toolPos_X = X_dest
 	toolPos_Y = Y_dest
 	toolPos_Z = Z_dest # Not sure..
@@ -253,7 +293,7 @@ for path in etch_moves :
 			continue
 		Z_real = Z_dest+Z_origin_offset+getZoffset(X_dest, Y_dest)+Z_manual_offset
 		cy.moveXYZ(X_dest, Y_dest, Z_real, F_dest)
-		print "Coords: Speed:",F_dest
+#		print "Coords: Speed:",F_dest
 		toolPos_refresh(X_dest, Y_dest, etching=1)
 		
 		toolPos_X = X_dest
