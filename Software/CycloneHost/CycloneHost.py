@@ -139,7 +139,8 @@ def homeZXY():
 	sendCommand("G28 Y0\n",timeoutResend) # move Y to min endstop
 	if Emulate:
 		time.sleep(2)
-		lastDrillPos = [0,0,0]
+	lastDrillPos = [0,0,0]
+	print "Done homing"
 
 def moveXYZ(X, Y, Z, F):
 	global lastDrillPos
@@ -151,7 +152,7 @@ def moveXYZ(X, Y, Z, F):
 		dist = ((X-lastDrillPos[0])**2+(Y-lastDrillPos[1])**2+(Z-lastDrillPos[2])**2)**0.5 # [mm]
 		speed = float(F)/60.0 # [mm/s]
 		time.sleep(float(dist)/speed)
-		lastDrillPos = [X,Y,Z]
+	lastDrillPos = [X,Y,Z]
 
 def moveXY(X, Y, F):
 	global lastDrillPos
@@ -163,7 +164,7 @@ def moveXY(X, Y, F):
 		dist = ((X-lastDrillPos[0])**2+(Y-lastDrillPos[1])**2)**0.5 # [mm]
 		speed = float(F)/60.0 # [mm/s]
 		time.sleep(float(dist)/speed)
-		lastDrillPos = [X,Y,lastDrillPos[2]]
+	lastDrillPos = [X,Y,lastDrillPos[2]]
 
 def moveZ(Z, F):
 	global lastDrillPos
@@ -175,22 +176,28 @@ def moveZ(Z, F):
 		dist = abs(Z-lastDrillPos[2]) # [mm]
 		speed = float(F)/60.0 # [mm/s]
 		time.sleep(float(dist)/speed)
-		lastDrillPos = [lastDrillPos[0],lastDrillPos[1],Z]
+	lastDrillPos = [lastDrillPos[0],lastDrillPos[1],Z]
 
 def moveZrel(Z, F):
+	global lastDrillPos
 #	print "Moving Z relative:"
 	if F <= 0:
 		print "ERROR: F <= 0"
 	sendCommand("G91\n") # Set relative positioning
-	moveZ(Z, F)
+	sendCommand("G1 Z"+floats(Z)+" F"+floats(F)+"\n")
+	if Emulate:
+		dist = abs(Z) # [mm]
+		speed = float(F)/60.0 # [mm/s]
+		time.sleep(float(dist)/speed)
+	lastDrillPos = [lastDrillPos[0],lastDrillPos[1],lastDrillPos[2]+Z] # Relative movement
 	sendCommand("G90\n") # Set absolute positioning
 
 def moveZrelSafe(Z, F):
 	if F <= 0:
 		print "ERROR: F <= 0"
+	print "Moving Z", Z, "mm safely..."
 	sendCommand("M121\n") # Enable endstops (for protection! usually it should **NOT** hit neither the endstop nor the PCB)
 	moveZrel(Z, F)
-	print "Moving Z safely..."
 	dist = abs(Z-lastDrillPos[2]) # [mm]
 	speed = float(F)/60.0 # [mm/s]
 	wait = float(dist)/speed # [s]

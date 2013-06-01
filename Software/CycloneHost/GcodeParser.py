@@ -20,13 +20,13 @@ import os.path
 
 def parseGcodeRaw(filePath, etch_definition = 0, close_shapes = 0): # Gcode parser from Etch_Z_adjust.1.8.py (modified by Carlosgs to output toolpaths)
 	
-	gcode_sizeXY = (0,0)
-	gcode_originXY = (0,0)
+	gcode_maxXY = (0,0)
+	gcode_minXY = (0,0)
 	travel_moves = []
 	etch_moves = []
 	
 	if os.path.isfile(filePath) == False :
-		return etch_moves, travel_moves, gcode_originXY, gcode_sizeXY
+		return etch_moves, travel_moves, gcode_minXY, gcode_maxXY
 	
 	gcode = open(filePath, "r")
 	
@@ -152,16 +152,17 @@ def parseGcodeRaw(filePath, etch_definition = 0, close_shapes = 0): # Gcode pars
 	if is_first_X == False :
 		# then there were etch moves so get to work!
 		
-		gcode_sizeXY = (X_max - X_min, Y_max - Y_min)
-		gcode_originXY = (X_min, Y_min)
+		gcode_maxXY = [X_max, Y_max]
+		gcode_minXY = [X_min, Y_min]
 		
-		print "Gcode XY origin:",str(gcode_originXY)
-		print "Gcode XY length:",str(gcode_sizeXY)
+		print "Gcode XY min:",str(gcode_minXY)
+		print "Gcode XY max:",str(gcode_maxXY)
 	
-	else : print "No etch moves found!"
-	
+	else :
+		print "No etch moves found!"
+		return etch_moves, travel_moves, [0,0], [0,0]
 	gcode.close()
-	return etch_moves, travel_moves, gcode_originXY, gcode_sizeXY
+	return etch_moves, travel_moves, gcode_minXY, gcode_maxXY
 
 def optimize(etch_moves_in, origin=[0,0], travel_height = 5): # Optimizes the toolpath using closest neighbour (author: Carlosgs)
 	

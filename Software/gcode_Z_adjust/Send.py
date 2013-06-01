@@ -25,6 +25,7 @@ import time
 import numpy as np
 from scipy import interpolate
 import matplotlib.pyplot as plt
+from matplotlib import cm
 
 sys.path.append("../CycloneHost")
 import GcodeViewer as gcv
@@ -56,7 +57,9 @@ def pltRefresh(fig):
 	fig.canvas.draw()
 
 def pltShow():
+	#plt.ion() # IMPORTANT: Enable real-time plotting
 	plt.draw()
+	#plt.ioff()
 
 
 
@@ -93,14 +96,15 @@ def probingResults(): # quick and dirty temporal code
 	# Interpolation
 	Z_workbed_surface = interpolate.RectBivariateSpline(y_points, x_points, probe_result)
 	
-	x_points = np.linspace(min(x_points),max(x_points),100) 
-	y_points = np.linspace(min(y_points),max(y_points),100) 
+	x_points = np.linspace(min(x_points),max(x_points),50) 
+	y_points = np.linspace(min(y_points),max(y_points),50) 
 	
 	z_points = Z_workbed_surface(y_points,x_points)
 	
 #	plt.figure()
 	plt.hold(True)
-	plt.pcolor(x_points, y_points, z_points)
+	
+	z_cf = plt.pcolor(x_points, y_points, z_points, alpha=0.2, cmap=cm.copper, edgecolors='k', linewidths=0) # Show Z probing height, with a light-tone colormap
 	plt.colorbar()
 #	plt.title("Z probing results (interpolated) [mm]")
 	plt.axis('equal') # 1:1 aspect ratio
@@ -111,30 +115,29 @@ def getZoffset(x,y):
 
 
 
-
-
-
-
 plt.ion() # IMPORTANT: Enable real-time plotting
 
-gcodeviewer = pltNewFig() # Define a new figure, this doesnt open a window by itself
-
+gcodeviewer = pltNewFig() # Define a new figure, this doesnt open a window by itself (real-time plotting disabled)
 
 probingResults()
 print "Must be zero:",floats(getZoffset(0,0))
 
-
 # Display the Gcode that is going to be etched
-(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEtch=1)
+(etch_moves, travel_moves, gcode_minXY_global, gcode_maxXY_global) = gcv.view(filePath,fileName,showEtch=1)
 #(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEtch1=1)
 #(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEtch2=1)
 #(etch_moves, travel_moves) = gcv.view(filePath,fileName,showDrill=1)
 #(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEdge=1)
 
+# Truncate the background to the dimensions of the PCB
+x_dat = [gcode_minXY_global[0],gcode_minXY_global[0],gcode_maxXY_global[0],gcode_maxXY_global[0],gcode_minXY_global[0]]
+y_dat = [gcode_minXY_global[1],gcode_maxXY_global[1],gcode_maxXY_global[1],gcode_minXY_global[1],gcode_minXY_global[1]]
+plt.plot(x_dat,y_dat)
+
 pltRefresh(gcodeviewer) # Draw the figure contents, still no window
 pltShow() # Open the window showing our figure
 
-plt.show() # THIS SHOULD BE COMMENTED, USE FOR DEBUG
+#plt.show() # THIS SHOULD BE COMMENTED, USE FOR DEBUG
 
 toolPos_point = []
 
@@ -211,8 +214,8 @@ Zlift = 1.0
 
 Z_manual_offset = 0.0
 
-maxDistance = 2**2 # [mm^2] 3mm (longer moves will be split to regulate Z)
-minDistance = 0.005**2 # [mm^2] 0.005mm is the smallest distance that will be sent
+maxDistance = 2**2 # [mm^2] 2mm (longer moves will be split to regulate Z)
+minDistance = 0.001**2 # [mm^2] 0.001mm is the smallest distance that will be sent
 
 def splitLongEtchMove(distance):
 	global toolPos_X, toolPos_Y, toolPos_Z, toolPos_F, X_dest, Y_dest, Z_dest, F_dest
