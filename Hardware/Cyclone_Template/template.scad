@@ -224,11 +224,7 @@ module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
       cube([X_axis_sep+70,Y_axis_sep+30,15],center=true);
 }
 
-rotate([0,0,90])
-  cnc_assembled(Y_offset=30,
-    X_offset=-50,
-      Z_offset=0);
+rotate([0,0,90])cnc_assembled(Y_offset=30,X_offset=-50,Z_offset=0);
 
-//rotate([0,0,90]) // So the generated dxf matches
-//  cnc_base_template();// inkscape's default orientation
+//rotate([0,0,90]) cnc_base_template(); // So the generated dxf matches inkscape's default orientation
 //  cnc_workbed_template();

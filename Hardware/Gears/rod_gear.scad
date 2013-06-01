@@ -36,6 +36,9 @@ include <MCAD/involute_gears.scad>
 M8_nut_diameter = 15.3;
 nut_separation = 3;
 
+SmallGear_N_Teeth = 15; // 12
+M8_rod_diam = 8.4;
+
 /* Herringbone gear module, adapted from MCAD/involute_gears */
 module herringbone_gear( teeth=12, circles=0, shaft=5 ) {
   twist=200;
@@ -78,7 +81,7 @@ module herringbone_gear( teeth=12, circles=0, shaft=5 ) {
 difference() {
   union() {
     //gear
-    rotate([180,0,0]) herringbone_gear( teeth=12, circles=0, shaft=8.5, $fn=40 );
+    rotate([180,0,0]) herringbone_gear( teeth=SmallGear_N_Teeth, circles=0, shaft=M8_rod_diam, $fn=40 );
 
     //M8 hobbed bolt head fit washer
     /*difference() {

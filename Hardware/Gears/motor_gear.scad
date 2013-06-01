@@ -33,9 +33,12 @@
 include <MCAD/teardrop.scad>
 include <MCAD/involute_gears.scad>
 
-motor_shaft_diameter=5.6;
+motor_shaft_diameter=5.4;
+BigGear_N_Teeth = 21; // 24
 
-nholes = 7;
+nholes = 9; // 7
+holes_diam = 6;
+hole_distance_from_center = 13.5-4.5+holes_diam/2;
 
 /* Herringbone gear module, adapted from MCAD/involute_gears */
 module herringbone_gear( teeth=12, circles=0, shaft=5 ) {
@@ -80,7 +83,7 @@ union() difference() {
   union() {
 
     //gear
-    herringbone_gear( teeth=24 );
+    herringbone_gear( teeth=BigGear_N_Teeth );
 
     translate( [0, 0, 12] ) mirror( [0, 0, 1] ) difference() {
       //shaft
@@ -94,7 +97,7 @@ union() difference() {
         translate( [0, 0, 13.3] ) rotate( [0, 0, 30] )
           cylinder( r=6/2+0.5, h=2.6, $fn=6 );
         //grub hole
-        translate( [0, 0, 9] ) cylinder( r=1.5, h=10, $fn=20 );
+        translate( [0, 0, 9] ) cylinder( r=3.2/2, h=10, $fn=6 );
       }
     }
   }
@@ -102,8 +105,8 @@ union() difference() {
   //holes to save plastic
   for(i=[0:nholes-1])
     rotate( [0, 0, i*360/(nholes)+45], $fn=20 )
-      translate( [13.5, 0] )
-        cylinder( r=4.5, h=11, center=true, $fn=30 );
+      translate( [hole_distance_from_center, 0] )
+        cylinder( r=holes_diam/2, h=11, center=true, $fn=30 );
 
   //shaft hole
   translate( [0, 0, -6] ) cylinder( r=motor_shaft_diameter/2, h=20, $fn=30 );
