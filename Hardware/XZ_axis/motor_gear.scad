@@ -33,7 +33,7 @@
 include <MCAD/teardrop.scad>
 include <MCAD/involute_gears.scad>
 
-motor_shaft_diameter=5.45;
+motor_shaft_diameter=5.4;
 
 nholes = 7;
 

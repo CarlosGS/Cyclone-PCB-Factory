@@ -6,7 +6,8 @@ use <../libs/obiscad/bcube.scad>
 use <../libs/build_plate.scad>
 use <../libs/Write/Write.scad>
 
-include <./lm8uu_holder.scad>
+spindle_motor_diam = 26*2;
+spindle_holder_thickness = 7;
 
 bottom_thickness = 4;
 base_width = 20;
@@ -18,6 +19,8 @@ motor_length = 49; // not used
 motor_screw_distance = 31.3;
 motor_center_diameter = 23;
 
+motor_adjust_margin = 3;
+
 motor_screw_diameter = 3.7;
 motor_screw_head_diameter = 8;
 
@@ -26,7 +29,7 @@ M8_rod_diameter = 8.2;
 
 axis_distance = 21;
 
-wall_thickness = 5;
+wall_thickness = 8;
 wall_height = motor_width;
 wall_width = 54;
 
@@ -39,14 +42,12 @@ Z_threaded_pos = motor_width/2+axis_distance;
 Z_smooth_rods_sep = 55;
 
 textHscale = 0.8;
-textThickness = 1.5;
+textThickness = 1;
 
-// Derived from Spindle mount for ShapeOko by Misan (http://www.thingiverse.com/thing:26740)
-module spindle_holder(length=50,showSpindle=true) {
-	$fn=6;
-	translate([0,38,0]) rotate([0,0,180]) {
+LM8UU_dia = 15.4;
 
-	if(showSpindle) scale([1,1,-1]) translate([0,0,-length]) {
+module dummySpindle() {
+	translate([0,0,-length]) {
 		translate([0,0,85]) color([0.95,0.95,0.95]) cylinder(r=26,h=30,$fn=60);
 		translate([0,0,80]) color([0.95,0.95,0.95]) cylinder(r=10/2,h=5,$fn=60);
 		translate([0,0,-10]) color([0.6,0.6,0.6]) cylinder(r=26,h=90,$fn=60);
@@ -54,90 +55,170 @@ module spindle_holder(length=50,showSpindle=true) {
 		translate([0,0,-50]) color([0.4,0.4,0.4]) cylinder(r=20/2,h=10,$fn=60);
 		translate([0,0,-50-20]) color([0.9,0.9,0.9]) cylinder(r1=1/2,r2=3/2,h=20,$fn=60);
 	}
+}
 
-	difference() {
-	union() {
-	cylinder(r=30,h=length,$fn=60);
+// Derived from Spindle mount for ShapeOko by Misan (http://www.thingiverse.com/thing:26740)
+module spindle_holder_holes(length=50,showSpindle=true) {
+	$fn=6;
 
-	// Write text in the front
-	color([0.5,0.5,0.5]) scale([-1,1,-textHscale]) writecylinder("CYCLONE",[0,0,-length/(3*textHscale)],30,0,font="orbitron.dxf",space=1.1,h=12,t=textThickness,center=true,ccw=true);
-	translate ([-30,0,0]) cube([60,38,length]);
-	translate([28,-7,0]) cube([20,20,length]);
+	translate([20,8,-0.05]) cylinder(r=base_screw_diameter/2,h=length+2,$fn=60);
+	translate([-20,8,-0.05]) cylinder(r=base_screw_diameter/2,h=length+2,$fn=60);
 
-	color([0.5,0.5,0.5]) scale([-1,1,-textHscale]) writecylinder("PCB Factory",[0,0,-length/(1.5*textHscale)],30,0,font="orbitron.dxf",space=1.1,h=14/2,t=textThickness,center=true,ccw=true);
-	translate ([-30,0,0]) cube([60,38,length]);
-	translate([28,-7,0]) cube([20,20,length]);
-
-	}
+	translate([0,38,0]) rotate([0,0,180]) {
 	
-	translate([0,0,-0.05]) cylinder(r=26,h=length+2,$fn=60);
-	
+	translate([0,0,-0.05]) cylinder(r=spindle_motor_diam/2,h=length+2,$fn=60);
+
 	translate([0,0,-0.01]) cube([90,3,length+2]);
 	
+	translate ([36,20,length/2]) rotate([90,0,0]) cylinder(r=2,h=30);
+	translate ([36,14,length/2]) rotate([90,0,0]) cylinder(r=3.5,h=4,$fn=6);
 	
-	translate ([40,20,3*length/4]) rotate([90,0,0]) cylinder(r=2,h=30);
-	translate ([40,20,length/4]) rotate([90,0,0]) cylinder(r=2,h=30);
-	
-	translate ([40,14,3*length/4]) rotate([90,0,0]) cylinder(r=3.5,h=4,$fn=6);
-	translate ([40,14,length/4]) rotate([90,0,0]) cylinder(r=3.5,h=4,$fn=6);
-
-	difference() {
-		translate ([-30+15,0,-0.1]) cube([30,38.1,30]);
-		cylinder(r=26+1,h=length,$fn=60);
-	}
-	
-	}
 	}
 }
 
-module motor_stand_no_base_Z(with_motor=true) {
-difference() {
-  translate([wall_height/2,wall_width/2,wall_thickness/2])
-    bcube([wall_height,wall_width,wall_thickness],cr=4,cres=10);
 
-  // Position relative to motor shaft
-  translate([motor_width/2,motor_width/2,wall_thickness/2]) {
-    if(with_motor) {
+
+module motorHolesZ() {
     // Hole for the motor shaft
-    translate([0,-wall_width/2,0])
-      cube([20,wall_width,10*wall_thickness],cr=4,cres=10,center=true);
-    cylinder(r=motor_center_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+    hull() {
+      translate([0,motor_adjust_margin/2,0])
+        cylinder(r=motor_center_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+      translate([0,-motor_adjust_margin/2,0])
+        cylinder(r=motor_center_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+    }
+
+    // Hole for the screwdriver
+    translate([0,-wall_width/2,wall_thickness/2]) rotate([0,90,90]) bcube([2*(wall_thickness-5),5,wall_height],cr=1);
 
     // Screws for holding the motor
     for(i=[-1,1]) for(j=[-1,1])
-    translate([i*motor_screw_distance/2,j*motor_screw_distance/2,0]) {
-      cylinder(r=motor_screw_diameter/2,h=10*wall_thickness,center=true,$fn=40);
-      cylinder(r=motor_screw_head_diameter/2,h=10*wall_thickness,center=false,$fn=40);
+    translate([i*motor_screw_distance/2,j*motor_screw_distance/2,2.5-wall_thickness/2]) {
+      hull() {
+        translate([0,motor_adjust_margin/2,0])
+          cylinder(r=motor_screw_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+        translate([0,-motor_adjust_margin/2,0])
+          cylinder(r=motor_screw_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+      }
+      hull() {
+        translate([0,motor_adjust_margin/2,0])
+          cylinder(r=motor_screw_head_diameter/2,h=10*wall_thickness,center=false,$fn=40);
+        translate([0,-motor_adjust_margin/2,0])
+          cylinder(r=motor_screw_head_diameter/2,h=10*wall_thickness,center=false,$fn=40);
+      }
     }
-    } // End if with motor
+}
+
+
+module motor_stand_holes_Z() {
+//difference() {
+//  translate([wall_height/2,wall_width/2,wall_thickness/2])
+//    bcube([wall_height,wall_width,wall_thickness],cr=4,cres=10);
+
+  // Position relative to motor shaft
+  translate([motor_width/2,motor_width/2,wall_thickness/2]) {
+    motorHolesZ();
 
     // Bearing holes
     rotate([0,0,0]) translate([0,axis_distance,0]) {
-      cylinder(r=(M8_rod_diameter*2)/2,h=10*wall_thickness,center=true,$fn=40);
+		hull() {
+      	cylinder(r=(M8_rod_diameter*2)/2,h=10*wall_thickness,center=true,$fn=40);
+			translate([0,-axis_distance,0])
+				cylinder(r=(M8_rod_diameter*2)/2,h=10*wall_thickness,center=true,$fn=40);
+		}
       cylinder(r=bearing_diameter/2,h=10*wall_thickness,center=false,$fn=60);
 
     }
 
   } // End of translate relative to motor shaft
-} // End of difference
+//} // End of difference
 }
 
-module motor_stand_Z(with_motor=true) {
-  union() {
-    motor_stand_no_base_Z(with_motor);
-  }
+
+module linearBearingHolderZ(h=10) {
+	translate([0,0,1.5]) cylinder(r=LM8UU_dia/2,h=h,$fn=50);
+	cylinder(r=LM8UU_dia/2.5,h=10*h,center=true,$fn=50);
 }
+
+
+module Z_solid_body(top_part=true) {
+	hull() {
+		if(top_part)
+			translate([wall_height/2,wall_width/2,wall_thickness/2])
+				bcube([wall_height,wall_width,wall_thickness],cr=4,cres=10);
+		else
+			translate([wall_height/2,wall_width,wall_thickness/2])
+				bcube([wall_height,wall_width/2,wall_thickness],cr=4,cres=10);
+		translate([wall_height/2,wall_width-4,0])
+			translate([0,38,0])
+				cylinder(r=spindle_motor_diam/2+spindle_holder_thickness,h=wall_thickness,$fn=60);
+	}
+
+	// For the linear bearing holders
+	hull() {
+		translate([wall_height/2-Z_smooth_rods_sep/2,Z_threaded_pos,0])
+			cylinder(r=3+LM8UU_dia/2,h=wall_thickness,$fn=50);
+		translate([wall_height/2+Z_smooth_rods_sep/2,Z_threaded_pos,0])
+			cylinder(r=3+LM8UU_dia/2,h=wall_thickness,$fn=50);
+	}
+
+	// For the screw of the spindle holder
+	translate([wall_height/2,wall_width-4,0])
+		translate([0,38,0]) {
+			rotate([0,0,180]) {
+				translate([28,-7,0]) cube([15,20,wall_thickness]);
+
+	// Write text in the front
+	color([0.5,0.5,0.5])
+		if(top_part)
+			scale([-1,1,-textHscale])
+				writecylinder("CYCLONE",[0,0,-wall_thickness/(2*textHscale)],spindle_motor_diam/2+spindle_holder_thickness,0,font="orbitron.dxf",space=1.1,h=wall_thickness,t=textThickness,center=true,ccw=true);
+		else
+			scale([1,1,textHscale])
+				writecylinder("PCB Factory",[0,0,wall_thickness/(2*textHscale)+1],spindle_motor_diam/2+spindle_holder_thickness,0,font="orbitron.dxf",space=1.1,h=wall_thickness-2,t=textThickness,center=true,ccw=true);
+
+			}
+		}
+}
+
 
 //for display only, doesn't contribute to final object
 build_plate(3,200,200);
 
-module Z_carriage(showSpindle=false) {
-	rotate([0,0,-90]) translate([-wall_height/2,-Z_threaded_pos,0]) {
-		motor_stand_Z();
-		translate([wall_height/2,wall_width-4,0]) spindle_holder(lbearing_holder_length,showSpindle);
-		translate([wall_height/2-Z_smooth_rods_sep/2,Z_threaded_pos,lbearing_holder_length/2]) rotate([-90,0,0]) lm8uu_bearing_holder_XZ(lbearing_holder_length);
-		translate([wall_height/2+Z_smooth_rods_sep/2,Z_threaded_pos,lbearing_holder_length/2]) rotate([-90,0,0]) lm8uu_bearing_holder_XZ(lbearing_holder_length);
+module Z_carriage(showSpindle=false,top_part=true) {
+
+	difference() {
+		rotate([0,0,-90]) translate([-wall_height/2,-Z_threaded_pos,0]) {
+			difference () {
+				Z_solid_body(top_part);
+				if(top_part) motor_stand_holes_Z();
+				translate([wall_height/2,wall_width-4,0])
+					spindle_holder_holes(wall_thickness,showSpindle);
+				translate([wall_height/2-Z_smooth_rods_sep/2,Z_threaded_pos,0])
+					linearBearingHolderZ(wall_thickness);
+				translate([wall_height/2+Z_smooth_rods_sep/2,Z_threaded_pos,0])
+					linearBearingHolderZ(wall_thickness);
+			}
+		}
+
+		// Hole for the threaded rod
+		if(!top_part) cylinder(r=2+M8_rod_diameter/2,h=wall_thickness*10,center=true,$fn=30);
+		// Truncation for avoiding collision with the X axis
+		if(!top_part) translate([-15,0,0]) rotate([0,45,0]) cube([20,100,10],center=true);
 	}
+	if(showSpindle) rotate([0,0,-90]) translate([0,wall_width-4-Z_threaded_pos,0])
+			translate([0,38,-20+8]) dummySpindle();
 }
 
-Z_carriage(showSpindle=false);
+module Z_carriage_assembled() {
+	Z_carriage(showSpindle=true,top_part=false);
+	translate([0,0,3+23*2]) rotate([180,0,0]) Z_carriage(showSpindle=false,top_part=true);
+}
+
+Z_carriage(top_part=true);
+//Z_carriage(top_part=false);
+
+
+//Z_carriage_assembled();
+
+
+

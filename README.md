@@ -1,9 +1,9 @@
-Cyclone-PCB-Factory v0.9.6b  
+Cyclone-PCB-Factory v0.9.7  
 ===================
 
 The first 3D-printable (Rep-Rap alike) CNC machine, intended for PCB manufacture.  
 
-![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.6b.png)
+![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7.png)
 
 Disclaimer  
 --
@@ -12,11 +12,13 @@ This hardware/software is provided "as is", and you use the hardware/software at
 News  
 --  
 **Hardware**  
-- v0.9.6 has a robust Y axis motor stand (improvement suggested and tested by **Yopero**), and the Z carriage now shows the name of the machine (how cool is that? :P)  
+- v0.9.7 has an improved Z carriage: uses much less plastic, it holds the spindle tightly and leaves more metal surface exposed for better cooling.
+- v0.9.6b has a robust Y axis motor stand (improvement suggested and tested by **Yopero**), and the Z carriage now shows the name of the machine (how cool is that? :P)  
 
 **Software**  
 - First Z probing results are promising, read: <https://plus.google.com/u/0/113437723819360223498/posts/9VCHqqnirj6> and <https://plus.google.com/u/0/113437723819360223498/posts/89W2cv1fgQW>  
 - Added the python probing script (v0.1) and Octave/Matlab visualizer  
+- Based on PyGerber2Gcode.py script  
 
 **Firmware**  
 - No news, it is Marlin with support for G30 probing command  

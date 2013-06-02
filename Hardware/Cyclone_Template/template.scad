@@ -105,10 +105,9 @@ module X_carriage() {
 }
 
 module Z_carriage_piece() {
-  translate([0,0,90])
-    rotate([0,0,-90])
-      rotate([0,180,0])
-        Z_carriage(showSpindle=true);
+  translate([0,0,41])
+    rotate([0,0,90])
+        Z_carriage_assembled();
 }
 
 module cnc(show_printbed = 1) {
@@ -224,7 +223,7 @@ module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
       cube([X_axis_sep+70,Y_axis_sep+30,15],center=true);
 }
 
-rotate([0,0,90])cnc_assembled(Y_offset=30,X_offset=-50,Z_offset=0);
+rotate([0,0,90])cnc_assembled(Y_offset=30,X_offset=-50,Z_offset=10);
 
 //rotate([0,0,90]) cnc_base_template(); // So the generated dxf matches inkscape's default orientation
 //  cnc_workbed_template();
