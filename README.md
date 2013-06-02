@@ -57,7 +57,7 @@ To-Do list
 
 Software  
 --  
-Here is a compilation of links that I find interesting for the software controller:  
+Here is a compilation of links that have inspired the software controller (specifically the Z probing technique):  
 
 - <http://www.re-innovation.co.uk/web12/index.php/en/blog-75/181-making-pcbs-with-a-cnc-machine>  
 - <http://phk.freebsd.dk/CncPcb/>  
@@ -79,7 +79,18 @@ Here is a compilation of links that I find interesting for the software controll
 License  
 --
 License: **Attribution - Share Alike - Creative Commons (<http://creativecommons.org/licenses/by-sa/3.0/>)**  
-Author _(unless otherwise specified)_: **Carlosgs (<http://carlosgs.es>)**
+
+Authors:  
+--
+- **Carlosgs (<http://carlosgs.es>)**
+- **yOPERO (<http://yopero-tech.blogspot.com.es/>)**
+
+Special thanks  
+--  
+- Y axis improvement by **yOPERO** <https://github.com/carlosgs/Cyclone-PCB-Factory/pull/1>
+- Z axis concepts by **Quim Borras** and the spindle motor holder by **Misan** were really useful!! Also, **Diego Viejo**'s machine was of great inspiration for the Z axis (<https://plus.google.com/u/0/photos/113930344830086538817/albums/5868944432651911713?authkey=CLDJgdehlN773gE>) **Thank you all!!**  
+- This design woudn't have been possible without the encouragement of the **Panda CNC community** (<https://plus.google.com/u/0/communities/102402711800402614517>)  
+- Also, thanks to **Obijuan** (<http://iearobotics.com>) for naming the machine Cyclone :)  
 
 Derived from / we have used / inspirational  
 --
@@ -90,13 +101,6 @@ Derived from / we have used / inspirational
 - "Carro Z para Cyclone CNC mill intended for PCB" by **Quim** (<http://www.thingiverse.com/thing:80718>)  
 - Write.scad (and DXF fonts) by **HarlanDMii** (<http://www.thingiverse.com/thing:16193>)  
 - "PCB Machining Vise" by **Forgetful_Guy** (<http://www.thingiverse.com/thing:63578>)  
-
-Special thanks  
---  
-- Y axis improvement by **yOPERO** <https://github.com/carlosgs/Cyclone-PCB-Factory/pull/1>
-- Z axis concepts by **Quim Borras** and the spindle motor holder by **Misan** were really useful!! Also, **Diego Viejo**'s machine was of great inspiration for the Z axis (<https://plus.google.com/u/0/photos/113930344830086538817/albums/5868944432651911713?authkey=CLDJgdehlN773gE>) **Thank you all!!**  
-- This design woudn't have been possible without the encouragement of the **Panda CNC community** (<https://plus.google.com/u/0/communities/102402711800402614517>)  
-- Also, thanks to **Obijuan** (<http://iearobotics.com>) for naming the machine Cyclone :)  
 
 Credit for the ideas used  
 --  
