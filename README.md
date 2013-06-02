@@ -3,7 +3,7 @@ Cyclone-PCB-Factory v0.9.7
 
 The first 3D-printable (Rep-Rap alike) CNC machine, intended for PCB manufacture.  
 
-![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7.png)
+![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_built_v0.9.7.jpg)
 
 Disclaimer  
 --
@@ -115,7 +115,7 @@ Please note I have taken screenshots of the post that are on the closed G+ Panda
 **All other development present on Cyclone has nothing to do with Panda and is not related to the Panda project.**  
 
 
-Assembled machine (v0.9.5)  
+Render (v0.9.7)  
 --
-![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_built_v0.9.5.jpg)
+![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7.png)
 
