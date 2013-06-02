@@ -201,8 +201,15 @@ module Z_carriage(showSpindle=false,top_part=true) {
 		}
 
 		// Hole for the threaded rod
-		if(!top_part) cylinder(r=2+M8_rod_diameter/2,h=wall_thickness*10,center=true,$fn=30);
-		// Truncation for avoiding collision with the X axis
+		if(!top_part) {
+			hull() {
+				cylinder(r=2+M8_rod_diameter/2,h=wall_thickness*10,center=true,$fn=30);
+				translate([-15,0,0])
+					cylinder(r=2+M8_rod_diameter/2,h=wall_thickness*10,center=true,$fn=30);
+			}
+		}
+
+		// Truncation in the base for avoiding collision with the X axis
 		if(!top_part) translate([-15,0,0]) rotate([0,45,0]) cube([20,100,10],center=true);
 	}
 	if(showSpindle) rotate([0,0,-90]) translate([0,wall_width-4-Z_threaded_pos,0])
@@ -214,8 +221,8 @@ module Z_carriage_assembled() {
 	translate([0,0,3+23*2]) rotate([180,0,0]) Z_carriage(showSpindle=false,top_part=true);
 }
 
-Z_carriage(top_part=true);
-//Z_carriage(top_part=false);
+//Z_carriage(top_part=true);
+Z_carriage(top_part=false);
 
 
 //Z_carriage_assembled();
