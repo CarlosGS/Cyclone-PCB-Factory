@@ -280,7 +280,9 @@ const bool Z_ENDSTOPS_INVERTING = false; // set to true to invert the logic of t
 
 // default settings 
 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {3200.0/(2.0*1.25),3200.0/(2.0*1.25),3200.0/(1.25/2.0),800}  // steps per unit for Cyclone (original design)
+#define Cyclone_XY_Gear_Ratio 21.0/15.0 // Number of tooth (motor/rod)
+#define Cyclone_Z_Gear_Ratio 8.0/16.0 // Number of tooth (motor/rod)
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {3200.0/(Cyclone_XY_Gear_Ratio*1.25),3200.0/(Cyclone_XY_Gear_Ratio*1.25),3200.0/(Cyclone_Z_Gear_Ratio*1.25),800}  // steps per unit for Cyclone (original design)
  
 #define DEFAULT_MAX_FEEDRATE          {500/60, 500/60, 250/60, 45}    // (mm/sec)    
 #define DEFAULT_MAX_ACCELERATION      {500/60,500/60,250/60,3000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
