@@ -12,6 +12,7 @@ This hardware/software is provided "as is", and you use the hardware/software at
 News  
 --  
 **Hardware**  
+- Note: The linear bearings of the X carriage must be glued in place (use epoxy or similar) since vibrations produced by the spindle motor move the bearings out of place.
 - v0.9.7 has an improved Z carriage: uses much less plastic, it holds the spindle tightly and leaves more metal surface exposed for better cooling.
 - v0.9.6b has a robust Y axis motor stand (improvement suggested and tested by **Yopero**), and the Z carriage now shows the name of the machine (how cool is that? :P)  
 
