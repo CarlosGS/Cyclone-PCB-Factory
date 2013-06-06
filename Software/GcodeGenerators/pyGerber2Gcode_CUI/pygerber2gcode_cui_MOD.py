@@ -794,7 +794,7 @@ def circle_points(cx,cy,r,points_num):
 	elif  new_points_num > 50 :
 		new_points_num = 50
 	
-	print "Modifying CIRCLE points_num from",points_num,"to",new_points_num
+	#print "Modifying CIRCLE points_num from",points_num,"to",new_points_num
 	points_num = new_points_num
 #	print "Circle: Radius:", str(r), "Points:", points_num
 	points=[]
@@ -947,7 +947,7 @@ def arc_points(cx,cy,r,s_angle,e_angle,kaku):
 	elif new_kaku > 50 :
 		new_kaku = 50
 	if kaku != new_kaku:
-		print "Modifying ARC points from",kaku,"to",new_kaku
+		#print "Modifying ARC points from",kaku,"to",new_kaku
 		kaku = new_kaku
 #	print "Arc: Radius:", str(r), "Points:", kaku
 	

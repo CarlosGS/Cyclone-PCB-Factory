@@ -222,7 +222,7 @@ def probeZ():
 
 def close():
 	# IMPORTANT: Before closing the serial port we must make a blocking move in order to wait for all the buffered commands to end
-	sendCommand("G28 Z0\n",timeoutResend) # move Z to min endstop
+	sendCommand("G28 Z0\n") # move Z to min endstop
 	if Emulate == 0:
 		CNC_Machine.close() # Close the serial port connection
 
