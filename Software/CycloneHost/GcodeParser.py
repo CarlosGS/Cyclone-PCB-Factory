@@ -211,8 +211,8 @@ def optimize(etch_moves_in, origin=[0,0], travel_height = 5): # Optimizes the to
 			travel_moves.append([toolPosition, [firstPoint[0], firstPoint[1], travel_height, firstPoint[3]] ]) # Travel to the initial point of the etching
 		else :
 			travel_moves.append([toolPosition, firstPoint]) # Travel to the initial point of the etching (without lifting)
-			print "Joining etching paths!"
-			
+			print "Joining etching paths!" # TODO: This needs to join also the paths in etch_moves! otherwise it makes no difference!
+		
 		if distance < minDistance :
 			minDistance = distance
 		
