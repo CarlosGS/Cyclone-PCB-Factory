@@ -98,13 +98,15 @@ def view(filePath,fileName,showAll=0,showEtch=0,showEtch2=0,showEtch3=0,showDril
 		(etch_moves, travel_moves, gcode_minXY, gcode_maxXY) = gcp.parseGcodeRaw(gcode_file)
 		(etch_moves, travel_moves) = gcp.optimize(etch_moves)
 		if draw: plotPath(etch_moves, travel_moves, etch2pass_color, travel_color, etch2pass_diam, travel_diam)
+		checkMinMax(gcode_minXY,gcode_maxXY)
 	
 	if showAll or showEtch3:
-		print "\n Loading etch (3nd pass)..."
+		print "\n Loading etch (3rd pass)..."
 		gcode_file = filePath+fileName+"_etch3pass.gcode"
 		(etch_moves, travel_moves, gcode_minXY, gcode_maxXY) = gcp.parseGcodeRaw(gcode_file)
 		(etch_moves, travel_moves) = gcp.optimize(etch_moves)
 		if draw: plotPath(etch_moves, travel_moves, etch3pass_color, travel_color, etch3pass_diam, travel_diam)
+		checkMinMax(gcode_minXY,gcode_maxXY)
 	
 	if showAll or showDrill:
 		print "\n Loading drill..."
@@ -112,6 +114,7 @@ def view(filePath,fileName,showAll=0,showEtch=0,showEtch2=0,showEtch3=0,showDril
 		(etch_moves, travel_moves, gcode_minXY, gcode_maxXY) = gcp.parseGcodeRaw(gcode_file)
 		(etch_moves, travel_moves) = gcp.optimize(etch_moves)
 		if draw: plotPath(etch_moves, travel_moves, drill_color, travel_color, drill_diam, travel_diam)
+		checkMinMax(gcode_minXY,gcode_maxXY)
 	
 	if showAll or showEdge:
 		print "\n Loading edge..."
@@ -119,6 +122,7 @@ def view(filePath,fileName,showAll=0,showEtch=0,showEtch2=0,showEtch3=0,showDril
 		(etch_moves, travel_moves, gcode_minXY, gcode_maxXY) = gcp.parseGcodeRaw(gcode_file)
 		(etch_moves, travel_moves) = gcp.optimize(etch_moves)
 		if draw: plotPath(etch_moves, travel_moves, edge_color, travel_color, edge_diam, travel_diam)
+		checkMinMax(gcode_minXY,gcode_maxXY)
 	
 	#if draw : plt.hold(False)
 	if draw and newFigure: pltShowNonBlocking()

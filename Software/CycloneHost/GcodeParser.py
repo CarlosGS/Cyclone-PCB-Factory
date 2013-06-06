@@ -207,9 +207,12 @@ def optimize(etch_moves_in, origin=[0,0], travel_height = 5): # Optimizes the to
 		
 		firstPoint = path[0]
 		
-		if distance > 0.0001 : # This will join etching moves closer than 0.01 mm (sqrt(0.0001)=0.01)
+		if distance > 0.1**2 : # This will join etching moves closer than 0.1 mm (this avoids repetitive drill lifting)
 			travel_moves.append([toolPosition, [firstPoint[0], firstPoint[1], travel_height, firstPoint[3]] ]) # Travel to the initial point of the etching
-		
+		else :
+			travel_moves.append([toolPosition, firstPoint]) # Travel to the initial point of the etching (without lifting)
+			print "Joining etching paths!"
+			
 		if distance < minDistance :
 			minDistance = distance
 		

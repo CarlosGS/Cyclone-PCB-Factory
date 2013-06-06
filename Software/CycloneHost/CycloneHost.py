@@ -198,7 +198,7 @@ def moveZrelSafe(Z, F):
 	print "Moving Z", Z, "mm safely..."
 	sendCommand("M121\n") # Enable endstops (for protection! usually it should **NOT** hit neither the endstop nor the PCB)
 	moveZrel(Z, F)
-	dist = abs(Z-lastDrillPos[2]) # [mm]
+	dist = abs(Z) # [mm]
 	speed = float(F)/60.0 # [mm/s]
 	wait = float(dist)/speed # [s]
 	time.sleep(wait) # Wait for the movement to finish, this way the M121 command is effective
@@ -222,7 +222,7 @@ def probeZ():
 
 def close():
 	# IMPORTANT: Before closing the serial port we must make a blocking move in order to wait for all the buffered commands to end
-	homeZXY()
+	sendCommand("G28 Z0\n",timeoutResend) # move Z to min endstop
 	if Emulate == 0:
 		CNC_Machine.close() # Close the serial port connection
 

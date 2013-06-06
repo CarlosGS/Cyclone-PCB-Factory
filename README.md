@@ -17,6 +17,7 @@ News
 - v0.9.6b has a robust Y axis motor stand (improvement suggested and tested by **Yopero**), and the Z carriage now shows the name of the machine (how cool is that? :P)  
 
 **Software**  
+- Note: The timeout for commands of the edge needs to be increased, since the moves are really slow.
 - First Z probing results are promising, read: <https://plus.google.com/u/0/113437723819360223498/posts/9VCHqqnirj6> and <https://plus.google.com/u/0/113437723819360223498/posts/89W2cv1fgQW>  
 - Added the python probing script (v0.1) and Octave/Matlab visualizer  
 - Based on PyGerber2Gcode.py script  

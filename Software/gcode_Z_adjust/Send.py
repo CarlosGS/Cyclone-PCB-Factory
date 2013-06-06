@@ -13,8 +13,8 @@
 
 # Begin configuration
 BAUDRATE = 115200
-DEVICE = "/dev/ttyUSB2"
-Emulate = 1
+DEVICE = "/dev/ttyUSB0"
+Emulate = 0
 # End configuration
 
 # Begin modules
@@ -34,7 +34,7 @@ from helper import *
 # End modules
 
 filePath = "../GcodeGenerators/pyGerber2Gcode_CUI/out/"
-fileName = "printshield" # sys.argv[1]
+fileName = "DTMF_Shield" # sys.argv[1]
 
 
 
@@ -69,10 +69,16 @@ def pltShow():
 
 def probingResults(): # quick and dirty temporal code
 	global Z_workbed_surface
-	x_points = [0.0, 12.272727272727273, 24.545454545454547, 36.81818181818182, 49.09090909090909, 61.36363636363637, 73.63636363636364, 85.9090909090909, 98.18181818181819, 110.45454545454547, 122.72727272727273, 135.0]
-	y_points = [0.0, 16.8, 33.6, 50.400000000000006, 67.2, 84.0]
-	probe_result = [[0.0, 0.2, 0.4, 0.53, 0.58, 0.6, 0.56, 0.53, 0.5, 0.44, 0.33, 0.2], [-0.03, 0.07, 0.16, 0.26, 0.32, 0.33, 0.33, 0.33, 0.29, 0.23, 0.15, 0.05], [-0.07, 0.0, 0.05, 0.12, 0.16, 0.2, 0.2, 0.22, 0.2, 0.16, 0.08, 0.0], [-0.07, -0.03, 0.04, 0.11, 0.15, 0.19, 0.2, 0.22, 0.22, 0.19, 0.11, 0.04], [0.0, 0.04, 0.08, 0.19, 0.23, 0.29, 0.33, 0.36, 0.37, 0.32, 0.2, 0.11], [0.13, 0.2, 0.27, 0.37, 0.44, 0.51, 0.55, 0.61, 0.64, 0.55, 0.41, 0.22]]
-	duration = 346.076061
+#	x_points = [0.0, 12.272727272727273, 24.545454545454547, 36.81818181818182, 49.09090909090909, 61.36363636363637, 73.63636363636364, 85.9090909090909, 98.18181818181819, 110.45454545454547, 122.72727272727273, 135.0]
+#	y_points = [0.0, 16.8, 33.6, 50.400000000000006, 67.2, 84.0]
+#	probe_result = [[0.0, 0.2, 0.4, 0.53, 0.58, 0.6, 0.56, 0.53, 0.5, 0.44, 0.33, 0.2], [-0.03, 0.07, 0.16, 0.26, 0.32, 0.33, 0.33, 0.33, 0.29, 0.23, 0.15, 0.05], [-0.07, 0.0, 0.05, 0.12, 0.16, 0.2, 0.2, 0.22, 0.2, 0.16, 0.08, 0.0], [-0.07, -0.03, 0.04, 0.11, 0.15, 0.19, 0.2, 0.22, 0.22, 0.19, 0.11, 0.04], [0.0, 0.04, 0.08, 0.19, 0.23, 0.29, 0.33, 0.36, 0.37, 0.32, 0.2, 0.11], [0.13, 0.2, 0.27, 0.37, 0.44, 0.51, 0.55, 0.61, 0.64, 0.55, 0.41, 0.22]]
+#	duration = 346.076061
+
+	# DTMF board
+	x_points = [0.0, 17.5, 35.0, 52.5, 70.0]
+	y_points = [0.0, 13.333333333333334, 26.666666666666668, 40.0]
+	probe_result = [[0.0, 0.28000000000000114, 0.490000000000002, 0.5599999999999987, 0.5199999999999996], [0.0, 0.1700000000000017, 0.33000000000000185, 0.41000000000000014, 0.41000000000000014], [-0.030000000000001137, 0.08999999999999986, 0.21999999999999886, 0.3000000000000007, 0.33000000000000185], [-0.08999999999999986, 0.03999999999999915, 0.16000000000000014, 0.26000000000000156, 0.28999999999999915]]
+	duration = 102.808573
 
 	# Show our grid
 #	print "--- Probing results ---"
@@ -123,13 +129,13 @@ probingResults()
 print "Must be zero:",floats(getZoffset(0,0))
 
 # Display the Gcode that is going to be etched
-(etch_moves, travel_moves, gcode_minXY_global, gcode_maxXY_global) = gcv.view(filePath,fileName,showEtch=1)
+(etch_moves, travel_moves, gcode_minXY_global, gcode_maxXY_global) = gcv.view(filePath,fileName,showEdge=1)
 #(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEtch1=1)
 #(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEtch2=1)
 #(etch_moves, travel_moves) = gcv.view(filePath,fileName,showDrill=1)
 #(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEdge=1)
 
-# Truncate the background to the dimensions of the PCB
+# Show delimiter rectangle
 x_dat = [gcode_minXY_global[0],gcode_minXY_global[0],gcode_maxXY_global[0],gcode_maxXY_global[0],gcode_minXY_global[0]]
 y_dat = [gcode_minXY_global[1],gcode_maxXY_global[1],gcode_maxXY_global[1],gcode_minXY_global[1],gcode_minXY_global[1]]
 plt.plot(x_dat,y_dat)
@@ -184,7 +190,7 @@ drawTool(10, 20) # Show a marker on the gcode plot
 
 
 # Warning: Do not lower too much or you will potentially cause damage!
-initial_Z_lowering_distance = -20
+initial_Z_lowering_distance = -10
 cy.moveZrelSafe(initial_Z_lowering_distance,F_slowMove/2) # Move Z towards the PCB (saves some probing time for the first coord)
 
 Z_origin_offset = cy.probeZ()
