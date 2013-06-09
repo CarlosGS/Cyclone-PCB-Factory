@@ -5,14 +5,25 @@ The first 3D-printable (Rep-Rap alike) CNC machine, intended for PCB manufacture
 
 ![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_built_v0.9.7.jpg)
 
-Disclaimer  
+Mail list / Forum  
 --
-This hardware/software is provided "as is", and you use the hardware/software at your own risk. Under nocircumstances shall Carlosgs be liable for direct, indirect, special, incidental, or consequential damages resulting from the use, misuse, or inability to use this hardware/software, even if Carlosgs has been advised of the possibility of such damages.  
+If you are interested in this project, please consider joining our mail list:
+**<https://groups.google.com/forum/#!forum/cyclone-pcb-factory>**
+
+**To-Do list**  
+--  
+- **Hardware:**
+ - Reinforce left&right frames  
+- **Software:**
+ - Export Z probing results to a standarized file  
+ - Create a graphical user interface
+- **Misc:**
+ - Create wiki page on RepRap.org
+ - Create assembly instructions
 
 News  
 --  
 **Hardware**  
-- Idea: We could use a thermistor to measure the temperature of the spindle motor: this way the software could "let it rest" when it gets too hot.  
 - Note: The linear bearings of the X carriage must be glued in place (use epoxy or similar) since vibrations produced by the spindle motor move the bearings out of place.  
 - v0.9.7 has an improved Z carriage: uses much less plastic, it holds the spindle tightly and leaves more metal surface exposed for better cooling.  
 - v0.9.6b has a robust Y axis motor stand (improvement suggested and tested by **Yopero**), and the Z carriage now shows the name of the machine (how cool is that? :P)  
@@ -25,6 +36,12 @@ News
 
 **Firmware**  
 - No news, it is Marlin with support for G30 probing command  
+
+Interesting links & Misc. ideas  
+--
+- Open Source SMT Pick and Place Hardware and Software <https://github.com/openpnp/openpnp> via Marcos Villacampa (@MarkVillacampa)  
+- Water-cooled spindle motors! <http://www.goodluckbuy.com/electronics/motor-and-controller.html> via Marcos Villacampa (@MarkVillacampa)  
+- We could use a thermistor to measure the temperature of the spindle motor: this way the software could "let it rest" when it gets too hot.  
 
 Videos  
 --  
@@ -48,17 +65,7 @@ Notes
 - Parts are designed to be printable with the small volume of a Printrbot Jr  
 - Bed leveling will be done with probing and an appropriate software.  
 
-To-Do list  
---  
-- [DONE] Design parts for the X axis (this includes Z axis too, **will be using a proper spindle instead of a hand-drill**)  
-- [DONE] Design parts for the Y axis  
-- [DONE] Create template for the screws in the wood base  
-- Hardware: Reinforce left&right frames  
-- Firmware: Test various buffering/jerk configurations for Marlin  
-- Software: Export Z probing to a standarized file, ~~add bilinear interpolation~~  
-- [DONE] Manufacture a PCB (till then, it can't be v1.0 :P)...  
-
-Software  
+Software: existing work  
 --  
 Here is a compilation of links that have inspired the software controller (specifically the Z probing technique):  
 
@@ -125,4 +132,8 @@ Please note I have taken screenshots of the post that are on the closed G+ Panda
 Render (v0.9.7)  
 --
 ![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7.png)
+
+Disclaimer  
+--
+This hardware/software is provided "as is", and you use the hardware/software at your own risk. Under nocircumstances shall any author be liable for direct, indirect, special, incidental, or consequential damages resulting from the use, misuse, or inability to use this hardware/software, even if the authors have been advised of the possibility of such damages.  
 
