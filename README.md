@@ -7,19 +7,19 @@ The first 3D-printable (Rep-Rap alike) CNC machine, intended for PCB manufacture
 
 Mail list / Forum  
 --
-If you are interested in this project, please consider joining our mail list:
-**<https://groups.google.com/forum/#!forum/cyclone-pcb-factory>**
+If you are interested in this project, please consider joining our mail list:  
+**<https://groups.google.com/forum/#!forum/cyclone-pcb-factory>**  
 
 **To-Do list**  
 --  
-- **Hardware:**
+- **Hardware:**  
  - Reinforce left&right frames  
-- **Software:**
+- **Software:**  
  - Export Z probing results to a standarized file  
- - Create a graphical user interface
-- **Misc:**
- - Create wiki page on RepRap.org
- - Create assembly instructions
+ - Create a graphical user interface  
+- **Misc:**  
+ - Create wiki page on RepRap.org  
+ - Create assembly instructions  
 
 News  
 --  
@@ -39,9 +39,9 @@ News
 
 Interesting links & Misc. ideas  
 --
-- Open Source SMT Pick and Place Hardware and Software <https://github.com/openpnp/openpnp> via Marcos Villacampa (@MarkVillacampa)  
-- Water-cooled spindle motors! <http://www.goodluckbuy.com/electronics/motor-and-controller.html> via Marcos Villacampa (@MarkVillacampa)  
-- We could use a thermistor to measure the temperature of the spindle motor: this way the software could "let it rest" when it gets too hot.  
+- **Open Source SMT Pick and Place Hardware and Software** <https://github.com/openpnp/openpnp> via **Marcos Villacampa** (@MarkVillacampa)  
+- **Water-cooled spindle motors!** <http://www.goodluckbuy.com/electronics/motor-and-controller.html> via **Marcos Villacampa** (@MarkVillacampa)  
+- **We could use a thermistor to measure the temperature of the spindle motor:** this way the software could "let it rest" when it gets too hot.  
 
 Videos  
 --  
