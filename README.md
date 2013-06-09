@@ -12,12 +12,13 @@ This hardware/software is provided "as is", and you use the hardware/software at
 News  
 --  
 **Hardware**  
-- Note: The linear bearings of the X carriage must be glued in place (use epoxy or similar) since vibrations produced by the spindle motor move the bearings out of place.
-- v0.9.7 has an improved Z carriage: uses much less plastic, it holds the spindle tightly and leaves more metal surface exposed for better cooling.
+- Idea: We could use a thermistor to measure the temperature of the spindle motor: this way the software could "let it rest" when it gets too hot.  
+- Note: The linear bearings of the X carriage must be glued in place (use epoxy or similar) since vibrations produced by the spindle motor move the bearings out of place.  
+- v0.9.7 has an improved Z carriage: uses much less plastic, it holds the spindle tightly and leaves more metal surface exposed for better cooling.  
 - v0.9.6b has a robust Y axis motor stand (improvement suggested and tested by **Yopero**), and the Z carriage now shows the name of the machine (how cool is that? :P)  
 
 **Software**  
-- Note: The timeout for commands of the edge needs to be increased, since the moves are really slow.
+- Note: The timeout for commands of the edge needs to be increased, since the moves are really slow.  
 - First Z probing results are promising, read: <https://plus.google.com/u/0/113437723819360223498/posts/9VCHqqnirj6> and <https://plus.google.com/u/0/113437723819360223498/posts/89W2cv1fgQW>  
 - Added the python probing script (v0.1) and Octave/Matlab visualizer  
 - Based on PyGerber2Gcode.py script  
@@ -27,7 +28,7 @@ News
 
 Videos  
 --  
-- v0.9.6 Y axis concept by Yopero <http://www.youtube.com/watch?v=XzcobonQP40>
+- v0.9.6 Y axis concept by Yopero <http://www.youtube.com/watch?v=XzcobonQP40>  
 - v0.9.5 Probing a PCB <http://www.youtube.com/watch?v=m5zXL8k5T9E>  
 - v0.9.5 Milling MDF <http://www.youtube.com/watch?v=2QpxjheEjEc> and <http://www.youtube.com/watch?v=zjav0hBtmYA>  
 - v0.8 Drawing test: <http://www.youtube.com/watch?v=Y-HSdE89JOM>  
@@ -54,8 +55,8 @@ To-Do list
 - [DONE] Create template for the screws in the wood base  
 - Hardware: Reinforce left&right frames  
 - Firmware: Test various buffering/jerk configurations for Marlin  
-- Software: Export Z probing to a standarized file, add bilinear interpolation  
-- Manufacture a PCB (till then, it can't be v1.0 :P)...  
+- Software: Export Z probing to a standarized file, ~~add bilinear interpolation~~  
+- [DONE] Manufacture a PCB (till then, it can't be v1.0 :P)...  
 
 Software  
 --  
@@ -89,7 +90,7 @@ Authors:
 
 Special thanks  
 --  
-- Y axis improvement by **yOPERO** <https://github.com/carlosgs/Cyclone-PCB-Factory/pull/1>
+- Y axis improvement by **yOPERO** <https://github.com/carlosgs/Cyclone-PCB-Factory/pull/1>  
 - Z axis concepts by **Quim Borras** and the spindle motor holder by **Misan** were really useful!! Also, **Diego Viejo**'s machine was of great inspiration for the Z axis (<https://plus.google.com/u/0/photos/113930344830086538817/albums/5868944432651911713?authkey=CLDJgdehlN773gE>) **Thank you all!!**  
 - This design woudn't have been possible without the encouragement of the **Panda CNC community** (<https://plus.google.com/u/0/communities/102402711800402614517>)  
 - Also, thanks to **Obijuan** (<http://iearobotics.com>) for naming the machine Cyclone :)  
@@ -116,7 +117,7 @@ Here is the credit for the ideas that were used:
 * _Regarding the woodbase:_ **Guillermo Welch** always contemplated the possibility of attaching the machine (optionally) to a woodbase. I decided to use the base as a main structural part instead. See <https://dl.dropboxusercontent.com/u/16122275/PandaCNC_credit/woodbase.png> (screenshot from <https://plus.google.com/u/0/113437723819360223498/posts/8LDCSSVWqCS>)  
 * _List of CNC endmill types:_ **David Martin** <https://dl.dropboxusercontent.com/u/16122275/PandaCNC_credit/cnc_endmill_types.png>  
 
-Please note I have taken screenshots of the post that are on the closed G+ Panda community (<https://plus.google.com/u/0/communities/116318709564872967169). You can register and see by yourself.>  
+Please note I have taken screenshots of the post that are on the closed G+ Panda community (<https://plus.google.com/u/0/communities/116318709564872967169>). You can register and see by yourself.  
 
 **All other development present on Cyclone has nothing to do with Panda and is not related to the Panda project.**  
 
