@@ -1,0 +1,286 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: package reprap</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>reprap</strong></big></big> (version 2.0)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/lib/python2.5/site-packages/reprap/__init__.py">/usr/lib/python2.5/site-packages/reprap/__init__.py</a></font></td></tr></table>
+    <p><tt>This&nbsp;is&nbsp;the&nbsp;main&nbsp;pyRepRap&nbsp;module&nbsp;for&nbsp;controlling&nbsp;a&nbsp;serial<br>
+SNAP&nbsp;RepRap&nbsp;machine.<br>
+&nbsp;<br>
+Import&nbsp;this&nbsp;module&nbsp;and&nbsp;use&nbsp;the&nbsp;internally&nbsp;created&nbsp;objects<br>
+reprap.cartesian&nbsp;and&nbsp;reprap.extruder&nbsp;to&nbsp;control&nbsp;the&nbsp;machine.<br>
+&nbsp;<br>
+&nbsp;<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;<br>
+#&nbsp;Import&nbsp;the&nbsp;reprap&nbsp;&nbsp;modules<br>
+import&nbsp;reprap,&nbsp;time<br>
+&nbsp;<br>
+#&nbsp;Initialise&nbsp;serial&nbsp;port,&nbsp;here&nbsp;the&nbsp;first&nbsp;port&nbsp;(0)&nbsp;is&nbsp;used.<br>
+reprap.<a href="#-openSerial">openSerial</a>(&nbsp;0,&nbsp;19200,&nbsp;60&nbsp;)<br>
+&nbsp;<br>
+#&nbsp;These&nbsp;devices&nbsp;are&nbsp;present&nbsp;in&nbsp;network,&nbsp;will&nbsp;automatically&nbsp;scan&nbsp;in&nbsp;the&nbsp;future.<br>
+reprap.cartesian.x.active&nbsp;=&nbsp;True<br>
+reprap.cartesian.y.active&nbsp;=&nbsp;True<br>
+reprap.cartesian.z.active&nbsp;=&nbsp;True<br>
+reprap.extruder.active&nbsp;=&nbsp;True<br>
+&nbsp;<br>
+#&nbsp;Set&nbsp;axies&nbsp;to&nbsp;notify&nbsp;arrivals<br>
+reprap.cartesian.x.setNotify()<br>
+reprap.cartesian.y.setNotify()<br>
+reprap.cartesian.z.setNotify()<br>
+&nbsp;<br>
+#&nbsp;Set&nbsp;stepper&nbsp;speed&nbsp;to&nbsp;220&nbsp;(out&nbsp;of&nbsp;255)<br>
+reprap.cartesian.setSpeed(220)<br>
+#&nbsp;Set&nbsp;power&nbsp;to&nbsp;83%<br>
+reprap.cartesian.setPower(83)<br>
+&nbsp;<br>
+#&nbsp;The&nbsp;module&nbsp;is&nbsp;now&nbsp;ready&nbsp;to&nbsp;recieve&nbsp;commands&nbsp;#<br>
+&nbsp;<br>
+#&nbsp;Send&nbsp;all&nbsp;axies&nbsp;to&nbsp;home&nbsp;position.&nbsp;Wait&nbsp;until&nbsp;arrival.<br>
+reprap.cartesian.homeReset()<br>
+&nbsp;<br>
+#&nbsp;When&nbsp;using&nbsp;seek&nbsp;with&nbsp;no&nbsp;waitArrival&nbsp;=&nbsp;True/False&nbsp;argument,&nbsp;it&nbsp;defaults&nbsp;to&nbsp;true<br>
+#&nbsp;Seek&nbsp;to&nbsp;X1000,&nbsp;Y1000<br>
+reprap.cartesian.seek(&nbsp;(1000,&nbsp;1000,&nbsp;None)&nbsp;)<br>
+&nbsp;<br>
+#&nbsp;Pause<br>
+time.sleep(2)<br>
+&nbsp;<br>
+#&nbsp;Seek&nbsp;to&nbsp;X500,&nbsp;Y1000<br>
+reprap.cartesian.seek(&nbsp;(500,&nbsp;1000,&nbsp;None)&nbsp;)<br>
+&nbsp;<br>
+time.sleep(2)<br>
+&nbsp;<br>
+#&nbsp;Seek&nbsp;to&nbsp;X1000,&nbsp;Y500<br>
+reprap.cartesian.seek(&nbsp;(1000,&nbsp;500,&nbsp;None)&nbsp;)<br>
+&nbsp;<br>
+time.sleep(2)<br>
+&nbsp;<br>
+#&nbsp;Seek&nbsp;to&nbsp;X100,&nbsp;Y100<br>
+reprap.cartesian.seek(&nbsp;(100,&nbsp;100,&nbsp;None)&nbsp;)<br>
+&nbsp;<br>
+#&nbsp;Send&nbsp;all&nbsp;axies&nbsp;to&nbsp;home&nbsp;position.&nbsp;Wait&nbsp;until&nbsp;arrival.<br>
+reprap.cartesian.homeReset()<br>
+&nbsp;<br>
+#&nbsp;Shut&nbsp;off&nbsp;power&nbsp;to&nbsp;all&nbsp;motors.<br>
+reprap.cartesian.free()</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Package Contents</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="reprap.baseplotters.html">baseplotters</a><br>
+<a href="reprap.ffm.html">ffm</a><br>
+<a href="reprap.gopython.html">gopython</a><br>
+</td><td width="25%" valign=top><a href="reprap.hershey.html">hershey</a><br>
+<a href="reprap.plugins.html">plugins</a><br>
+<a href="reprap.preferences.html">preferences</a><br>
+</td><td width="25%" valign=top><a href="reprap.reprap.html">reprap</a><br>
+<a href="reprap.shapeplotter.html">shapeplotter</a><br>
+<a href="reprap.snap.html">snap</a><br>
+</td><td width="25%" valign=top><a href="reprap.toolpath.html">toolpath</a><br>
+<a href="reprap.wxpygame.html">wxpygame</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="reprap.html#axisClass">axisClass</a>
+</font></dt><dt><font face="helvetica, arial"><a href="reprap.html#cartesianClass">cartesianClass</a>
+</font></dt><dt><font face="helvetica, arial"><a href="reprap.html#extruderClass">extruderClass</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="axisClass">class <strong>axisClass</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Used&nbsp;to&nbsp;control&nbsp;a&nbsp;RepRap&nbsp;axis.<br>
+X,&nbsp;Y&nbsp;&amp;&nbsp;Z&nbsp;instances&nbsp;are&nbsp;automatically&nbsp;created&nbsp;in&nbsp;the&nbsp;reprap&nbsp;module,<br>
+so&nbsp;for&nbsp;basic&nbsp;use&nbsp;just&nbsp;use&nbsp;reprap.cartesian.x,&nbsp;reprap.cartesian.y<br>
+&amp;&nbsp;reprap.cartesian.z&nbsp;&nbsp;rather&nbsp;than&nbsp;defining&nbsp;new&nbsp;ones.<br>
+&nbsp;<br>
+Most&nbsp;of&nbsp;the&nbsp;time&nbsp;the&nbsp;functions&nbsp;in&nbsp;reprap.cartesian&nbsp;will&nbsp;be&nbsp;<br>
+sufficient.&nbsp;E.g.&nbsp;to&nbsp;move&nbsp;just&nbsp;one&nbsp;axis&nbsp;you&nbsp;can&nbsp;use:<br>
+reprap.cartesian.<a href="#axisClass-seek">seek</a>((200,&nbsp;None,&nbsp;None))<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="axisClass-__init__"><strong>__init__</strong></a>(self, address)</dt><dd><tt>Create&nbsp;an&nbsp;axis&nbsp;instance&nbsp;with&nbsp;address&nbsp;(1-255).&nbsp;Instances&nbsp;for&nbsp;the&nbsp;three&nbsp;axies&nbsp;are&nbsp;automatically&nbsp;created&nbsp;and&nbsp;can&nbsp;be&nbsp;accessed&nbsp;via&nbsp;reprap.cartesian.x,&nbsp;reprap.cartesian.y&nbsp;&amp;&nbsp;reprap.cartesian.z<br>
+These&nbsp;instances&nbsp;are&nbsp;pre-configured&nbsp;with&nbsp;the&nbsp;correct&nbsp;addresses&nbsp;and&nbsp;alow&nbsp;the&nbsp;use&nbsp;of&nbsp;whole&nbsp;machine&nbsp;reprap.cartesian&nbsp;commands.</tt></dd></dl>
+
+<dl><dt><a name="axisClass-backward"><strong>backward</strong></a>(self, speed<font color="#909090">=None</font>)</dt><dd><tt>Spin&nbsp;axis&nbsp;backward&nbsp;at&nbsp;given&nbsp;speed&nbsp;(0-255)<br>
+If&nbsp;no&nbsp;speed&nbsp;is&nbsp;specified&nbsp;then&nbsp;a&nbsp;value&nbsp;must&nbsp;have&nbsp;been&nbsp;previously&nbsp;set&nbsp;with&nbsp;<a href="#axisClass">axisClass</a>.<a href="#axisClass-setSpeed">setSpeed</a>()</tt></dd></dl>
+
+<dl><dt><a name="axisClass-backward1"><strong>backward1</strong></a>(self)</dt><dd><tt>Move&nbsp;axis&nbsp;one&nbsp;step&nbsp;backward</tt></dd></dl>
+
+<dl><dt><a name="axisClass-forward"><strong>forward</strong></a>(self, speed<font color="#909090">=None</font>)</dt><dd><tt>Spin&nbsp;axis&nbsp;forward&nbsp;at&nbsp;given&nbsp;speed&nbsp;(0-255)<br>
+If&nbsp;no&nbsp;speed&nbsp;is&nbsp;specified&nbsp;then&nbsp;a&nbsp;value&nbsp;must&nbsp;have&nbsp;been&nbsp;previously&nbsp;set&nbsp;with&nbsp;<a href="#axisClass">axisClass</a>.<a href="#axisClass-setSpeed">setSpeed</a>()</tt></dd></dl>
+
+<dl><dt><a name="axisClass-forward1"><strong>forward1</strong></a>(self)</dt><dd><tt>Move&nbsp;axis&nbsp;one&nbsp;step&nbsp;forward<br>
+Return&nbsp;the&nbsp;completed&nbsp;state&nbsp;as&nbsp;a&nbsp;bool.</tt></dd></dl>
+
+<dl><dt><a name="axisClass-free"><strong>free</strong></a>(self)</dt><dd><tt>Power&nbsp;off&nbsp;coils&nbsp;on&nbsp;stepper</tt></dd></dl>
+
+<dl><dt><a name="axisClass-getPos"><strong>getPos</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;axis&nbsp;postition&nbsp;as&nbsp;an&nbsp;integer.</tt></dd></dl>
+
+<dl><dt><a name="axisClass-getSensors"><strong>getSensors</strong></a>(self)</dt><dd><tt>Debug&nbsp;only.&nbsp;Returns&nbsp;raw&nbsp;PIC&nbsp;port&nbsp;bytes)</tt></dd></dl>
+
+<dl><dt><a name="axisClass-homeReset"><strong>homeReset</strong></a>(self, speed<font color="#909090">=None</font>, waitArrival<font color="#909090">=True</font>)</dt><dd><tt>Go&nbsp;to&nbsp;0&nbsp;position.&nbsp;If&nbsp;waitArrival&nbsp;is&nbsp;True,&nbsp;funtion&nbsp;waits&nbsp;until&nbsp;reset&nbsp;is&nbsp;compete&nbsp;to&nbsp;return</tt></dd></dl>
+
+<dl><dt><a name="axisClass-seek"><strong>seek</strong></a>(self, pos, speed<font color="#909090">=None</font>, waitArrival<font color="#909090">=True</font>)</dt><dd><tt>Seek&nbsp;to&nbsp;axis&nbsp;location&nbsp;pos.&nbsp;If&nbsp;waitArrival&nbsp;is&nbsp;True,&nbsp;funtion&nbsp;waits&nbsp;until&nbsp;seek&nbsp;is&nbsp;compete&nbsp;to&nbsp;return</tt></dd></dl>
+
+<dl><dt><a name="axisClass-setNotify"><strong>setNotify</strong></a>(self)</dt><dd><tt>Set&nbsp;axis&nbsp;to&nbsp;notify&nbsp;on&nbsp;arrivals</tt></dd></dl>
+
+<dl><dt><a name="axisClass-setPos"><strong>setPos</strong></a>(self, pos)</dt><dd><tt>set&nbsp;current&nbsp;position&nbsp;(integer)&nbsp;(set&nbsp;variable,&nbsp;not&nbsp;physical&nbsp;position)</tt></dd></dl>
+
+<dl><dt><a name="axisClass-setPower"><strong>setPower</strong></a>(self, power)</dt><dd><tt>Set&nbsp;stepper&nbsp;motor&nbsp;power&nbsp;(0-100%)</tt></dd></dl>
+
+<dl><dt><a name="axisClass-setSpeed"><strong>setSpeed</strong></a>(self, speed)</dt><dd><tt>Set&nbsp;axis&nbsp;move&nbsp;speed&nbsp;(0-255)</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="cartesianClass">class <strong>cartesianClass</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Main&nbsp;cartesian&nbsp;robot&nbsp;class<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="cartesianClass-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Create&nbsp;a&nbsp;cartesian&nbsp;instance.&nbsp;An&nbsp;instances&nbsp;is&nbsp;automatically&nbsp;created&nbsp;and&nbsp;can&nbsp;be&nbsp;accessed&nbsp;via&nbsp;reprap.cartesian<br>
+You&nbsp;will&nbsp;only&nbsp;need&nbsp;to&nbsp;create&nbsp;another&nbsp;one&nbsp;in&nbsp;you&nbsp;want&nbsp;to&nbsp;control&nbsp;more&nbsp;than&nbsp;one&nbsp;machine&nbsp;at&nbsp;the&nbsp;same&nbsp;time.</tt></dd></dl>
+
+<dl><dt><a name="cartesianClass-free"><strong>free</strong></a>(self)</dt><dd><tt>Free&nbsp;all&nbsp;motors&nbsp;(no&nbsp;current&nbsp;on&nbsp;coils)</tt></dd></dl>
+
+<dl><dt><a name="cartesianClass-getPos"><strong>getPos</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;current&nbsp;positions&nbsp;of&nbsp;all&nbsp;three&nbsp;axies&nbsp;as&nbsp;a&nbsp;tuple&nbsp;(x,&nbsp;y,&nbsp;z)</tt></dd></dl>
+
+<dl><dt><a name="cartesianClass-homeReset"><strong>homeReset</strong></a>(self, speed<font color="#909090">=None</font>, waitArrival<font color="#909090">=True</font>)</dt><dd><tt>Reset&nbsp;all&nbsp;axies&nbsp;to&nbsp;the&nbsp;home&nbsp;position&nbsp;with&nbsp;speed&nbsp;(0-255)&nbsp;and&nbsp;wait&nbsp;until&nbsp;arrival&nbsp;(boolean)<br>
+WARNING&nbsp;:&nbsp;Reseting&nbsp;all&nbsp;axies&nbsp;at&nbsp;the&nbsp;same&nbsp;time&nbsp;is&nbsp;unstable.&nbsp;suggest&nbsp;using&nbsp;waitArrival&nbsp;=&nbsp;True&nbsp;option.</tt></dd></dl>
+
+<dl><dt><a name="cartesianClass-seek"><strong>seek</strong></a>(self, pos, speed<font color="#909090">=False</font>, waitArrival<font color="#909090">=True</font>)</dt><dd><tt>Seek&nbsp;to&nbsp;a&nbsp;position&nbsp;(&nbsp;tuple&nbsp;(x,&nbsp;y,&nbsp;z)&nbsp;)&nbsp;with&nbsp;speed&nbsp;(0-255)&nbsp;and&nbsp;and&nbsp;wait&nbsp;until&nbsp;arrival&nbsp;(boolean)<br>
+Seek&nbsp;will&nbsp;automatically&nbsp;select&nbsp;between&nbsp;a&nbsp;standard&nbsp;seek&nbsp;and&nbsp;a&nbsp;syncronised&nbsp;seek&nbsp;when&nbsp;it&nbsp;is&nbsp;required<br>
+When&nbsp;waitArrival&nbsp;is&nbsp;True,&nbsp;funtion&nbsp;does&nbsp;not&nbsp;return&nbsp;until&nbsp;all&nbsp;seeks&nbsp;are&nbsp;compete</tt></dd></dl>
+
+<dl><dt><a name="cartesianClass-setPower"><strong>setPower</strong></a>(self, power)</dt><dd><tt>Set&nbsp;stepper&nbsp;power&nbsp;(0-100)</tt></dd></dl>
+
+<dl><dt><a name="cartesianClass-setSpeed"><strong>setSpeed</strong></a>(self, speed)</dt><dd><tt>Set&nbsp;axies&nbsp;move&nbsp;speed&nbsp;(0-255)</tt></dd></dl>
+
+<dl><dt><a name="cartesianClass-stop"><strong>stop</strong></a>(self)</dt><dd><tt>Stop&nbsp;all&nbsp;motors&nbsp;(but&nbsp;retain&nbsp;current)</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="extruderClass">class <strong>extruderClass</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Used&nbsp;to&nbsp;control&nbsp;a&nbsp;RepRap&nbsp;thermoplast&nbsp;extruder.<br>
+An&nbsp;instance&nbsp;is&nbsp;automatically&nbsp;created&nbsp;in&nbsp;the&nbsp;reprap&nbsp;module,&nbsp;so&nbsp;for<br>
+basic&nbsp;use&nbsp;just&nbsp;use&nbsp;reprap.extruder&nbsp;rather&nbsp;than&nbsp;defining&nbsp;a&nbsp;new&nbsp;one<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="extruderClass-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Create&nbsp;an&nbsp;extruder&nbsp;instance.&nbsp;An&nbsp;instance&nbsp;is&nbsp;automatically&nbsp;create&nbsp;at&nbsp;reprap.extruder.</tt></dd></dl>
+
+<dl><dt><a name="extruderClass-freeMotor"><strong>freeMotor</strong></a>(self)</dt><dd><tt>Power&nbsp;off&nbsp;the&nbsp;extruder&nbsp;motor</tt></dd></dl>
+
+<dl><dt><a name="extruderClass-getTemp"><strong>getTemp</strong></a>(self)</dt><dd><tt>Returns&nbsp;current&nbsp;extruder&nbsp;temperature&nbsp;in&nbsp;degrees&nbsp;Celsius&nbsp;as&nbsp;an&nbsp;integer</tt></dd></dl>
+
+<dl><dt><a name="extruderClass-getVersion"><strong>getVersion</strong></a>(self)</dt><dd><tt>Returns&nbsp;(major,&nbsp;minor)&nbsp;firmware&nbsp;version&nbsp;as&nbsp;a&nbsp;two&nbsp;integer&nbsp;tuple.</tt></dd></dl>
+
+<dl><dt><a name="extruderClass-setCooler"><strong>setCooler</strong></a>(self, speed)</dt><dd><tt>Set&nbsp;the&nbsp;speed&nbsp;(0-255)&nbsp;of&nbsp;the&nbsp;cooling&nbsp;fan</tt></dd></dl>
+
+<dl><dt><a name="extruderClass-setMotor"><strong>setMotor</strong></a>(self, direction, speed)</dt><dd><tt>Set&nbsp;motor&nbsp;direction&nbsp;(reprap.MOTOR_BACKWARD&nbsp;or&nbsp;reprap.MOTOR_FORWARD)&nbsp;and&nbsp;speed&nbsp;(0-255)</tt></dd></dl>
+
+<dl><dt><a name="extruderClass-setTemp"><strong>setTemp</strong></a>(self, temperature, lock<font color="#909090">=False</font>)</dt><dd><tt>Set&nbsp;the&nbsp;extruder&nbsp;target&nbsp;temperature&nbsp;(degrees&nbsp;Celsius).&nbsp;Lock&nbsp;is&nbsp;unused</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-closeSerial"><strong>closeSerial</strong></a>()</dt><dd><tt>Close&nbsp;serial&nbsp;port&nbsp;for&nbsp;SNAP&nbsp;RepRap&nbsp;communications</tt></dd></dl>
+ <dl><dt><a name="-openSerial"><strong>openSerial</strong></a>(port<font color="#909090">=0</font>, rate<font color="#909090">=19200</font>, timeout<font color="#909090">=60</font>)</dt><dd><tt>Open&nbsp;serial&nbsp;port&nbsp;for&nbsp;SNAP&nbsp;RepRap&nbsp;communications</tt></dd></dl>
+ <dl><dt><a name="-scanNetwork"><strong>scanNetwork</strong></a>()</dt><dd><tt>Scan&nbsp;reprap&nbsp;network&nbsp;for&nbsp;devices&nbsp;(incomplete)&nbsp;-&nbsp;this&nbsp;will&nbsp;be&nbsp;used&nbsp;by&nbsp;autoconfig&nbsp;functions&nbsp;when&nbsp;complete</tt></dd></dl>
+ <dl><dt><a name="-testComms"><strong>testComms</strong></a>()</dt><dd><tt>Test&nbsp;that&nbsp;serial&nbsp;communications&nbsp;are&nbsp;working&nbsp;properly&nbsp;with&nbsp;simple&nbsp;loopback&nbsp;(incomplete)</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>CMD_BACKWARD1</strong> = 13<br>
+<strong>CMD_CALIBRATE</strong> = 9<br>
+<strong>CMD_DDA</strong> = 11<br>
+<strong>CMD_FORWARD</strong> = 1<br>
+<strong>CMD_FORWARD1</strong> = 12<br>
+<strong>CMD_FREE</strong> = 6<br>
+<strong>CMD_GETDEBUGINFO</strong> = 54<br>
+<strong>CMD_GETMODULETYPE</strong> = 255<br>
+<strong>CMD_GETPOS</strong> = 4<br>
+<strong>CMD_GETRANGE</strong> = 10<br>
+<strong>CMD_GETSENSOR</strong> = 15<br>
+<strong>CMD_GETTEMP</strong> = 10<br>
+<strong>CMD_GETTEMPINFO</strong> = 55<br>
+<strong>CMD_HOMERESET</strong> = 16<br>
+<strong>CMD_ISEMPTY</strong> = 8<br>
+<strong>CMD_NOTIFY</strong> = 7<br>
+<strong>CMD_PRESCALER</strong> = 51<br>
+<strong>CMD_PWMPERIOD</strong> = 50<br>
+<strong>CMD_REVERSE</strong> = 2<br>
+<strong>CMD_SEEK</strong> = 5<br>
+<strong>CMD_SETCOOLER</strong> = 11<br>
+<strong>CMD_SETHEAT</strong> = 9<br>
+<strong>CMD_SETPOS</strong> = 3<br>
+<strong>CMD_SETPOWER</strong> = 14<br>
+<strong>CMD_SETVREF</strong> = 52<br>
+<strong>CMD_SYNC</strong> = 8<br>
+<strong>CMD_VERSION</strong> = 0<br>
+<strong>CMD__setTempScaler</strong> = 53<br>
+<strong>MOTOR_BACKWARD</strong> = 2<br>
+<strong>MOTOR_FORWARD</strong> = 1<br>
+<strong>SYNC_DEC</strong> = 3<br>
+<strong>SYNC_INC</strong> = 2<br>
+<strong>SYNC_NONE</strong> = 0<br>
+<strong>SYNC_SEEK</strong> = 1<br>
+<strong>UNITS_INCHES</strong> = 3<br>
+<strong>UNITS_MM</strong> = 1<br>
+<strong>UNITS_STEPS</strong> = 2<br>
+<strong>__author__</strong> = 'Stefan Blanke (greenarrow) (greenarrow@users.sourceforge.net)'<br>
+<strong>__credits__</strong> = ''<br>
+<strong>__licence__</strong> = '<font color="#c040c0">\n</font>pyRepRap is free software: you can redistribute...ap.  If not, see &lt;http://www.gnu.org/licenses/&gt;.<font color="#c040c0">\n</font>'<br>
+<strong>__license__</strong> = 'GPL 3.0'<br>
+<strong>__version__</strong> = '2.0'<br>
+<strong>cartesian</strong> = &lt;reprap.cartesianClass instance at 0x7f61b5917cb0&gt;<br>
+<strong>extruder</strong> = &lt;reprap.extruderClass instance at 0x7f61b5917c68&gt;<br>
+<strong>printDebug</strong> = False</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Stefan&nbsp;Blanke&nbsp;(greenarrow)&nbsp;(greenarrow@users.sourceforge.net)</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Credits</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"></td></tr></table>
+</body></html>

@@ -1,0 +1,58 @@
+pyRepRap - RepRap Python Library and plotting application
+
+Requirements:
+pyserial	(for all)
+pygame		(for reprapplot)
+wxpython	(for reprapplot)
+
+To install dependencies under Fedora / Redhat run:
+sudo yum install pyserial pygame wxpython
+
+To install dependencies under Ubuntu run:
+sudo aptitude install python-serial python-pygame python-wxversion
+
+How to Install :
+python setup.py build
+sudo python setup.py install
+
+
+What's included:
+	python libraries:
+		reprap				General control of reprap
+		reprap.snap			General SNAP comms
+		reprap.toolpath		Objects for storing polygon based toolpath information
+		reprap.shapeplotter	Plots shapes to polygon objects
+		reprap.ffm			Tools for extuding shapes in plastic with extruder
+		reprap.plugins		Access to all plugin modules (import/output/toolhead)
+		reprap.preferences	Access the preferences system
+		reprap.gopython		From python command line import this module to fully configure reprap ready for commands
+		reprap.baseplotters	Base classes for import and outout plugins
+	scripts:
+		reprapcontrol		Command line program to control serial SNAP RepRap
+		reprapplot			Plot various files to various formats (and serial SNAP RepRap)
+
+
+Scripts require serial port permissions. Either run as root or change serial permissions:
+	 (as root)
+	 chown yourusername /dev/ttyS0
+	 chmod 0600 /dev/ttyS0
+	 (see http://gphoto.sourceforge.net/doc/manual/permissions-serial.html)
+
+
+If you wish to embed the main reprap control module into your project, just copy __init__.py and snap.py
+into your project directory and rename __init__.py to reprap.py. You will then be able to control the
+RepRap by importing the reprap module.
+
+Licence:
+RepRap Gerber Plotter is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by the Free Software Foundation; 
+either version 2 of the License, or (at your option) any later version.
+
+RepRap Gerber Plotter is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+See the GNU General Public License for more details. You should have received a copy of 
+the GNU General Public License along with File Hunter; if not, write to 
+the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+
+

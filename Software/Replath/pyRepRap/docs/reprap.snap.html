@@ -1,0 +1,148 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module reprap.snap</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="reprap.html"><font color="#ffffff">reprap</font></a>.snap</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/lib/python2.5/site-packages/reprap/snap.py">/usr/lib/python2.5/site-packages/reprap/snap.py</a></font></td></tr></table>
+    <p><tt>This&nbsp;module&nbsp;is&nbsp;an&nbsp;implementation&nbsp;of&nbsp;the&nbsp;SNAP&nbsp;communications&nbsp;protocol&nbsp;and&nbsp;is&nbsp;used&nbsp;for<br>
+communications&nbsp;between&nbsp;the&nbsp;PC&nbsp;host&nbsp;and&nbsp;the&nbsp;RepRap&nbsp;machine.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="exceptions.html">exceptions</a><br>
+</td><td width="25%" valign=top><a href="serial.html">serial</a><br>
+</td><td width="25%" valign=top><a href="threading.html">threading</a><br>
+</td><td width="25%" valign=top><a href="time.html">time</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="reprap.snap.html#Packet">Packet</a>
+</font></dt><dt><font face="helvetica, arial"><a href="threading.html#Thread">threading.Thread</a>(<a href="threading.html#_Verbose">threading._Verbose</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="reprap.snap.html#PacketReceiver">PacketReceiver</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Packet">class <strong>Packet</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>SNAP&nbsp;packet&nbsp;class<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Packet-__init__"><strong>__init__</strong></a>(self, DAB<font color="#909090">=None</font>, SAB<font color="#909090">=None</font>, ACK<font color="#909090">=None</font>, NAK<font color="#909090">=None</font>, dataBytes<font color="#909090">=None</font>)</dt><dd><tt>Create&nbsp;SNAP&nbsp;packet</tt></dd></dl>
+
+<dl><dt><a name="Packet-checkReply"><strong>checkReply</strong></a>(self, expectedBytes, expectedCommand)</dt></dl>
+
+<dl><dt><a name="Packet-getReply"><strong>getReply</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Packet-printPacket"><strong>printPacket</strong></a>(self, status)</dt><dd><tt>Print&nbsp;contents&nbsp;of&nbsp;packet&nbsp;to&nbsp;screen</tt></dd></dl>
+
+<dl><dt><a name="Packet-send"><strong>send</strong></a>(self)</dt><dd><tt>Send&nbsp;SNAP&nbsp;packet&nbsp;over&nbsp;serial&nbsp;conneciton&nbsp;(automatically&nbsp;encodes)</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="PacketReceiver">class <strong>PacketReceiver</strong></a>(<a href="threading.html#Thread">threading.Thread</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="threading.html#Thread">Thread</a>&nbsp;for&nbsp;recieving&nbsp;packets.&nbsp;Passes&nbsp;on&nbsp;irrelivent&nbsp;packets&nbsp;and&nbsp;buffers&nbsp;those&nbsp;intended&nbsp;for&nbsp;host<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="reprap.snap.html#PacketReceiver">PacketReceiver</a></dd>
+<dd><a href="threading.html#Thread">threading.Thread</a></dd>
+<dd><a href="threading.html#_Verbose">threading._Verbose</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="PacketReceiver-__init__"><strong>__init__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="PacketReceiver-clearPackets"><strong>clearPackets</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="PacketReceiver-getPacket"><strong>getPacket</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="PacketReceiver-run"><strong>run</strong></a>(self)</dt><dd><tt>Main&nbsp;receiver&nbsp;loop.&nbsp;Do&nbsp;not&nbsp;call&nbsp;this&nbsp;function,&nbsp;call&nbsp;<a href="#PacketReceiver">PacketReceiver</a>.<a href="#PacketReceiver-start">start</a>()&nbsp;to&nbsp;start&nbsp;the&nbsp;function&nbsp;in&nbsp;a&nbsp;new&nbsp;thread</tt></dd></dl>
+
+<dl><dt><a name="PacketReceiver-terminate"><strong>terminate</strong></a>(self)</dt><dd><tt>Terminate&nbsp;reciver&nbsp;thread</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="threading.html#Thread">threading.Thread</a>:<br>
+<dl><dt><a name="PacketReceiver-__repr__"><strong>__repr__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="PacketReceiver-getName"><strong>getName</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="PacketReceiver-isAlive"><strong>isAlive</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="PacketReceiver-isDaemon"><strong>isDaemon</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="PacketReceiver-join"><strong>join</strong></a>(self, timeout<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="PacketReceiver-setDaemon"><strong>setDaemon</strong></a>(self, daemonic)</dt></dl>
+
+<dl><dt><a name="PacketReceiver-setName"><strong>setName</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="PacketReceiver-start"><strong>start</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="threading.html#_Verbose">threading._Verbose</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-closeSerial"><strong>closeSerial</strong></a>()</dt><dd><tt>Close&nbsp;serial&nbsp;port&nbsp;for&nbsp;SNAP&nbsp;RepRap&nbsp;communications</tt></dd></dl>
+ <dl><dt><a name="-openSerial"><strong>openSerial</strong></a>(port<font color="#909090">=0</font>, rate<font color="#909090">=19200</font>, tout<font color="#909090">=60</font>)</dt><dd><tt>Open&nbsp;serial&nbsp;port&nbsp;for&nbsp;SNAP&nbsp;RepRap&nbsp;communications</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>HDB1_OFFSET</strong> = 2<br>
+<strong>PAYLOAD_OFFSET</strong> = 5<br>
+<strong>Receiver</strong> = None<br>
+<strong>SYNC_BYTE</strong> = 84<br>
+<strong>__author__</strong> = 'Stefan Blanke (greenarrow) (greenarrow@users.sourceforge.net)'<br>
+<strong>__licence__</strong> = '<font color="#c040c0">\n</font>pyRepRap is free software: you can redistribute...ap.  If not, see &lt;http://www.gnu.org/licenses/&gt;.<font color="#c040c0">\n</font>'<br>
+<strong>__license__</strong> = 'GPL 3.0'<br>
+<strong>localAddress</strong> = 0<br>
+<strong>printIncoming</strong> = False<br>
+<strong>printOutgoing</strong> = False<br>
+<strong>serialPort</strong> = None</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Stefan&nbsp;Blanke&nbsp;(greenarrow)&nbsp;(greenarrow@users.sourceforge.net)</td></tr></table>
+</body></html>

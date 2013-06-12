@@ -1,0 +1,71 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module reprap.ffm</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="reprap.html"><font color="#ffffff">reprap</font></a>.ffm</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/lib/python2.5/site-packages/reprap/ffm.py">/usr/lib/python2.5/site-packages/reprap/ffm.py</a></font></td></tr></table>
+    <p><tt>Module&nbsp;for&nbsp;making&nbsp;things&nbsp;out&nbsp;of&nbsp;plastic&nbsp;using&nbsp;a&nbsp;thermoplast&nbsp;extruder</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="reprap.reprap.html">reprap.reprap</a><br>
+</td><td width="25%" valign=top><a href="time.html">time</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="reprap.ffm.html#FFM">FFM</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="FFM">class <strong>FFM</strong></a></font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="FFM-__init__"><strong>__init__</strong></a>(self, extrudeTemp, extrudeSpeed, moveSpeed, zBottomLayer, zIdleHeight, stopReverseMotorTime)</dt></dl>
+
+<dl><dt><a name="FFM-extrudeLine"><strong>extrudeLine</strong></a>(self, x1, y1, x2, y2)</dt><dd><tt>#&nbsp;Layer&nbsp;down&nbsp;a&nbsp;line&nbsp;of&nbsp;plastic&nbsp;(Move&nbsp;to&nbsp;start&nbsp;point,&nbsp;lower&nbsp;tool&nbsp;(if&nbsp;not&nbsp;already),&nbsp;deposit&nbsp;plastic&nbsp;in&nbsp;line&nbsp;to&nbsp;end&nbsp;point,&nbsp;stop&nbsp;depositing.)</tt></dd></dl>
+
+<dl><dt><a name="FFM-lowerTool"><strong>lowerTool</strong></a>(self)</dt><dd><tt>#&nbsp;Lower&nbsp;tool&nbsp;to&nbsp;current&nbsp;layer&nbsp;working&nbsp;height</tt></dd></dl>
+
+<dl><dt><a name="FFM-raiseTool"><strong>raiseTool</strong></a>(self)</dt><dd><tt>#&nbsp;Raise&nbsp;tool&nbsp;to&nbsp;safe&nbsp;moving&nbsp;height</tt></dd></dl>
+
+<dl><dt><a name="FFM-reverseMotorStopFlow"><strong>reverseMotorStopFlow</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="FFM-setExtrudeMoveSpeed"><strong>setExtrudeMoveSpeed</strong></a>(self, speed)</dt></dl>
+
+<dl><dt><a name="FFM-setExtrudeSpeed"><strong>setExtrudeSpeed</strong></a>(self, speed)</dt></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>__author__</strong> = 'Stefan Blanke (greenarrow) (greenarrow@users.sourceforge.net)'<br>
+<strong>__licence__</strong> = '<font color="#c040c0">\n</font>pyRepRap is free software: you can redistribute...ap.  If not, see &lt;http://www.gnu.org/licenses/&gt;.<font color="#c040c0">\n</font>'<br>
+<strong>__license__</strong> = 'GPL 3.0'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Stefan&nbsp;Blanke&nbsp;(greenarrow)&nbsp;(greenarrow@users.sourceforge.net)</td></tr></table>
+</body></html>

@@ -1,0 +1,68 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module reprap.shapeplotter</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="reprap.html"><font color="#ffffff">reprap</font></a>.shapeplotter</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/lib/python2.5/site-packages/reprap/shapeplotter.py">/usr/lib/python2.5/site-packages/reprap/shapeplotter.py</a></font></td></tr></table>
+    <p><tt>This&nbsp;module&nbsp;plots&nbsp;many&nbsp;shapes&nbsp;a&nbsp;polygon&nbsp;objects&nbsp;containing&nbsp;a&nbsp;series&nbsp;of&nbsp;lines<br>
+The&nbsp;Polygon&nbsp;object&nbsp;can&nbsp;be&nbsp;found&nbsp;in&nbsp;reprap.toolpath</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="math.html">math</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="reprap.toolpath.html">reprap.toolpath</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-arc"><strong>arc</strong></a>(x, y, radius, startAngle, endAngle, resolution)</dt><dd><tt>Returns&nbsp;polygon&nbsp;an&nbsp;arc&nbsp;with&nbsp;x,&nbsp;y,&nbsp;radius,&nbsp;start&nbsp;angle&nbsp;(radians),&nbsp;end&nbsp;engle&nbsp;(radians)&nbsp;and&nbsp;resolution&nbsp;(lines&nbsp;per&nbsp;mm)&nbsp;a&nbsp;Polygon&nbsp;object</tt></dd></dl>
+ <dl><dt><a name="-circle"><strong>circle</strong></a>(x, y, radius, resolution, fillDensity<font color="#909090">=False</font>)</dt><dd><tt>Returns&nbsp;polygon&nbsp;for&nbsp;a&nbsp;filled&nbsp;circle&nbsp;with&nbsp;x,&nbsp;y,&nbsp;radius,&nbsp;resolution&nbsp;(lines&nbsp;per&nbsp;mm)&nbsp;and&nbsp;fill&nbsp;density&nbsp;(lines&nbsp;per&nbsp;mm)&nbsp;as&nbsp;a&nbsp;Polygon&nbsp;object</tt></dd></dl>
+ <dl><dt><a name="-circleStroke"><strong>circleStroke</strong></a>(x1, y1, x2, y2, radius, resolution, fillDensity<font color="#909090">=False</font>)</dt><dd><tt>Returns&nbsp;polygon&nbsp;for&nbsp;a&nbsp;photoplotter&nbsp;moving&nbsp;stroke&nbsp;using&nbsp;a&nbsp;circular&nbsp;aperture&nbsp;with&nbsp;x,&nbsp;y,&nbsp;radius,&nbsp;resolution&nbsp;(lines&nbsp;per&nbsp;mm)&nbsp;and&nbsp;fill&nbsp;density&nbsp;(lines&nbsp;per&nbsp;mm)&nbsp;as&nbsp;a&nbsp;Polygon&nbsp;object</tt></dd></dl>
+ <dl><dt><a name="-ellipse"><strong>ellipse</strong></a>(x, y, a, b, resolution, fillDensity<font color="#909090">=False</font>)</dt><dd><tt>Returns&nbsp;polygon&nbsp;for&nbsp;a&nbsp;filled&nbsp;ellipse&nbsp;with&nbsp;x,&nbsp;y,&nbsp;a,&nbsp;b,&nbsp;resolution&nbsp;(lines&nbsp;per&nbsp;mm)&nbsp;and&nbsp;fill&nbsp;density&nbsp;(lines&nbsp;per&nbsp;mm)&nbsp;as&nbsp;a&nbsp;Polygon&nbsp;object</tt></dd></dl>
+ <dl><dt><a name="-line"><strong>line</strong></a>(line)</dt><dd><tt>Returns&nbsp;polygon&nbsp;for&nbsp;line&nbsp;(x1,&nbsp;y2,&nbsp;x2,&nbsp;y2)&nbsp;as&nbsp;a&nbsp;Polygon&nbsp;object</tt></dd></dl>
+ <dl><dt><a name="-point"><strong>point</strong></a>(point)</dt><dd><tt>Returns&nbsp;polygon&nbsp;for&nbsp;point&nbsp;(x,&nbsp;y)&nbsp;as&nbsp;a&nbsp;Polygon&nbsp;Object</tt></dd></dl>
+ <dl><dt><a name="-raster"><strong>raster</strong></a>(fileName, originalWidth, originalHeight, svg<font color="#909090">=False</font>)</dt><dd><tt>Returns&nbsp;polygon&nbsp;for&nbsp;a&nbsp;vectorised&nbsp;raster&nbsp;as&nbsp;a&nbsp;Polygon&nbsp;object.<br>
+Uses&nbsp;external&nbsp;potrace&nbsp;program&nbsp;to&nbsp;convert&nbsp;raster&nbsp;file&nbsp;into&nbsp;polygon(s)</tt></dd></dl>
+ <dl><dt><a name="-rectangle"><strong>rectangle</strong></a>(x, y, width, height, fillDensity<font color="#909090">=False</font>)</dt><dd><tt>Returns&nbsp;polygon&nbsp;for&nbsp;line&nbsp;x,&nbsp;y,&nbsp;width,&nbsp;height&nbsp;and&nbsp;fill&nbsp;density&nbsp;(lines&nbsp;per&nbsp;mm)&nbsp;as&nbsp;a&nbsp;Polygon&nbsp;object</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>FILL_LINES</strong> = 2<br>
+<strong>FILL_LOCUS</strong> = 1<br>
+<strong>__author__</strong> = 'Stefan Blanke (greenarrow) (greenarrow@users.sourceforge.net)'<br>
+<strong>__credits__</strong> = 'Author of potrace'<br>
+<strong>__licence__</strong> = '<font color="#c040c0">\n</font>pyRepRap is free software: you can redistribute...ap.  If not, see &lt;http://www.gnu.org/licenses/&gt;.<font color="#c040c0">\n</font>'<br>
+<strong>__license__</strong> = 'GPL 3.0'<br>
+<strong>debug</strong> = False</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Stefan&nbsp;Blanke&nbsp;(greenarrow)&nbsp;(greenarrow@users.sourceforge.net)</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Credits</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Author&nbsp;of&nbsp;potrace</td></tr></table>
+</body></html>

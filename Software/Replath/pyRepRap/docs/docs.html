@@ -1,0 +1,186 @@
+<html><head>
+<title>pyRepRap v0.1 Documentation</title>
+
+<style type="text/css">
+hr {color: sienna}
+p {margin-left: 20px}
+</style>
+
+</head>
+
+<body>
+<h1>pyRepRap v0.1 Documentation</h1>
+<h2>Introduction</h2>
+pyRepRap requires <a href="http://pyserial.sourceforge.net/">pySerial</a> installed for this module to work. If you are using Fedora it is available on yum (run "sudo yum install pyserial").<br><br>
+
+<b>pyRepRap</b> is a python module that provides full control over the RepRap hardware.
+It is not intened as a replacement for the Java host software and I do not intend on writing any FDM code for the library.
+It is instead intended for anyone wanting to experiment with the RepRap hardware and find other uses for it. e.g. Plotting, 3D scanning, botany, electronics manufacture etc.<br>
+<br>
+The reprap.cartesian object should provide most of the commands required, however the lower level reprap.cartesian.[axis] commands have been made available individual control of the axies is required.<br>
+<font color="FF0000"><h3>WARNING : The extruder code is experimental and incomplete, it will not accurately control the temperature and it is not reconmented that you activate the heater using this module.</h3></font>
+
+<h2>Example</h2>
+<p>This example moves the RepRap to the home position, then to several locations, then back to the home position.</p>
+<pre><p>
+import serial, reprap, time							# Import the reprap and pySerial modules.
+reprap.serial = serial.Serial(0, 19200, timeout = reprap.snap.messageTimeout)	# Initialise serial port, here the first port (0) is used.
+reprap.cartesian.x.active = True						# These devices are present in network, will automatically scan in the future.
+reprap.cartesian.y.active = True
+reprap.cartesian.z.active = True
+reprap.extruder.active = True
+# The module is now ready to recieve commands #
+moveSpeed = 200
+reprap.cartesian.homeReset( moveSpeed, True )					# Send all axies to home position. Wait until arrival.
+reprap.cartesian.seek( (1000, 1000, 0), moveSpeed, True )			# Seek to (1000, 1000, 0). Wait until arrival.
+time.sleep(2)									# Pause.
+reprap.cartesian.seek( (500, 1000, 0), moveSpeed, True )			# Seek to (500, 1000, 0). Wait until arrival.
+time.sleep(2)
+reprap.cartesian.seek( (1000, 500, 0), moveSpeed, True )			# Seek to (1000, 500, 0). Wait until arrival.
+time.sleep(2)
+reprap.cartesian.seek( (100, 100, 0), moveSpeed, True )				# Seek to (100, 100, 0). Wait until arrival.
+reprap.cartesian.homeReset( moveSpeed, True )					# Send all axies to home position. Wait until arrival.
+reprap.cartesian.free()								# Shut off power to all motors.
+</p></pre>
+<p>This example can be found in demo.py<br>
+Further use of the module is demonstrated in example.py</p>
+
+<br>
+
+<h2>Cartesian Commands</h2>
+
+<h3>Home Reset</h3>
+<p>Go to home position and set position counter to 0 (all axies)<br>
+<b>reprap.cartesian.homeReset( speed, waitArrival )</b><br>
+<ul><li><i>speed</i> - Speed to seek at. (0 - 255)</li>
+<li><i>waitArrival</i> - If true then function will not return until the axis has reached its destination, if false the function will return once the command has been sent. (True / False)</li>
+</ul>
+Returns: Nothing<br></p>
+
+<h3>Seek</h3>
+<p>Seek to location (all axies)<br>
+<b>reprap.cartesian.seek( pos, speed, waitArrival )</b><br>
+<ul><li><i>pos</i> - Position to seek to. Turple (x, y, z)</li>
+<li><i>speed</i> - Speed to seek at. (0 - 255)</li>
+<li><i>waitArrival</i> - If true then function will not return until the axis has reached its destination, if false the function will return once the command has been sent. (True / False)</li>
+</ul>
+Returns: Nothing<br></p>
+
+<h3>Get Position</h3>
+<p>Get position counters for all axies<br>
+<b>reprap.cartesian.getPos()</b><br>
+Returns: Turple (x, y, z)<br></p>
+
+<h3>Stop</h3>
+<p>Stop all motors<br>
+<b>reprap.cartesian.stop()</b><br>
+Returns: Nothing<br></p>
+
+<h3>Free</h3>
+<p>Power off all motors<br>
+<b>reprap.cartesian.free()</b><br>
+Returns: Nothing
+</p>
+
+<br>
+
+<h2>Axis Commands</h2>
+
+Replace [axis] with x, y or z. e.g. reprap.x.forward(100)
+
+<h3>Forward 1</h3>
+<p>Move axis one step forward<br>
+<b>reprap.axis.forward1()</b><br>
+Returns: Nothing<br></p>
+
+<h3>Backward 1</h3>
+<p>Move axis one step backward<br>
+<b>reprap.cartesian.[axis].backward1()</b><br>
+Returns: Nothing<br></p>
+
+<h3>Forward</h3>
+<p>Rotate motor forwards at given speed<br>
+<b>reprap.cartesian.[axis].forward( speed )</b><br>
+<ul><li><i>speed</i> - Speed to rotate at. (0 - 255)</li></ul>
+Returns: Nothing<br></p>
+
+<h3>Backward</h3>
+<p>Rotate motor backwards at given speed<br>
+<b>reprap.cartesian.[axis].backward( speed )</b><br>
+<ul><li><i>speed</i> - Speed to rotate at. (0 - 255)</li></ul>
+Returns: Nothing<br></p>
+
+<h3>Get Sensors (Debug only)</h3>
+<p>Get port information<br>
+<b>reprap.cartesian.[axis].getSensors()</b><br>
+Returns: PortA, PortB<br></p>
+
+<h3>Get Position</h3>
+<p>Get position counter for axis<br>
+<b>reprap.cartesian.[axis].getPos()</b><br>
+Returns: Position<br></p>
+
+<h3>Set Position</h3>
+<p>Set position counter (set variable not robot position)<br>
+<b>reprap.cartesian.[axis].setPos( pos )</b><br>
+<ul><li><i>pos</i> - Position (16bit max?)</li></ul>
+Returns: Nothing<br></p>
+
+<h3>Free</h3>
+<p>Power off motor<br>
+<b>reprap.cartesian.[axis].free()</b><br>
+Returns: Nothing
+</p>
+
+<h3>Seek</h3>
+<p>Seek to location<br>
+<b>reprap.cartesian.[axis].seek( pos, speed, waitArrival )</b><br>
+<ul><li><i>pos</i> - Position to seek to</li>
+<li><i>speed</i> - Speed to seek at. (0 - 255)</li>
+<li><i>waitArrival</i> - If true then function will not return until the axis has reached its destination, if false the function will return once the command has been sent. (True / False)</li>
+</ul>
+Returns: Nothing<br></p>
+
+<h3>Home Reset</h3>
+<p>Go to home position and set position counter to 0<br>
+<b>reprap.cartesian.[axis].homeReset( speed, waitArrival )</b><br>
+<ul><li><i>speed</i> - Speed to seek at. (0 - 255)</li>
+<li><i>waitArrival</i> - If true then function will not return until the axis has reached its destination, if false the function will return once the command has been sent. (True / False)</li>
+</ul>
+Returns: Nothing<br></p>
+
+<br>
+
+<h2>Extruder Commands (Incomplete)</h2>
+
+<h3>Get Module Type</h3>
+<p>Get module type from PIC. #do pics not support this yet? I can't see it in code and get no reply from pic<br>
+<b>reprap.extruder.getModuleType()</b><br>
+Returns: Module Type. (0 - 255)
+</p>
+
+<h3>Get Module Version</h3>
+<p>Get Firmware Version from PIC<br>
+<b>reprap.extruder.getVersion()</b><br>
+Returns: Major Version, Minor Version.
+</p>
+
+<h3>Set Motor</h3>
+<p>Set extruder motor rotating in given direction and speed<br>
+<b>rreprap.extruder.setMotor( direction, speed )</b><br>
+<ul><li><i>direction</i> - Direction to rotate in. (reprap.CMD_FORWARD / reprap.CMD_REVERSE)</li>
+<li><i>speed</i> - Speed to turn at. (0 - 255)</li>
+</ul>
+Returns: Nothing<br></p>
+
+<h3>Get Temperature</h3>
+<p>Get <br>
+<b>reprap.extruder.getTemp()</b><br>
+Returns: 
+</p>
+
+reprap.extruder.setHeat(lowHeat, highHeat, tempTarget, tempMax):	
+reprap.extruder.setCooler(speed):
+reprap.extruder.freeMotor():
+
+</body></html>

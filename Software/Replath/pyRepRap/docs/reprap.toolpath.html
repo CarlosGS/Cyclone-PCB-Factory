@@ -1,0 +1,111 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module reprap.toolpath</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="reprap.html"><font color="#ffffff">reprap</font></a>.toolpath</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/lib/python2.5/site-packages/reprap/toolpath.py">/usr/lib/python2.5/site-packages/reprap/toolpath.py</a></font></td></tr></table>
+    <p><tt>This&nbsp;module&nbsp;contains&nbsp;the&nbsp;classed&nbsp;used&nbsp;for&nbsp;internal&nbsp;storage&nbsp;of&nbsp;toolpath&nbsp;instructions.<br>
+The&nbsp;module&nbsp;can&nbsp;also&nbsp;import/export&nbsp;Intermediate&nbsp;Toolpath&nbsp;Language&nbsp;(ITL)&nbsp;files<br>
+which&nbsp;are&nbsp;pyRepRap's&nbsp;native&nbsp;file&nbsp;format.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="_xmlplus.html">_xmlplus</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="reprap.toolpath.html#Layer">Layer</a>
+</font></dt><dt><font face="helvetica, arial"><a href="reprap.toolpath.html#Object">Object</a>
+</font></dt><dt><font face="helvetica, arial"><a href="reprap.toolpath.html#Point">Point</a>
+</font></dt><dt><font face="helvetica, arial"><a href="reprap.toolpath.html#Polygon">Polygon</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Layer">class <strong>Layer</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>#&nbsp;<a href="#Layer">Layer</a>&nbsp;within&nbsp;a&nbsp;toolpath<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Layer-__init__"><strong>__init__</strong></a>(self, index<font color="#909090">=None</font>, polygons<font color="#909090">=None</font>, workingHeight<font color="#909090">=None</font>, idleHeight<font color="#909090">=None</font>)</dt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Object">class <strong>Object</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>#&nbsp;Toolpath&nbsp;object&nbsp;-&nbsp;describes&nbsp;full&nbsp;parameters&nbsp;for&nbsp;machine&nbsp;build<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Object-__init__"><strong>__init__</strong></a>(self, layers<font color="#909090">=None</font>, scale<font color="#909090">=1</font>)</dt></dl>
+
+<dl><dt><a name="Object-readITL"><strong>readITL</strong></a>(self, filename)</dt><dd><tt>#&nbsp;Read&nbsp;toolpath&nbsp;object&nbsp;from&nbsp;XML&nbsp;based&nbsp;Intermediate&nbsp;Toolpath&nbsp;Language&nbsp;file</tt></dd></dl>
+
+<dl><dt><a name="Object-writeITL"><strong>writeITL</strong></a>(self, filename)</dt><dd><tt>#&nbsp;Write&nbsp;toolpath&nbsp;object&nbsp;to&nbsp;XML&nbsp;based&nbsp;Intermediate&nbsp;Toolpath&nbsp;Language&nbsp;file</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Point">class <strong>Point</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>#&nbsp;<a href="#Point">Point</a>&nbsp;within&nbsp;a&nbsp;polygon<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Point-__init__"><strong>__init__</strong></a>(self, x<font color="#909090">=None</font>, y<font color="#909090">=None</font>, z<font color="#909090">=None</font>)</dt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Polygon">class <strong>Polygon</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>#&nbsp;<a href="#Polygon">Polygon</a>&nbsp;within&nbsp;a&nbsp;layer<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Polygon-__init__"><strong>__init__</strong></a>(self, index<font color="#909090">=None</font>, points<font color="#909090">=None</font>, closed<font color="#909090">=False</font>, clone<font color="#909090">=None</font>, offsetX<font color="#909090">=0</font>, offsetY<font color="#909090">=0</font>, scale<font color="#909090">=1</font>, tool<font color="#909090">=None</font>, material<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="Polygon-addPoint"><strong>addPoint</strong></a>(self, point)</dt></dl>
+
+<dl><dt><a name="Polygon-addPoints"><strong>addPoints</strong></a>(self, points)</dt></dl>
+
+<dl><dt><a name="Polygon-addPolygon"><strong>addPolygon</strong></a>(self, poly)</dt></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>__author__</strong> = 'Stefan Blanke (greenarrow) (greenarrow@users.sourceforge.net)'<br>
+<strong>__licence__</strong> = '<font color="#c040c0">\n</font>pyRepRap is free software: you can redistribute...ap.  If not, see &lt;http://www.gnu.org/licenses/&gt;.<font color="#c040c0">\n</font>'<br>
+<strong>__license__</strong> = 'GPL 3.0'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Stefan&nbsp;Blanke&nbsp;(greenarrow)&nbsp;(greenarrow@users.sourceforge.net)</td></tr></table>
+</body></html>

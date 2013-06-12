@@ -1,0 +1,138 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module gcode_output</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>gcode_output</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/share/reprap/plugins/output/gcode_output.py">/usr/share/reprap/plugins/output/gcode_output.py</a></font></td></tr></table>
+    <p><tt>Licensed&nbsp;under&nbsp;GPL&nbsp;v2&nbsp;and&nbsp;the&nbsp;'I'm&nbsp;not&nbsp;going&nbsp;to&nbsp;help&nbsp;you&nbsp;kill&nbsp;people&nbsp;licence'.&nbsp;The&nbsp;latter&nbsp;overrules&nbsp;the&nbsp;former.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+I'm&nbsp;not&nbsp;going&nbsp;to&nbsp;help&nbsp;you&nbsp;kill&nbsp;people&nbsp;licence&nbsp;v1.1:<br>
+The&nbsp;use&nbsp;of&nbsp;this&nbsp;software&nbsp;in&nbsp;any&nbsp;form&nbsp;for&nbsp;any&nbsp;purposes&nbsp;relating&nbsp;to&nbsp;any&nbsp;form&nbsp;of&nbsp;military&nbsp;activity&nbsp;or<br>
+research&nbsp;either&nbsp;directly&nbsp;or&nbsp;via&nbsp;subcontracts&nbsp;is&nbsp;strictly&nbsp;prohibited.<br>
+Any&nbsp;company&nbsp;or&nbsp;organisation&nbsp;affiliated&nbsp;with&nbsp;any&nbsp;military&nbsp;organisations&nbsp;either&nbsp;directly&nbsp;or&nbsp;through<br>
+subcontracts&nbsp;are&nbsp;strictly&nbsp;prohibited&nbsp;from&nbsp;using&nbsp;any&nbsp;part&nbsp;of&nbsp;this&nbsp;software.<br>
+Individuals&nbsp;who&nbsp;work&nbsp;for&nbsp;the&nbsp;above&nbsp;mentioned&nbsp;organisations&nbsp;working&nbsp;on&nbsp;PERSONAL&nbsp;or&nbsp;open&nbsp;source&nbsp;projects&nbsp;unrelated<br>
+to&nbsp;above&nbsp;mentioned&nbsp;organisations&nbsp;in&nbsp;their&nbsp;own&nbsp;time&nbsp;may&nbsp;use&nbsp;this&nbsp;software.<br>
+&nbsp;<br>
+GNU&nbsp;licence:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+RepRap&nbsp;Gerber&nbsp;Plotter&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify&nbsp;it&nbsp;<br>
+under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;as&nbsp;published&nbsp;by&nbsp;the&nbsp;Free&nbsp;Software&nbsp;Foundation;&nbsp;<br>
+either&nbsp;version&nbsp;2&nbsp;of&nbsp;the&nbsp;License,&nbsp;or&nbsp;(at&nbsp;your&nbsp;option)&nbsp;any&nbsp;later&nbsp;version.<br>
+&nbsp;<br>
+RepRap&nbsp;Gerber&nbsp;Plotter&nbsp;is&nbsp;distributed&nbsp;in&nbsp;the&nbsp;hope&nbsp;that&nbsp;it&nbsp;will&nbsp;be&nbsp;useful,&nbsp;but&nbsp;WITHOUT&nbsp;ANY&nbsp;WARRANTY;&nbsp;<br>
+without&nbsp;even&nbsp;the&nbsp;implied&nbsp;warranty&nbsp;of&nbsp;MERCHANTABILITY&nbsp;or&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE.&nbsp;&nbsp;<br>
+See&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;for&nbsp;more&nbsp;details.&nbsp;You&nbsp;should&nbsp;have&nbsp;received&nbsp;a&nbsp;copy&nbsp;of&nbsp;<br>
+the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;along&nbsp;with&nbsp;File&nbsp;Hunter;&nbsp;if&nbsp;not,&nbsp;write&nbsp;to&nbsp;<br>
+the&nbsp;Free&nbsp;Software&nbsp;Foundation,&nbsp;Inc.,&nbsp;59&nbsp;Temple&nbsp;Place,&nbsp;Suite&nbsp;330,&nbsp;Boston,&nbsp;MA&nbsp;&nbsp;02111-1307&nbsp;&nbsp;USA</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="reprap.html">reprap</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="gcode_output.html#GCode">GCode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="reprap.baseplotters.html#ExportPlotter">reprap.baseplotters.ExportPlotter</a>(<a href="threading.html#Thread">threading.Thread</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="gcode_output.html#output">output</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="GCode">class <strong>GCode</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>#&nbsp;Class&nbsp;for&nbsp;gcode&nbsp;file<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="GCode-__init__"><strong>__init__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GCode-addCoordinate"><strong>addCoordinate</strong></a>(self, x, y, z)</dt></dl>
+
+<dl><dt><a name="GCode-generateGCode"><strong>generateGCode</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GCode-writeFile"><strong>writeFile</strong></a>(self, fileName)</dt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="output">class <strong>output</strong></a>(<a href="reprap.baseplotters.html#ExportPlotter">reprap.baseplotters.ExportPlotter</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="gcode_output.html#output">output</a></dd>
+<dd><a href="reprap.baseplotters.html#ExportPlotter">reprap.baseplotters.ExportPlotter</a></dd>
+<dd><a href="threading.html#Thread">threading.Thread</a></dd>
+<dd><a href="threading.html#_Verbose">threading._Verbose</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="output-cartesianMove"><strong>cartesianMove</strong></a>(self, x, y, z, units<font color="#909090">=1</font>)</dt><dd><tt>#&nbsp;Translate&nbsp;a&nbsp;cartesian&nbsp;movement&nbsp;into&nbsp;whatever&nbsp;the&nbsp;<a href="#output">output</a>&nbsp;plugin&nbsp;does&nbsp;with&nbsp;it&nbsp;(called&nbsp;locally&nbsp;and&nbsp;by&nbsp;toolhead)</tt></dd></dl>
+
+<dl><dt><a name="output-loadPreferences"><strong>loadPreferences</strong></a>(self)</dt><dd><tt>#&nbsp;Load&nbsp;plotter&nbsp;preferences</tt></dd></dl>
+
+<dl><dt><a name="output-run"><strong>run</strong></a>(self)</dt><dd><tt>#&nbsp;Start&nbsp;plot&nbsp;(as&nbsp;new&nbsp;thread)</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="reprap.baseplotters.html#ExportPlotter">reprap.baseplotters.ExportPlotter</a>:<br>
+<dl><dt><a name="output-__init__"><strong>__init__</strong></a>(self, toolpath, toolhead, feedbackHandler<font color="#909090">=False</font>, outputFilename<font color="#909090">=False</font>)</dt><dd><tt>Create&nbsp;<a href="#output">output</a>&nbsp;plotter&nbsp;plugin&nbsp;with&nbsp;toolpath&nbsp;(reprap.toolpath.Object&nbsp;object),&nbsp;toolhead&nbsp;(toolhead&nbsp;plugin&nbsp;object),&nbsp;feedback&nbsp;handler&nbsp;(feedback&nbsp;handler&nbsp;object)&nbsp;and&nbsp;<a href="#output">output</a>&nbsp;file&nbsp;name</tt></dd></dl>
+
+<dl><dt><a name="output-terminate"><strong>terminate</strong></a>(self)</dt><dd><tt>Tell&nbsp;thread&nbsp;to&nbsp;terminate&nbsp;ASAP&nbsp;(result&nbsp;of&nbsp;GUI&nbsp;'Stop'&nbsp;button)</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="threading.html#Thread">threading.Thread</a>:<br>
+<dl><dt><a name="output-__repr__"><strong>__repr__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="output-getName"><strong>getName</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="output-isAlive"><strong>isAlive</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="output-isDaemon"><strong>isDaemon</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="output-join"><strong>join</strong></a>(self, timeout<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="output-setDaemon"><strong>setDaemon</strong></a>(self, daemonic)</dt></dl>
+
+<dl><dt><a name="output-setName"><strong>setName</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="output-start"><strong>start</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="threading.html#_Verbose">threading._Verbose</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>FileOutput</strong> = True<br>
+<strong>Title</strong> = 'GCode File'<br>
+<strong>Wildcard</strong> = 'GCode files (*.gcode)|*.gcode|'</td></tr></table>
+</body></html>

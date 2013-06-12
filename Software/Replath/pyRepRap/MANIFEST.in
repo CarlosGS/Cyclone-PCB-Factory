@@ -1,0 +1,5 @@
+include README
+recursive-include reprap *
+recursive-include examples *
+recursive-include docs *
+

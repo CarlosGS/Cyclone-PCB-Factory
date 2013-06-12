@@ -1,0 +1,72 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module dxf_lib</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>dxf_lib</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/share/reprap/plugins/import/dxf_lib.py">/usr/share/reprap/plugins/import/dxf_lib.py</a></font></td></tr></table>
+    <p><tt>Licenced&nbsp;under&nbsp;GNU&nbsp;v2&nbsp;and&nbsp;the&nbsp;'I'm&nbsp;not&nbsp;going&nbsp;to&nbsp;help&nbsp;you&nbsp;kill&nbsp;people&nbsp;licence'.&nbsp;The&nbsp;latter&nbsp;overrules&nbsp;the&nbsp;former.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+I'm&nbsp;not&nbsp;going&nbsp;to&nbsp;help&nbsp;you&nbsp;kill&nbsp;people&nbsp;licence&nbsp;v1:<br>
+The&nbsp;use&nbsp;of&nbsp;this&nbsp;software&nbsp;in&nbsp;any&nbsp;form&nbsp;for&nbsp;any&nbsp;purposes&nbsp;relating&nbsp;to&nbsp;any&nbsp;form&nbsp;of&nbsp;military&nbsp;activity&nbsp;or<br>
+research&nbsp;either&nbsp;directly&nbsp;or&nbsp;via&nbsp;subcontracts&nbsp;is&nbsp;strictly&nbsp;prohibited.<br>
+Any&nbsp;company&nbsp;or&nbsp;organisation&nbsp;affiliated&nbsp;with&nbsp;any&nbsp;military&nbsp;organisations&nbsp;either&nbsp;directly&nbsp;or&nbsp;through<br>
+subcontracts&nbsp;are&nbsp;strictly&nbsp;prohibited&nbsp;from&nbsp;using&nbsp;any&nbsp;part&nbsp;of&nbsp;this&nbsp;software.<br>
+&nbsp;<br>
+GNU&nbsp;licence:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+RepRap&nbsp;Gerber&nbsp;Plotter&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify&nbsp;it&nbsp;<br>
+under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;as&nbsp;published&nbsp;by&nbsp;the&nbsp;Free&nbsp;Software&nbsp;Foundation;&nbsp;<br>
+either&nbsp;version&nbsp;2&nbsp;of&nbsp;the&nbsp;License,&nbsp;or&nbsp;(at&nbsp;your&nbsp;option)&nbsp;any&nbsp;later&nbsp;version.<br>
+&nbsp;<br>
+RepRap&nbsp;Gerber&nbsp;Plotter&nbsp;is&nbsp;distributed&nbsp;in&nbsp;the&nbsp;hope&nbsp;that&nbsp;it&nbsp;will&nbsp;be&nbsp;useful,&nbsp;but&nbsp;WITHOUT&nbsp;ANY&nbsp;WARRANTY;&nbsp;<br>
+without&nbsp;even&nbsp;the&nbsp;implied&nbsp;warranty&nbsp;of&nbsp;MERCHANTABILITY&nbsp;or&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE.&nbsp;&nbsp;<br>
+See&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;for&nbsp;more&nbsp;details.&nbsp;You&nbsp;should&nbsp;have&nbsp;received&nbsp;a&nbsp;copy&nbsp;of&nbsp;<br>
+the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;along&nbsp;with&nbsp;File&nbsp;Hunter;&nbsp;if&nbsp;not,&nbsp;write&nbsp;to&nbsp;<br>
+the&nbsp;Free&nbsp;Software&nbsp;Foundation,&nbsp;Inc.,&nbsp;59&nbsp;Temple&nbsp;Place,&nbsp;Suite&nbsp;330,&nbsp;Boston,&nbsp;MA&nbsp;&nbsp;02111-1307&nbsp;&nbsp;USA</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="dxf_lib.html#dxf">dxf</a>
+</font></dt><dt><font face="helvetica, arial"><a href="dxf_lib.html#dxfEntity">dxfEntity</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="dxf">class <strong>dxf</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>#&nbsp;Class&nbsp;for&nbsp;gerber&nbsp;file&nbsp;(main)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="dxf-__init__"><strong>__init__</strong></a>(self, fileName)</dt></dl>
+
+<dl><dt><a name="dxf-printEnts"><strong>printEnts</strong></a>(self)</dt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="dxfEntity">class <strong>dxfEntity</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>#&nbsp;Class&nbsp;for&nbsp;entities&nbsp;(circle,&nbsp;line&nbsp;etc)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="dxfEntity-__init__"><strong>__init__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="dxfEntity-addLine"><strong>addLine</strong></a>(self, line)</dt></dl>
+
+<dl><dt><a name="dxfEntity-decode"><strong>decode</strong></a>(self)</dt></dl>
+
+</td></tr></table></td></tr></table>
+</body></html>

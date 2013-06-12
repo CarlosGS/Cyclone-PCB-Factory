@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+import wx, reprap, reprap.controlpanels
+
+if __name__ == "__main__":
+	# TODO put try here with message if failes
+	reprap.openSerial( 0, 19200, 60 )
+	reprap.cartesian.x.active = True
+	reprap.cartesian.y.active = True
+	reprap.cartesian.z.active = True
+	reprap.extruder.active = True
+	reprap.cartesian.x.setNotify()
+	reprap.cartesian.y.setNotify()
+	reprap.cartesian.z.setNotify()
+	reprap.cartesian.setPower(70)
+	reprap.cartesian.setSpeed(220)
+	
+	app = wx.PySimpleApp(0)
+	wx.InitAllImageHandlers()
+	frame_main = reprap.controlpanels.MainControlFrame(None, -1, "")
+	app.SetTopWindow(frame_main)
+	frame_main.Show()
+	app.MainLoop()
+	
+	reprap.closeSerial()

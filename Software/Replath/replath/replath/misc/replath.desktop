@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Replath
+Version=0.1.0
+Comment=Plot Files on a RepRap
+Exec=reprapplot
+Terminal=false
+Type=Application
+Categories=Graphics;
+StartupNotify=false
+Icon=/usr/share/replath/icons/reprap.png
