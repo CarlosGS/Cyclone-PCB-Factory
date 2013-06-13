@@ -1327,7 +1327,8 @@ def drill_hole(cx,cy,r):
 			gcode_tmp_flag=0
 			j += 2
 		i += 1
-	out_data += "G0 Z" + floats(DRILL_DEPTH) + " F" + floats(DRILL_SPEED) + "\n" # MOD
+	DRILL_DESIRED_DIAM = 2*(r + DRILL_D/2)
+	out_data += "G0 Z" + floats(DRILL_DEPTH) + " F" + floats(DRILL_SPEED) + " D" + floats(DRILL_DESIRED_DIAM) + "\n" # MOD
 	gTMP_DRILL_X = cx+r
 	gTMP_DRILL_Y = cy
 	return out_data

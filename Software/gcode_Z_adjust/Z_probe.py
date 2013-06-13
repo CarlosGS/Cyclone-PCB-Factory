@@ -14,6 +14,7 @@
 # Begin configuration
 BAUDRATE = 115200
 DEVICE = "/dev/ttyUSB0"
+Emulate = 0
 # End configuration
 
 # Begin modules
@@ -27,7 +28,7 @@ sys.path.append("../CycloneHost")
 import CycloneHost as cy
 # End modules
 
-cy.connect(BAUDRATE, DEVICE)
+cy.connect(BAUDRATE, DEVICE, Emulate)
 
 cy.sendCommand("G90\n") # Set absolute positioning
 
@@ -37,9 +38,9 @@ cy.homeZXY() # Home all the axis
 #grid_origin = (0,0)	# Initial point of the grid [mm]
 #grid_len = (135,84)	# Distance to probe [mm]
 #grid_N = (12,6)	# Number of points
-grid_origin = (70,0)	# Initial point of the grid [mm]
-grid_len = (70,40)	# Distance to probe [mm]
-grid_N = (5,4)	# Number of points (AT LEAST 4 IN EACH DIRECTION, OTHERWISE INTERPOLATION WILL FAIL)
+grid_origin = (0,0)	# Initial point of the grid [mm]
+grid_len = (80,60)	# Distance to probe [mm]
+grid_N = (5,5)	# Number of points (AT LEAST 4 IN EACH DIRECTION, OTHERWISE INTERPOLATION WILL FAIL)
 
 Zlift = 0.5 # mm
 
@@ -64,10 +65,10 @@ cy.moveZrelSafe(initial_Z_lowering_distance,F_slowMove) # Move Z towards the PCB
 
 # Show our grid
 print "--- Probing results ---"
-print "-> X points:", x_points
-print "-> Y points:", y_points
-print "-> Grid:", probe_result
-print "-> Duration:", duration
+print "x_points = ", x_points
+print "y_points = ", y_points
+print "probe_result = ", probe_result
+print "duration = ", duration
 
 # Must be converted into arrays to use scipy
 x_points = np.array(x_points)

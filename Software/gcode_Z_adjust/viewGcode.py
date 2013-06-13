@@ -66,7 +66,7 @@ gcodeviewer = pltNewFig() # Define a new figure, this doesnt open a window by it
 
 
 filePath = "../GcodeGenerators/pyGerber2Gcode_CUI/out/"
-fileName = "DTMF_Shield_etch" # sys.argv[1]
+fileName = "GNBoard" # sys.argv[1]
 
 gcv.view(filePath,fileName,showAll=1)
 
