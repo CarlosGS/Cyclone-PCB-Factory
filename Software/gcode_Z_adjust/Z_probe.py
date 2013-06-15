@@ -38,8 +38,8 @@ cy.homeZXY() # Home all the axis
 #grid_origin = (0,0)	# Initial point of the grid [mm]
 #grid_len = (135,84)	# Distance to probe [mm]
 #grid_N = (12,6)	# Number of points
-grid_origin = (0,0)	# Initial point of the grid [mm]
-grid_len = (80,60)	# Distance to probe [mm]
+grid_origin = (85,0)	# Initial point of the grid [mm]
+grid_len = (25,25)	# Distance to probe [mm]
 grid_N = (5,5)	# Number of points (AT LEAST 4 IN EACH DIRECTION, OTHERWISE INTERPOLATION WILL FAIL)
 
 Zlift = 0.5 # mm
