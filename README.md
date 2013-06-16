@@ -10,6 +10,10 @@ Mail list / Forum
 If you are interested in this project, please consider joining our mail list:  
 **<https://groups.google.com/forum/#!forum/cyclone-pcb-factory>**  
 
+Wiki entry on RepRap.org  
+--
+<http://reprap.org/wiki/Cyclone_PCB_Factory>  
+
 **To-Do list**  
 --  
 - **Hardware:**  
@@ -18,7 +22,6 @@ If you are interested in this project, please consider joining our mail list:
  - Export Z probing results to a standarized file  
  - Create a graphical user interface  
 - **Misc:**  
- - Create wiki page on RepRap.org  
  - Create assembly instructions  
 
 News  
