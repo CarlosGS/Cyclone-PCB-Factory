@@ -25,6 +25,8 @@ Wiki entry on RepRap.org
  - Export Z probing results to a standarized file  
  - Create a graphical user interface  
  - Fix bug in GcodeParser.py that doesn't mind the depth of the cuts, this affects only when cutting the edges with >1 passes  
+- **Firmware:**  
+ - Keep motors always on, in order to do homing only once each milling session  
 - **Misc:**  
  - Create assembly instructions  
 
