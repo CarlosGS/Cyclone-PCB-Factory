@@ -129,3 +129,10 @@ def view(filePath,fileName,showAll=0,showEtch=0,showEtch2=0,showEtch3=0,showDril
 	
 	return (etch_moves, travel_moves, gcode_minXY_global, gcode_maxXY_global)
 
+def boardSize(filePath,fileName):
+	gcode_file = filePath+fileName+"_etch.gcode"
+	(etch_moves, travel_moves, gcode_minXY, gcode_maxXY) = gcp.parseGcodeRaw(gcode_file)
+	boardSizeX = gcode_maxXY[0]-gcode_minXY[0]
+	boardSizeY = gcode_maxXY[1]-gcode_minXY[1]
+	return (boardSizeX,boardSizeY,gcode_minXY, gcode_maxXY)
+

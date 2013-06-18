@@ -38,8 +38,8 @@ cy.homeZXY() # Home all the axis
 #grid_origin = (0,0)	# Initial point of the grid [mm]
 #grid_len = (135,84)	# Distance to probe [mm]
 #grid_N = (12,6)	# Number of points
-grid_origin = (85,0)	# Initial point of the grid [mm]
-grid_len = (25,25)	# Distance to probe [mm]
+grid_origin = (0,0)	# Initial point of the grid [mm]
+grid_len = (80,60)	# Distance to probe [mm]
 grid_N = (5,5)	# Number of points (AT LEAST 4 IN EACH DIRECTION, OTHERWISE INTERPOLATION WILL FAIL)
 
 Zlift = 0.5 # mm
@@ -47,7 +47,7 @@ Zlift = 0.5 # mm
 F_slowMove = 100
 
 # Warning: Do not lower too much or you will potentially cause damage!
-initial_Z_lowering_distance = -15
+initial_Z_lowering_distance = -10
 cy.moveZrelSafe(initial_Z_lowering_distance,F_slowMove) # Move Z towards the PCB (saves some probing time for the first coord)
 
 (x_points, y_points, probe_result, Z_offset, duration) = cy.probeGrid(grid_origin, grid_len, grid_N, Zlift)
@@ -64,11 +64,12 @@ cy.moveZrelSafe(initial_Z_lowering_distance,F_slowMove) # Move Z towards the PCB
 
 
 # Show our grid
-print "--- Probing results ---"
+print "#--- Probing results [BEGIN COPY TO Send.py] ---"
 print "x_points = ", x_points
 print "y_points = ", y_points
 print "probe_result = ", probe_result
 print "duration = ", duration
+print "#--- [END COPY TO Send.py] ---"
 
 # Must be converted into arrays to use scipy
 x_points = np.array(x_points)

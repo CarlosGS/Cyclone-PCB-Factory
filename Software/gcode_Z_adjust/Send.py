@@ -34,7 +34,7 @@ from helper import *
 # End modules
 
 filePath = "../GcodeGenerators/pyGerber2Gcode_CUI/out/"
-fileName = "4LDR_Board" # sys.argv[1]
+fileName = "GNBoard" # sys.argv[1]
 
 
 
@@ -90,10 +90,25 @@ def probingResults(): # quick and dirty temporal code
 #	probe_result =  [[0.0, 0.259999999999998, 0.620000000000001, 0.75, 0.6799999999999997], [-0.019999999999999574, 0.21999999999999886, 0.4400000000000013, 0.5399999999999991, 0.5], [-0.05999999999999872, 0.19000000000000128, 0.370000000000001, 0.46000000000000085, 0.4299999999999997], [-0.05999999999999872, 0.16999999999999815, 0.34999999999999787, 0.4400000000000013, 0.4299999999999997], [-0.05000000000000071, 0.21000000000000085, 0.3999999999999986, 0.509999999999998, 0.509999999999998]]
 #	duration =  123.918331
 
-	x_points =  [85.0, 91.25, 97.5, 103.75, 110.0]
-	y_points =  [0.0, 6.25, 12.5, 18.75, 25.0]
-	probe_result =  [[0.0, -0.11999999999999744, -0.2099999999999973, -0.28999999999999915, -0.379999999999999], [-0.05999999999999872, -0.16999999999999815, -0.2699999999999996, -0.34999999999999787, -0.4299999999999997], [-0.11999999999999744, -0.21999999999999886, -0.3099999999999987, -0.389999999999997, -0.46999999999999886], [-0.1599999999999966, -0.259999999999998, -0.34999999999999787, -0.41999999999999815, -0.5], [-0.18999999999999773, -0.2799999999999976, -0.35999999999999943, -0.4299999999999997, -0.509999999999998]]
-	duration =  97.203638
+#	x_points =  [85.0, 91.25, 97.5, 103.75, 110.0]
+#	y_points =  [0.0, 6.25, 12.5, 18.75, 25.0]
+#	probe_result =  [[0.0, -0.11999999999999744, -0.2099999999999973, -0.28999999999999915, -0.379999999999999], [-0.05999999999999872, -0.16999999999999815, -0.2699999999999996, -0.34999999999999787, -0.4299999999999997], [-0.11999999999999744, -0.21999999999999886, -0.3099999999999987, -0.389999999999997, -0.46999999999999886], [-0.1599999999999966, -0.259999999999998, -0.34999999999999787, -0.41999999999999815, -0.5], [-0.18999999999999773, -0.2799999999999976, -0.35999999999999943, -0.4299999999999997, -0.509999999999998]]
+#	duration =  97.203638
+
+#	x_points =  [85.0, 96.25, 107.5, 118.75, 130.0]
+#	y_points =  [30.0, 42.5, 55.0, 67.5, 80.0]
+#	probe_result =  [[0.0, -0.12999999999999545, -0.259999999999998, -0.39000000000000057, -0.490000000000002], [-0.00999999999999801, -0.14000000000000057, -0.240000000000002, -0.37999999999999545, -0.46999999999999886], [0.020000000000003126, -0.0799999999999983, -0.19999999999999574, -0.30999999999999517, -0.3999999999999986], [0.030000000000001137, -0.01999999999999602, -0.14000000000000057, -0.22999999999999687, -0.3200000000000003], [0.14999999999999858, 0.10000000000000142, -0.01999999999999602, -0.12999999999999545, -0.22999999999999687]]
+#	duration =  119.124925
+
+#	x_points =  [107.0, 113.25, 119.5, 125.75, 132.0]
+#	y_points =  [0.0, 7.5, 15.0, 22.5, 30.0]
+#	probe_result =  [[0.0, -0.09000000000000341, -0.17999999999999972, -0.2600000000000051, -0.37000000000000455], [-0.0800000000000054, -0.13000000000000256, -0.22000000000000597, -0.3100000000000023, -0.45000000000000284], [-0.09000000000000341, -0.1700000000000017, -0.2600000000000051, -0.35999999999999943, -0.5399999999999991], [-0.10999999999999943, -0.19000000000000483, -0.2700000000000031, -0.38000000000000256, -0.5800000000000054], [-0.12000000000000455, -0.19000000000000483, -0.2700000000000031, -0.38000000000000256, -0.5800000000000054]]
+#	duration =  109.872153
+
+	x_points =  [0.0, 20.0, 40.0, 60.0, 80.0]
+	y_points =  [0.0, 15.0, 30.0, 45.0, 60.0]
+	probe_result =  [[0.0, 0.23000000000000043, 0.5500000000000007, 0.6400000000000006, 0.5600000000000023], [-0.019999999999999574, 0.19000000000000128, 0.41000000000000014, 0.46000000000000085, 0.40000000000000213], [-0.06999999999999673, 0.1700000000000017, 0.3500000000000014, 0.38000000000000256, 0.3200000000000003], [-0.08999999999999986, 0.16000000000000014, 0.33999999999999986, 0.370000000000001, 0.3100000000000023], [-0.11999999999999744, 0.20000000000000284, 0.39000000000000057, 0.4400000000000013, 0.39000000000000057]]
+	duration =  127.59102
 
 	# Show our grid
 #	print "--- Probing results ---"
@@ -144,11 +159,13 @@ probingResults()
 print "Must be zero:",floats(getZoffset(0,0))
 
 # Display the Gcode that is going to be etched
-(etch_moves, travel_moves, gcode_minXY_global, gcode_maxXY_global) = gcv.view(filePath,fileName,showEdge=1)
+(etch_moves, travel_moves, gcode_minXY, gcode_maxXY) = gcv.view(filePath,fileName,showEdge=1)
 #(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEtch1=1)
 #(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEtch2=1)
 #(etch_moves, travel_moves) = gcv.view(filePath,fileName,showDrill=1)
 #(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEdge=1)
+
+(boardSizeX,boardSizeY,gcode_minXY_global, gcode_maxXY_global) = gcv.boardSize(filePath,fileName)
 
 # Show delimiter rectangle
 x_dat = [gcode_minXY_global[0],gcode_minXY_global[0],gcode_maxXY_global[0],gcode_maxXY_global[0],gcode_minXY_global[0]]
@@ -236,7 +253,7 @@ pltSetFig(gcodeviewer)
 
 Zlift = 1.0
 
-Z_manual_offset = -0.01
+Z_manual_offset = -0.018
 
 maxDistance = 1**2 # [mm^2] 2mm (longer moves will be split to regulate Z)
 minDistance = 0.001**2 # [mm^2] 0.001mm is the smallest distance that will be sent
@@ -281,52 +298,64 @@ def splitLongEtchMove(distance):
 
 raw_input("Turn on the spindle and press enter to begin...")
 
-for path in etch_moves :
-	toolRefresh = 0
-	toolPos_draw(toolPos_X, toolPos_Y, etching=0)
-	cy.moveZ(Z_origin_offset+getZoffset(X_dest, Y_dest)+Z_manual_offset+Zlift,F_fastMove) # Raise and move to next point
-	X_dest = path[0][0]
-	Y_dest = path[0][1]
-	F_dest = F_fastMove
-	print "  Traveling to:", str([X_dest, Y_dest]), "at Z:", Z_manual_offset+Zlift
-	cy.moveXY(X_dest, Y_dest, F_dest)
-	toolPos_draw(X_dest, Y_dest, etching=0)
-	Z_dest = path[0][2]
-	if Z_dest > 0:
-		F_dest = F_slowMove
-	else:
-		F_dest = path[0][3] # We set the original speed if it is etching/drill
-	cy.moveZ(Z_dest+Z_origin_offset+getZoffset(X_dest, Y_dest)+Z_manual_offset,F_dest)
-#	print "Speed:",F_dest
-	print "  Etching at Z:",Z_dest+Z_manual_offset
-	toolPos_X = X_dest
-	toolPos_Y = Y_dest
-	toolPos_Z = Z_dest # Not sure..
-	toolPos_F = F_dest
-	
-#	print path
-	
-	for coord in path[1:] :
-		X_dest = coord[0]
-		Y_dest = coord[1]
-		Z_dest = coord[2]
-		F_dest = coord[3]
-		
-		distance = (X_dest-toolPos_X)**2+(Y_dest-toolPos_Y)**2
-		if distance >= maxDistance :
-			splitLongEtchMove(distance)
-		if distance < minDistance and (Z_dest-toolPos_Z)**2 < 0.001**2 : # Make sure it is not a Z movement
-			print "Ignoring", distance**0.5, "mm segment!"
-			continue
-		Z_real = Z_dest+Z_origin_offset+getZoffset(X_dest, Y_dest)+Z_manual_offset
-		cy.moveXYZ(X_dest, Y_dest, Z_real, F_dest)
-#		print "Coords: Speed:",F_dest
-		toolPos_refresh(X_dest, Y_dest, etching=1)
-		
+def doPath(X_offset=0, Y_offset=0):
+	global toolPos_X, toolPos_Y, toolPos_Z, toolPos_F, X_dest, Y_dest, Z_dest, F_dest
+	for path in etch_moves :
+		toolRefresh = 0
+		toolPos_draw(toolPos_X, toolPos_Y, etching=0)
+		cy.moveZ(Z_origin_offset+getZoffset(X_dest, Y_dest)+Z_manual_offset+Zlift,F_fastMove) # Raise and move to next point
+		X_dest = path[0][0]+X_offset
+		Y_dest = path[0][1]+Y_offset
+		F_dest = F_fastMove
+		print "  Traveling to:", str([X_dest, Y_dest]), "at Z:", Z_manual_offset+Zlift
+		cy.moveXY(X_dest, Y_dest, F_dest)
+		toolPos_draw(X_dest, Y_dest, etching=0)
+		Z_dest = path[0][2]
+		if Z_dest > 0:
+			F_dest = F_slowMove
+		else:
+			F_dest = path[0][3] # We set the original speed if it is etching/drill
+		cy.moveZ(Z_dest+Z_origin_offset+getZoffset(X_dest, Y_dest)+Z_manual_offset,F_dest)
+	#	print "Speed:",F_dest
+		print "  Etching at Z:",Z_dest+Z_manual_offset
 		toolPos_X = X_dest
 		toolPos_Y = Y_dest
-		toolPos_Z = Z_dest
+		toolPos_Z = Z_dest # Not sure..
 		toolPos_F = F_dest
+	
+	#	print path
+	
+		for coord in path[1:] :
+			X_dest = coord[0]+X_offset
+			Y_dest = coord[1]+Y_offset
+			Z_dest = coord[2]
+			F_dest = coord[3]
+		
+			distance = (X_dest-toolPos_X)**2+(Y_dest-toolPos_Y)**2
+			if distance >= maxDistance :
+				splitLongEtchMove(distance)
+			if distance < minDistance and (Z_dest-toolPos_Z)**2 < 0.001**2 : # Make sure it is not a Z movement
+				print "Ignoring", distance**0.5, "mm segment!"
+				continue
+			Z_real = Z_dest+Z_origin_offset+getZoffset(X_dest, Y_dest)+Z_manual_offset
+			cy.moveXYZ(X_dest, Y_dest, Z_real, F_dest)
+	#		print "Coords: Speed:",F_dest
+			toolPos_refresh(X_dest, Y_dest, etching=1)
+		
+			toolPos_X = X_dest
+			toolPos_Y = Y_dest
+			toolPos_Z = Z_dest
+			toolPos_F = F_dest
+
+# --- Panelizing options! ---
+N_copies_X = 1
+N_copies_Y = 1
+marginX = 5
+marginY = 5
+# ---        ---          ---
+for x_i in range(N_copies_X):
+	for y_i in range(N_copies_Y):
+		doPath(x_i*(boardSizeX+marginX), y_i*(boardSizeY+marginY))
 
 cy.homeZXY()
 cy.close() # Close the serial port connection
