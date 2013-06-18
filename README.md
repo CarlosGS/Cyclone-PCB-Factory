@@ -18,9 +18,13 @@ Wiki entry on RepRap.org
 --  
 - **Hardware:**  
  - Reinforce left&right frames  
+ - Reinforce screw holders in the Z axis parts  
+ - Add Endstop holder files (same of Prusa/Mendel)  
+ - Create holder for a vacuum cleaner  
 - **Software:**  
  - Export Z probing results to a standarized file  
  - Create a graphical user interface  
+ - Fix bug in GcodeParser.py that doesn't mind the depth of the cuts, this affects only when cutting the edges with >1 passes  
 - **Misc:**  
  - Create assembly instructions  
 
