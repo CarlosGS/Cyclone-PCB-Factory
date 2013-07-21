@@ -54,6 +54,7 @@ Interesting links & Misc. ideas
 
 Videos  
 --  
+- v0.9.7 [Cyclone PCB factory] The process (June 2013, v0.9.7)  <http://www.youtube.com/watch?v=fKW3fwy1h0k>
 - v0.9.6 Y axis concept by Yopero <http://www.youtube.com/watch?v=XzcobonQP40>  
 - v0.9.5 Probing a PCB <http://www.youtube.com/watch?v=m5zXL8k5T9E>  
 - v0.9.5 Milling MDF <http://www.youtube.com/watch?v=2QpxjheEjEc> and <http://www.youtube.com/watch?v=zjav0hBtmYA>  
