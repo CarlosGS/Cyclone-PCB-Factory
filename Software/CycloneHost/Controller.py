@@ -36,6 +36,8 @@ import serial
 import time
 from datetime import datetime
 
+import random
+
 from helper import *
 # End modules
 
@@ -79,14 +81,14 @@ def flushRecvBuffer(): # We could also use flushInput(), but showing the data th
 		time.sleep(seconds_wait) # Wait some milliseconds between attempts
 
 def sendLine(line):
-	flushRecvBuffer()
 	if Emulate == 0:
+		flushRecvBuffer()
 		CNC_Machine.write(line)
 #	print "SENT: ", line
 
 def recvLine():
 	if Emulate:
-		response = "ok Z30\n" # Asume OK + Z probing result
+		response = "ok\n" # Asume OK
 	else:
 		response = CNC_Machine.readline()
 #	if response != '': print "RECV: ", response
@@ -213,7 +215,9 @@ def probeZ():
 		#print "."
 		time.sleep(seconds_wait) # Wait some milliseconds between attempts
 		response = recvLine()
-	response_vals = response.split() # Split the response (i.e. "ok Z:1.23")
+	if Emulate:
+		response = "ok Z"+str(random.gauss(0, 0.25))+"\n" # Generate random measure
+	response_vals = response.split() # Split the response (i.e. "ok Z1.23")
 	if response_vals[0][:2].lower() == OK_response.lower():
 		Zres = response_vals[1][2:] # Ignore the "Z:" and read the coordinate value
 		print "Result is Z=",Zres
@@ -226,7 +230,7 @@ def close():
 	if Emulate == 0:
 		CNC_Machine.close() # Close the serial port connection
 
-def probeGrid(grid_origin, grid_len, grid_N, Zlift):
+def probeGrid(grid_origin, grid_len, grid_N, Zlift, F_fastMove = 400, F_slowMove = 100):
 	grid_origin_X = float(grid_origin[0]) # Initial point of the grid [mm]
 	grid_origin_Y = float(grid_origin[1])
 	
@@ -237,9 +241,6 @@ def probeGrid(grid_origin, grid_len, grid_N, Zlift):
 	grid_N_Y = int(grid_N[1])
 	
 	Z_probing_lift = float(Zlift) # lift between Z probings [mm]
-	
-	F_fastMove = 400
-	F_slowMove = 100
 	
 	grid_inc_X = grid_len_X/float(grid_N_X-1) # [mm]
 	grid_inc_Y = grid_len_Y/float(grid_N_Y-1)
@@ -269,7 +270,7 @@ def probeGrid(grid_origin, grid_len, grid_N, Zlift):
 			y_val = float(y_i)*grid_inc_Y + grid_origin_Y # Calculate Y coordinate
 			moveXY(x_val, y_val, F_fastMove) # Move to position
 			probe_result[y_i][x_i] = probeZ() # Do the Z probing
-			moveZrel(Z_probing_lift, F_fastMove/2) # Lift the probe
+			moveZrel(Z_probing_lift, F_slowMove) # Lift the probe
 
 	# Once we have all the points, we set the origin as (0,0) and offset the rest of values
 	Z_offset = probe_result[0][0]

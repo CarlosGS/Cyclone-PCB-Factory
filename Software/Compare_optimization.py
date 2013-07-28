@@ -20,8 +20,8 @@ import numpy as np
 from scipy import interpolate
 import matplotlib.pyplot as plt
 
-sys.path.append("../CycloneHost")
-import GcodeParser as gcp
+#sys.path.append("../CycloneHost")
+import CycloneHost.GcodeParser as gcp
 # End modules
 
 # Temporary path to speedup testing
@@ -30,7 +30,7 @@ import GcodeParser as gcp
 #call(["pypy","./pygerber2gcode_cui_MOD.py"])
 #os.chdir("../../gcode_Z_adjust")
 
-filePath = "../GcodeGenerators/pyGerber2Gcode_CUI/out/"
+filePath = "./GcodeGenerators/pyGerber2Gcode_CUI/out/"
 fileName = "printshield" # sys.argv[1]
 
 def plotPoints(path_list, color, linewidth): # Thanks to pprzemek (http://stackoverflow.com/questions/2282727/draw-points-using-matplotlib-pyplot-x1-y1-x2-y2)
