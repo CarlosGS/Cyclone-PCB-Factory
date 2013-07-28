@@ -84,7 +84,7 @@ def parseGcodeRaw(filePath, etch_definition = 0, close_shapes = 0): # Gcode pars
 	totalLines = len(lines)
 	for line in lines:# check each line
 		currentLine = currentLine + 1
-		#print "({0:.1f}%)".format((currentLine / totalLines)*100), "Reading:", line[:-1]
+		#print("({0:.1f}%)".format((currentLine / totalLines)*100), "Reading:", line[:-1])
 		
 		X_start = X_dest
 		Y_start = Y_dest
@@ -155,11 +155,11 @@ def parseGcodeRaw(filePath, etch_definition = 0, close_shapes = 0): # Gcode pars
 		gcode_maxXY = [X_max, Y_max]
 		gcode_minXY = [X_min, Y_min]
 		
-		print "Gcode XY min:",str(gcode_minXY)
-		print "Gcode XY max:",str(gcode_maxXY)
+		print("Gcode XY min: " + str(gcode_minXY))
+		print("Gcode XY max: " + str(gcode_maxXY))
 	
 	else :
-		print "No etch moves found!"
+		print("No etch moves found!")
 		return etch_moves, travel_moves, [0,0], [0,0]
 	gcode.close()
 	return etch_moves, travel_moves, gcode_minXY, gcode_maxXY
@@ -179,7 +179,7 @@ def optimize(etch_moves_in, origin=[0,0], travel_height = 5): # Optimizes the to
 	minDistance = 1e9
 	
 	while len(etch_moves_in) > 0 : # While there are remaining moves
-		closest = [1e9,1e9]
+		closest = 1e9
 		distance = 1e9
 		closestMove_i = 0
 		i = 0
@@ -197,13 +197,13 @@ def optimize(etch_moves_in, origin=[0,0], travel_height = 5): # Optimizes the to
 					closest = distance
 					closestMove_i = i
 					reverse = 1 # Flag set to reverse the path
-					#print "Using a reverse path did optimize!"
+					#print("Using a reverse path did optimize!")
 			i = i + 1
 		
 		path = etch_moves_in[closestMove_i] # Select the closest that has been found
 		if reverse :
 			path = path[::-1] # If the closest one was from the end, we reverse the path
-			#print "Reverse!"
+			#print("Reverse!")
 		
 		firstPoint = path[0]
 		
@@ -211,7 +211,7 @@ def optimize(etch_moves_in, origin=[0,0], travel_height = 5): # Optimizes the to
 			travel_moves.append([toolPosition, [firstPoint[0], firstPoint[1], travel_height, firstPoint[3]] ]) # Travel to the initial point of the etching
 		else :
 			travel_moves.append([toolPosition, firstPoint]) # Travel to the initial point of the etching (without lifting)
-			print "Joining etching paths!" # TODO: This needs to join also the paths in etch_moves! otherwise it makes no difference!
+			print("Joining etching paths!") # TODO: This needs to join also the paths in etch_moves! otherwise it makes no difference!
 		
 		if distance < minDistance :
 			minDistance = distance
@@ -221,7 +221,7 @@ def optimize(etch_moves_in, origin=[0,0], travel_height = 5): # Optimizes the to
 		
 		toolPosition = path[-1] # Set our endpoint as the initial one for the next move
 	
-	print "Minimum XY travel distance:", minDistance**0.5
+	print("Minimum XY travel distance: " + str(minDistance**0.5) )
 	
 	travel_moves.append([toolPosition, [origin[0], origin[1], travel_height, 10]]) # Return to the origin
 	return etch_moves, travel_moves

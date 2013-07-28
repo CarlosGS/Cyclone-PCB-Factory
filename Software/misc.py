@@ -12,13 +12,13 @@ import pickle # For file saving
 
 def saveToFile(data,path):
     with open(path, 'wb') as path_file:
-        ret = pickle.dump(data, path_file)
+        ret = pickle.dump(data, path_file, protocol=2)
         path_file.close()
         return ret
     raise Exception("Could not save " + path)
 
 def loadFromFile(path):
-    with open(path) as path_file:
+    with open(path, 'rb') as path_file:
         ret = pickle.load(path_file)
         path_file.close()
         return ret

@@ -18,7 +18,7 @@ import numpy as np
 from scipy import interpolate
 import matplotlib.pyplot as plt
 
-import GcodeParser as gcp
+import CycloneHost.GcodeParser as gcp
 # End modules
 
 def plotPoints(path_list, color, linewidth): # Thanks to pprzemek (http://stackoverflow.com/questions/2282727/draw-points-using-matplotlib-pyplot-x1-y1-x2-y2)
@@ -85,7 +85,7 @@ def view(filePath,fileName,showAll=0,showEtch=0,showEtch2=0,showEtch3=0,showDril
 		plt.hold(True)
 	
 	if showAll or showEtch:
-		print "\n Loading etch..."
+		print("\n Loading etch...")
 		gcode_file = filePath+fileName+"_etch.gcode"
 		(etch_moves, travel_moves, gcode_minXY, gcode_maxXY) = gcp.parseGcodeRaw(gcode_file)
 		(etch_moves, travel_moves) = gcp.optimize(etch_moves)
@@ -93,7 +93,7 @@ def view(filePath,fileName,showAll=0,showEtch=0,showEtch2=0,showEtch3=0,showDril
 		checkMinMax(gcode_minXY,gcode_maxXY)
 	
 	if showAll or showEtch2:
-		print "\n Loading etch (2nd pass)..."
+		print("\n Loading etch (2nd pass)...")
 		gcode_file = filePath+fileName+"_etch2pass.gcode"
 		(etch_moves, travel_moves, gcode_minXY, gcode_maxXY) = gcp.parseGcodeRaw(gcode_file)
 		(etch_moves, travel_moves) = gcp.optimize(etch_moves)
@@ -101,7 +101,7 @@ def view(filePath,fileName,showAll=0,showEtch=0,showEtch2=0,showEtch3=0,showDril
 		checkMinMax(gcode_minXY,gcode_maxXY)
 	
 	if showAll or showEtch3:
-		print "\n Loading etch (3rd pass)..."
+		print("\n Loading etch (3rd pass)...")
 		gcode_file = filePath+fileName+"_etch3pass.gcode"
 		(etch_moves, travel_moves, gcode_minXY, gcode_maxXY) = gcp.parseGcodeRaw(gcode_file)
 		(etch_moves, travel_moves) = gcp.optimize(etch_moves)
@@ -109,7 +109,7 @@ def view(filePath,fileName,showAll=0,showEtch=0,showEtch2=0,showEtch3=0,showDril
 		checkMinMax(gcode_minXY,gcode_maxXY)
 	
 	if showAll or showDrill:
-		print "\n Loading drill..."
+		print("\n Loading drill...")
 		gcode_file = filePath+fileName+"_drill.gcode"
 		(etch_moves, travel_moves, gcode_minXY, gcode_maxXY) = gcp.parseGcodeRaw(gcode_file)
 		(etch_moves, travel_moves) = gcp.optimize(etch_moves)
@@ -117,7 +117,7 @@ def view(filePath,fileName,showAll=0,showEtch=0,showEtch2=0,showEtch3=0,showDril
 		checkMinMax(gcode_minXY,gcode_maxXY)
 	
 	if showAll or showEdge:
-		print "\n Loading edge..."
+		print("\n Loading edge...")
 		gcode_file = filePath+fileName+"_edge.gcode"
 		(etch_moves, travel_moves, gcode_minXY, gcode_maxXY) = gcp.parseGcodeRaw(gcode_file)
 		(etch_moves, travel_moves) = gcp.optimize(etch_moves)

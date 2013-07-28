@@ -58,7 +58,7 @@ grid_len_X += N_copies_X*margin_copies_X
 grid_len_Y *= N_copies_Y
 grid_len_Y += N_copies_Y*margin_copies_Y
 
-print "PANELIZING: There will be",str(N_copies_X)+"x"+str(N_copies_Y),"copies of this board"
+print("PANELIZING: There will be " + str(N_copies_X)+"x"+str(N_copies_Y) + " copies of this board")
 
 Z_probing_data['grid_len'] = (grid_len_X,grid_len_Y)
 
@@ -67,5 +67,6 @@ saveToFile(Z_probing_data,Z_PROBING_FILE)
 pltRefresh(gcodeviewer) # Draw the figure contents, still no window
 pltShow() # Open the window showing our figure
 
-raw_input("Press enter to exit...")
+print("Press enter to exit...")
+val = sys.stdin.readline()
 

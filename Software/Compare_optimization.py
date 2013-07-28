@@ -58,31 +58,31 @@ plt.hold(True)
 plt.title("Original Gcode")
 plt.axis('equal') # 1:1 aspect ratio
 
-print "\n Loading etch..."
+print("\n Loading etch...")
 gcode_file = filePath+fileName+"_etch.gcode"
 (etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
 plotPoints(etch_moves, etch_color, etch_diam)
 plotPoints(travel_moves, travel_color, linewidth_travel_move)
 
-print "\n Loading etch (2nd pass)..."
+print("\n Loading etch (2nd pass)...")
 gcode_file = filePath+fileName+"_etch2pass.gcode"
 (etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
 plotPoints(etch_moves, etch2pass_color, etch2pass_diam)
 plotPoints(travel_moves, travel_color, linewidth_travel_move)
 
-print "\n Loading etch (3nd pass)..."
+print("\n Loading etch (3nd pass)...")
 gcode_file = filePath+fileName+"_etch3pass.gcode"
 (etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
 plotPoints(etch_moves, etch3pass_color, etch3pass_diam)
 plotPoints(travel_moves, travel_color, linewidth_travel_move)
 
-print "\n Loading drill..."
+print("\n Loading drill...")
 gcode_file = filePath+fileName+"_drill.gcode"
 (etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
 plotPoints(etch_moves, drill_color, drill_diam)
 plotPoints(travel_moves, travel_color, linewidth_travel_move)
 
-print "\n Loading edge..."
+print("\n Loading edge...")
 gcode_file = filePath+fileName+"_edge.gcode"
 (etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
 plotPoints(etch_moves, edge_color, edge_diam)
@@ -95,35 +95,35 @@ plt.hold(True)
 plt.title("Optimized (closest neighbour)")
 plt.axis('equal') # 1:1 aspect ratio
 
-print "\n Loading etch..."
+print("\n Loading etch...")
 gcode_file = filePath+fileName+"_etch.gcode"
 (etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
 (etch_moves, travel_moves) = gcp.optimize(etch_moves)
 plotPoints(etch_moves, etch_color, etch_diam)
 plotPoints(travel_moves, travel_color, linewidth_travel_move)
 
-print "\n Loading etch (2nd pass)..."
+print("\n Loading etch (2nd pass)...")
 gcode_file = filePath+fileName+"_etch2pass.gcode"
 (etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
 (etch_moves, travel_moves) = gcp.optimize(etch_moves)
 plotPoints(etch_moves, etch2pass_color, etch2pass_diam)
 plotPoints(travel_moves, travel_color, linewidth_travel_move)
 
-print "\n Loading etch (3nd pass)..."
+print("\n Loading etch (3nd pass)...")
 gcode_file = filePath+fileName+"_etch3pass.gcode"
 (etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
 (etch_moves, travel_moves) = gcp.optimize(etch_moves)
 plotPoints(etch_moves, etch3pass_color, etch3pass_diam)
 plotPoints(travel_moves, travel_color, linewidth_travel_move)
 
-print "\n Loading drill..."
+print("\n Loading drill...")
 gcode_file = filePath+fileName+"_drill.gcode"
 (etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
 (etch_moves, travel_moves) = gcp.optimize(etch_moves)
 plotPoints(etch_moves, drill_color, drill_diam)
 plotPoints(travel_moves, travel_color, linewidth_travel_move)
 
-print "\n Loading edge..."
+print("\n Loading edge...")
 gcode_file = filePath+fileName+"_edge.gcode"
 (etch_moves, travel_moves, gcode_originXY, grid_sizeXY) = gcp.parseGcodeRaw(gcode_file)
 (etch_moves, travel_moves) = gcp.optimize(etch_moves)
@@ -134,5 +134,6 @@ plotPoints(travel_moves, travel_color, linewidth_travel_move)
 plt.ion() # Enable real-time plotting to avoid blocking behaviour for pyplot
 plt.show()
 
-raw_input("Press enter to exit...")
+print("Press enter to exit...")
+val = sys.stdin.readline()
 

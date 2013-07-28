@@ -74,7 +74,7 @@ gcodeviewer = pltNewFig() # Define a new figure, this doesnt open a window by it
 
 # Load the probing results (this will plot the copper level in the background too)
 probingResults()
-#print "Must be zero, otherwise the interpolation is wrong!:",floats(getZoffset(0,0))
+#print("Must be zero, otherwise the interpolation is wrong!: " + floats(getZoffset(0,0)))
 
 # Display the Gcode that is going to be etched
 (etch_moves, travel_moves, gcode_minXY, gcode_maxXY) = gcv.view(filePath,fileName,0,showEtch,showEtch,showEtch2,showDrill,showEdge)
@@ -86,9 +86,9 @@ probingResults()
 (boardSizeX,boardSizeY,gcode_minXY_global, gcode_maxXY_global) = gcv.boardSize(filePath,fileName)
 
 # Show delimiter rectangle
-x_dat = [gcode_minXY_global[0],gcode_minXY_global[0],gcode_maxXY_global[0],gcode_maxXY_global[0],gcode_minXY_global[0]]
-y_dat = [gcode_minXY_global[1],gcode_maxXY_global[1],gcode_maxXY_global[1],gcode_minXY_global[1],gcode_minXY_global[1]]
-plt.plot(x_dat,y_dat)
+#x_dat = [gcode_minXY_global[0],gcode_minXY_global[0],gcode_maxXY_global[0],gcode_maxXY_global[0],gcode_minXY_global[0]]
+#y_dat = [gcode_minXY_global[1],gcode_maxXY_global[1],gcode_maxXY_global[1],gcode_minXY_global[1],gcode_minXY_global[1]]
+#plt.plot(x_dat,y_dat)
 
 pltRefresh(gcodeviewer) # Draw the figure contents, still no window
 pltShow() # Open the window showing our figure
@@ -140,7 +140,7 @@ initial_Z_lowering_distance = -10
 cy.moveZrelSafe(initial_Z_lowering_distance,F_slowMove) # Move Z towards the PCB (saves some probing time for the first coord)
 
 Z_origin_offset = cy.probeZ()
-print "Z offset:", Z_origin_offset
+print("Z offset: " + str(Z_origin_offset) )
 
 
 toolPos_X = 0
@@ -170,9 +170,9 @@ def splitLongEtchMove(distance):
 	#distance = distance**0.5 # [mm]
 	N_steps = int((distance/maxDistance)**0.5) # **must be** >= 1
 	
-	print "Splitting", distance**0.5, "mm segment into", N_steps, "steps"
+	print("Splitting " + str(distance**0.5) + "mm segment into " + str(N_steps) + " steps")
 	
-#	print "Orig:", toolPos_X, toolPos_Y, toolPos_Z, "Dest:", X_dest, Y_dest, Z_dest
+#	print("Orig: " + (toolPos_X,toolPos_Y,toolPos_Z) + " Dest: " + (X_dest, Y_dest, Z_dest))
 	
 	X_step = (X_dest-toolPos_X)/float(N_steps)
 	Y_step = (Y_dest-toolPos_Y)/float(N_steps)
@@ -189,7 +189,7 @@ def splitLongEtchMove(distance):
 		cy.moveXYZ(X_dest_tmp, Y_dest_tmp, Z_real, F_dest_tmp)
 		toolPos_refresh(X_dest_tmp, Y_dest_tmp, etching=1)
 		
-#		print "Move:",X_dest_tmp, Y_dest_tmp, Z_dest_tmp
+#		print("Move: " + (X_dest_tmp, Y_dest_tmp, Z_dest_tmp) )
 		
 		toolPos_X = X_dest_tmp
 		toolPos_Y = Y_dest_tmp
@@ -197,7 +197,8 @@ def splitLongEtchMove(distance):
 		toolPos_F = F_dest_tmp
 
 
-raw_input("Turn on the spindle and press enter to begin...")
+print("Turn on the spindle and press enter to begin...")
+val = sys.stdin.readline()
 
 def doPath(X_offset=0, Y_offset=0):
 	global toolPos_X, toolPos_Y, toolPos_Z, toolPos_F, X_dest, Y_dest, Z_dest, F_dest
@@ -208,7 +209,7 @@ def doPath(X_offset=0, Y_offset=0):
 		X_dest = path[0][0]+X_offset
 		Y_dest = path[0][1]+Y_offset
 		F_dest = F_fastMove
-		print "  Traveling to:", str([X_dest, Y_dest]), "at Z:", Z_global_offset+Zlift_milling
+		print("  Traveling to: " + str([X_dest, Y_dest]) + " at Z:" + str(Z_global_offset+Zlift_milling) )
 		cy.moveXY(X_dest, Y_dest, F_dest)
 		toolPos_draw(X_dest, Y_dest, etching=0)
 		Z_dest = path[0][2]
@@ -217,14 +218,14 @@ def doPath(X_offset=0, Y_offset=0):
 		else:
 			F_dest = path[0][3] # We set the original speed if it is etching/drill
 		cy.moveZ(Z_dest+Z_origin_offset+getZoffset(X_dest, Y_dest)+Z_global_offset,F_dest)
-	#	print "Speed:",F_dest
-		print "  Etching at Z:",Z_dest+Z_global_offset
+	#	print("Speed:",F_dest)
+		print("  Etching at Z: " + str(Z_dest+Z_global_offset) )
 		toolPos_X = X_dest
 		toolPos_Y = Y_dest
 		toolPos_Z = Z_dest # Not sure..
 		toolPos_F = F_dest
 	
-	#	print path
+	#	print(path)
 	
 		for coord in path[1:] :
 			X_dest = coord[0]+X_offset
@@ -236,11 +237,11 @@ def doPath(X_offset=0, Y_offset=0):
 			if distance >= maxDistance :
 				splitLongEtchMove(distance)
 			if distance < minDistance and (Z_dest-toolPos_Z)**2 < 0.001**2 : # Make sure it is not a Z movement
-				print "Ignoring", distance**0.5, "mm segment!"
+				print("Ignoring " + str(distance**0.5) + "mm segment!")
 				continue
 			Z_real = Z_dest+Z_origin_offset+getZoffset(X_dest, Y_dest)+Z_global_offset
 			cy.moveXYZ(X_dest, Y_dest, Z_real, F_dest)
-	#		print "Coords: Speed:",F_dest
+	#		print("Coords: Speed: " + str(F_dest))
 			toolPos_refresh(X_dest, Y_dest, etching=1)
 		
 			toolPos_X = X_dest
@@ -256,5 +257,6 @@ for x_i in range(N_copies_X):
 cy.homeZXY() # It is important to send a blocking command in the end
 cy.close() # Close the connection with Cyclone
 
-raw_input("Done. Press enter to exit...")
+print("Done. Press enter to exit...")
+val = sys.stdin.readline()
 

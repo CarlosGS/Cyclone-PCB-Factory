@@ -35,7 +35,7 @@ class LINE:
 		self.inside = inside
 		self.delete = delete
 def merge_lines(gGCODES):
-	print "merge lines ..."
+	print("merge lines ...")
 	i = 0
 	while i< len(gGCODES)-1:
 		if(gGCODES[i].gtype <= 2):
@@ -62,7 +62,7 @@ def merge_lines(gGCODES):
 			a1 = (dy1)/(dx1)
 			b1 = gGCODES[i].y1 - a1 * gGCODES[i].x1
 		j = i + 1
-		#print "i =",i,", j =",j
+		#print("i =",i,", j =",j
 		while j< len(gGCODES):
 			if(gGCODES[j].gtype <= 2):
 				j += 1
@@ -150,19 +150,19 @@ def merge_lines(gGCODES):
 								gGCODES[i].gtype = 0
 								break
 					elif abs(gGCODES[i].y1 - gGCODES[j].y1) <= (w2/2 + w1/2):
-						#print w2/2 + w1/2, gGCODES[i].y1 - gGCODES[j].y1
+						#print(w2/2 + w1/2, gGCODES[i].y1 - gGCODES[j].y1
 						#
 						x2min = gGCODES[j].x1
 						x2max = gGCODES[j].x2
 						if(gGCODES[j].x2 < gGCODES[j].x1):
 							x2min = gGCODES[j].x2
 							x2max = gGCODES[j].x1
-						#print "near"
+						#print("near"
 						#if gGCODES[i].gtype == 4 and gGCODES[j].gtype == 4:
 						if abs((x1max-x1min) - (x2max-x2min)) < SMALL:	#same length
-							#print "same"
+							#print("same"
 							if abs((x1max+x1min)/2 - (x2max+x2min)/2) < SMALL:	#same center
-								#print "center"
+								#print("center"
 								tmp_ymin = gGCODES[i].y1 - w1/2
 								tmp_ymax = gGCODES[j].y1 + w2/2
 								if tmp_ymin > gGCODES[j].y1 - w2/2:
@@ -345,7 +345,7 @@ def merge_lines(gGCODES):
 	return gGCODES
 def check_duplication(gGCODES):
 	#global gGCODES,TINY
-	print "Check overlapping lines ..."
+	print("Check overlapping lines ...")
 	i = 0
 
 	while i< len(gGCODES)-1:
@@ -413,11 +413,11 @@ def check_duplication(gGCODES):
 							aj=dyj/dxj
 							bj=yj1-aj*xj1
 							if(abs(aj-ai) < TINY and abs(bj-bi) < TINY):
-								#print "a=" + str(ai)
+								#print("a=" + str(ai)
 								if(xj_min>=xi_min):
-									#print "a"
+									#print("a"
 									if(xj_max<=xi_max):
-										#print "aa"
+										#print("aa"
 										#overlap
 										if(gGCODES[i].mod1 >= gGCODES[j].mod1):
 											gGCODES[j].gtype=0
@@ -425,7 +425,7 @@ def check_duplication(gGCODES):
 											continue
 									elif(xi_max >= xj_min):	# xj_max > xi_max
 										if(gGCODES[i].mod1 == gGCODES[j].mod1):
-											#print "ab i=" +str(i) + ", j=" + str(j)
+											#print("ab i=" +str(i) + ", j=" + str(j)
 											gGCODES[j].gtype=0
 											#gGCODES[i].x1 = xi_min
 											#gGCODES[i].y1 = gGCODES[i].y1
@@ -440,18 +440,18 @@ def check_duplication(gGCODES):
 											#j += 1
 											#continue
 								elif(xj_min<=xi_min):
-									#print "b"
+									#print("b"
 									if(xj_max>=xi_max):
-										#print "ba"
+										#print("ba"
 										#overlap
 										if(gGCODES[i].mod1 <= gGCODES[j].mod1):
 											gGCODES[i].gtype=0
 											break
 									elif(xj_max >= xi_min):	# xj_max < xi_max
 										if(gGCODES[i].mod1 == gGCODES[j].mod1):
-											#print "bb i=" +str(i) + ", j=" + str(j)
+											#print("bb i=" +str(i) + ", j=" + str(j)
 											gGCODES[j].gtype=0
-											#print "x1=" +str(gGCODES[i].x1) +", y1=" +str(gGCODES[i].y1) +", x2=" +str(gGCODES[i].x2) +", y2=" +str(gGCODES[i].y2)
+											#print("x1=" +str(gGCODES[i].x1) +", y1=" +str(gGCODES[i].y1) +", x2=" +str(gGCODES[i].x2) +", y2=" +str(gGCODES[i].y2)
 											#gGCODES[i].x2 = xi_max
 											#gGCODES[i].y2 = gGCODES[i].y2
 											#if(m_x1_flag):	#if xi_max = gGCODES[i].x1
@@ -465,7 +465,7 @@ def check_duplication(gGCODES):
 											if(xj1>xj2):	#if xi_min = xj2
 												gGCODES[i].y1 = gGCODES[j].y2
 											xi_min = xj_min
-											#print "x1=" +str(gGCODES[i].x1) +", y1=" +str(gGCODES[i].y1) +", x2=" +str(gGCODES[i].x2) +", y2=" +str(gGCODES[i].y2)
+											#print("x1=" +str(gGCODES[i].x1) +", y1=" +str(gGCODES[i].y1) +", x2=" +str(gGCODES[i].x2) +", y2=" +str(gGCODES[i].y2)
 											#j += 1
 											#continue
 					else:	#dxi==0
@@ -512,11 +512,11 @@ def check_duplication(gGCODES):
 			else:	#ti != tj
 				if(ti == 2):
 					if(tj == 3 or tj == 4):
-						#print "rect ti"
+						#print("rect ti"
 						if(gGCODES[j].x1 == gGCODES[j].x2 and gGCODES[i].x1 == gGCODES[j].x1):	#Vertical
-							#print "ti check x"
+							#print("ti check x"
 							if(gGCODES[i].mod1 == gGCODES[j].mod1):
-								#print "ti check x mod1"
+								#print("ti check x mod1"
 								#line = [gGCODES[i].x1,gGCODES[i].y1-gGCODES[i].mod2/2,gGCODES[i].x1,gGCODES[i].y1+gGCODES[i].mod2/2]
 								x1=gGCODES[i].x1
 								y1=gGCODES[i].y1-gGCODES[i].mod2/2
@@ -532,11 +532,11 @@ def check_duplication(gGCODES):
 										gGCODES[j].gtype=0
 									if(ovflag == 3):
 										gGCODES[i].gtype=0
-									print "ti overlap =" + str(ovflag)
-									#print line_joint(x1,y1,x2,y2,xa,ya,xb,yb,ovflag)
+									print("ti overlap =" + str(ovflag))
+									#print(line_joint(x1,y1,x2,y2,xa,ya,xb,yb,ovflag)
 									tx1,ty1,tx2,ty2=line_joint(x1,y1,x2,y2,xa,ya,xb,yb,ovflag)
 									if(tj == 4):	#Rect
-										print "Rect-Rect"
+										print("Rect-Rect")
 										gGCODES[j].gtype = 0
 										gGCODES[i].gtype = 4
 										gGCODES[i].x1 = tx1
@@ -544,7 +544,7 @@ def check_duplication(gGCODES):
 										gGCODES[i].x2 = tx2
 										gGCODES[i].y2 = ty2
 									elif(tj == 3):
-										print "rect-cir"
+										print("rect-cir")
 										gGCODES[j].gtype = 0
 										gGCODES[i].gtype = 5
 										gGCODES[i].mod1 =gGCODES[j].mod1
@@ -558,9 +558,9 @@ def check_duplication(gGCODES):
 											gGCODES[i].x2 = tx1
 											gGCODES[i].y2 = ty1
 						if(gGCODES[j].y1 == gGCODES[j].y2 and gGCODES[i].y1 == gGCODES[j].y1):	#Horizontal
-							#print "ti check y"
+							#print("ti check y"
 							if(gGCODES[i].mod2 == gGCODES[j].mod1):
-								#print "ti check y mod1"
+								#print("ti check y mod1"
 								#line = [gGCODES[i].x1-gGCODES[i].mod1/2,gGCODES[i].y1,gGCODES[i].x1+gGCODES[i].mod1/2,gGCODES[i].y1]
 								x1=gGCODES[i].x1-gGCODES[i].mod1/2
 								y1=gGCODES[i].y1
@@ -576,11 +576,11 @@ def check_duplication(gGCODES):
 										gGCODES[j].gtype=0
 									if(ovflag == 7):
 										gGCODES[i].gtype=0	
-									print "ti overlap =" + str(ovflag)
+									print("ti overlap =" + str(ovflag))
 									tx1,ty1,tx2,ty2=line_joint(x1,y1,x2,y2,xa,ya,xb,yb,ovflag)
 									
 									if(tj == 4):	#Rect
-										print "Rect-Rect"
+										print("Rect-Rect")
 										gGCODES[j].gtype = 0
 										gGCODES[i].gtype = 4
 										gGCODES[i].x1 = tx1
@@ -588,7 +588,7 @@ def check_duplication(gGCODES):
 										gGCODES[i].x2 = tx2
 										gGCODES[i].y2 = ty2
 									elif(tj == 3):
-										print "rect-cir"
+										print("rect-cir")
 										gGCODES[j].gtype = 0
 										gGCODES[i].gtype = 5
 										gGCODES[i].mod1 =gGCODES[j].mod1
@@ -603,11 +603,11 @@ def check_duplication(gGCODES):
 											gGCODES[i].y2 = ty1
 				if(tj == 2):
 					if(ti == 3 or ti == 4):
-						#print "rect tj"
+						#print("rect tj"
 						if(gGCODES[i].x1 == gGCODES[i].x2 and gGCODES[i].x1 == gGCODES[j].x1):	#Vertical
-							#print "ti check x"
+							#print("ti check x"
 							if(gGCODES[i].mod1 == gGCODES[j].mod1):
-								#print "ti check x mod1"
+								#print("ti check x mod1"
 								#line = [gGCODES[i].x1,gGCODES[i].y1-gGCODES[i].mod2/2,gGCODES[i].x1,gGCODES[i].y1+gGCODES[i].mod2/2]
 								x1=gGCODES[j].x1
 								y1=gGCODES[j].y1-gGCODES[j].mod2/2
@@ -623,11 +623,11 @@ def check_duplication(gGCODES):
 										gGCODES[j].gtype=0
 									if(ovflag == 3):
 										gGCODES[i].gtype=0
-									print "tj overlap =" + str(ovflag)
-									#print line_joint(x1,y1,x2,y2,xa,ya,xb,yb,ovflag)
+									print("tj overlap =" + str(ovflag))
+									#print(line_joint(x1,y1,x2,y2,xa,ya,xb,yb,ovflag)
 									tx1,ty1,tx2,ty2=line_joint(x1,y1,x2,y2,xa,ya,xb,yb,ovflag)
 									if(tj == 4):	#Rect
-										print "Rect-Rect"
+										print("Rect-Rect")
 										gGCODES[j].gtype = 0
 										gGCODES[i].gtype = 4
 										gGCODES[i].x1 = tx1
@@ -635,7 +635,7 @@ def check_duplication(gGCODES):
 										gGCODES[i].x2 = tx2
 										gGCODES[i].y2 = ty2
 									elif(tj == 3):
-										print "rect-cir"
+										print("rect-cir")
 										gGCODES[j].gtype = 0
 										gGCODES[i].gtype = 5
 										gGCODES[i].mod1 =gGCODES[j].mod1
@@ -649,7 +649,7 @@ def check_duplication(gGCODES):
 											gGCODES[i].x2 = tx1
 											gGCODES[i].y2 = ty1
 						if(gGCODES[i].y1 == gGCODES[i].y2 and gGCODES[i].y1 == gGCODES[j].y1):	#Horizontal
-							#print "ti check y"
+							#print("ti check y"
 							if(gGCODES[i].mod1 == gGCODES[j].mod2):
 
 								x1=gGCODES[j].x1-gGCODES[j].mod1/2
@@ -666,11 +666,11 @@ def check_duplication(gGCODES):
 										gGCODES[j].gtype=0
 									if(ovflag == 7):
 										gGCODES[i].gtype=0	
-									print "tj overlap =" + str(ovflag)
+									print("tj overlap =" + str(ovflag))
 									tx1,ty1,tx2,ty2=line_joint(x1,y1,x2,y2,xa,ya,xb,yb,ovflag)
 									
 									if(tj == 4):	#Rect
-										print "Rect-Rect"
+										print("Rect-Rect")
 										gGCODES[j].gtype = 0
 										gGCODES[i].gtype = 4
 										gGCODES[i].x1 = tx1
@@ -678,7 +678,7 @@ def check_duplication(gGCODES):
 										gGCODES[i].x2 = tx2
 										gGCODES[i].y2 = ty2
 									elif(tj == 3):
-										print "rect-cir"
+										print("rect-cir")
 										gGCODES[j].gtype = 0
 										gGCODES[i].gtype = 5
 										gGCODES[i].mod1 =gGCODES[j].mod1
@@ -826,7 +826,7 @@ def merge(gPOLYGONS, LINE, gLINES,gLINES2):
 		#del all polygons
 		poly3.delete = 1
 	gPOLYGONS = line_merge(gPOLYGONS, gLINES)
-	print "End merge polygons"
+	print("End merge polygons")
 	return gPOLYGONS
 
 def line_merge(gPOLYGONS, gLINES):
@@ -853,7 +853,7 @@ def line_merge(gPOLYGONS, gLINES):
 
 def merge_polygons(gPOLYGONS):
 	#global gPOLYGONS
-	print "      Start merge lines 2"
+	print("      Start merge lines 2")
 	for poly1 in gPOLYGONS:
 		if(poly1.delete):
 			continue
@@ -878,7 +878,7 @@ def merge_polygons(gPOLYGONS):
 
 def IsLineOverlap(x1,y1,x2,y2,xa,ya,xb,yb):
 	global TINY
-	#print "check overlap"
+	#print("check overlap"
 	dx1 = x2-x1
 	#dy1 = y2-y1
 	dx2 = xb-xa
@@ -900,9 +900,9 @@ def IsLineOverlap(x1,y1,x2,y2,xa,ya,xb,yb):
 			if(abs(a1-a2) < TINY):
 				b1 = y1-a1*x1
 				b2 = ya-a2*xa
-				#print "same angle " + str(a1 )+ ", b1=" + str(b1)+ ", b2=" + str(b2) + ", b2-b1=" + str(abs(b2-b1)) +", y1=" +str(y1) + ", ya=" + str(ya)
+				#print("same angle " + str(a1 )+ ", b1=" + str(b1)+ ", b2=" + str(b2) + ", b2-b1=" + str(abs(b2-b1)) +", y1=" +str(y1) + ", ya=" + str(ya)
 				if(abs(b2-b1) < TINY):	#Horizontal
-					#print "same b " + str(b1)
+					#print("same b " + str(b1)
 					if (xa - x1)*(xa - x2) <= 0 or (xb - x1)*(xb - x2):
 						return 1
 	return 0
@@ -946,7 +946,7 @@ def CrossAndIn(line_id,spoints, gLINES, LINE):
 	#global gLINES, gCCOUNT1, gCCOUNT2,TEST_POINTS1,TEST_POINTS2
 	global gCCOUNT1, gCCOUNT2,TEST_POINTS1,TEST_POINTS2
 	#check in or out
-	#print line_id
+	#print(line_id
 	if(gLINES[line_id].inside):
 		return 0
 	xa = gLINES[line_id].x1
@@ -973,7 +973,7 @@ def CrossAndIn(line_id,spoints, gLINES, LINE):
 		(cross_flag,cross_x,cross_y)=find_cross_point(xa,ya,xb,yb,xp1,yp1,xp2,yp2)
 		cross_num+=cross_flag
 		if(cross_flag):
-			#print "cross"
+			#print("cross"
 			cross_points.extend([cross_x,cross_y])
 			cross_nums.append(si)
 
@@ -1029,9 +1029,9 @@ def CrossAndIn(line_id,spoints, gLINES, LINE):
 
 	if(cross_num>1):
 		cross_points = sort_points_by_dist(xa,ya,cross_points)
-		#print calc_dist(gLINES[line_id].x1,gLINES[line_id].y1,cross_points[0],cross_points[1])
+		#print(calc_dist(gLINES[line_id].x1,gLINES[line_id].y1,cross_points[0],cross_points[1])
 		if(calc_dist(gLINES[line_id].x1,gLINES[line_id].y1,cross_points[0],cross_points[1])<=0.0):
-			#print "the cross point is same as p1 in_flag1=" + str(in_flag1) + "in_flag2=" + str(in_flag2)
+			#print("the cross point is same as p1 in_flag1=" + str(in_flag1) + "in_flag2=" + str(in_flag2)
 			if(in_flag1 != in_flag2):
 				gLINES[line_id].inside = 1
 			else:
@@ -1065,7 +1065,7 @@ def CrossAndIn(line_id,spoints, gLINES, LINE):
 		if(in_flag1 == in_flag2):
 			#in in
 			gLINES[line_id].inside=in_flag1
-			#print "in-in or Out-OUT:flag="+str(in_flag1)+ ", id=" +str(line_id)
+			#print("in-in or Out-OUT:flag="+str(in_flag1)+ ", id=" +str(line_id)
 		else:
 			#in out
 			if(ovflag <=0):

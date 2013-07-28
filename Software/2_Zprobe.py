@@ -47,7 +47,7 @@ grid_len = Z_probing_data['grid_len']
 cy.moveZrelSafe(initial_Z_lowering_distance,F_slowMove) # Move Z towards the PCB (saves some probing time for the first coord)
 
 # Do the probing itself
-(x_points, y_points, probe_result, Z_offset, probe_duration) = cy.probeGrid(grid_origin, grid_len, GRID_N_POINTS, Zlift)
+(x_points, y_points, probe_result, Z_offset, probe_duration) = cy.probeGrid(grid_origin, grid_len, GRID_N_POINTS, Zlift, F_fastMove, F_slowMove)
 
 #x_points = [0.0, 17.5, 35.0, 52.5, 70.0]
 #y_points = [0.0, 13.333333333333334, 26.666666666666668, 40.0]
@@ -62,12 +62,12 @@ Z_probing_data['probe_duration'] = probe_duration
 saveToFile(Z_probing_data,Z_PROBING_FILE)
 
 # Show our grid
-print "#--------   Probing results   ---------"
-print "x_points = ", x_points
-print "y_points = ", y_points
-print "probe_result = ", probe_result
-print "probe_duration = ", probe_duration
-print "#--------------------------------------"
+print("#--------   Probing results   ---------")
+print("x_points = " + str(x_points) )
+print("y_points = " + str(y_points) )
+print("probe_result = " + str(probe_result) )
+print("probe_duration = " + str(probe_duration) )
+print("#--------------------------------------")
 
 # Display values
 
@@ -89,10 +89,10 @@ pltShowNonBlocking()
 Z_workbed_surface = interpolate.RectBivariateSpline(y_points, x_points, probe_result)
 
 # Evaluate the interpolation in a 50x50 grid for display
-x_points = np.linspace(min(x_points),max(x_points),50) 
-y_points = np.linspace(min(y_points),max(y_points),50) 
+x_points = np.linspace(min(x_points),max(x_points),100) 
+y_points = np.linspace(min(y_points),max(y_points),100) 
 z_points = Z_workbed_surface(y_points,x_points)
-#print z_points
+#print( str(z_points) )
 
 plt.figure()
 plt.pcolor(x_points, y_points, z_points)
@@ -103,5 +103,6 @@ pltShowNonBlocking()
 
 cy.close() # Close the connection with Cyclone
 
-raw_input("Press enter to exit...")
+print("Press enter to exit...")
+val = sys.stdin.readline()
 

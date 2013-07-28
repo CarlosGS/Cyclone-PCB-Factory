@@ -13,8 +13,8 @@ GRID_N_POINTS = (4,4)	# Number of points (AT LEAST 4 IN EACH DIRECTION, OTHERWIS
 Zlift = 0.5 # mm # Lift between probings, it is relative so should be enough
 
 # For Zprobe and Send
-F_fastMove = 700 # mm/s
-F_slowMove = 200 # mm/s
+F_fastMove = 70000 # mm/s
+F_slowMove = 20000 # mm/s
 initial_Z_lowering_distance = -5 # Warning: Do not lower too much or you will potentially cause damage!
 
 N_copies_X = 2 # Panelizing options!
