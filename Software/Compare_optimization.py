@@ -11,27 +11,15 @@
 #   consequential damages resulting from the use, misuse, or inability to use this software,
 #   even if Carlosgs has been advised of the possibility of such damages.
 
+# Begin configuration
+from configuration import * # load settings
+# End configuration
+
 # Begin modules
-import sys
+from misc import *
 
-from subprocess import call
-
-import numpy as np
-from scipy import interpolate
-import matplotlib.pyplot as plt
-
-#sys.path.append("../CycloneHost")
 import CycloneHost.GcodeParser as gcp
 # End modules
-
-# Temporary path to speedup testing
-#import os
-#os.chdir("../GcodeGenerators/pyGerber2Gcode_CUI/")
-#call(["pypy","./pygerber2gcode_cui_MOD.py"])
-#os.chdir("../../gcode_Z_adjust")
-
-filePath = "./GcodeGenerators/pyGerber2Gcode_CUI/out/"
-fileName = "printshield" # sys.argv[1]
 
 def plotPoints(path_list, color, linewidth): # Thanks to pprzemek (http://stackoverflow.com/questions/2282727/draw-points-using-matplotlib-pyplot-x1-y1-x2-y2)
 	for path in path_list :
