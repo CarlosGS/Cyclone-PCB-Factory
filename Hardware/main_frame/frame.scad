@@ -218,6 +218,6 @@ translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
 
 
 // Toggle parameters and mirror to create the other side part
-frame(with_motor = 1, show_printbed = 1);
-//scale([-1,1,1]) frame(with_motor = 0, show_printbed = 1);
+//frame(with_motor = 1, show_printbed = 1);
+scale([-1,1,1]) frame(with_motor = 0, show_printbed = 1);
 
