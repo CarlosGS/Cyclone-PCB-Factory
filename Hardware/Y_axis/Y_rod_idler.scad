@@ -94,8 +94,8 @@ translate([frame_width-frame_thickness,frame_height,frame_thickness-2])
 }
 
 
-//Y_rod_idler(show_printbed = 1);
-scale([-1,1,1]) Y_rod_idler(show_printbed = 1);
+Y_rod_idler(show_printbed = 1);
+//scale([-1,1,1]) Y_rod_idler(show_printbed = 1);
 
 
 
