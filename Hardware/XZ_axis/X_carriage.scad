@@ -22,7 +22,7 @@ X_rod_sep_real_diag = sqrt(2*(X_rod_sep_real*X_rod_sep_real));
 
 screw_diam = 4;
 
-M8_rod_diam = 8.2;
+M8_rod_diam = 8;
 M8_rod_hole_diam = M8_rod_diam+0.2;
 
 M8_nut_diameter = 15.3;
@@ -211,7 +211,7 @@ module X_carriage_print_plate() {
 	    X_carriage(show_printbed = 0, show_support = 1);
 }
 
-X_carriage_assembled(show_printbed = 1,show_Xrods = 1,show_Zrods = 1);
-//X_carriage_print_plate();
+//X_carriage_assembled(show_printbed = 1,show_Xrods = 1,show_Zrods = 1);
+X_carriage_print_plate();
 
 //translate([0,20,0]) X_nut_holder_cover();
