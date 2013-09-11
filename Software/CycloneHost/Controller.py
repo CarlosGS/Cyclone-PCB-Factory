@@ -41,7 +41,7 @@ import random
 from CycloneHost.helper import *
 # End modules
 
-# Begin configuration. It is overwritten when running setup(baudrate, device)
+# Begin configuration. It is overwritten when running connect()
 BAUDRATE = 115200
 DEVICE = "/dev/ttyUSB0"
 Emulate = 0
@@ -57,7 +57,7 @@ OK_response = "ok" # First two characters of an OK response (case insensitive)
 CNC_Machine = []
 
 def connect(baudrate, device, emulate = 0):
-	global CNC_Machine, Emulate
+	global CNC_Machine, Emulate, BAUDRATE, DEVICE
 	BAUDRATE = baudrate
 	DEVICE = device
 	print("Connecting to Cyclone...")
