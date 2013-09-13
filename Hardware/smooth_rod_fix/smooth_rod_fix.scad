@@ -16,7 +16,7 @@ smooth_rod_screw_len = 7;
 
 part_x = smooth_rod_screw_sep*3;
 part_y = 8;
-part_z = 6;
+part_z = 8;
 
 //for display only, doesn't contribute to final object
 translate([frame_width/2,frame_height/2,0]) build_plate(3,110,140);
