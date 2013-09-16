@@ -62,10 +62,10 @@ module M3rodAndNut(){
         cylinder(r=M3_rod_diam/2,h=50,center=true,$fn=40);
     //M3 nut trap
     hull(){
-    	translate([-frame_width/4,10,0])
+    	translate([-frame_width/4,6,0])
         	rotate([90,0,0])
            		nutHole(3);
-    	translate([-frame_width/2,10,0])
+    	translate([-frame_width/2,6,0])
         	rotate([90,0,0])
            		nutHole(3); 
         }  	
@@ -116,9 +116,11 @@ module Y_rod_idler(side = 0){
 	    M3rodAndNut();
 	    gap();
 	    hole(); 
-	    logo(side);
+      logo(side);
+	    
 	      
 	}
+
 
 
 }
