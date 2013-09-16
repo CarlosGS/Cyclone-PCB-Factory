@@ -160,7 +160,7 @@ module motor_stand_front(){
   motor_stand();
 }
 module motor_stand_back(){
-  translate([0,0,-140])
+  translate([0,0,0])
     rotate([0,180,0])
       mirror([1,0,0]){
         motor_stand();
@@ -171,7 +171,7 @@ module motor_stand_back(){
 
 
 
-motor_stand_front();
+//motor_stand_front();
 motor_stand_back();
 
 

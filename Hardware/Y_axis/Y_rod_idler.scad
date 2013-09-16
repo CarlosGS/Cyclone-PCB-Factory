@@ -1,103 +1,144 @@
-// Cyclone PCB Factory: a 3D printable CNC machine for PCB manufacture
-// Created by Carlosgs (http://carlosgs.es)
-// License: Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/)
+// //  Cyclone PCB Factory: a 3D printable CNC machine for PCB manufacture
+// // Created by @yOPERO 
+// // License: Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/)
 
-use <../libs/obiscad/bcube.scad>
-use <../libs/obiscad/bevel.scad>
+
 use <../libs/build_plate.scad>
+use <../libs/MCAD-master/nuts_and_bolts.scad>
+fileNameLogo = "../libs/logo/cyclone_logo.dxf";
 
-
-module Y_rod_idler(show_printbed = 0) {
-
-motor_stand_thickness = 5;
-
-bearing_diameter = 22.4;
 M8_rod_diam = 8.2;
+M3_rod_diam = 3.2;
 
 smooth_rod_margin = 1;
+Y_rod_height = 40;
 
-smooth_rod_screw_sep = 8;
-smooth_rod_screw_diam = 3;
-smooth_rod_screw_len = 7;
-
-frame_thickness = 4;
-bottom_thickness = 4;
+base_screw_len = 7;
 base_screw_diameter = 5;
 
-Y_rod_height = 40;
-Y_rod_dist_from_wall = 15;
-
-Y_rod_support_lenght = Y_rod_dist_from_wall+smooth_rod_screw_sep+smooth_rod_screw_diam;
-
-frame_width = 30;
+frame_width = 25;
 frame_height = Y_rod_height-smooth_rod_margin;
-wall_thickness = 5;
+frame_depth = 10;
 
-if(show_printbed) {
-//for display only, doesn't contribute to final object
-translate([frame_width/2,frame_height/2,0]) build_plate(3,110,140);
+
+
+module mainBlock(){
+  union(){
+    //main block
+    translate([0,Y_rod_height/2,0])
+        cube([frame_width,Y_rod_height,frame_depth],center=true);
+    //top of the block
+    hull(){
+      translate([frame_width/2 - M8_rod_diam,0,0])
+        cylinder(r=M8_rod_diam,h=frame_depth,center = true, $fn=40);
+
+      translate([-frame_width/4,-frame_width/8,0])
+        cube([frame_width/2,frame_depth,frame_depth],center=true);
+    }
+  }
 }
 
-union() {
-  // --------- Main frame --------- //  
-  difference() {
-  translate([frame_width/2,frame_height/2,frame_thickness/2])
-    cube([frame_width,frame_height,frame_thickness],center=true);
-  rotate([0,0,35]) cube([33,frame_height*10,frame_thickness*10],center=true);
+module M8rod(){
+    cylinder(r=M8_rod_diam/2,h=50,center=true,$fn=40);
+}
 
-  } // End of difference() command
-
-
-// --------- Step with screws in the base --------- //  
-difference() {
-  translate([0,frame_height-bottom_thickness,frame_thickness/2])
-    cube([frame_width,bottom_thickness,Y_rod_support_lenght/2],center=false);
-  // --------- Screws in the base --------- //
-  rotate([90,0,0]) translate([frame_width/3,Y_rod_support_lenght/2.5,-frame_height]) {
-    translate([-5,0,0])
-      cylinder(r=base_screw_diameter/2,h=2*smooth_rod_screw_len,center=true,$fn=6);
-    translate([5,0,0])
-      cylinder(r=base_screw_diameter/2,h=2*smooth_rod_screw_len,center=true,$fn=6);
-  }
-
-  } // End of difference() command
+module gap(){
+    translate([-frame_width/4,-frame_depth/8,0])
+        cube([frame_width/2,frame_depth/8,frame_depth],center=true);
+}
 
 
-// --------- Bevel base supports --------- //
-translate([frame_width-frame_thickness,frame_height,frame_thickness-0.5])
-  rotate([90,0,-90])
-    bconcave_corner(cr=Y_rod_support_lenght-0.5, cres=0, l=frame_thickness*2, th=0.5, ext_corner=true);
+module hole(){
+    scale([0.77,1.5,0.77])
+    //main block shirnked
+        translate([0,Y_rod_height/2 +2+ M8_rod_diam/2,0])
+          cube([frame_width,Y_rod_height,frame_depth],center=true);
+}
 
-
-// --------- Bevel Y rod support --------- //
-translate([frame_width-frame_thickness,frame_height,frame_thickness-2])
-  translate([0,-Y_rod_height+smooth_rod_margin,0]) {
-    difference() {
-      rotate([90,0,90]) // Bevel
-        bconcave_corner(cr=Y_rod_support_lenght-smooth_rod_screw_len, cres=0, l=frame_thickness*2, th=smooth_rod_screw_len, ext_corner=true);
-
-      translate([0,-smooth_rod_margin,Y_rod_dist_from_wall]) rotate([0,90,0]) {
-        cylinder(r=M8_rod_diam/2,h=10*frame_thickness,center=true,$fn=40);
-        // Screws
-        rotate([90,0,0]) {
-          translate([-smooth_rod_screw_sep,0,-1])
-            cylinder(r=smooth_rod_screw_diam/2,h=2*smooth_rod_screw_len,center=true,$fn=6);
-          translate([smooth_rod_screw_sep,0,-1])
-            cylinder(r=smooth_rod_screw_diam/2,h=2*smooth_rod_screw_len,center=true,$fn=6);
-        }
+module M3rodAndNut(){
+    //M3 screw hole
+    translate([-frame_width/4,0,0])
+      rotate([90,0,0])        
+        cylinder(r=M3_rod_diam/2,h=50,center=true,$fn=40);
+    //M3 nut trap
+    hull(){
+    	translate([-frame_width/4,10,0])
+        	rotate([90,0,0])
+           		nutHole(3);
+    	translate([-frame_width/2,10,0])
+        	rotate([90,0,0])
+           		nutHole(3); 
+        }  	
+}
+module supportL(){
+    mirror([0,0,0])
+    translate([17,40 -10/4,0]){
+        difference(){
+          cube([10,5,10], center = true);
+          rotate([90,0,0])
+            cylinder(r=base_screw_diameter/2,h=2*base_screw_len,center=true,$fn=6);
       }
-  }
-  }
+    }
+}
+module supportR(){
+    mirror([1,0,0,])
+      supportL();
 
-} // End of union() command
+}
+module mainBody(){
+  mainBlock();
+  supportR();
+  supportL();
+}
+
+module logo(mirror = 0){
+	logoDepth =-1.2;
+	if(mirror){		
+		translate([-frame_width/2 + 1.5,Y_rod_height/4,-frame_depth/2])
+			resize([20,20,1.2])
+				linear_extrude(file = fileNameLogo, height=2);
+	}else{
+		mirror([1,0,0])
+		translate([-frame_width/2 + 1.5,Y_rod_height/4,-frame_depth/2])
+				resize([20,20,1.2])
+					linear_extrude(file = fileNameLogo, height=2);
+	}
 
 }
 
+module Y_rod_idler(side = 0){
+	/*if left, side = 1
+	  if right, side = 0*/
+	mirror([side,0,0])
+	difference(){
+	    mainBody();
+	    M8rod();
+	    M3rodAndNut();
+	    gap();
+	    hole(); 
+	    logo(side);
+	      
+	}
 
-//Y_rod_idler(show_printbed = 1);
-scale([-1,1,1]) Y_rod_idler(show_printbed = 1);
+
+}
+module show_printbed(){
+	translate([frame_width/2,frame_height/2,-frame_depth/2]) build_plate(3,150,140);
+
+}
+module Y_rod_idler_left(){
+	translate([-25,0,0])	
+		Y_rod_idler(1);
+}
+module Y_rod_idler_right(){
+	translate([25,0,0])	
+		Y_rod_idler(0);
+}
 
 
+Y_rod_idler_right();
+Y_rod_idler_left();
+show_printbed();
 
 
 
