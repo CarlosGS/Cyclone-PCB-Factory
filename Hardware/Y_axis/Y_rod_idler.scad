@@ -4,8 +4,8 @@
 
 
 use <../libs/build_plate.scad>
-use <../libs/MCAD-master/nuts_and_bolts.scad>
-fileNameLogo = "../libs/logo/cyclone_logo.dxf";
+use <../libs/MCAD/nuts_and_bolts.scad>
+fileNameLogo = "../libs/logo/cyclone_logoC.dxf";
 
 M8_rod_diam = 8.2;
 M3_rod_diam = 3.2;
@@ -19,8 +19,6 @@ base_screw_diameter = 5;
 frame_width = 25;
 frame_height = Y_rod_height-smooth_rod_margin;
 frame_depth = 10;
-
-
 
 module mainBlock(){
   union(){
@@ -47,7 +45,6 @@ module gap(){
         cube([frame_width/2,frame_depth/8,frame_depth],center=true);
 }
 
-
 module hole(){
     scale([0.77,1.5,0.77])
     //main block shirnked
@@ -70,6 +67,7 @@ module M3rodAndNut(){
            		nutHole(3); 
         }  	
 }
+
 module supportL(){
     mirror([0,0,0])
     translate([17,40 -10/4,0]){
@@ -80,11 +78,12 @@ module supportL(){
       }
     }
 }
+
 module supportR(){
     mirror([1,0,0,])
       supportL();
-
 }
+
 module mainBody(){
   mainBlock();
   supportR();
@@ -103,10 +102,9 @@ module logo(mirror = 0){
 				resize([20,20,1.2])
 					linear_extrude(file = fileNameLogo, height=2);
 	}
-
 }
 
-module Y_rod_idler(side = 0){
+module Y_rod_idler(side = 0, logo = 0){
 	/*if left, side = 1
 	  if right, side = 0*/
 	mirror([side,0,0])
@@ -116,30 +114,30 @@ module Y_rod_idler(side = 0){
 	    M3rodAndNut();
 	    gap();
 	    hole(); 
-      logo(side);
-	    
-	      
+      if(logo)
+      logo(side);	      
 	}
-
-
-
 }
+
 module show_printbed(){
 	translate([frame_width/2,frame_height/2,-frame_depth/2]) build_plate(3,150,140);
-
 }
-module Y_rod_idler_left(){
+
+module Y_rod_idler_left(logo){
 	translate([-25,0,0])	
-		Y_rod_idler(1);
+		Y_rod_idler(1, logo);
 }
-module Y_rod_idler_right(){
+
+module Y_rod_idler_right(logo){
 	translate([25,0,0])	
-		Y_rod_idler(0);
+		Y_rod_idler(0, logo);
 }
 
-
-Y_rod_idler_right();
-Y_rod_idler_left();
+/***************************************************************/
+Y_rod_idler_right(logo = 1);
+Y_rod_idler_left(logo = 1);
+// Y_rod_idler_right(); // Without logo
+// Y_rod_idler_left(); // Without logo
 show_printbed();
 
 
