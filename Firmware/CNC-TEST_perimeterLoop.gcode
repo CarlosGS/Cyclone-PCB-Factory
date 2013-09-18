@@ -4,7 +4,7 @@ G90        ;absolute positioning
 G28 X0 Y0  ;move X/Y to min endstops
 
 ;G28 Z0     ;move Z to min endstops
-G30 ; Probe to z=0
+;G30 ; Probe to z=0
 
 G92 X0 Y0 ; Z0 E0         ;reset software position to front/left/z=0.0
 
