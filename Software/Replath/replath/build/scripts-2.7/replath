@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
 __author__ = "Stefan Blanke (greenarrow) (greenarrow@users.sourceforge.net)"
 __credits__ = ""
@@ -340,6 +340,8 @@ class DrawCanvas(wxpygame.wxSDLPanel):
         self.font = pygame.font.Font(None, 17)
         self.drawSurface = pygame.Surface( ( 0, 0 ) )
         self.drawn = False
+        
+        self.drawRect = 0, 0, 10, 10
     
     def setParent(self, parent):
         self.parent = parent

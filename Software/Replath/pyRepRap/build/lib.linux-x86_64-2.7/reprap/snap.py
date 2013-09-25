@@ -23,7 +23,6 @@ along with pyRepRap.  If not, see <http://www.gnu.org/licenses/>.
 
 
 import serial, exceptions, threading, time
-from __init__ import _RepRapError
 
 
 SYNC_BYTE = 0x54
@@ -45,7 +44,7 @@ def openSerial( port = 0, rate = 19200, tout = 60 ):
 	try:
 		serialPort = serial.Serial( port, rate, timeout = tout )
 	except:
-		raise _RepRapError("You do not have permissions to use the serial port, try running as root")
+		raise RepRapError("You do not have permissions to use the serial port, try running as root")
 
 
 def closeSerial():

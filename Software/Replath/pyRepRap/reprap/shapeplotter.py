@@ -167,10 +167,10 @@ def circleStroke(x1, y1, x2, y2, radius, resolution, fillDensity = False ):
 			# reversing these point lets locus be drawn in one continual motion
 			poly.addPoint( toolpath.Point(x2 - rsintheta, y2 + rcostheta) )
 			poly.addPoint( toolpath.Point(x1 - rsintheta, y1 + rcostheta) )
-			poly.addPolygon( arc(x1, y1, r, theta + startOffset, theta + endOffset, resolution, fillDensity = False) )
+			poly.addPolygon( arc(x1, y1, r, theta + startOffset, theta + endOffset, resolution) )
 			poly.addPoint( toolpath.Point(x1 + rsintheta, y1 - rcostheta) )
 			poly.addPoint( toolpath.Point(x2 + rsintheta, y2 - rcostheta) )
-			poly.addPolygon( arc(x2, y2, r, theta - startOffset, theta - endOffset, resolution, fillDensity = False) )
+			poly.addPolygon( arc(x2, y2, r, theta - startOffset, theta - endOffset, resolution) )
 	return poly
 
 def fill(polygon, fillDensity):

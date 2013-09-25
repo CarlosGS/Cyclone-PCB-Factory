@@ -215,7 +215,6 @@ def _getNotification(serialPort):
 
 
 class extruderClass:
-	tempScaler = 0
 	"""Used to control a RepRap thermoplast extruder.
 	An instance is automatically created in the reprap module, so for
 	basic use just use reprap.extruder rather than defining a new one
@@ -229,10 +228,8 @@ class extruderClass:
 		self.hb = 20				# Variable Preference
 		self.hm = 1.66667			# Variable Preference
 		self.absZero = 273.15		# Static, K
-		#self.rz = 29000				# Variable Preference
-		self.rz = 353700			# Variable Preference
-		#self.beta = 3480			# Variable Preference
-		self.beta = 4267			# Variable Preference
+		self.rz = 29000				# Variable Preference
+		self.beta = 3480			# Variable Preference
 		self.vdd = 5.0				# Static, volts
 		self.cap = 0.0000001		# Variable Preference
 	
@@ -261,7 +258,7 @@ class extruderClass:
 			p = snap.Packet( self.address, snap.localAddress, 0, 1, [int(direction), int(speed)] ) ##no command being sent, whats going on?
 			p.send()
 		else:
-			raise _RepRapError("Invalid direction or speed value")
+			raise RepRapError("Invalid direction or speed value")
 	
 	def _calculateResistance(self, picTemp, calibrationPicTemp):
 		"""Calculate resistance from pic timer value"""
@@ -330,7 +327,6 @@ class extruderClass:
 		self._autoTempRange()
 		rawHeat, calibration = self._getRawTemp()
 		while rawHeat == 255 or rawHeat == 0:
-			# TODO very bad as will hang in what should be a tight loop
 			time.sleep(0.1)
 			self._autoTempRange()
 		res = self._calculateResistance( rawHeat, calibration )
@@ -338,7 +334,7 @@ class extruderClass:
 		#print rawHeat, res, temp
 		return round(temp, 1)	#there is no point returning more points than this
 		
-	def setTemp(self, temperature, null):
+	def setTemp(self, temperature):
 		"""Set the extruder target temperature (degrees Celsius)"""
 		self.requestedTemperature = temperature
 		#if(math.abs(self.requestedTemperature - extrusionTemp) > 5):
@@ -480,7 +476,7 @@ class axisClass:
 			p = snap.Packet( self.address, snap.localAddress, 0, 1, [CMD_FORWARD, int(speed)] ) 
 			p.send()
 		else:
-			raise _RepRapError("Invalid speed value")
+			raise RepRapError("Invalid speed value")
 	
 	def backward(self, speed = None):
 		"""Spin axis backward at given speed (0-255)
@@ -494,7 +490,7 @@ class axisClass:
 			p = snap.Packet( self.address, snap.localAddress, 0, 1, [CMD_REVERSE, int(speed)] ) 
 			p.send()
 		else:
-			raise _RepRapError("Invalid speed value")
+			raise RepRapError("Invalid speed value")
 	
 	def getSensors(self):
 		"""Debug only. Returns raw PIC port bytes)"""
@@ -522,7 +518,7 @@ class axisClass:
 			p = snap.Packet( self.address, snap.localAddress, 0, 1, [CMD_SETPOS, posMSB, posLSB] )
 			p.send()
 		else:
-			raise _RepRapError("Invalid position value")
+			raise RepRapError("Invalid position value")
 	
 	def free(self):
 		"""Power off coils on stepper"""
@@ -566,7 +562,7 @@ class axisClass:
 				if not notif.dataBytes[0] == CMD_SEEK:
 					raise _RepRapError("Expected seek notification")
 		else:
-			raise _RepRapError("Invalid speed or position value")
+			raise RepRapError("Invalid speed or position value")
 	
 	def homeReset(self, speed = None, waitArrival = True):
 		"""Go to 0 position. If waitArrival is True, funtion waits until reset is compete to return"""
@@ -582,7 +578,7 @@ class axisClass:
 				if not notif.dataBytes[0] == CMD_HOMERESET:
 					raise _RepRapError("Expected home reset notification")
 		else:
-			raise _RepRapError("Invalid speed value")
+			raise RepRapError("Invalid speed value")
 	
 	def setNotify(self):
 		"""Set axis to notify on arrivals"""
@@ -595,7 +591,7 @@ class axisClass:
 			p = snap.Packet( self.address, snap.localAddress, 0, 1, [CMD_SYNC, int(syncMode)] )
 			p.send()
 		else:
-			raise _RepRapError("Invalid sync mode")
+			raise RepRapError("Invalid sync mode")
 	
 	def _DDA( self, seekTo, slaveDelta, speed = False, waitArrival = True):
 		"""Set DDA mode"""
@@ -615,18 +611,17 @@ class axisClass:
 		"""Set stepper motor power (0-100%)"""
 		power = int( float(power) * 0.63 )
 		if power >=0 and power <=0x3F:
-			#p = snap.Packet( self.address, snap.localAddress, 0, 1, [CMD_SETPOWER, int( power * 0.63 )] ) # This is a value from 0 to 63 (6 bits)
-			p = snap.Packet( self.address, snap.localAddress, 0, 1, [CMD_SETPOWER, power] ) # This is a value from 0 to 63 (6 bits)
+			p = snap.Packet( self.address, snap.localAddress, 0, 1, [CMD_SETPOWER, int( power * 0.63 )] ) # This is a value from 0 to 63 (6 bits)
 			p.send()
 		else:
-			raise _RepRapError("Invalid power value")
+			raise RepRapError("Invalid power value")
 	
 	def setSpeed(self, speed):
 		"""Set axis move speed (0-255)"""
 		if speed >= 0 and speed <= 0xFF:
 			self.speed = speed
 		else:
-			raise _RepRapError("Invalid speed value")
+			raise RepRapError("Invalid speed value")
 	
 	def setStepsPerMM(self, spmm):
 		"""Set axis steps per millimeter"""
@@ -672,17 +667,12 @@ class cartesianClass:
 		if not waitArrival:
 			print "WARNING : Reseting all axies at the same time is unstable. suggest using waitArrival = True option."
 		#z is done first so we don't break anything we just made
-		if self.z.active:
-			if self.z.homeReset( speed = speed, waitArrival = waitArrival ):
-				print "Z Reset"
-		
-		if self.x.active:
-			if self.x.homeReset( speed = speed, waitArrival = waitArrival ):
-				print "X Reset"
-		
-		if self.y.active:
-			if self.y.homeReset( speed = speed, waitArrival = waitArrival ):
-				print "Y Reset"
+		if self.z.homeReset( speed = speed, waitArrival = waitArrival ):
+			print "Z Reset"
+		if self.x.homeReset( speed = speed, waitArrival = waitArrival ):
+			print "X Reset"
+		if self.y.homeReset( speed = speed, waitArrival = waitArrival ):
+			print "Y Reset"
 		
 		# TODO add a way to collect all three notifications (in whatever order) then check they are all there. this will allow symultanious axis movement and use of waitArrival
 		# This requires snap receiver to search packets rather than just returning oldest one. probably need to do this anyway
@@ -766,36 +756,21 @@ class cartesianClass:
 	
 	def stop(self):
 		"""Stop all motors (but retain current)"""
-		if self.x.active:
-			self.x.forward(0)
-		
-		if self.y.active:
-			self.y.forward(0)
-		
-		if self.z.active:
-			self.z.forward(0)
+		self.x.forward(0)
+		self.y.forward(0)
+		self.z.forward(0)
 	
 	def free(self):
 		"""Free all motors (no current on coils)"""
-		if self.x.active:
-			self.x.free()
-		
-		if self.y.active:
-			self.y.free()
-		
-		if self.z.active:
-			self.z.free()
+		self.x.free()
+		self.y.free()
+		self.z.free()
 	
 	def setPower(self, power):
 		"""Set stepper power (0-100)"""
-		if self.x.active:
-			self.x.setPower(power)
-		
-		if self.y.active:
-			self.y.setPower(power)
-		
-		if self.z.active:
-			self.z.setPower(power)
+		self.x.setPower(power)
+		self.y.setPower(power)
+		self.z.setPower(power)
 	
 	#def lockout():
 	#keep sending power down commands to all board every second
@@ -803,14 +778,9 @@ class cartesianClass:
 	def setSpeed(self, speed):
 		"""Set axies move speed (0-255)"""
 		self.speed = speed
-		if self.x.active:
-			self.x.setSpeed(speed)
-		
-		if self.y.active:
-			self.y.setSpeed(speed)
-		
-		if self.z.active:
-			self.z.setSpeed(speed)
+		self.x.setSpeed(speed)
+		self.y.setSpeed(speed)
+		self.z.setSpeed(speed)
 	
 	def setStepsPerMM(self, spmm):
 		"""Set axies steps per millimeter"""
