@@ -41,7 +41,7 @@ License
 Authors (Software)  
 --
 - **Carlos García Saura (Carlosgs <http://carlosgs.es>)** (original python scripts)  
-- _GUI work in progress by various members of the mail-list_
+- _GUI work in progress by various members of the mail-list_  
 
 
 Disclaimer  
