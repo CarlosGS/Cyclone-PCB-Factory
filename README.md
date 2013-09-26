@@ -52,14 +52,6 @@ License
 Authors  
 --
 _Check Hardware, Software and Firmware sections for details regarding authorship_  
-**_Hardware_**  
-- **Carlos García Saura (Carlosgs <http://carlosgs.es>)** (original design)  
-- **Daniel Garrido (yOPERO <http://yopero-tech.blogspot.com.es/>)** (hardware improvements)  
-**_Software_**  
-- **Carlos García Saura (Carlosgs <http://carlosgs.es>)** (original python scripts)  
-- _GUI work in progress by various members of the mail-list_
-**_Electronics, firmware_**  
-- _Work in progress by various members of the mail-list_
 
 Render (v0.9.7)  
 --

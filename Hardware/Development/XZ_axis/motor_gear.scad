@@ -12,10 +12,7 @@
  *  derived from http://www.thingiverse.com/thing:3104
  *  (thanks GilesBathgate) which is under GPL CC license.
  *
- * August 2013 added 2 extra setscrews to ensure centered usage.
- * by Harry Binnema. 
- *
-* Copyright (C) 2011  Guy 'DeuxVis' P.
+ * Copyright (C) 2011  Guy 'DeuxVis' P.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,10 +34,8 @@ include <MCAD/teardrop.scad>
 include <MCAD/involute_gears.scad>
 
 motor_shaft_diameter=5.4;
-pos=15.4; //position hole for grubnut
+
 nholes = 7;
-shaft_diam=10;
-shaft_height=7;
 
 /* Herringbone gear module, adapted from MCAD/involute_gears */
 module herringbone_gear( teeth=12, circles=0, shaft=5 ) {
@@ -89,24 +84,19 @@ rotate([180,0,0]) union() difference() {
 
     translate( [0, 0, 12] ) mirror( [0, 0, 1] ) difference() {
       //shaft
-      cylinder( r=shaft_diam, h=shaft_height, $fn=40 );
+      cylinder( r=9, h=7, $fn=40 );
 
       //captive nut and grub holes
-	for (i=[0:2]){ //3 symmetric grubscrews
-
- 	rotate([0,0,i*120]){     
- 		translate( [0, 20, 3.5] ) rotate( [90, 0, 0] ) union() {
-        //entrance for nut
-          translate( [0, -4.4, pos] ) cube( [5.9, 5.8, 2.45], center=true );
-        //nut hole
-        translate( [0, 0, pos-1.2] ) rotate( [0, 0, 30] )
-          cylinder( r=6/2+0.2, h=2.6, $fn=6 );
-        //grub screw hole
+      translate( [0, 20, 3.5] ) rotate( [90, 0, 0] ) union() {
+        //enterance
+        translate( [0, -3, 14.5] ) cube( [6, 6, 2.6], center=true );
+        //nut
+        translate( [0, 0, 13.3] ) rotate( [0, 0, 30] )
+          cylinder( r=6/2+0.5, h=2.6, $fn=6 );
+        //grub hole
         translate( [0, 0, 9] ) cylinder( r=1.5, h=10, $fn=20 );
-      				}
-				}
-			}
-   		}
+      }
+    }
   }
 
   //shaft hole

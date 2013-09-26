@@ -1,20 +1,13 @@
 // Cyclone PCB Factory: a 3D printable CNC machine for PCB manufacture
 // Created by Carlosgs (http://carlosgs.es)
 // License: Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/)
- /*
- * August 2013 changes to design top-part mounting screw at same side as bottom-part.
- * also started introduced 2nd spindle diameter for a-symmetrical spindles. this is not working yet.
- * by Harry Binnema. 
- */
 
 use <../libs/obiscad/bcube.scad>
 use <../libs/build_plate.scad>
 use <../libs/Write/Write.scad>
 
-spindle_motor_diam_top = 26*2;
 spindle_motor_diam = 26*2;
-spindle_holder_thickness = 8;
-spindle_holder_distance = 46;
+spindle_holder_thickness = 7;
 
 bottom_thickness = 4;
 base_width = 20;
@@ -36,7 +29,7 @@ M8_rod_diameter = 8.2;
 
 axis_distance = 21;
 
-wall_thickness = 9;
+wall_thickness = 8;
 wall_height = motor_width;
 wall_width = 54;
 
@@ -65,28 +58,22 @@ module dummySpindle() {
 }
 
 // Derived from Spindle mount for ShapeOko by Misan (http://www.thingiverse.com/thing:26740)
-module spindle_holder_holes(length,spindiam, basediam,top_part) {
+module spindle_holder_holes(length=50,showSpindle=true) {
 	$fn=6;
 
-	translate([20,8,-0.05]) cylinder(r=basediam/2,h=length+2,$fn=60);
-	translate([-20,8,-0.05]) cylinder(r=basediam/2,h=length+2,$fn=60);
-	if (top_part){
-		translate([0,38,0]) rotate([0,0,0]) {
-		translate([0,0,-0.05]) cylinder(r=spindiam/2,h=length+2,$fn=60);
-		translate([0,-3,-0.01]) cube([90,3,length+2]);
-		translate ([spindiam/2+15,15,length/2]) rotate([90,0,0]) cylinder(r=2,h=30);
-		translate ([spindiam/2+15,-10.5,length/2]) rotate([90,0,0]) cylinder(r=3.5,h=4,$fn=6);
-		}		
-		}
-	else
-		{
-		translate([0,38,0]) rotate([0,0,180]) {
-		translate([0,0,-0.05]) cylinder(r=spindiam/2,h=length+2,$fn=60);
-		translate([0,0,-0.01]) cube([90,3,length+2]);
-		translate ([spindiam/2+15,20,length/2]) rotate([90,0,0]) cylinder(r=2,h=30);
-		translate ([spindiam/2+15,15,length/2]) rotate([90,0,0]) cylinder(r=3.5,h=4,$fn=6);
-		}
-		}
+	translate([20,8,-0.05]) cylinder(r=base_screw_diameter/2,h=length+2,$fn=60);
+	translate([-20,8,-0.05]) cylinder(r=base_screw_diameter/2,h=length+2,$fn=60);
+
+	translate([0,38,0]) rotate([0,0,180]) {
+	
+	translate([0,0,-0.05]) cylinder(r=spindle_motor_diam/2,h=length+2,$fn=60);
+
+	translate([0,0,-0.01]) cube([90,3,length+2]);
+	
+	translate ([36,20,length/2]) rotate([90,0,0]) cylinder(r=2,h=30);
+	translate ([36,14,length/2]) rotate([90,0,0]) cylinder(r=3.5,h=4,$fn=6);
+	
+	}
 }
 
 
@@ -174,35 +161,28 @@ module Z_solid_body(top_part=true) {
 			cylinder(r=3+LM8UU_dia/2,h=wall_thickness,$fn=50);
 	}
 
-	// For the claw of the spindle holder
-if(top_part){
+	// For the screw of the spindle holder
 	translate([wall_height/2,wall_width-4,0])
 		translate([0,38,0]) {
-			rotate([0,0,0]) {
-				translate([spindle_motor_diam/2,-12.5,0]) cube([25,20,wall_thickness]);
-				
+			rotate([0,0,180]) {
+				translate([28,-7,0]) cube([15,20,wall_thickness]);
+
 	// Write text in the front
 	color([0.5,0.5,0.5])
-			rotate([0,0,180]) scale([-1,1,-textHscale])
+		if(top_part)
+			scale([-1,1,-textHscale])
 				writecylinder("CYCLONE",[0,0,-wall_thickness/(2*textHscale)],spindle_motor_diam/2+spindle_holder_thickness,0,font="orbitron.dxf",space=1.1,h=wall_thickness,t=textThickness,center=true,ccw=true);
-			}
-		}
-}
-else
-translate([wall_height/2,wall_width-4,0])
-		translate([0,38,0]) {
-			
-			rotate([0,0,180]) {
-			translate([spindle_motor_diam/2,-7,0]) cube([25,20,wall_thickness]);
-			color([0.2,0.2,0.5])
+		else
 			scale([1,1,textHscale])
 				writecylinder("PCB Factory",[0,0,wall_thickness/(2*textHscale)+1],spindle_motor_diam/2+spindle_holder_thickness,0,font="orbitron.dxf",space=1.1,h=wall_thickness-2,t=textThickness,center=true,ccw=true);
+
 			}
 		}
 }
 
+
 //for display only, doesn't contribute to final object
-//build_plate(3,200,200);
+build_plate(3,200,200);
 
 module Z_carriage(showSpindle=false,top_part=true) {
 
@@ -212,7 +192,7 @@ module Z_carriage(showSpindle=false,top_part=true) {
 				Z_solid_body(top_part);
 				if(top_part) motor_stand_holes_Z();
 				translate([wall_height/2,wall_width-4,0])
-					spindle_holder_holes(wall_thickness,spindle_motor_diam,base_screw_diameter,top_part);
+					spindle_holder_holes(wall_thickness,showSpindle);
 				translate([wall_height/2-Z_smooth_rods_sep/2,Z_threaded_pos,0])
 					linearBearingHolderZ(wall_thickness);
 				translate([wall_height/2+Z_smooth_rods_sep/2,Z_threaded_pos,0])
@@ -238,14 +218,14 @@ module Z_carriage(showSpindle=false,top_part=true) {
 
 module Z_carriage_assembled() {
 	Z_carriage(showSpindle=true,top_part=false);
-	translate([0,0,3+spindle_holder_distance]) rotate([180,0,0]) Z_carriage(showSpindle=false,top_part=true);
+	translate([0,0,3+23*2]) rotate([180,0,0]) Z_carriage(showSpindle=false,top_part=true);
 }
 
 //Z_carriage(top_part=true);
-//Z_carriage(top_part=false);
+Z_carriage(top_part=false);
 
 
-Z_carriage_assembled();
+//Z_carriage_assembled();
 
 
 
