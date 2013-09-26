@@ -51,7 +51,7 @@ License
 
 Authors  
 --
-_Check Hardware, Software and Firmware sections for details regarding authorship_
+_Check Hardware, Software and Firmware sections for details regarding authorship_  
 **_Hardware_**  
 - **Carlos García Saura (Carlosgs <http://carlosgs.es>)** (original design)  
 - **Daniel Garrido (yOPERO <http://yopero-tech.blogspot.com.es/>)** (hardware improvements)  

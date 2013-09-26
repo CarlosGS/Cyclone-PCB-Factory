@@ -47,6 +47,7 @@ Authors (Hardware):
 --
 - **Carlos García Saura (Carlosgs <http://carlosgs.es>)** (original design)  
 - **Daniel Garrido (yOPERO <http://yopero-tech.blogspot.com.es/>)** (hardware improvements)  
+- **Harry Binnema** (hardware improvements)
 
 Special thanks  
 --  
