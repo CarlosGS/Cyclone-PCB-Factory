@@ -14,6 +14,9 @@
  *
  * Copyright (C) 2011  Guy 'DeuxVis' P.
  *
+ * August 2013 added 2 extra setscrews to ensure centered usage.
+ * by Harry Binnema. 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -88,7 +91,10 @@ union() difference() {
     translate( [0, 0, 12] ) mirror( [0, 0, 1] ) difference() {
       //shaft
       cylinder( r=9, h=15, $fn=40 );
-
+	//adapted to include 3 captive nuts for symmetrical positioning
+	//adpted bij HJ Binnema on August 26 2013.
+	for (i= [0:2]){
+		rotate([0,0,i*120]){
       //captive nut and grub holes
       translate( [0, 20, 3.5] ) rotate( [90, 0, 0] ) union() {
         //enterance
@@ -98,7 +104,7 @@ union() difference() {
           cylinder( r=6/2+0.5, h=2.6, $fn=6 );
         //grub hole
         translate( [0, 0, 9] ) cylinder( r=3.2/2, h=10, $fn=6 );
-      }
+      }}}
     }
   }
 
