@@ -27,9 +27,12 @@ M8_rod_hole_diam = M8_rod_diam+0.2;
 
 M8_nut_diameter = 1 + 14.6;
 
-// Adjust these values to match the thickness of the nuts you will use
+/*-----------------------------------------------------------------------
+ Adjust these values to match the thickness of the nuts you will use
+ ----------------------------------------------------------------------*/
 M8_nut_height_Z = 4;
 M8_nut_height_X = 1+6.3;
+/*---------------------------------------------------------------------*/
 
 X_axis_nut_support_thickness = 10;
 
@@ -58,11 +61,6 @@ module rodHole(len=100,radius=M8_rod_hole_diam/2, truncateMM=1) {
 }
 //--->yOPERO
 module X_nut_holder() {
-	//x nut holder cover DEBUG only
-	*translate([0,0,0-0])
-		X_nut_holder_cover_v1();
-	//x nut holder cover DEBUG only
-
 	//lower join
 	translate([-M8_nut_height_X-2,-1.5+13/4,-2])
 		difference(){			
@@ -72,7 +70,6 @@ module X_nut_holder() {
 			rotate([90,0,0])
 				cylinder(r=X_nut_screw_diam/2,h=40,center=true,$fn=20);
 			}
-
 		//block 
 		difference() {
 			translate([0,-1.5,11.5])
@@ -101,127 +98,52 @@ module X_nut_holder() {
 			cylinder(r=X_nut_screw_diam/2,h=60,center=true,$fn=20);
 		//Nut transversal cut 
 		translate([0,-1.5,-M8_nut_diameter/2])
-			#cube([M8_nut_diameter+6,13,M8_nut_diameter],center=true);	
+			cube([M8_nut_diameter+8,13,M8_nut_diameter],center=true);	
 	}
 }
 module X_nut_holder_cover_v12(){
 		//upper join
-		translate([-M8_nut_height_X-3,-(13/4+1.25),-2])
+		translate([-M8_nut_height_X-2,13/4 -1.5 -13/2,-2])
 			difference(){			
 				rotate([90,0,0])
 					cylinder(r=X_nut_screw_diam,h=13/2,center=true,$fn=20);
-			//screw 
+			//Joint screw 
 			rotate([90,0,0])
 				cylinder(r=X_nut_screw_diam/2,h=400,center=true,$fn=20);
 			}
-			difference() {
-				translate([0,-1.5,11.5])
-				cube([M8_nut_diameter+6,12.5,42],center=true);
-	
+		difference() {
 			//block
-			rotate([0,45,0]) translate([0,0,-26])
-				cube([20,20,20],center=true);
-			//bold
+			translate([0,-1.5,11.5])			
+				cube([M8_nut_diameter+6,13,42],center=true);			
+			//Nut
 			translate([0,-1.5,0])
-				rotate([-90,0,0]) hull() {
-			
-			rotate([0,0,90])
-					cylinder(r=M8_nut_diameter/2,h=M8_nut_height_X,$fn=6,center=true);
+				rotate([-90,0,0]) hull() {			
+					rotate([0,0,90])
+						cylinder(r=M8_nut_diameter/2,h=M8_nut_height_X,$fn=6,center=true);
 			}
-		//Nut embedding
-		rotate([90,0,0])
-				rotate([0,0,90])
-					cylinder(r=M8_rod_diam/2+2,h=40,center=true,$fn=6);
-		//Joints body
-		translate([-M8_nut_height_X-3,13/4-2,-2])
+			//Nut embedding
 			rotate([90,0,0])
-				cylinder(r=X_nut_screw_diam,h=20,center=true,$fn=20);
-		
-		//Upper screw
-		translate([M8_nut_height_X+2,-1.5,0])
-			cylinder(r=X_nut_screw_diam/2,h=60,center=true,$fn=20);
-		//corte para obtener unicamente el nut cover
-		translate([0,-1.5,13.25+M8_nut_diameter/2])
-			cube([M8_nut_diameter+6,13,42],center=true);	
-	}
-	
-}
-//yOPERO<----
-module X_nut_holder_cover_v1(){
-		//upper join
-		translate([-M8_nut_height_X-2,-(13/4+1.25),-2])
-			difference(){			
+					rotate([0,0,90])
+						cylinder(r=M8_rod_diam/2+2,h=40,center=true,$fn=6);
+			//Joints body
+			translate([-M8_nut_height_X-2,13/4-2,-2])
 				rotate([90,0,0])
-					cylinder(r=X_nut_screw_diam,h=13/2,center=true,$fn=20);
-			//taladro m2
-			rotate([90,0,0])
-				cylinder(r=X_nut_screw_diam/2,h=400,center=true,$fn=20);
-			}
-			difference() {
-				translate([0,-1.5,11.5])
-				cube([M8_nut_diameter+6,12.5,42],center=true);
-	
-			//embellecedor
-			rotate([0,45,0]) translate([0,0,-26])
-				cube([20,20,20],center=true);
-			//bold
-				translate([0,-1.5,0])
-					rotate([-90,0,0]) hull() {
+					cylinder(r=X_nut_screw_diam,h=28,center=true,$fn=20);
 			
-			rotate([0,0,90])
-					cylinder(r=M8_nut_diameter/2,h=M8_nut_height_X,$fn=6,center=true);
-		}
-		//bold embedding
-		rotate([90,0,0])
-				rotate([0,0,90])
-					cylinder(r=M8_rod_diam/2+2,h=40,center=true,$fn=6);
-		//Taladro base
-		translate([-M8_nut_height_X-2,13/4-2,-2])
-			rotate([90,0,0])
-				cylinder(r=X_nut_screw_diam,h=20,center=true,$fn=20);
-		//taladro m2
-		*rotate([90,0,0])
-				cylinder(r=X_nut_screw_diam/2,h=40,center=true,$fn=20);
-		//Taladro superior >seguro
-		translate([M8_nut_height_X+1,-1.5,0])
-			cylinder(r=X_nut_screw_diam/2,h=60,center=true,$fn=20);
-		//corte para obtener unicamente el nut cover
-		translate([0,-1.5,13.25+M8_nut_diameter/2])
-			cube([M8_nut_diameter+6,13,42],center=true);	
-	}
-	
+			//Upper screw
+			translate([M8_nut_height_X + 1,-1.5,0])
+				cylinder(r=X_nut_screw_diam/2,h=60,center=true,$fn=20);
+			//Nut transversal cut 
+			translate([0,-1.5,13.25+M8_nut_diameter/2])
+				cube([M8_nut_diameter+6,13,42],center=true);	
+	}	
+}
+module Show_Nut_Cover(x,y,z,x1,y1,z1){
+	translate([x,y,z])
+	rotate([x1,y1,z1])
+		X_nut_holder_cover_v12();
 }
 //yOPERO<----
-
-module X_nut_holder_cover() {
-	X_nut_screw_diam = X_nut_screw_diam*1.2;
-	scale([1,1,-1]) rotate([-90,0,0])
-	difference() {
-		translate([0,0,7])
-			cube([M8_nut_diameter+2,3,67],center=true);
-		rotate([0,45,0]) translate([0,0,-16])
-			cube([20,20,20],center=true);
-
-		rotate([0,45,0]) translate([0,0,19])
-			cube([60,20,20],center=true);
-
-		rotate([-90,0,0]) hull() {
-			translate([0,-1,0.5])
-				rotate([0,0,90])
-					cylinder(r=M8_nut_diameter/2,h=M8_nut_height_X,$fn=6);
-			translate([0,10,0.5])
-				rotate([0,0,90])
-					cylinder(r=M8_nut_diameter/2,h=M8_nut_height_X,$fn=6);
-		}
-		rotate([90,0,0])
-				rotate([0,0,90])
-					cylinder(r=M8_rod_diam/2+2,h=40,center=true,$fn=6);
-		translate([-4,0,10])
-			rotate([90,0,0])
-				cylinder(r=X_nut_screw_diam/2,h=40,center=true,$fn=20);
-	}
-}
-
 module X_carriage(show_printbed = 0, show_support = 1) {
   if(show_printbed) {
     //for display only, doesn't contribute to final object
@@ -288,7 +210,6 @@ module X_carriage(show_printbed = 0, show_support = 1) {
    } // End of difference
 }
 
-
 module X_carriage_assembled(show_printbed = 0, show_Xrods = 0, show_Zrods = 0) {
   X_carriage(show_printbed);
 
@@ -314,6 +235,9 @@ module X_carriage_assembled(show_printbed = 0, show_Xrods = 0, show_Zrods = 0) {
 	      translate([0,Z_smooth_rods_len/2-5,-Z_smooth_rods_sep/2])
 	        rod(len=Z_smooth_rods_len);
 	    }
+   if (Show_Nut_Cover){   	
+   		Show_Nut_Cover(-18,-29,0,180,235,0);
+   }	    
 }
 
 module X_carriage_print_plate() {
@@ -325,8 +249,9 @@ module X_carriage_print_plate() {
 }
 
 X_carriage_assembled(show_printbed = 0,show_Xrods = 0,show_Zrods = 0);
+//Debug only
+//X_carriage_assembled(show_printbed = 0,show_Xrods = 0,show_Zrods = 0, Show_Nut_Cover = 1/*DEBUG only*/);
 //X_carriage_print_plate();
 
-//uncomment the line below to get the x nut cover
-//X_nut_holder_cover_v1();
-
+//uncomment  the  line below to get the x nut cover
+//Show_Nut_Cover();
