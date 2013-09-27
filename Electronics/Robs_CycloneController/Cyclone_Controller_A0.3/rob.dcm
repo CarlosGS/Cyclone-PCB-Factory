@@ -1,0 +1,23 @@
+EESchema-DOCLIB  Version 2.0  Date: Fri 27 Sep 2013 14:23:00 BST
+#
+$CMP CONN_3X2
+D Symbole general de connecteur
+K CONN
+$ENDCMP
+#
+$CMP ISP
+D Symbole general de connecteur
+K CONN
+$ENDCMP
+#
+$CMP USB_2
+D USB Connector
+K USB usb CONNECTOR connector
+$ENDCMP
+#
+$CMP USB_2_Update
+D USB Connector
+K USB usb CONNECTOR connector
+$ENDCMP
+#
+#End Doc Library
