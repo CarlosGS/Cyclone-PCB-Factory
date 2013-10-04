@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date Fri 27 Sep 2013 14:43:57 BST
+EESchema Schematic File Version 2  date Wed 02 Oct 2013 18:50:01 BST
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -37,9 +37,9 @@ EELAYER END
 $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
-Title ""
-Date "27 sep 2013"
-Rev ""
+Title "Cyclone_Controller"
+Date "2 oct 2013"
+Rev "A0.4"
 Comp ""
 Comment1 ""
 Comment2 ""

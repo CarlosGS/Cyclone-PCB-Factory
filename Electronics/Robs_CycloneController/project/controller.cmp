@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2012-apr-16-27)-stable date = Fri 27 Sep 2013 14:36:26 BST
+Cmp-Mod V01 Created by CvPcb (2012-apr-16-27)-stable date = Wed 02 Oct 2013 18:49:54 BST
 
 BeginCmp
 TimeStamp = /523EF259;
@@ -144,7 +144,7 @@ BeginCmp
 TimeStamp = /524586E7;
 Reference = J1;
 ValeurCmp = USB_2_UPDATE;
-IdModule  = USB_A;
+IdModule  = USB_B;
 EndCmp
 
 BeginCmp
@@ -193,14 +193,14 @@ BeginCmp
 TimeStamp = /5242C8F1;
 Reference = K7;
 ValeurCmp = RELAY_2RT;
-IdModule  = relay_2rt;
+IdModule  = relay_2rt_l;
 EndCmp
 
 BeginCmp
 TimeStamp = /5242C952;
 Reference = K8;
 ValeurCmp = RELAY_2RT;
-IdModule  = relay_2rt;
+IdModule  = relay_2rt_l;
 EndCmp
 
 BeginCmp

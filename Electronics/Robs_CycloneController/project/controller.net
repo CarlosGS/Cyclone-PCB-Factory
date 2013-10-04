@@ -1,0 +1,753 @@
+# EESchema Netlist Version 1.1 created  Wed 02 Oct 2013 18:49:54 BST
+(
+ ( /523EF259 C1 C1 22pF
+  ( 1 N-000053 )
+  ( 2 GND )
+ )
+ ( /523EFED8 C1 C2 100nF
+  ( 1 +12V )
+  ( 2 GND )
+ )
+ ( /523EF260 C1 C3 22pF
+  ( 1 N-000055 )
+  ( 2 GND )
+ )
+ ( /523EF28C C1V5 C4 10uF
+  ( 1 VCC )
+  ( 2 GND )
+ )
+ ( /524054F1 C1 C5 100nF
+  ( 1 VCC )
+  ( 2 GND )
+ )
+ ( /523F03DB C1 C6 100nF
+  ( 1 VCC )
+  ( 2 GND )
+ )
+ ( /523F03E6 C1 C7 4.7uF
+  ( 1 VCC )
+  ( 2 GND )
+ )
+ ( /523F03E2 C1 C8 100nF
+  ( 1 N-000074 )
+  ( 2 GND )
+ )
+ ( /523F03F0 C1 C9 47pF
+  ( 1 N-000078 )
+  ( 2 GND )
+ )
+ ( /523F03E9 C1 C10 47pF
+  ( 1 N-000092 )
+  ( 2 GND )
+ )
+ ( /523F03EE C1 C11 100nF
+  ( 1 VCC )
+  ( 2 GND )
+ )
+ ( /524059E3 C1 C12 10uF
+  ( 1 +12V )
+  ( 2 GND )
+ )
+ ( /524059E7 C1 C13 100nF
+  ( 1 VCC )
+  ( 2 GND )
+ )
+ ( /524059F9 C1V5 C14 10uF
+  ( 1 VCC )
+  ( 2 GND )
+ )
+ ( /52405A99 C1V7 C15 100uF
+  ( 1 VPP )
+  ( 2 GND )
+ )
+ ( /52405A9D C1V7 C16 100uF
+  ( 1 VPP )
+  ( 2 GND )
+ )
+ ( /52405A8D C1V7 C17 100uF
+  ( 1 VPP )
+  ( 2 GND )
+ )
+ ( /5242CA9A D4 D1 DIODE
+  ( 1 N-000090 )
+  ( 2 VCC )
+ )
+ ( /5242CAA5 D4 D2 DIODE
+  ( 1 N-000091 )
+  ( 2 VCC )
+ )
+ ( /523EF16D DIP-40__600_ELL IC1 ATMEGA1284-P
+  ( 1 Z_MAX )
+  ( 2 RELAY1 )
+  ( 3 RELAY2 )
+  ( 4 MOS_DRIVE2 )
+  ( 5 MOS_DRIVE1 )
+  ( 6 MOSI )
+  ( 7 MISO )
+  ( 8 SCK )
+  ( 9 RST )
+  ( 10 VCC )
+  ( 11 GND )
+  ( 12 N-000053 )
+  ( 13 N-000055 )
+  ( 14 MC_RX )
+  ( 15 MC_TX )
+  ( 16 N-000041 )
+  ( 17 N-000044 )
+  ( 18 N-000047 )
+  ( 19 N-000050 )
+  ( 20 N-000038 )
+  ( 21 Z_PROBE )
+  ( 22 I2C_SCL )
+  ( 23 I2C_SDA )
+  ( 24 Z_DIRECTION )
+  ( 25 Z_STEP )
+  ( 26 Z_STEP_ENABLE )
+  ( 27 Y_DIRECTION )
+  ( 28 Y_STEP )
+  ( 29 Y_STEP_ENABLE )
+  ( 30 VCC )
+  ( 31 GND )
+  ( 32 VCC )
+  ( 33 X_DIRECTION )
+  ( 34 X_STEP )
+  ( 35 X_STEP_ENABLE )
+  ( 36 X_MIN )
+  ( 37 X_MAX )
+  ( 38 Y_MIN )
+  ( 39 Y_MAX )
+  ( 40 Z_MIN )
+ )
+ ( /524586E7 USB_B J1 USB_2_UPDATE
+  ( 1 N-000087 )
+  ( 2 N-000092 )
+  ( 3 N-000078 )
+  ( 4 GND )
+  ( 5 GND )
+  ( 6 GND )
+ )
+ ( /523EFF8C PIN_ARRAY_3X1 K1 X_MIN
+  ( 1 VCC )
+  ( 2 X_MIN )
+  ( 3 GND )
+ )
+ ( /523EFF92 PIN_ARRAY_3X1 K2 X_MAX
+  ( 1 VCC )
+  ( 2 X_MAX )
+  ( 3 GND )
+ )
+ ( /523EFF98 PIN_ARRAY_3X1 K3 Y_MIN
+  ( 1 VCC )
+  ( 2 Y_MIN )
+  ( 3 GND )
+ )
+ ( /523EFFE8 PIN_ARRAY_3X1 K4 Y_MAX
+  ( 1 VCC )
+  ( 2 Y_MAX )
+  ( 3 GND )
+ )
+ ( /523EFFED PIN_ARRAY_3X1 K5 Z_MIN
+  ( 1 VCC )
+  ( 2 Z_MIN )
+  ( 3 GND )
+ )
+ ( /523EFFF6 PIN_ARRAY_3X1 K6 Z_MAX
+  ( 1 VCC )
+  ( 2 Z_MAX )
+  ( 3 GND )
+ )
+ ( /5242C8F1 relay_2rt_l K7 RELAY_2RT
+  ( 1 N-000085 )
+  ( 3 ? )
+  ( 5 N-000084 )
+  ( 8 VCC )
+  ( 9 N-000090 )
+  ( 12 N-000084 )
+  ( 14 ? )
+  ( 16 N-000085 )
+ )
+ ( /5242C952 relay_2rt_l K8 RELAY_2RT
+  ( 1 N-000025 )
+  ( 3 ? )
+  ( 5 N-000027 )
+  ( 8 VCC )
+  ( 9 N-000091 )
+  ( 12 N-000027 )
+  ( 14 ? )
+  ( 16 N-000025 )
+ )
+ ( /523EFC3F pin_array_3x2 P1 ISP
+  ( 1 MISO )
+  ( 2 VCC )
+  ( 3 SCK )
+  ( 4 MOSI )
+  ( 5 RST )
+  ( 6 GND )
+ )
+ ( /52405821 bornier2 P2 M1_IN
+  ( 1 N-000004 )
+  ( 2 GND )
+ )
+ ( /52405829 bornier2 P3 M1_OUT
+  ( 1 N-000004 )
+  ( 2 N-000003 )
+ )
+ ( /524056D4 bornier2 P4 M2_IN
+  ( 1 N-000006 )
+  ( 2 GND )
+ )
+ ( /524056DD bornier2 P5 M2_OUT
+  ( 1 N-000006 )
+  ( 2 N-000009 )
+ )
+ ( /52404DD3 bornier4 P6 X_AXIS
+  ( 1 N-000018 )
+  ( 2 N-000019 )
+  ( 3 N-000020 )
+  ( 4 N-000021 )
+ )
+ ( /52404DE1 bornier4 P7 Y_AXIS
+  ( 1 N-000014 )
+  ( 2 N-000015 )
+  ( 3 N-000016 )
+  ( 4 N-000017 )
+ )
+ ( /52404DF7 bornier4 P8 Z_AXIS
+  ( 1 N-000010 )
+  ( 2 N-000011 )
+  ( 3 N-000012 )
+  ( 4 N-000013 )
+ )
+ ( /52404DB9 PIN_ARRAY_4x1 P9 CONN_4
+  ( 1 N-000018 )
+  ( 2 N-000019 )
+  ( 3 N-000020 )
+  ( 4 N-000021 )
+ )
+ ( /52404DDB PIN_ARRAY_4x1 P10 CONN_4
+  ( 1 N-000014 )
+  ( 2 N-000015 )
+  ( 3 N-000016 )
+  ( 4 N-000017 )
+ )
+ ( /52404DF1 PIN_ARRAY_4x1 P11 CONN_4
+  ( 1 N-000010 )
+  ( 2 N-000011 )
+  ( 3 N-000012 )
+  ( 4 N-000013 )
+ )
+ ( /52404B5F SIL-8 P12 CONN_8
+  ( 1 VPP )
+  ( 2 GND )
+  ( 3 N-000018 )
+  ( 4 N-000019 )
+  ( 5 N-000020 )
+  ( 6 N-000021 )
+  ( 7 VCC )
+  ( 8 GND )
+ )
+ ( /52404B6B SIL-8 P13 CONN_8
+  ( 1 VPP )
+  ( 2 GND )
+  ( 3 N-000014 )
+  ( 4 N-000015 )
+  ( 5 N-000016 )
+  ( 6 N-000017 )
+  ( 7 VCC )
+  ( 8 GND )
+ )
+ ( /52404B70 SIL-8 P14 CONN_8
+  ( 1 VPP )
+  ( 2 GND )
+  ( 3 N-000010 )
+  ( 4 N-000011 )
+  ( 5 N-000012 )
+  ( 6 N-000013 )
+  ( 7 VCC )
+  ( 8 GND )
+ )
+ ( /52404B7F SIL-8 P15 CONN_8
+  ( 1 X_STEP_ENABLE )
+  ( 2 N-000080 )
+  ( 3 N-000064 )
+  ( 4 N-000065 )
+  ( 5 N-000061 )
+  ( 6 N-000061 )
+  ( 7 X_STEP )
+  ( 8 X_DIRECTION )
+ )
+ ( /52404B84 SIL-8 P16 CONN_8
+  ( 1 Y_STEP_ENABLE )
+  ( 2 N-000022 )
+  ( 3 N-000062 )
+  ( 4 N-000063 )
+  ( 5 N-000060 )
+  ( 6 N-000060 )
+  ( 7 Y_STEP )
+  ( 8 Y_DIRECTION )
+ )
+ ( /52404B88 SIL-8 P17 CONN_8
+  ( 1 Z_STEP_ENABLE )
+  ( 2 N-000079 )
+  ( 3 N-000066 )
+  ( 4 N-000067 )
+  ( 5 N-000068 )
+  ( 6 N-000068 )
+  ( 7 Z_STEP )
+  ( 8 Z_DIRECTION )
+ )
+ ( /52404BE1 pin_array_3x2 P18 CONN_3X2
+  ( 1 N-000080 )
+  ( 2 VCC )
+  ( 3 N-000064 )
+  ( 4 VCC )
+  ( 5 N-000065 )
+  ( 6 VCC )
+ )
+ ( /52404C6F pin_array_3x2 P19 CONN_3X2
+  ( 1 N-000022 )
+  ( 2 VCC )
+  ( 3 N-000062 )
+  ( 4 VCC )
+  ( 5 N-000063 )
+  ( 6 VCC )
+ )
+ ( /52404C7E pin_array_3x2 P20 CONN_3X2
+  ( 1 N-000079 )
+  ( 2 VCC )
+  ( 3 N-000066 )
+  ( 4 VCC )
+  ( 5 N-000067 )
+  ( 6 VCC )
+ )
+ ( /52405BBF bornier2 P21 M_PWR
+  ( 1 VPP )
+  ( 2 GND )
+ )
+ ( /524079A6 SIL-7 P22 PIN_HEADER
+  ( 1 VCC )
+  ( 2 N-000041 )
+  ( 3 N-000044 )
+  ( 4 N-000047 )
+  ( 5 N-000050 )
+  ( 6 N-000038 )
+  ( 7 GND )
+ )
+ ( /524077B1 PIN_ARRAY_4x1 P23 I2C
+  ( 1 VCC )
+  ( 2 I2C_SCL )
+  ( 3 I2C_SDA )
+  ( 4 GND )
+ )
+ ( /524078FF bornier2 P24 Z_PROBE
+  ( 1 Z_PROBE )
+  ( 2 GND )
+ )
+ ( /5242C779 bornier2 P25 12Volts
+  ( 1 +12V )
+  ( 2 GND )
+ )
+ ( /5242C77C bornier2 P26 5Volts
+  ( 1 VCC )
+  ( 2 GND )
+ )
+ ( /5242CA38 bornier2 P27 R1_IN
+  ( 1 N-000084 )
+  ( 2 GND )
+ )
+ ( /5242CA5A bornier2 P28 R2_IN
+  ( 1 N-000027 )
+  ( 2 GND )
+ )
+ ( /5242CA1D bornier2 P29 R1_OUT
+  ( 1 N-000085 )
+  ( 2 GND )
+ )
+ ( /5242CA43 bornier2 P30 R2_OUT
+  ( 1 N-000025 )
+  ( 2 GND )
+ )
+ ( /5245890E 1pin P31 MOUNT
+  ( 1 GND )
+ )
+ ( /52458919 1pin P32 MOUNT
+  ( 1 GND )
+ )
+ ( /5245891D 1pin P33 MOUNT
+  ( 1 GND )
+ )
+ ( /52458921 1pin P34 MOUNT
+  ( 1 GND )
+ )
+ ( /5240582E TO220_VERT_MOSFET Q1 MOSFET_N
+  ( D N-000003 )
+  ( G N-000002 )
+  ( S GND )
+ )
+ ( /5240564A TO220_VERT_MOSFET Q2 MOSFET_N
+  ( D N-000009 )
+  ( G N-000093 )
+  ( S GND )
+ )
+ ( /5242CC41 TO92 Q3 PN2222A
+  ( 1 GND )
+  ( 2 N-000083 )
+  ( 3 N-000090 )
+ )
+ ( /5242CC4A TO92 Q4 PN2222A
+  ( 1 GND )
+  ( 2 N-000088 )
+  ( 3 N-000091 )
+ )
+ ( /523EF471 R3 R1 10k
+  ( 1 VCC )
+  ( 2 RST )
+ )
+ ( /52405805 R3 R2 10R
+  ( 1 N-000002 )
+  ( 2 MOS_DRIVE1 )
+ )
+ ( /5240583C R3 R3 10k
+  ( 1 N-000002 )
+  ( 2 GND )
+ )
+ ( /52405691 R3 R4 10R
+  ( 1 N-000093 )
+  ( 2 MOS_DRIVE2 )
+ )
+ ( /52405688 R3 R5 10k
+  ( 1 N-000093 )
+  ( 2 GND )
+ )
+ ( /5240504D R3 R6 10k
+  ( 1 X_STEP_ENABLE )
+  ( 2 VCC )
+ )
+ ( /52405054 R3 R7 10k
+  ( 1 Y_STEP_ENABLE )
+  ( 2 VCC )
+ )
+ ( /5240505B R3 R8 10k
+  ( 1 Z_STEP_ENABLE )
+  ( 2 VCC )
+ )
+ ( /52404C91 R3 R9 100k
+  ( 1 N-000080 )
+  ( 2 GND )
+ )
+ ( /52404CC1 R3 R10 100k
+  ( 1 N-000022 )
+  ( 2 GND )
+ )
+ ( /52404CC6 R3 R11 100k
+  ( 1 N-000079 )
+  ( 2 GND )
+ )
+ ( /523F03A9 R3 R12 27R
+  ( 1 N-000072 )
+  ( 2 N-000078 )
+ )
+ ( /523F03B3 R3 R13 27R
+  ( 1 N-000073 )
+  ( 2 N-000092 )
+ )
+ ( /523F08F6 R3 R14 4k7
+  ( 1 N-000086 )
+  ( 2 N-000087 )
+ )
+ ( /523F08FA R3 R15 10k
+  ( 1 GND )
+  ( 2 N-000086 )
+ )
+ ( /52407913 R3 R16 1k5
+  ( 1 Z_PROBE )
+  ( 2 VCC )
+ )
+ ( /524077ED R3 R17 1k5
+  ( 1 I2C_SCL )
+  ( 2 VCC )
+ )
+ ( /524077F5 R3 R18 1k5
+  ( 1 I2C_SDA )
+  ( 2 VCC )
+ )
+ ( /5242CB0D R3 R19 10k
+  ( 1 N-000083 )
+  ( 2 RELAY1 )
+ )
+ ( /5242CAFD R3 R20 10k
+  ( 1 N-000088 )
+  ( 2 RELAY2 )
+ )
+ ( /523EF219 TO220_VERT_VREG U1 7805
+  ( GND GND )
+  ( VI +12V )
+  ( VO VCC )
+ )
+ ( /523F0300 ssop-16 U2 FT230X
+  ( 1 MC_TX )
+  ( 2 ? )
+  ( 3 N-000074 )
+  ( 4 MC_RX )
+  ( 5 GND )
+  ( 6 ? )
+  ( 7 ? )
+  ( 8 N-000072 )
+  ( 9 N-000073 )
+  ( 10 N-000074 )
+  ( 11 N-000074 )
+  ( 12 VCC )
+  ( 13 GND )
+  ( 14 ? )
+  ( 15 ? )
+  ( 16 N-000086 )
+ )
+ ( /523EF233 HC-18UV X1 CRYSTAL
+  ( 1 N-000053 )
+  ( 2 N-000055 )
+ )
+)
+*
+{ Allowed footprints by component:
+$component C1
+ SM*
+ C?
+ C1-1
+$endlist
+$component C2
+ SM*
+ C?
+ C1-1
+$endlist
+$component C3
+ SM*
+ C?
+ C1-1
+$endlist
+$component C4
+ SM*
+ C?
+ C1-1
+$endlist
+$component C5
+ SM*
+ C?
+ C1-1
+$endlist
+$component C6
+ SM*
+ C?
+ C1-1
+$endlist
+$component C7
+ SM*
+ C?
+ C1-1
+$endlist
+$component C8
+ SM*
+ C?
+ C1-1
+$endlist
+$component C9
+ SM*
+ C?
+ C1-1
+$endlist
+$component C10
+ SM*
+ C?
+ C1-1
+$endlist
+$component C11
+ SM*
+ C?
+ C1-1
+$endlist
+$component C12
+ SM*
+ C?
+ C1-1
+$endlist
+$component C13
+ SM*
+ C?
+ C1-1
+$endlist
+$component C14
+ SM*
+ C?
+ C1-1
+$endlist
+$component C15
+ CP*
+ SM*
+$endlist
+$component C16
+ CP*
+ SM*
+$endlist
+$component C17
+ CP*
+ SM*
+$endlist
+$component D1
+ D?
+ S*
+$endlist
+$component D2
+ D?
+ S*
+$endlist
+$component IC1
+ 40DIP-ELL600
+ 40dip600
+$endlist
+$component Q3
+ TO92*
+$endlist
+$component Q4
+ TO92*
+$endlist
+$component R1
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R2
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R3
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R4
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R5
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R6
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R7
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R8
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R9
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R10
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R11
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R12
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R13
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R14
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R15
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R16
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R17
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R18
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R19
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R20
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$endfootprintlist
+}
