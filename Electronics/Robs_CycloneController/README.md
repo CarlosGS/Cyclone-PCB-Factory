@@ -13,7 +13,7 @@ Warning
 - This is an untested design  
 - Some of the foot prints are untested  
 
-Note  
+Notes  
 --
 The parts for the design can be found in the file : ./controller_V_A0.4.csv  
 Farnell part numbers are provided with all parts.  
