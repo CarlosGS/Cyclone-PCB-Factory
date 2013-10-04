@@ -24,9 +24,8 @@ License
 
 Author  
 --
-Robert Last  
-rob at robsbots dot org dot uk  
-Nickname: Robsbots  
+**Robert Last (rob at robsbots dot org dot uk)**  
+_Nickname: **Robsbots**_  
 
 Disclaimer  
 --
