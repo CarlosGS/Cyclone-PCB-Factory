@@ -41,6 +41,11 @@ Y_Final_Smooth_Rod_Length = Y_axis_sep+15;
 X_Wood_Base = X_axis_sep+70;
 Y_Wood_Base = Y_axis_sep+30;
 Z_Wood_Base = 15;
+
+X_PCB_BOARD = 150;
+Y_PCB_BOARD = 100;
+Z_PCB_BOARD = 1.5;
+
 X_rod_sep_real = X_smooth_rods_sep_projected+smooth_rod_margin;
 
 module frame_right() {
@@ -87,6 +92,10 @@ module cnc_workbed() {
         cube([workbed_X,workbed_Y,workbed_thickness],center=true);
         cube([workbed_X-1,workbed_Y-1,workbed_thickness+1],center=true);
       }
+
+      // --- PCB Board ---
+      translate([0,0,-(workbed_thickness+Z_PCB_BOARD)/2])
+      cube([X_PCB_BOARD,Y_PCB_BOARD,Z_PCB_BOARD],center=true);
     }
   }
 
