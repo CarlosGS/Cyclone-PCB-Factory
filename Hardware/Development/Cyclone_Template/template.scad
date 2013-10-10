@@ -32,6 +32,10 @@ X_smooth_rods_sep = 50;
 X_smooth_rods_sep_projected = sqrt((X_smooth_rods_sep*X_smooth_rods_sep)/2); // Be careful with this measure, it is not properly named since it is used with the following offset:
 smooth_rod_margin = 1;
 
+
+X_Wood_Base = X_axis_sep+70;
+Y_Wood_Base = Y_axis_sep+30;
+Z_Wood_Base = 15;
 X_rod_sep_real = X_smooth_rods_sep_projected+smooth_rod_margin;
 
 module frame_right() {
@@ -220,10 +224,12 @@ module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
   // --- Wood base ---
   translate([0,0,-15/2-0.1])
     color([0.7,0.6,0.4]) 
-      cube([X_axis_sep+70,Y_axis_sep+30,15],center=true);
+      cube([X_Wood_Base,Y_Wood_Base,Z_Wood_Base],center=true);
 }
 
 rotate([0,0,90])cnc_assembled(Y_offset=30,X_offset=-50,Z_offset=10);
 
 //rotate([0,0,90]) cnc_base_template(); // So the generated dxf matches inkscape's default orientation
 //  cnc_workbed_template();
+
+echo("Wood base = ", X_Wood_Base, " x ", Y_Wood_Base, " x ", Z_Wood_Base);
