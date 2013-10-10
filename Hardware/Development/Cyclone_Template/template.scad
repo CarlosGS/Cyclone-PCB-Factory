@@ -238,6 +238,7 @@ rotate([0,0,90])cnc_assembled(Y_offset=30,X_offset=-50,Z_offset=10);
 //  cnc_workbed_template();
 
 echo("Wood base = ", X_Wood_Base, " x ", Y_Wood_Base, " x ", Z_Wood_Base);
+echo("Work bed = ", workbed_X, " x ", workbed_Y, " x ", workbed_thickness);
 echo("X smooth rod length = ", X_Final_Smooth_Rod_Length);
 echo("X threaded rod length = ", X_Final_Threaded_Rod_Length);
 echo("Y smooth rod length = ", Y_Final_Smooth_Rod_Length);
