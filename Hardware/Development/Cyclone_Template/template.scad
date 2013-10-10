@@ -35,6 +35,9 @@ smooth_rod_margin = 1;
 
 X_Final_Threaded_Rod_Length = X_axis_sep+80;
 X_Final_Smooth_Rod_Length = X_axis_sep+60;
+Y_Final_Threaded_Rod_Length = Y_threaded_rod_length+60;
+Y_Final_Smooth_Rod_Length = Y_axis_sep+15;
+
 X_Wood_Base = X_axis_sep+70;
 Y_Wood_Base = Y_axis_sep+30;
 Z_Wood_Base = 15;
@@ -195,13 +198,13 @@ module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
 
     // --- Y threaded rod ---
     translate([0,0,Y_threaded_rod_height-Y_rod_height])
-      color([0.5,0.5,0.5]) rod(Y_threaded_rod_length+60);
+      color([0.5,0.5,0.5]) rod(Y_Final_Threaded_Rod_Length);
 
     // --- Y smooth rods ---
     translate([X_axis_sep/2,0,0])
-      rod(Y_axis_sep+15);
+      rod(Y_Final_Smooth_Rod_Length);
     translate([-X_axis_sep/2,0,0])
-      rod(Y_axis_sep+15);
+      rod(Y_Final_Smooth_Rod_Length);
   }
 
   translate([0,-19,99.65]) { // X threaded rod height, centered over SMOOTH rod
@@ -237,3 +240,5 @@ rotate([0,0,90])cnc_assembled(Y_offset=30,X_offset=-50,Z_offset=10);
 echo("Wood base = ", X_Wood_Base, " x ", Y_Wood_Base, " x ", Z_Wood_Base);
 echo("X smooth rod length = ", X_Final_Smooth_Rod_Length);
 echo("X threaded rod length = ", X_Final_Threaded_Rod_Length);
+echo("Y smooth rod length = ", Y_Final_Smooth_Rod_Length);
+echo("Y threaded rod length = ", Y_Final_Threaded_Rod_Length);
