@@ -77,6 +77,7 @@ module herringbone_gear( teeth=12, circles=0, shaft=5 ) {
     );
 }
 
+module cyclone_rod_gear() {
 // Extruder Gear
 difference() {
   union() {
@@ -96,3 +97,6 @@ difference() {
 
   translate( [0, 0, (nut_separation/2)] ) cylinder( r=M8_nut_diameter/2, h=7, $fn=6 );
 }
+}
+
+cyclone_rod_gear();
