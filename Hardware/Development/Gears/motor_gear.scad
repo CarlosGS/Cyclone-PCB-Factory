@@ -81,6 +81,7 @@ module herringbone_gear( teeth=12, circles=0, shaft=5 ) {
     );
 }
 
+module cyclone_motor_gear() {
 // Motor gear
 union() difference() {	 
   union() {
@@ -117,3 +118,6 @@ union() difference() {
   //shaft hole
   translate( [0, 0, -6] ) cylinder( r=motor_shaft_diameter/2, h=20, $fn=30 );
 }
+}
+
+cyclone_motor_gear();
