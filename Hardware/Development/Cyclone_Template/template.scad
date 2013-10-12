@@ -49,6 +49,9 @@ Z_PCB_BOARD = 1.5;
 X_Spindle_Bit_Offset = 0;
 Y_Spindle_Bit_Offset = 0;
 
+// Display steppers, bearings, washers, nuts
+Display_Extra_Parts = true;
+
 X_rod_sep_real = X_smooth_rods_sep_projected+smooth_rod_margin;
 
 module frame_right() {
@@ -68,11 +71,20 @@ module Y_rod_idler_right() {
 }
 
 module Y_motor_stand() {
-  color([0,1,1]) rotate([0,90,0]) translate([-45,0,52.4]) rotate([-90,0,0]) motor_stand();
+  rotate([0,90,0]) translate([-45,0,52.4]) rotate([-90,0,0]) {
+    if(Display_Extra_Parts)
+      motor_stand(with_extra_parts=Display_Extra_Parts);
+    else
+      color([0,1,1]) motor_stand();
+  }
 }
 
 module Y_idle_stand() {
-  color([0,1,0.8]) rotate([0,90,180]) translate([-45,0,52.4]) rotate([-90,0,0]) idle_stand();
+  rotate([0,90,180]) translate([-45,0,52.4]) rotate([-90,0,0])
+  if(Display_Extra_Parts)
+    idle_stand(with_extra_parts=Display_Extra_Parts);
+  else
+    color([0,1,0.8]) idle_stand();
 }
 
 module linear_bearing_holder() {

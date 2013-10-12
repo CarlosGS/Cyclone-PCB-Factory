@@ -5,8 +5,14 @@
 //  - (05/25/2013) Added @yopero's four screw suggestion for the motor stand
 //  - (05/28/2013) Added @yopero's four screw suggestion for the idle stand
 
+include <MCAD/stepper.scad>
+include <MCAD/bearing.scad>
+include <MCAD/metric_fastners.scad>
+include <MCAD/nuts_and_bolts.scad>
 use <../libs/obiscad/bcube.scad>
 use <../libs/build_plate.scad>
+use <../Gears/rod_gear.scad>
+use <../Gears/motor_gear.scad>
 
 motor_width = 43;
 motor_length = 49; // not used
@@ -75,7 +81,28 @@ module motorHolesY() {
     }
 }
 
-module motor_stand_no_base(with_motor=true) {
+module motor_stand_no_base(with_motor=true, with_extra_parts=false) {
+  // -- stepper, bearing, washer, nuts ---
+  if(with_motor && with_extra_parts) {
+    translate([motor_width/2,motor_width/2,0]) {
+      rotate([0,180,0])
+        translate([0,0,-1])
+          motor(Nema17, NemaMedium);
+      translate([0,0,12+5.5])
+      {
+        rotate([180, 0, 0]) cyclone_motor_gear();
+      }
+    }
+    translate([motor_width/2,motor_width/2,wall_thickness/2]) {
+      rotate([0,0,15]) translate([0,axis_distance,2.5-wall_thickness/2]) {
+      bearing(model=608);
+      translate([0,0,7]) flat_nut(8);
+      translate([0,0,1.5-wall_thickness/2+5+2.5+7+3]) rotate([0,180,0]) cyclone_rod_gear();
+      translate([0,0,1.5-wall_thickness/2+5+2.5+7+3+1.5++10]) rotate([0,180,0]) flat_nut(8);
+      }
+    }
+  }
+
 difference() {
   translate([wall_height/2,totalWallWidth/2-wall_extraWidth_left,wall_thickness/2])
     bcube([wall_height,totalWallWidth,wall_thickness],cr=4,cres=10);
@@ -90,11 +117,22 @@ difference() {
     rotate([0,0,15]) translate([0,axis_distance,2.5-wall_thickness/2]) {
       cylinder(r=(M8_rod_diameter*2)/2,h=10*wall_thickness,center=true,$fn=40);
       cylinder(r=bearing_diameter/2,h=10*wall_thickness,center=false,$fn=60);
-
+      if(!with_motor && with_extra_parts) {
+        translate([0,0,7]) bearing(model=608);
+      }
     }
 
   } // End of translate relative to motor shaft
 } // End of difference
+
+  translate([motor_width/2,motor_width/2,wall_thickness/2])
+    rotate([0,0,15]) translate([0,axis_distance,2.5-wall_thickness/2]) {
+      if(!with_motor && with_extra_parts) {
+        bearing(model=608);
+        translate([0,0,7]) washer(8);
+        translate([0,0,6.4+7+0.8]) rotate([0,180,0]) flat_nut(8);
+       }
+    }
 }
 
 module holder(h=35,noScrews=false,base_width_inc=0) {
@@ -120,9 +158,9 @@ module holder(h=35,noScrews=false,base_width_inc=0) {
     } // End of difference
 }
 
-module motor_stand(with_motor=true) {
+module motor_stand(with_motor=true, with_extra_parts=false) {
   union() {
-    motor_stand_no_base(with_motor);
+    motor_stand_no_base(with_motor=with_motor, with_extra_parts=with_extra_parts);
     translate([0,wall_width]) holder(noScrews=true);
     translate([0,52.4-5/2]) holder(h=12,base_width_inc=1);
     translate([0,-wall_extraWidth_left+base_width]) scale([1,-1,1]) holder();
@@ -130,10 +168,10 @@ module motor_stand(with_motor=true) {
 }
 
 
-module idle_stand() {
+module idle_stand(with_extra_parts=false) {
 	union() {
 		intersection() { // Remove the motor part
-			motor_stand(with_motor=false);
+			motor_stand(with_motor=false, with_extra_parts=with_extra_parts);
 			translate([wall_height/2,wall_width/2+52.4-(wall_width+wall_extraWidth_right-52.4),wall_thickness/2])
 			bcube([wall_height,wall_width,100],cr=4,cres=10);
 		}
