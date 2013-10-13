@@ -15,7 +15,7 @@ spindle_motor_diam_top = 26*2;
 spindle_motor_diam = 26*2;
 spindle_holder_thickness = 8;
 spindle_holder_distance = 46;
-spindle_motor_length = 90;
+spindle_motor_length = 100;
 
 bottom_thickness = 4;
 base_width = 20;
