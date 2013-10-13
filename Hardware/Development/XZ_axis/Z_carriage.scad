@@ -15,6 +15,7 @@ spindle_motor_diam_top = 26*2;
 spindle_motor_diam = 26*2;
 spindle_holder_thickness = 8;
 spindle_holder_distance = 46;
+spindle_motor_length = 90;
 
 bottom_thickness = 4;
 base_width = 20;
@@ -55,9 +56,9 @@ LM8UU_dia = 15.4;
 
 module dummySpindle() {
 	translate([0,0,-length]) {
-		translate([0,0,85]) color([0.95,0.95,0.95]) cylinder(r=26,h=30,$fn=60);
-		translate([0,0,80]) color([0.95,0.95,0.95]) cylinder(r=10/2,h=5,$fn=60);
-		translate([0,0,-10]) color([0.6,0.6,0.6]) cylinder(r=26,h=90,$fn=60);
+		translate([0,0,spindle_motor_length-5]) color([0.95,0.95,0.95]) cylinder(r=26,h=30,$fn=60);
+		translate([0,0,spindle_motor_length-10]) color([0.95,0.95,0.95]) cylinder(r=10/2,h=5,$fn=60);
+		translate([0,0,-10]) color([0.6,0.6,0.6]) cylinder(r=26,h=spindle_motor_length,$fn=60);
 		translate([0,0,-40]) color([0.9,0.9,0.9]) cylinder(r=15/2,h=40,$fn=60);
 		translate([0,0,-50]) color([0.4,0.4,0.4]) cylinder(r=20/2,h=10,$fn=60);
 		translate([0,0,-50-20]) color([0.9,0.9,0.9]) cylinder(r1=1/2,r2=3/2,h=20,$fn=60);
