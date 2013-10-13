@@ -50,6 +50,28 @@ wall_extraWidth_right = 5;
 
 totalWallWidth = wall_width+wall_extraWidth_left+wall_extraWidth_right;
 
+Cyclone_Nema17 = [
+                [NemaModel, 17],
+                [NemaLengthShort, 33*mm],
+                [NemaLengthMedium, 39*mm],
+                [NemaLengthLong, 47*mm],
+                [NemaSideSize, 42.20*mm],
+                [NemaDistanceBetweenMountingHoles, 31.04*mm],
+                [NemaMountingHoleDiameter, 4*mm],
+                [NemaMountingHoleDepth, 4.5*mm],
+                [NemaMountingHoleLip, -1*mm],
+                [NemaMountingHoleCutoutRadius, 0*mm],
+                [NemaEdgeRoundingRadius, 7*mm],
+                [NemaRoundExtrusionDiameter, 22*mm],
+                [NemaRoundExtrusionHeight, 1.9*mm],
+                [NemaAxleDiameter, 5*mm],
+                [NemaFrontAxleLength, 18*mm],
+                [NemaBackAxleLength, 15*mm],
+                [NemaAxleFlatDepth, 0.5*mm],
+                [NemaAxleFlatLengthFront, 15*mm],
+                [NemaAxleFlatLengthBack, 14*mm]
+         ];
+
 
 module motorHolesY() {
     // Hole for the motor shaft
@@ -87,7 +109,7 @@ module motor_stand_no_base(with_motor=true, with_extra_parts=false) {
     translate([motor_width/2,motor_width/2,0]) {
       rotate([0,180,0])
         translate([0,0,-1])
-          motor(Nema17, NemaMedium);
+          motor(Cyclone_Nema17, NemaLengthLong);
       translate([0,0,12+5.5])
       {
         rotate([180, 0, 0]) cyclone_motor_gear();
