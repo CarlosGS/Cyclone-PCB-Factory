@@ -2,11 +2,17 @@
 // Created by Carlosgs (http://carlosgs.es)
 // License: Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/)
 
+include <MCAD/stepper.scad>
+include <MCAD/bearing.scad>
+include <MCAD/metric_fastners.scad>
+include <MCAD/nuts_and_bolts.scad>
+use <../Gears/rod_gear.scad>
+use <../Gears/motor_gear.scad>
 use <../libs/obiscad/bcube.scad>
 use <../libs/obiscad/bevel.scad>
 use <../libs/build_plate.scad>
 
-module frame(with_motor = 1, show_printbed = 0) {
+module frame(with_motor = 1, show_printbed = 0, with_extra_parts = false) {
 
 layer_thickness = 0.4;
 
@@ -56,6 +62,29 @@ Y_rod_dist_from_wall = 15;
 Y_rod_support_lenght = Y_rod_dist_from_wall+smooth_rod_screw_sep+smooth_rod_screw_diam+3;
 
 motor_adjust_margin = 3;
+
+Cyclone_Nema17 = [
+                [NemaModel, 17],
+                [NemaLengthShort, 33*mm],
+                [NemaLengthMedium, 39*mm],
+                [NemaLengthLong, 48*mm],
+                [NemaSideSize, 42.30*mm],
+                [NemaDistanceBetweenMountingHoles, 31.0*mm],
+                [NemaMountingHoleDiameter, 4*mm],
+                [NemaMountingHoleDepth, 4.5*mm],
+                [NemaMountingHoleLip, -1*mm],
+                [NemaMountingHoleCutoutRadius, 0*mm],
+                [NemaEdgeRoundingRadius, 7*mm],
+                [NemaRoundExtrusionDiameter, 22*mm],
+                [NemaRoundExtrusionHeight, 1.9*mm],
+                [NemaAxleDiameter, 5*mm],
+                [NemaFrontAxleLength, 24*mm],
+                [NemaBackAxleLength, 15*mm],
+                [NemaAxleFlatDepth, 0.5*mm],
+                [NemaAxleFlatLengthFront, 15*mm],
+                [NemaAxleFlatLengthBack, 14*mm]
+         ];
+
 
 if(show_printbed) {
 //for display only, doesn't contribute to final object
@@ -171,6 +200,18 @@ difference() {
 
 } // End of difference() command
 
+  // -- stepper and gear ---
+  if(with_motor && with_extra_parts) {
+    translate([X_threaded_rod_posX,X_threaded_rod_posY,0]) {
+      rotate([0,0,-motor_axis_angle]) translate([motor_axis_distance,0,0]) rotate([0,0,90+motor_axis_angle]) {
+        translate([0,0,wall_thickness-1]) {
+          motor(Cyclone_Nema17, NemaLengthLong);
+          translate([0,0,-12-5.5])
+            cyclone_motor_gear();
+        }
+      }
+    }
+  }
 
 // --------- Support column for the triangular structure --------- //
 translate([frame_width/4,frame_height-frame_hole_height/2-bottom_thickness,frame_thickness/2])

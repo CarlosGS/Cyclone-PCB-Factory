@@ -54,12 +54,18 @@ Display_Extra_Parts = true;
 
 X_rod_sep_real = X_smooth_rods_sep_projected+smooth_rod_margin;
 
-module frame_right() {
-  color([1,0.8,0]) rotate([0,0,90]) scale([-1,1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 0);
+module frame_right(with_extra_parts = false) {
+  if(with_extra_parts)
+    rotate([0,0,90]) scale([-1,1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 0, with_extra_parts=with_extra_parts);
+  else
+    color([1,0.8,0]) rotate([0,0,90]) scale([-1,1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 0, with_extra_parts=with_extra_parts);
 }
 
-module frame_left() {
-  color([1,1,0]) rotate([0,0,90]) scale([-1,-1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 1);
+module frame_left(with_extra_parts = false) {
+  if(with_extra_parts)
+    rotate([0,0,90]) scale([-1,-1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 1, with_extra_parts=with_extra_parts);
+  else
+    color([1,1,0]) rotate([0,0,90]) scale([-1,-1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 1, with_extra_parts=with_extra_parts);
 }
 
 module Y_rod_idler_left() {
@@ -152,9 +158,9 @@ module cnc(show_printbed = 1) {
   }
 
   // ---- main frames ----
-  frame_left();
+  frame_left(with_extra_parts=Display_Extra_Parts);
   translate([X_axis_sep,0,0])
-    frame_right();
+    frame_right(with_extra_parts=Display_Extra_Parts);
 
   // ---- Y rod idlers ----
   translate([0,Y_axis_sep,0]) {
