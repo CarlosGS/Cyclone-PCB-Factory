@@ -2,10 +2,13 @@
 // Created by Carlosgs (http://carlosgs.es)
 // License: Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/)
 
+include <MCAD/metric_fastners.scad>
+include <MCAD/materials.scad>
 use <../libs/obiscad/bcube.scad>
 use <../libs/obiscad/bevel.scad>
 use <../libs/build_plate.scad>
 
+module smooth_rod_fix(with_extra_parts=false) {
 M8_rod_diam = 8.2;
 
 smooth_rod_margin = 1;
@@ -40,4 +43,18 @@ translate([0,0,part_z/2]) difference() {
 
 } // End of difference() command
 
+  if(with_extra_parts) {
+    // --- Self tapping screw 2.9 x 13 mm ---
+    color(Steel) {
+      translate([0,0,-.2]) {
+        translate([-smooth_rod_screw_sep,0,0])
+          csk_bolt(2.9, 13);
+        translate([smooth_rod_screw_sep,0,0])
+          csk_bolt(2.9, 13);
+      }
+    }
+  }
 
+}
+
+smooth_rod_fix();
