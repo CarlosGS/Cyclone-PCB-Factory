@@ -33,6 +33,7 @@
  * -- 
  *     DeuxVis - device@ymail.com */
 
+include <MCAD/materials.scad>
 include <MCAD/teardrop.scad>
 include <MCAD/involute_gears.scad>
 
@@ -80,6 +81,7 @@ module herringbone_gear( teeth=12, circles=0, shaft=5 ) {
     );
 }
 
+module cyclone_motor_z_gear(with_extra_parts=false) {
 // Motor gear
 rotate([180,0,0]) union() difference() {	 
   union() {
@@ -112,3 +114,11 @@ rotate([180,0,0]) union() difference() {
   //shaft hole
   translate( [0, 0, -6] ) cylinder( r=motor_shaft_diameter/2, h=20, $fn=30 );
 }
+
+  // --- M3 x 8mm grub screw to attach Gear to motor shaft ---
+  if(with_extra_parts)
+    translate([0,-2.5,-(12-3.5)]) rotate([90, 0, 0]) color(Steel) cylinder(r=1.5, h=8, $fn=30);
+
+}
+
+cyclone_motor_z_gear();
