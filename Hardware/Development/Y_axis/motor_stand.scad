@@ -115,10 +115,8 @@ module motor_stand_no_base(with_motor=true, with_extra_parts=false) {
           motor(Cyclone_Nema17, NemaLengthLong);
       // --- Motor Gear ---
       translate([0,0,12+5.5]) {
-        rotate([180, 0, 30]) cyclone_motor_gear();
+        rotate([180, 0, -90]) cyclone_motor_gear(with_extra_parts);
       }
-      // --- M3 x 8mm grub screw to attach Gear to motor shaft ---
-      translate([-2.5,0,12-3]) rotate([0, -90, 0]) color(Steel) cylinder(r=1.5, h=8);
     }
     translate([motor_width/2,motor_width/2,wall_thickness/2]) {
       rotate([0,0,15]) translate([0,axis_distance,2.5-wall_thickness/2]) {
@@ -165,8 +163,11 @@ difference() {
   translate([motor_width/2,motor_width/2,wall_thickness/2])
     rotate([0,0,15]) translate([0,axis_distance,2.5-wall_thickness/2]) color(Steel) {
       if(!with_motor && with_extra_parts) {
+        // --- 608 bearing ---
         bearing(model=608);
+        // --- M8 washer ---
         translate([0,0,7]) washer(8);
+        // --- M8 nut ---
         translate([0,0,6.4+7+0.8]) rotate([0,180,0]) flat_nut(8);
        }
     }
@@ -235,7 +236,7 @@ module idle_stand(with_extra_parts=false) {
     // --- micro switch ---
       translate([0,motor_width-idler_width/2,wall_thickness])
         rotate([-90, 0, 90])
-          micro_switch(with_extra_parts);
+          color(BlackPaint) micro_switch(with_extra_parts);
     }
 }
 
