@@ -14,7 +14,6 @@ use <../libs/obiscad/bcube.scad>
 use <../libs/build_plate.scad>
 use <../Gears/rod_gear.scad>
 use <../Gears/motor_gear.scad>
-use <../libs/micro_switch.scad>
 
 motor_width = 43;
 motor_length = 49; // not used
@@ -231,13 +230,6 @@ module idle_stand(with_extra_parts=false) {
 		translate([0,wall_width+5-2*(wall_width+wall_extraWidth_right-52.4)]) holder(noScrews=true, with_extra_parts=with_extra_parts);
 		translate([0,52.4+5/2]) scale([1,-1,1]) holder(h=15,base_width_inc=1, with_extra_parts=with_extra_parts);
 	}
-
-    if(!with_motor && with_extra_parts) {
-    // --- micro switch ---
-      translate([0,motor_width-idler_width/2,wall_thickness])
-        rotate([-90, 0, 90])
-          color(BlackPaint) micro_switch(with_extra_parts);
-    }
 }
 
 //for display only, doesn't contribute to final object
