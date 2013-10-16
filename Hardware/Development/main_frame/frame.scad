@@ -200,14 +200,15 @@ difference() {
 
 } // End of difference() command
 
-  // -- stepper and gear ---
   if(with_motor && with_extra_parts) {
     translate([X_threaded_rod_posX,X_threaded_rod_posY,0]) {
       rotate([0,0,-motor_axis_angle]) translate([motor_axis_distance,0,0]) rotate([0,0,90+motor_axis_angle]) {
         translate([0,0,wall_thickness-1]) {
+          // --- Stepper ---
           motor(Cyclone_Nema17, NemaLengthLong);
-          translate([0,0,-12-5.5])
-            cyclone_motor_gear();
+          // --- Motor gear ---
+          translate([0,0,-12-5.5+1])
+            cyclone_motor_gear(with_extra_parts);
         }
       }
     }
