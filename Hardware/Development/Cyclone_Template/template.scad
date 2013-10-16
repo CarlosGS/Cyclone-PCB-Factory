@@ -68,12 +68,18 @@ module frame_left(with_extra_parts = false) {
     color([1,1,0]) rotate([0,0,90]) scale([-1,-1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 1, with_extra_parts=with_extra_parts);
 }
 
-module Y_rod_idler_left() {
-  color([0.8,1,1]) rotate([0,0,90]) scale([1,-1,1]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler();
+module Y_rod_idler_left(with_extra_parts = false) {
+  if(with_extra_parts)
+    rotate([0,0,90]) scale([1,-1,1]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts);
+  else
+    color([0.8,1,1]) rotate([0,0,90]) scale([1,-1,1]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts);
 }
 
-module Y_rod_idler_right() {
-  color([1,1,1]) rotate([0,0,90]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler();
+module Y_rod_idler_right(with_extra_parts = false) {
+  if(with_extra_parts)
+    rotate([0,0,90]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts);
+  else
+    color([1,1,1]) rotate([0,0,90]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts);
 }
 
 module Y_motor_stand() {
@@ -164,9 +170,9 @@ module cnc(show_printbed = 1) {
 
   // ---- Y rod idlers ----
   translate([0,Y_axis_sep,0]) {
-    Y_rod_idler_left();
+    Y_rod_idler_left(with_extra_parts=Display_Extra_Parts);
     translate([X_axis_sep,0,0])
-      Y_rod_idler_right();
+      Y_rod_idler_right(with_extra_parts=Display_Extra_Parts);
   }
 
   // ---- Y threaded rod motor and idler ----

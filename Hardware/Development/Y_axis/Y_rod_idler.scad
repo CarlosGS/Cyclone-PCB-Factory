@@ -2,12 +2,15 @@
 // Created by Carlosgs (http://carlosgs.es)
 // License: Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/)
 
+include <MCAD/metric_fastners.scad>
+include <MCAD/materials.scad>
 use <../libs/obiscad/bcube.scad>
 use <../libs/obiscad/bevel.scad>
 use <../libs/build_plate.scad>
+use <../smooth_rod_fix/smooth_rod_fix.scad>
 
 
-module Y_rod_idler(show_printbed = 0) {
+module Y_rod_idler(show_printbed = 0, with_extra_parts=false) {
 
 motor_stand_thickness = 5;
 
@@ -90,6 +93,23 @@ translate([frame_width-frame_thickness,frame_height,frame_thickness-2])
   }
 
 } // End of union() command
+
+  if(with_extra_parts) {
+    // --- Self tapping screw 2.9 x 16mm ---
+    rotate([90,0,0]) translate([frame_width/3,Y_rod_support_lenght/2.5,-frame_height+bottom_thickness+.2])
+      rotate([180,0,0]) color(Steel) {
+        translate([-5,0,0])
+          csk_bolt(2.9, 16);
+        translate([5,0,0])
+          csk_bolt(2.9, 16);
+      }
+
+    // --- Y smooth rod fix ---
+    translate([frame_width-frame_thickness,frame_height,frame_thickness-2])
+      translate([0,-Y_rod_height+smooth_rod_margin,0])
+        translate([0,-smooth_rod_margin-8.5,Y_rod_dist_from_wall]) rotate([270,90,0])
+          smooth_rod_fix(with_extra_parts=true);
+  }
 
 }
 
