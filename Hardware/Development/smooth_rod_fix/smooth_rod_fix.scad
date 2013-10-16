@@ -8,7 +8,6 @@ use <../libs/obiscad/bcube.scad>
 use <../libs/obiscad/bevel.scad>
 use <../libs/build_plate.scad>
 
-module smooth_rod_fix(with_extra_parts=false) {
 M8_rod_diam = 8.2;
 
 smooth_rod_margin = 1;
@@ -24,6 +23,7 @@ part_z = 8;
 //for display only, doesn't contribute to final object
 translate([frame_width/2,frame_height/2,0]) build_plate(3,110,140);
 
+module smooth_rod_fix(with_extra_parts=false) {
 translate([0,0,part_z/2]) difference() {
   // --------- Main frame --------- //  
   bcube([part_x,part_y,part_z],center=true,cr=2,cres=10);
