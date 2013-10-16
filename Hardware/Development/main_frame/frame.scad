@@ -219,6 +219,17 @@ difference() {
       }
     }
   }
+  // --- Self tapping screw 2.9 x 16mm ---
+  if(with_extra_parts) {
+    rotate([90,0,0]) translate([frame_width/2,frame_thickness/2,-frame_height+frame_thickness/2+.2]) color(Steel) {
+        translate([-base_screw_distance,0,0]) rotate([180,0,0])
+          csk_bolt(2.9, 16);
+        translate([base_screw_distance*0.8,0,0]) rotate([180,0,0])
+          csk_bolt(2.9, 16);
+        translate([base_screw_distance*0.2,0,0]) rotate([180,0,0])
+          csk_bolt(2.9, 16);
+      }
+  }
 
 // --------- Support column for the triangular structure --------- //
 translate([frame_width/4,frame_height-frame_hole_height/2-bottom_thickness,frame_thickness/2])
