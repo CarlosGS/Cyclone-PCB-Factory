@@ -231,13 +231,19 @@ difference() {
           csk_bolt(2.9, 16);
     }
 
-    // --- Smooth rod fix ---
+    // --- X smooth rod fix ---
     translate([X_smooth_rods_sep_projected,-smooth_rod_margin,0])
       rotate([90,0,0]) translate([0,frame_thickness/2,8.5])
         rotate([180,0,0]) smooth_rod_fix(with_extra_parts=true);
     translate([-smooth_rod_margin,X_smooth_rods_sep_projected,0])
       rotate([0,90,0]) translate([-frame_thickness/2,0,-8.5])
         rotate([0,0,90]) smooth_rod_fix(with_extra_parts=true);
+    // --- Y smooth rod fix ---
+    translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
+      translate([0,-Y_rod_height+smooth_rod_margin,0]) {
+      translate([0,-smooth_rod_margin-8.5,Y_rod_dist_from_wall]) rotate([90,90,180])
+         smooth_rod_fix(with_extra_parts=true);
+  }
 
   }
 
