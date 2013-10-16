@@ -71,7 +71,7 @@ Cyclone_Nema17 = [
                 [NemaSideSize, 42.30*mm],
                 [NemaDistanceBetweenMountingHoles, 31.0*mm],
                 [NemaMountingHoleDiameter, 4*mm],
-                [NemaMountingHoleDepth, 4.5*mm],
+                [NemaMountingHoleDepth, 5.5*mm], //actual is 4.5mm, motor() module is generating 1mm short
                 [NemaMountingHoleLip, -1*mm],
                 [NemaMountingHoleCutoutRadius, 0*mm],
                 [NemaEdgeRoundingRadius, 7*mm],
