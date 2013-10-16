@@ -11,6 +11,7 @@ use <../Gears/motor_gear.scad>
 use <../libs/obiscad/bcube.scad>
 use <../libs/obiscad/bevel.scad>
 use <../libs/build_plate.scad>
+use <../smooth_rod_fix/smooth_rod_fix.scad>
 
 module frame(with_motor = 1, show_printbed = 0, with_extra_parts = false) {
 
@@ -219,8 +220,8 @@ difference() {
       }
     }
   }
-  // --- Self tapping screw 2.9 x 16mm ---
   if(with_extra_parts) {
+    // --- Self tapping screw 2.9 x 16mm ---
     rotate([90,0,0]) translate([frame_width/2,frame_thickness/2,-frame_height+frame_thickness/2+.2]) color(Steel) {
         translate([-base_screw_distance,0,0]) rotate([180,0,0])
           csk_bolt(2.9, 16);
@@ -228,7 +229,16 @@ difference() {
           csk_bolt(2.9, 16);
         translate([base_screw_distance*0.2,0,0]) rotate([180,0,0])
           csk_bolt(2.9, 16);
-      }
+    }
+
+    // --- Smooth rod fix ---
+    translate([X_smooth_rods_sep_projected,-smooth_rod_margin,0])
+      rotate([90,0,0]) translate([0,frame_thickness/2,8.5])
+        rotate([180,0,0]) smooth_rod_fix(with_extra_parts=true);
+    translate([-smooth_rod_margin,X_smooth_rods_sep_projected,0])
+      rotate([0,90,0]) translate([-frame_thickness/2,0,-8.5])
+        rotate([0,0,90]) smooth_rod_fix(with_extra_parts=true);
+
   }
 
 // --------- Support column for the triangular structure --------- //
