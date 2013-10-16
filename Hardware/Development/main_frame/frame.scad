@@ -210,6 +210,12 @@ difference() {
           translate([0,0,-12-5.5+1])
             cyclone_motor_gear(with_extra_parts);
         }
+        // --- M3 x 8 mm bolts for holding the motor ---
+        for(i=[-1,1]) for(j=[-1,1])
+          translate([i*motor_screw_distance/2,j*motor_screw_distance/2,0])
+            translate([0,0,0]) {
+              rotate([0,0,0]) color(Steel) boltHole(size=3, length=8);
+            }
       }
     }
   }
