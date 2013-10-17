@@ -10,7 +10,6 @@ use <../libs/build_plate.scad>
 use <../smooth_rod_fix/smooth_rod_fix.scad>
 
 
-module Y_rod_idler(show_printbed = 0, with_extra_parts=false) {
 
 motor_stand_thickness = 5;
 
@@ -35,6 +34,8 @@ Y_rod_support_lenght = Y_rod_dist_from_wall+smooth_rod_screw_sep+smooth_rod_scre
 frame_width = 30;
 frame_height = Y_rod_height-smooth_rod_margin;
 wall_thickness = 5;
+
+module Y_rod_idler(show_printbed = 0, with_extra_parts=false, exploded=false) {
 
 if(show_printbed) {
 //for display only, doesn't contribute to final object
@@ -95,24 +96,29 @@ translate([frame_width-frame_thickness,frame_height,frame_thickness-2])
 } // End of union() command
 
   if(with_extra_parts) {
-    // --- Self tapping screw 2.9 x 16mm ---
-    rotate([90,0,0]) translate([frame_width/3,Y_rod_support_lenght/2.5,-frame_height+bottom_thickness+.2])
-      rotate([180,0,0]) color(Steel) {
-        translate([-5,0,0])
-          csk_bolt(2.9, 16);
-        translate([5,0,0])
-          csk_bolt(2.9, 16);
-      }
-
-    // --- Y smooth rod fix ---
-    translate([frame_width-frame_thickness,frame_height,frame_thickness-2])
-      translate([0,-Y_rod_height+smooth_rod_margin,0])
-        translate([0,-smooth_rod_margin-8.5,Y_rod_dist_from_wall]) rotate([270,90,0])
-          smooth_rod_fix(with_extra_parts=true);
+    if(exploded)
+      Y_rod_idler_extras(with_extra_parts=with_extra_parts, exploded_distance=20);
+    else
+      Y_rod_idler_extras(with_extra_parts=with_extra_parts, exploded_distance=0);
   }
-
 }
 
+module Y_rod_idler_extras(exploded_distance=0) {
+  // --- Self tapping screw 2.9 x 16mm ---
+  rotate([90,0,0]) translate([frame_width/3,Y_rod_support_lenght/2.5,-frame_height+bottom_thickness+.2+exploded_distance])
+    rotate([180,0,0]) color(Steel) {
+      translate([-5,0,0])
+        csk_bolt(2.9, 16);
+      translate([5,0,0])
+        csk_bolt(2.9, 16);
+    }
+
+  // --- Y smooth rod fix ---
+  translate([frame_width-frame_thickness,frame_height,frame_thickness-2])
+    translate([0,-Y_rod_height+smooth_rod_margin,0])
+      translate([0,-smooth_rod_margin-8.5-exploded_distance,Y_rod_dist_from_wall]) rotate([270,90,0])
+        smooth_rod_fix(with_extra_parts=true,exploded = (exploded_distance!=0));
+}
 
 Y_rod_idler(show_printbed = 1);
 //scale([-1,1,1]) Y_rod_idler(show_printbed = 1);

@@ -23,7 +23,7 @@ part_z = 8;
 //for display only, doesn't contribute to final object
 translate([frame_width/2,frame_height/2,0]) build_plate(3,110,140);
 
-module smooth_rod_fix(with_extra_parts=false) {
+module smooth_rod_fix(with_extra_parts=false, exploded=false) {
 translate([0,0,part_z/2]) difference() {
   // --------- Main frame --------- //  
   bcube([part_x,part_y,part_z],center=true,cr=2,cres=10);
@@ -44,17 +44,23 @@ translate([0,0,part_z/2]) difference() {
 } // End of difference() command
 
   if(with_extra_parts) {
-    // --- Self tapping screw 2.9 x 16 mm ---
-    color(Steel) {
-      translate([0,0,-.2]) {
-        translate([-smooth_rod_screw_sep,0,0])
-          csk_bolt(2.9, 16);
-        translate([smooth_rod_screw_sep,0,0])
-          csk_bolt(2.9, 16);
-      }
+    if(exploded)
+      smooth_rod_fix_extras(exploded_distance=20);
+    else
+      smooth_rod_fix_extras(exploded_distance=0);
+  }
+}
+
+module smooth_rod_fix_extras(exploded_distance=0) {
+  // --- Self tapping screw 2.9 x 16 mm ---
+  color(Steel) {
+    translate([0,0,-.2-exploded_distance]) {
+      translate([-smooth_rod_screw_sep,0,0])
+        csk_bolt(2.9, 16);
+      translate([smooth_rod_screw_sep,0,0])
+        csk_bolt(2.9, 16);
     }
   }
-
 }
 
 smooth_rod_fix();

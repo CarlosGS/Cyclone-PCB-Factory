@@ -52,40 +52,43 @@ Y_Spindle_Bit_Offset = 0;
 // Display steppers, bearings, washers, nuts
 Display_Extra_Parts = true;
 
+//To enable exploded drawing view
+Exploded_Drawing = false;
+
 X_rod_sep_real = X_smooth_rods_sep_projected+smooth_rod_margin;
 
-module frame_right(with_extra_parts = false) {
+module frame_right(with_extra_parts = false, exploded=false) {
   if(with_extra_parts)
-    rotate([0,0,90]) scale([-1,1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 0, with_extra_parts=with_extra_parts);
+    rotate([0,0,90]) scale([-1,1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 0, with_extra_parts=with_extra_parts, exploded=exploded);
   else
-    color([1,0.8,0]) rotate([0,0,90]) scale([-1,1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 0, with_extra_parts=with_extra_parts);
+    color([1,0.8,0]) rotate([0,0,90]) scale([-1,1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 0, with_extra_parts=with_extra_parts, exploded=exploded);
 }
 
-module frame_left(with_extra_parts = false) {
+module frame_left(with_extra_parts = false, exploded=false) {
   if(with_extra_parts)
-    rotate([0,0,90]) scale([-1,-1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 1, with_extra_parts=with_extra_parts);
+    rotate([0,0,90]) scale([-1,-1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 1, with_extra_parts=with_extra_parts, exploded=exploded);
   else
-    color([1,1,0]) rotate([0,0,90]) scale([-1,-1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 1, with_extra_parts=with_extra_parts);
+    color([1,1,0]) rotate([0,0,90]) scale([-1,-1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 1, with_extra_parts=with_extra_parts, exploded=exploded);
 }
 
-module Y_rod_idler_left(with_extra_parts = false) {
+module Y_rod_idler_left(with_extra_parts = false, exploded=false) {
   if(with_extra_parts)
-    rotate([0,0,90]) scale([1,-1,1]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts);
+    rotate([0,0,90]) scale([1,-1,1]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts, exploded=exploded);
   else
-    color([0.8,1,1]) rotate([0,0,90]) scale([1,-1,1]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts);
+    color([0.8,1,1]) rotate([0,0,90]) scale([1,-1,1]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts, exploded=exploded);
 }
 
-module Y_rod_idler_right(with_extra_parts = false) {
+module Y_rod_idler_right(with_extra_parts = false, exploded=false) {
   if(with_extra_parts)
-    rotate([0,0,90]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts);
+    rotate([0,0,90]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts, exploded=exploded);
   else
-    color([1,1,1]) rotate([0,0,90]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts);
+    color([1,1,1]) rotate([0,0,90]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts, exploded=exploded);
 }
 
 module Y_motor_stand() {
   rotate([0,90,0]) translate([-45,0,52.4]) rotate([-90,0,0]) {
     if(Display_Extra_Parts)
-      motor_stand(with_extra_parts=Display_Extra_Parts);
+      motor_stand(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
     else
       color([0,1,1]) motor_stand();
   }
@@ -94,7 +97,7 @@ module Y_motor_stand() {
 module Y_idle_stand() {
   rotate([0,90,180]) translate([-45,0,52.4]) rotate([-90,0,0])
   if(Display_Extra_Parts)
-    idle_stand(with_extra_parts=Display_Extra_Parts);
+    idle_stand(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
   else
     color([0,1,0.8]) idle_stand();
 }
@@ -164,15 +167,15 @@ module cnc(show_printbed = 1) {
   }
 
   // ---- main frames ----
-  frame_left(with_extra_parts=Display_Extra_Parts);
+  frame_left(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
   translate([X_axis_sep,0,0])
-    frame_right(with_extra_parts=Display_Extra_Parts);
+    frame_right(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
 
   // ---- Y rod idlers ----
   translate([0,Y_axis_sep,0]) {
-    Y_rod_idler_left(with_extra_parts=Display_Extra_Parts);
+    Y_rod_idler_left(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
     translate([X_axis_sep,0,0])
-      Y_rod_idler_right(with_extra_parts=Display_Extra_Parts);
+      Y_rod_idler_right(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
   }
 
   // ---- Y threaded rod motor and idler ----

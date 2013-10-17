@@ -104,37 +104,61 @@ module motorHolesY() {
     }
 }
 
-module motor_stand_no_base(with_motor=true, with_extra_parts=false) {
+module motor_stand_no_base_extras(with_motor=false, exploded_distance=0) {
   // --- additional parts for assembly instruction ---
-  if(with_motor && with_extra_parts) {
+  if(with_motor) {
     translate([motor_width/2,motor_width/2,0]) {
       // --- Nema 17 Stepper ---
       rotate([0,180,0])
-        translate([0,0,-1])
+        translate([0,0,-1+exploded_distance])
           motor(Cyclone_Nema17, NemaLengthLong);
       // --- Motor Gear ---
-      translate([0,0,12+5.5]) {
-        rotate([180, 0, -90]) cyclone_motor_gear(with_extra_parts);
+      translate([0,0,12+5.5+exploded_distance]) {
+        rotate([180, 0, -90]) cyclone_motor_gear(with_extra_parts=true, exploded=(exploded_distance!=0));
       }
     }
+
     translate([motor_width/2,motor_width/2,wall_thickness/2]) {
       rotate([0,0,15]) translate([0,axis_distance,2.5-wall_thickness/2]) {
         // --- Bearing ---
-        bearing(model=608);
+        translate([0,0,0.5*exploded_distance]) bearing(model=608);
         // --- M8 Nut ---
-        translate([0,0,7]) color(Steel)  flat_nut(8);
+        translate([0,0,7+1.0*exploded_distance]) color(Steel)  flat_nut(8);
         // --- Rod Gear ---
-        translate([0,0,1.5-wall_thickness/2+5+2.5+7+3]) rotate([0,180,15]) cyclone_rod_gear();
+        translate([0,0,1.5-wall_thickness/2+5+2.5+7+3+1.5*exploded_distance]) rotate([0,180,15]) cyclone_rod_gear();
         // --- M8 Nut ---
-        translate([0,0,1.5-wall_thickness/2+5+2.5+7+3+1.5++10]) rotate([0,180,0]) color(Steel) flat_nut(8);
+        translate([0,0,1.5-wall_thickness/2+5+2.5+7+3+1.5+10+2*exploded_distance]) rotate([0,180,0]) color(Steel) flat_nut(8);
       }
     }
+
     // --- M3 x 6mm bolts for holding the motor ---
     for(i=[-1,1]) for(j=[-1,1])
       translate([motor_width/2,motor_width/2,wall_thickness/2])
-        translate([i*motor_screw_distance/2,j*motor_screw_distance/2,2.5-wall_thickness/2]) {
+        translate([i*motor_screw_distance/2,j*motor_screw_distance/2,2.5-wall_thickness/2+exploded_distance*0.7]) {
           rotate([0,180,0]) color(Steel) boltHole(size=3, length=6);
     }
+  }
+
+  if(!with_motor) {
+    translate([motor_width/2,motor_width/2,wall_thickness/2])
+      rotate([0,0,15]) translate([0,axis_distance,2.5-wall_thickness/2]) color(Steel) {
+        // --- 608 bearing ---
+        translate([0,0,0.5*exploded_distance]) bearing(model=608);
+        // --- M8 washer ---
+        translate([0,0,7+1.0*exploded_distance]) washer(8);
+        // --- M8 nut ---
+        translate([0,0,6.4+7+0.8+1.5*exploded_distance]) rotate([0,180,0]) flat_nut(8);
+      }
+  }
+}
+
+module motor_stand_no_base(with_motor=true, with_extra_parts=false, exploded=false) {
+
+  if(with_extra_parts) {
+    if(exploded)
+      motor_stand_no_base_extras(with_motor=with_motor, exploded_distance=30);
+    else
+      motor_stand_no_base_extras(with_motor=with_motor, exploded_distance=0);
   }
 
 difference() {
@@ -151,28 +175,24 @@ difference() {
     rotate([0,0,15]) translate([0,axis_distance,2.5-wall_thickness/2]) {
       cylinder(r=(M8_rod_diameter*2)/2,h=10*wall_thickness,center=true,$fn=40);
       cylinder(r=bearing_diameter/2,h=10*wall_thickness,center=false,$fn=60);
-      if(!with_motor && with_extra_parts) {
-        translate([0,0,7]) bearing(model=608);
-      }
     }
 
   } // End of translate relative to motor shaft
 } // End of difference
+}
 
-  translate([motor_width/2,motor_width/2,wall_thickness/2])
-    rotate([0,0,15]) translate([0,axis_distance,2.5-wall_thickness/2]) color(Steel) {
-      if(!with_motor && with_extra_parts) {
-        // --- 608 bearing ---
-        bearing(model=608);
-        // --- M8 washer ---
-        translate([0,0,7]) washer(8);
-        // --- M8 nut ---
-        translate([0,0,6.4+7+0.8]) rotate([0,180,0]) flat_nut(8);
-       }
+module holder_extras(exploded_distance=0) {
+  // --- Self tapping screw 2.9 x 16mm ---
+  translate([wall_height,base_width/2+2.5,base_length/1.5]) color(Steel)
+    rotate([0,90,0]) {
+      translate([-5,0,-bottom_thickness-.2-exploded_distance])
+        csk_bolt(2.9, 16);
+      translate([5,0,-bottom_thickness-.2-exploded_distance])
+        csk_bolt(2.9, 16);
     }
 }
 
-module holder(h=35,noScrews=false,base_width_inc=0, with_extra_parts=false) {
+module holder(h=35,noScrews=false,base_width_inc=0, with_extra_parts=false, exploded=false) {
     difference() {
       union() {
         translate([wall_height-bottom_thickness,0]) {
@@ -194,24 +214,20 @@ module holder(h=35,noScrews=false,base_width_inc=0, with_extra_parts=false) {
         }
     } // End of difference
 
-    // --- Self tapping screw 2.9 x 16mm ---
-    if(with_extra_parts) {
-      translate([wall_height,base_width/2+2.5,base_length/1.5]) color(Steel)
-        rotate([0,90,0]) {
-          translate([-5,0,-bottom_thickness-.2])
-            csk_bolt(2.9, 16);
-          translate([5,0,-bottom_thickness-.2])
-            csk_bolt(2.9, 16);
-        }
-    }
+  if(with_extra_parts) {
+    if(exploded)
+      holder_extras(17);
+    else
+      holder_extras(0);
+  }
 }
 
-module motor_stand(with_motor=true, with_extra_parts=false) {
+module motor_stand(with_motor=true, with_extra_parts=false, exploded=false) {
   union() {
-    motor_stand_no_base(with_motor=with_motor, with_extra_parts=with_extra_parts);
-    translate([0,wall_width]) holder(noScrews=true, with_extra_parts=false);
-    translate([0,52.4-5/2]) holder(h=12,base_width_inc=1, with_extra_parts=with_extra_parts);
-    translate([0,-wall_extraWidth_left+base_width]) scale([1,-1,1]) holder(with_extra_parts=with_extra_parts);
+    motor_stand_no_base(with_motor=with_motor, with_extra_parts=with_extra_parts, exploded=exploded);
+    translate([0,wall_width]) holder(noScrews=true, with_extra_parts=false, exploded=exploded);
+    translate([0,52.4-5/2]) holder(h=12,base_width_inc=1, with_extra_parts=with_extra_parts, exploded=exploded);
+    translate([0,-wall_extraWidth_left+base_width]) scale([1,-1,1]) holder(with_extra_parts=with_extra_parts, exploded=exploded);
   }
 }
 
@@ -219,7 +235,7 @@ module motor_stand(with_motor=true, with_extra_parts=false) {
 module idle_stand(with_extra_parts=false) {
 	union() {
 		intersection() { // Remove the motor part
-			motor_stand(with_motor=false, with_extra_parts=with_extra_parts);
+			motor_stand(with_motor=false, with_extra_parts=with_extra_parts, exploded=exploded);
            union() {
 			  translate([wall_height/2,wall_width/2+52.4-(wall_width+wall_extraWidth_right-52.4),wall_thickness/2])
 			    bcube([wall_height,wall_width,100],cr=4,cres=10);
@@ -227,8 +243,8 @@ module idle_stand(with_extra_parts=false) {
 			    bcube([wall_height*2,wall_width/6,100],cr=4,cres=10); //keep self tapping screw
            }
 		}
-		translate([0,wall_width+5-2*(wall_width+wall_extraWidth_right-52.4)]) holder(noScrews=true, with_extra_parts=with_extra_parts);
-		translate([0,52.4+5/2]) scale([1,-1,1]) holder(h=15,base_width_inc=1, with_extra_parts=with_extra_parts);
+		translate([0,wall_width+5-2*(wall_width+wall_extraWidth_right-52.4)]) holder(noScrews=true, with_extra_parts=with_extra_parts, exploded=exploded);
+		translate([0,52.4+5/2]) scale([1,-1,1]) holder(h=15,base_width_inc=1, with_extra_parts=with_extra_parts, exploded=exploded);
 	}
 }
 

@@ -13,7 +13,6 @@ use <../libs/obiscad/bevel.scad>
 use <../libs/build_plate.scad>
 use <../smooth_rod_fix/smooth_rod_fix.scad>
 
-module frame(with_motor = 1, show_printbed = 0, with_extra_parts = false) {
 
 layer_thickness = 0.4;
 
@@ -86,6 +85,7 @@ Cyclone_Nema17 = [
                 [NemaAxleFlatLengthBack, 14*mm]
          ];
 
+module frame(with_motor = 1, show_printbed = 0, with_extra_parts=false, exploded=false) {
 
 if(show_printbed) {
 //for display only, doesn't contribute to final object
@@ -201,51 +201,6 @@ difference() {
 
 } // End of difference() command
 
-  if(with_motor && with_extra_parts) {
-    translate([X_threaded_rod_posX,X_threaded_rod_posY,0]) {
-      rotate([0,0,-motor_axis_angle]) translate([motor_axis_distance,0,0]) rotate([0,0,90+motor_axis_angle]) {
-        translate([0,0,wall_thickness-1]) {
-          // --- Stepper ---
-          motor(Cyclone_Nema17, NemaLengthLong);
-          // --- Motor gear ---
-          translate([0,0,-12-5.5+1])
-            cyclone_motor_gear(with_extra_parts);
-        }
-        // --- M3 x 8 mm bolts for holding the motor ---
-        for(i=[-1,1]) for(j=[-1,1])
-          translate([i*motor_screw_distance/2,j*motor_screw_distance/2,0])
-            translate([0,0,0]) {
-              rotate([0,0,0]) color(Steel) boltHole(size=3, length=8);
-            }
-      }
-    }
-  }
-  if(with_extra_parts) {
-    // --- Self tapping screw 2.9 x 16mm ---
-    rotate([90,0,0]) translate([frame_width/2,frame_thickness/2,-frame_height+frame_thickness/2+.2]) color(Steel) {
-        translate([-base_screw_distance,0,0]) rotate([180,0,0])
-          csk_bolt(2.9, 16);
-        translate([base_screw_distance*0.8,0,0]) rotate([180,0,0])
-          csk_bolt(2.9, 16);
-        translate([base_screw_distance*0.2,0,0]) rotate([180,0,0])
-          csk_bolt(2.9, 16);
-    }
-
-    // --- X smooth rod fix ---
-    translate([X_smooth_rods_sep_projected,-smooth_rod_margin,0])
-      rotate([90,0,0]) translate([0,frame_thickness/2,8.5])
-        rotate([180,0,0]) smooth_rod_fix(with_extra_parts=true);
-    translate([-smooth_rod_margin,X_smooth_rods_sep_projected,0])
-      rotate([0,90,0]) translate([-frame_thickness/2,0,-8.5])
-        rotate([0,0,90]) smooth_rod_fix(with_extra_parts=true);
-    // --- Y smooth rod fix ---
-    translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
-      translate([0,-Y_rod_height+smooth_rod_margin,0]) {
-      translate([0,-smooth_rod_margin-8.5,Y_rod_dist_from_wall]) rotate([90,90,180])
-         smooth_rod_fix(with_extra_parts=true);
-  }
-
-  }
 
 // --------- Support column for the triangular structure --------- //
 translate([frame_width/4,frame_height-frame_hole_height/2-bottom_thickness,frame_thickness/2])
@@ -286,9 +241,60 @@ translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
   }
   }
 
+  if(with_extra_parts) {
+    if(exploded)
+      frame_extras(with_motor=with_motor, exploded_distance=30);
+    else
+      frame_extras(with_motor=with_motor, exploded_distance=0);
+  }
+
 } // End of union() command
 
+}
 
+module frame_extras(with_motor=1, exploded_distance=0) {
+  if(with_motor) {
+    translate([X_threaded_rod_posX,X_threaded_rod_posY,0]) {
+      rotate([0,0,-motor_axis_angle]) translate([motor_axis_distance,0,0]) rotate([0,0,90+motor_axis_angle]) {
+        translate([0,0,wall_thickness-1]) {
+          // --- Stepper ---
+          translate([0,0,exploded_distance]) motor(Cyclone_Nema17, NemaLengthLong);
+          // --- Motor gear ---
+          translate([0,0,-12-5.5+1-0.5*exploded_distance])
+            cyclone_motor_gear(with_extra_parts=true, exploded=(exploded_distance!=0));
+        }
+        // --- M3 x 8 mm bolts for holding the motor ---
+        for(i=[-1,1]) for(j=[-1,1])
+          translate([i*motor_screw_distance/2,j*motor_screw_distance/2,0])
+            translate([0,0,-0.4*exploded_distance]) {
+              rotate([0,0,0]) color(Steel) boltHole(size=3, length=8);
+          }
+      }
+    }
+  }
+
+  // --- Self tapping screw 2.9 x 16mm ---
+  rotate([90,0,0]) translate([frame_width/2,frame_thickness/2,-frame_height+frame_thickness/2+.2+exploded_distance]) color(Steel) {
+      translate([-base_screw_distance,0,0]) rotate([180,0,0])
+        csk_bolt(2.9, 16);
+      translate([base_screw_distance*0.8,0,0]) rotate([180,0,0])
+        csk_bolt(2.9, 16);
+      translate([base_screw_distance*0.2,0,0]) rotate([180,0,0])
+        csk_bolt(2.9, 16);
+  }
+
+  // --- X smooth rod fix ---
+  translate([X_smooth_rods_sep_projected,-smooth_rod_margin,0])
+    rotate([90,0,0]) translate([0,frame_thickness/2,8.5+0.5*exploded_distance])
+      rotate([180,0,0]) smooth_rod_fix(with_extra_parts=true, exploded=(exploded_distance!=0));
+  translate([-smooth_rod_margin,X_smooth_rods_sep_projected,0])
+    rotate([0,90,0]) translate([-frame_thickness/2,0,-8.5-0.5*exploded_distance])
+      rotate([0,0,90]) smooth_rod_fix(with_extra_parts=true, exploded=(exploded_distance!=0));
+  // --- Y smooth rod fix ---
+  translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
+    translate([0,-Y_rod_height+smooth_rod_margin,0])
+      translate([0,-smooth_rod_margin-8.5-0.5*exploded_distance,Y_rod_dist_from_wall]) rotate([90,90,180])
+        smooth_rod_fix(with_extra_parts=true, exploded=(exploded_distance!=0));
 }
 
 
