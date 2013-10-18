@@ -14,6 +14,8 @@
 //And is a drop-in replacement for:
 //http://www.thingiverse.com/thing:10287
 
+use <../libs/linear_bearing.scad>
+
 // screw/nut dimensions
 screw_dia = 4;
 nut_dia = 8.5;
@@ -54,7 +56,7 @@ module mount_plate()
 	}
 }
 
-module lm8uu_bearing_holder() {
+module lm8uu_bearing_holder(with_extra_parts=false, exploded=false) {
 	intersection() {
      rotate([90,0,90])
       difference()
@@ -80,6 +82,18 @@ module lm8uu_bearing_holder() {
 	     //cube([plate_width+3,plate_width+3,100],center=true);
 	     cylinder(r=(plate_width+10)/2,h=100,center=true,$fn=8);
 	}
+  if(with_extra_parts) {
+    if(exploded)
+      lm8uu_bearing_holder_extras(exploded_distance=1.3*linearBearing_L("LM8UU"));
+    else
+      lm8uu_bearing_holder_extras(exploded_distance=0);
+  }
+}
+
+module lm8uu_bearing_holder_extras(exploded_distance=0) {
+  rotate([90,0,90]) translate([0,0,LM8UU_dia/2+2]) rotate([90,0,0])
+    translate([0,0,exploded_distance])
+      linearBearing(pos=[0,0,-linearBearing_L("LM8UU")/2], model="LM8UU");
 }
 
 lm8uu_bearing_holder();

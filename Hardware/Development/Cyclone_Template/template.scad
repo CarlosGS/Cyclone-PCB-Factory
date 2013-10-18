@@ -103,8 +103,11 @@ module Y_idle_stand() {
 }
 
 module linear_bearing_holder() {
-  color([1,0.5,0])
-    rotate([0,-90,-90]) translate([3,0,0]) lm8uu_bearing_holder();
+  rotate([0,-90,-90]) translate([3,0,0])
+    if(Display_Extra_Parts)
+      lm8uu_bearing_holder(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
+    else
+      color([1,0.5,0]) lm8uu_bearing_holder(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
 }
 
 module Y_nut_holder() {
