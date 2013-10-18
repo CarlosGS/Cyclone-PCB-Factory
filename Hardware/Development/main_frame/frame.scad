@@ -71,7 +71,7 @@ Cyclone_Nema17 = [
                 [NemaSideSize, 42.30*mm],
                 [NemaDistanceBetweenMountingHoles, 31.0*mm],
                 [NemaMountingHoleDiameter, 4*mm],
-                [NemaMountingHoleDepth, 5.5*mm], //actual is 4.5mm, motor() module is generating 1mm short
+                [NemaMountingHoleDepth, 5.5*mm], //actual is 4.5mm, motor() module is generating 1mm shorter
                 [NemaMountingHoleLip, -1*mm],
                 [NemaMountingHoleCutoutRadius, 0*mm],
                 [NemaEdgeRoundingRadius, 7*mm],
@@ -271,6 +271,19 @@ module frame_extras(with_motor=1, exploded_distance=0) {
           }
       }
     }
+
+    translate([X_threaded_rod_posX,X_threaded_rod_posY,0]) {
+      rotate([0,0,0])  {
+        // --- Bearing ---
+        translate([0,0,-1.0-7/2-0.2*exploded_distance]) bearing(model=608);
+        // --- M8 Nut ---
+        translate([0,0,-1.0-7/2-0.6*exploded_distance]) rotate([0,180,0]) color(Steel) flat_nut(8);
+        // --- Rod Gear ---
+        translate([0,0,-8-1.0-7/2-1.0*exploded_distance]) rotate([0,0,6]) cyclone_rod_gear();
+        // --- M8 Nut ---
+        translate([0,0,-11.5-8-1.0-7/2-1.2*exploded_distance]) color(Steel) flat_nut(8);
+      }
+    }
   }
 
   // --- Self tapping screw 2.9 x 16mm ---
@@ -295,6 +308,17 @@ module frame_extras(with_motor=1, exploded_distance=0) {
     translate([0,-Y_rod_height+smooth_rod_margin,0])
       translate([0,-smooth_rod_margin-8.5-0.5*exploded_distance,Y_rod_dist_from_wall]) rotate([90,90,180])
         smooth_rod_fix(with_extra_parts=true, exploded=(exploded_distance!=0));
+
+  if(!with_motor) {
+    translate([X_threaded_rod_posX,X_threaded_rod_posY,0]) {
+      rotate([0,0,0])  {
+        // --- Bearing ---
+        translate([0,0,-1.0-7/2-0.2*exploded_distance]) bearing(model=608);
+        // --- M8 Nut ---
+        translate([0,0,-6.5-1.0-7/2-0.6*exploded_distance]) rotate([0,0,0]) color(Steel) flat_nut(8);
+      }
+    }
+  }
 }
 
 
