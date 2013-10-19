@@ -14,6 +14,8 @@
 //And is a drop-in replacement for:
 //http://www.thingiverse.com/thing:10287
 
+include <MCAD/materials.scad>
+include <MCAD/metric_fastners.scad>
 use <../libs/linear_bearing.scad>
 
 // screw/nut dimensions
@@ -91,9 +93,14 @@ module lm8uu_bearing_holder(with_extra_parts=false, exploded=false) {
 }
 
 module lm8uu_bearing_holder_extras(exploded_distance=0) {
+  echo("PART: 1 x LM8UU linear ball bearing for Y axis");
   rotate([90,0,90]) translate([0,0,LM8UU_dia/2+2]) rotate([90,0,0])
     translate([0,0,exploded_distance])
       linearBearing(pos=[0,0,-linearBearing_L("LM8UU")/2], model="LM8UU");
+
+  echo("PART: 1 x Self tapping screw 3.5 x 13 mm");
+  translate([plate_height-3+0.2+0.5*exploded_distance,screw_space_x/2,0]) rotate([0,-90,0])
+    color(Steel) csk_bolt(3.5, 13);
 }
 
 lm8uu_bearing_holder();
