@@ -12,6 +12,9 @@ use <../libs/obiscad/bcube.scad>
 use <../libs/obiscad/bevel.scad>
 use <../libs/build_plate.scad>
 use <../smooth_rod_fix/smooth_rod_fix.scad>
+use <../libs/End_Stop_Holder.scad>
+use <../libs/micro_switch.scad>
+
 
 
 layer_thickness = 0.4;
@@ -309,6 +312,36 @@ module frame_extras(with_motor=1, exploded_distance=0) {
       translate([0,-smooth_rod_margin-8.5-0.5*exploded_distance,Y_rod_dist_from_wall]) rotate([90,90,180])
         smooth_rod_fix(with_extra_parts=true, exploded=(exploded_distance!=0));
 
+  if(with_motor) {
+
+//   this seems to reduce working area of Y axis
+    if(false) {
+      echo("PART: 1 x Micro switch on Y smooth rod for Y axis");
+      translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
+        translate([0,-Y_rod_height+smooth_rod_margin,0])
+          translate([0,-smooth_rod_margin,Y_rod_dist_from_wall])
+            translate([-frame_thickness/2-0.5*exploded_distance, 15, 8]) rotate([180,0,0]) rotate([0,-90,0])
+              end_stop_holder(with_extra_parts=true, exploded=(exploded_distance!=0));
+    }
+
+//  this seems to reduce working area of X axis
+    if(fasle) {
+      echo("PART: 1 x Micro switch on X smooth rod for X axis");
+      translate([X_smooth_rods_sep_projected,-smooth_rod_margin,0])
+        translate([15+0.5*exploded_distance, -8, frame_thickness])
+          rotate([180,180,-90])
+            end_stop_holder(with_extra_parts=true, exploded=(exploded_distance!=0));
+    }
+
+//  this seems to reduce working area of X axis
+    if(false) {
+      echo("PART: 1 x Micro switch on motor frame for X axis");
+      rotate([90, 0, -45])
+        translate([X_rods_corner_shaft_size/2-19.8,0,-X_rods_corner_shaft_size/2+0.5*exploded_distance])
+          micro_switch(with_extra_parts=true, exploded=(exploded_distance!=0));
+    }
+  }
+
   if(!with_motor) {
     translate([X_threaded_rod_posX,X_threaded_rod_posY,0]) {
       rotate([0,0,0])  {
@@ -317,6 +350,30 @@ module frame_extras(with_motor=1, exploded_distance=0) {
         // --- M8 Nut ---
         translate([0,0,-6.5-1.0-7/2-0.6*exploded_distance]) rotate([0,0,0]) color(Steel) flat_nut(8);
       }
+    }
+
+    echo("PART: 1 x Micro switch on no motor frame for X axis");
+    rotate([90, 0, -45])
+      translate([X_rods_corner_shaft_size/2-19.8,0,-X_rods_corner_shaft_size/2+0.5*exploded_distance])
+        micro_switch(with_extra_parts=true, exploded=(exploded_distance!=0));
+
+    if(true) {
+      echo("PART: 1 x Micro switch on Y smooth rod for Y axis");
+        translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
+          translate([0,-Y_rod_height+smooth_rod_margin,0])
+            translate([0,-smooth_rod_margin,Y_rod_dist_from_wall])
+              translate([-frame_thickness/2-0.5*exploded_distance, 8, -15]) rotate([90,0,0]) rotate([0,-90,0])
+                end_stop_holder(with_extra_parts=true, exploded=(exploded_distance!=0));
+    }
+
+//  this seems to reduce working area of Y axis
+    if(false) {
+      echo("PART: 1 x Micro switch on no motor frame for Y axis");
+      translate([frame_width-frame_thickness/2+10.8/2-0.5,frame_height-19.8-2,frame_thickness])
+        translate([0,-Y_rod_height+smooth_rod_margin,0])
+          translate([0,-smooth_rod_margin-8.5-0.5*exploded_distance,0])
+            rotate([0, 0, 90])
+              micro_switch(with_extra_parts=true, exploded=(exploded_distance!=0));
     }
   }
 }
