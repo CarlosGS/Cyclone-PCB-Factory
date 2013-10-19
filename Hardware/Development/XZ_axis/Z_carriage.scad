@@ -7,15 +7,21 @@
  * by Harry Binnema. 
  */
 
+include <MCAD/stepper.scad>
+include <MCAD/bearing.scad>
+include <MCAD/metric_fastners.scad>
+include <MCAD/nuts_and_bolts.scad>
+include <MCAD/materials.scad>
 use <../libs/obiscad/bcube.scad>
 use <../libs/build_plate.scad>
 use <../libs/Write/Write.scad>
+use <../libs/linear_bearing.scad>
 
 spindle_motor_diam_top = 26*2;
 spindle_motor_diam = 26*2;
 spindle_holder_thickness = 8;
-spindle_holder_distance = 46;
-spindle_motor_length = 100;
+spindle_holder_distance = linearBearing_L("LM8UU")*2+3;
+spindle_motor_length = 90;
 
 bottom_thickness = 4;
 base_width = 20;
@@ -53,6 +59,28 @@ textHscale = 0.8;
 textThickness = 1;
 
 LM8UU_dia = 15.4;
+
+Cyclone_Nema17 = [
+                [NemaModel, 17],
+                [NemaLengthShort, 33*mm],
+                [NemaLengthMedium, 39*mm],
+                [NemaLengthLong, 48*mm],
+                [NemaSideSize, 42.30*mm],
+                [NemaDistanceBetweenMountingHoles, 31.0*mm],
+                [NemaMountingHoleDiameter, 4*mm],
+                [NemaMountingHoleDepth, 5.5*mm], //actual is 4.5mm, motor() module is generating 1mm short
+                [NemaMountingHoleLip, -1*mm],
+                [NemaMountingHoleCutoutRadius, 0*mm],
+                [NemaEdgeRoundingRadius, 7*mm],
+                [NemaRoundExtrusionDiameter, 22*mm],
+                [NemaRoundExtrusionHeight, 1.9*mm],
+                [NemaAxleDiameter, 5*mm],
+                [NemaFrontAxleLength, 24*mm],
+                [NemaBackAxleLength, 15*mm],
+                [NemaAxleFlatDepth, 0.5*mm],
+                [NemaAxleFlatLengthFront, 15*mm],
+                [NemaAxleFlatLengthBack, 14*mm]
+         ];
 
 module dummySpindle() {
 	translate([0,0,-length]) {
@@ -205,7 +233,7 @@ translate([wall_height/2,wall_width-4,0])
 //for display only, doesn't contribute to final object
 //build_plate(3,200,200);
 
-module Z_carriage(showSpindle=false,top_part=true) {
+module Z_carriage(showSpindle=false,top_part=true, with_extra_parts=false, exploded=false) {
 
 	difference() {
 		rotate([0,0,-90]) translate([-wall_height/2,-Z_threaded_pos,0]) {
@@ -235,15 +263,62 @@ module Z_carriage(showSpindle=false,top_part=true) {
 	}
 	if(showSpindle) rotate([0,0,-90]) translate([0,wall_width-4-Z_threaded_pos,0])
 			translate([0,38,-20+8]) dummySpindle();
+    if(with_extra_parts) {
+      Z_carriage_extras(top_part=top_part, exploded_distance=exploded?27:0);
+    }
 }
 
-module Z_carriage_assembled() {
-	Z_carriage(showSpindle=true,top_part=false);
-	translate([0,0,3+spindle_holder_distance]) rotate([180,0,0]) Z_carriage(showSpindle=false,top_part=true);
+module Z_carriage_extras(top_part=true, exploded_distance=0) {
+  if(top_part) {
+    echo("PART: 1 x Nema 17 for Z axis");
+    translate([-motor_width/2,0,1-exploded_distance])
+      rotate([0,180,0])
+        motor(Cyclone_Nema17, NemaLengthLong);
+
+    echo("PART: 4 x M3 x 6mm for Z motor");
+    for(i=[-1,1]) for(j=[-1,1])
+      translate([-motor_width/2,0,0])
+        translate([i*motor_screw_distance/2,j*motor_screw_distance/2,2.5+exploded_distance*0.7]) {
+          rotate([0,180,0]) color(Steel) boltHole(size=3, length=6);
+    }
+  }
+
+  if(top_part)
+    echo("PART: 2 x LM8UU for Z_carriage top part");
+  else
+    echo("PART: 2 x LM8UU for Z_carriage bottom part");
+  rotate([0,0,-90])
+  translate([-wall_height/2,-Z_threaded_pos,0]) {
+    translate([wall_height/2-Z_smooth_rods_sep/2,Z_threaded_pos,0])
+      translate([0,0,1.5-exploded_distance])
+        linearBearing(model="LM8UU");
+    translate([wall_height/2+Z_smooth_rods_sep/2,Z_threaded_pos,0])
+	    translate([0,0,1.5-exploded_distance])
+	      linearBearing(model="LM8UU");
+  }
+
+  if(top_part) {
+    echo("PART: 1 x M3 x 20 mm for Z_carriage part");
+    echo("PART: 1 x M3 nut forZ_carriage top part");
+  }
+  else {
+    echo("PART: 1 x M3 x 20 mm for Z_carriage bottom part");
+    echo("PART: 1 x M3 nut for Z_carriage bottom part");
+  }
+  rotate([0,top_part ? 0:180,-90]) translate([-wall_height/2,0,0])
+  translate([wall_height/2,wall_width+(top_part?-1:-1.5),0]) {
+    translate ([spindle_motor_diam/2+15,exploded_distance,top_part ? wall_thickness/2:-wall_thickness/2]) rotate([90,0,0])
+      color(Steel) boltHole(size=3, length=20);
+    translate ([spindle_motor_diam/2+15,-20.4-0.5*exploded_distance,top_part ? wall_thickness/2:-wall_thickness/2]) rotate([90,0,180])
+      color(Steel) flat_nut(3);
+  }
 }
 
-//Z_carriage(top_part=true);
-//Z_carriage(top_part=false);
+module Z_carriage_assembled(with_extra_parts=false, exploded=false) {
+	Z_carriage(showSpindle=true,top_part=false,with_extra_parts=with_extra_parts, exploded=exploded);
+	translate([0,0,spindle_holder_distance]) rotate([180,0,0]) Z_carriage(showSpindle=false,top_part=true,
+     ,with_extra_parts=with_extra_parts, exploded=exploded);
+}
 
 
 Z_carriage_assembled();

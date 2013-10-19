@@ -158,7 +158,7 @@ module X_carriage() {
 module Z_carriage_piece() {
   translate([0,0,41])
     rotate([0,0,90])
-        Z_carriage_assembled();
+        Z_carriage_assembled(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
 }
 
 module cnc(show_printbed = 1) {
