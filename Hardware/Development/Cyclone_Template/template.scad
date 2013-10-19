@@ -38,7 +38,7 @@ X_Final_Smooth_Rod_Length = X_axis_sep+60;
 Y_Final_Threaded_Rod_Length = Y_threaded_rod_length+60;
 Y_Final_Smooth_Rod_Length = Y_axis_sep+15;
 
-X_Wood_Base = X_axis_sep+70;
+X_Wood_Base = X_axis_sep+100;
 Y_Wood_Base = Y_axis_sep+30;
 Z_Wood_Base = 15;
 
@@ -49,7 +49,7 @@ Z_PCB_BOARD = 1.5;
 X_Spindle_Bit_Offset = 0;
 Y_Spindle_Bit_Offset = 0;
 
-// Display steppers, bearings, washers, nuts
+//To display steppers, bearings, washers, nuts, screws, micro switchs, etc.
 Display_Extra_Parts = true;
 
 //To enable exploded drawing view
