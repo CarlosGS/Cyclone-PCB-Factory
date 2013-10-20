@@ -30,34 +30,32 @@ difference() {
 }
 
   if(with_extra_parts) {
-    if(exploded)
-      end_stop_holder_extras(exploded_distance=8);
-    else
-      end_stop_holder_extras(exploded_distance=0);
-  }
-}
-
-module end_stop_holder_extras(exploded_distance=0) {
-  echo("PART: 6 x M3 washer");
-  for(i = [0:2] ) {
-    translate([4+i*0.3+(i+1)*0.2*exploded_distance, 28, 5]) rotate([0, 90, 0]) color(Steel) washer(3);
-    translate([4+i*0.3+(i+1)*0.2*exploded_distance, 38, 5]) rotate([0, 90, 0]) color(Steel) washer(3);
+    end_stop_holder_extras(exploded_distance=(exploded?8:0));
   }
 
-  echo("PART: 1 x Micro switch");
-  translate([4+3*0.3+exploded_distance, 28-5.15+(10-9.5)/2, 5-2])
-    rotate([90,0,90])
-      micro_switch(with_extra_parts=true, exploded=(exploded_distance!=0));
+  module end_stop_holder_extras(exploded_distance=0) {
+    echo("Non-Plastic Parts: 6 x M3 washer to attach micro switch on end_stop_holder");
+    for(i = [0:2] ) {
+      translate([4+i*0.3+(i+1)*0.2*exploded_distance, 28, 5]) rotate([0, 90, 0]) color(Steel) washer(3);
+      translate([4+i*0.3+(i+1)*0.2*exploded_distance, 38, 5]) rotate([0, 90, 0]) color(Steel) washer(3);
+    }
 
-  echo("PART: 1 x M3 bolt 18 mm");
-  translate([-3*exploded_distance,6,5])
-    rotate([0,90,0])
-       color(Steel) boltHole(size=3, length=18);
+    echo("Non-Plastic Parts: 1 x Micro switch on end_stop_holder");
+    translate([4+3*0.3+exploded_distance, 28-5.15+(10-9.5)/2, 5-2])
+      rotate([90,0,90])
+        micro_switch(with_extra_parts=true, exploded=(exploded_distance!=0));
 
-  echo("PART: 1 x M3 nut");
-  translate([17+0.9*3/2+exploded_distance,6,5])
-    rotate([0,-90,0])
-      rotate([0,0,30]) color(Steel) flat_nut(3);
+    echo("Non-Plastic Parts: 1 x M3 x 18 mm bolt to attach end_stop_holder on smooth rod");
+    translate([-3*exploded_distance,6,5])
+      rotate([0,90,0])
+        color(Steel) boltHole(size=3, length=18);
+
+    echo("Non-Plastic Parts: 1 x M3 nut to attach end_stop_holder on smooth rod");
+    translate([17+0.9*3/2+exploded_distance,6,5])
+      rotate([0,-90,0])
+        rotate([0,0,30]) color(Steel) flat_nut(3);
+  }
+
 }
 
 

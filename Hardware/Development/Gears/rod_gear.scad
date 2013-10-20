@@ -30,6 +30,8 @@
  * -- 
  *     DeuxVis - device@ymail.com */
 
+include <MCAD/metric_fastners.scad>
+include <MCAD/materials.scad>
 include <MCAD/teardrop.scad>
 include <MCAD/involute_gears.scad>
 
@@ -77,7 +79,7 @@ module herringbone_gear( teeth=12, circles=0, shaft=5 ) {
     );
 }
 
-module cyclone_rod_gear() {
+module cyclone_rod_gear(with_extra_parts=false, exploded=false) {
 // Extruder Gear
 difference() {
   union() {
@@ -97,6 +99,16 @@ difference() {
 
   translate( [0, 0, (nut_separation/2)] ) cylinder( r=M8_nut_diameter/2, h=7, $fn=6 );
 }
+
+  if(with_extra_parts)
+    cyclone_rod_gear_extras(exploded_distance=(exploded?12:0));
+
+  module cyclone_rod_gear_extras(exploded_distance=0) {
+    echo("Non-Plastic Parts: 2 x M8 nuts to attach rod_gear on threaded rod");
+    translate([0,0,-10/2-0.8*8-1.0*exploded_distance]) color(Steel) flat_nut(8);
+    translate([0,0,nut_separation/2+0.8*8+1.0*exploded_distance]) rotate([180,0,0]) color(Steel) flat_nut(8);
+  }
+
 }
 
 cyclone_rod_gear();

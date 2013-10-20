@@ -95,30 +95,29 @@ translate([frame_width-frame_thickness,frame_height,frame_thickness-2])
 
 } // End of union() command
 
-  if(with_extra_parts) {
-    if(exploded)
-      Y_rod_idler_extras(with_extra_parts=with_extra_parts, exploded_distance=20);
-    else
-      Y_rod_idler_extras(with_extra_parts=with_extra_parts, exploded_distance=0);
+  if(with_extra_parts)
+      Y_rod_idler_extras(exploded_distance=(exploded?20:0));
+
+  module Y_rod_idler_extras(exploded_distance=0) {
+    screw_size = 2.9;
+    screw_length = 16;
+    echo("Non-Plastic Parts: 2 x Self tapping screw 2.9 x 16 mm for Y_rod_idler");
+    rotate([90,0,0]) translate([frame_width/3,Y_rod_support_lenght/2.5,-frame_height+bottom_thickness+.2+exploded_distance])
+      rotate([180,0,0]) color(Steel) {
+        translate([-5,0,0])
+          csk_bolt(screw_size, screw_length);
+        translate([5,0,0])
+          csk_bolt(screw_size, screw_length);
+      }
+
+    // --- Y smooth rod fix ---
+    translate([frame_width-frame_thickness,frame_height,frame_thickness-2])
+      translate([0,-Y_rod_height+smooth_rod_margin,0])
+        translate([0,-smooth_rod_margin-8.5-exploded_distance,Y_rod_dist_from_wall]) rotate([270,90,0])
+          smooth_rod_fix(with_extra_parts=true,exploded = (exploded_distance!=0));
   }
 }
 
-module Y_rod_idler_extras(exploded_distance=0) {
-  // --- Self tapping screw 2.9 x 16mm ---
-  rotate([90,0,0]) translate([frame_width/3,Y_rod_support_lenght/2.5,-frame_height+bottom_thickness+.2+exploded_distance])
-    rotate([180,0,0]) color(Steel) {
-      translate([-5,0,0])
-        csk_bolt(2.9, 16);
-      translate([5,0,0])
-        csk_bolt(2.9, 16);
-    }
-
-  // --- Y smooth rod fix ---
-  translate([frame_width-frame_thickness,frame_height,frame_thickness-2])
-    translate([0,-Y_rod_height+smooth_rod_margin,0])
-      translate([0,-smooth_rod_margin-8.5-exploded_distance,Y_rod_dist_from_wall]) rotate([270,90,0])
-        smooth_rod_fix(with_extra_parts=true,exploded = (exploded_distance!=0));
-}
 
 Y_rod_idler(show_printbed = 1);
 //scale([-1,1,1]) Y_rod_idler(show_printbed = 1);

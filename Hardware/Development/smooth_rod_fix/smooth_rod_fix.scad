@@ -43,24 +43,23 @@ translate([0,0,part_z/2]) difference() {
 
 } // End of difference() command
 
-  if(with_extra_parts) {
-    if(exploded)
-      smooth_rod_fix_extras(exploded_distance=20);
-    else
-      smooth_rod_fix_extras(exploded_distance=0);
-  }
-}
+  if(with_extra_parts)
+      smooth_rod_fix_extras(exploded_distance=(exploded?20:0));
 
-module smooth_rod_fix_extras(exploded_distance=0) {
-  // --- Self tapping screw 2.9 x 16 mm ---
-  color(Steel) {
-    translate([0,0,-.2-exploded_distance]) {
-      translate([-smooth_rod_screw_sep,0,0])
-        csk_bolt(2.9, 16);
-      translate([smooth_rod_screw_sep,0,0])
-        csk_bolt(2.9, 16);
+  module smooth_rod_fix_extras(exploded_distance=0) {
+    screw_size = 2.9;
+    screw_length = 16;
+    echo("Non-Plastic Parts: 2 x Self tapping screw 2.9 x 16 mm for smooth_rod_fix");
+    color(Steel) {
+      translate([0,0,-.2-exploded_distance]) {
+        translate([-smooth_rod_screw_sep,0,0])
+          csk_bolt(screw_size, screw_length);
+        translate([smooth_rod_screw_sep,0,0])
+          csk_bolt(screw_size, screw_length);
+      }
     }
   }
+
 }
 
 smooth_rod_fix();

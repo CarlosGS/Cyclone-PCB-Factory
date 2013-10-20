@@ -84,24 +84,25 @@ module lm8uu_bearing_holder(with_extra_parts=false, exploded=false) {
 	     //cube([plate_width+3,plate_width+3,100],center=true);
 	     cylinder(r=(plate_width+10)/2,h=100,center=true,$fn=8);
 	}
-  if(with_extra_parts) {
-    if(exploded)
-      lm8uu_bearing_holder_extras(exploded_distance=1.3*linearBearing_L("LM8UU"));
-    else
-      lm8uu_bearing_holder_extras(exploded_distance=0);
+  if(with_extra_parts)
+    lm8uu_bearing_holder_extras(exploded_distance=(exploded?1.3*linearBearing_L("LM8UU"):0));
+
+  module lm8uu_bearing_holder_extras(exploded_distance=0) {
+    echo("Non-Plastic Parts: 1 x LM8UU linear ball bearing for lm8uu_bearing_holder");
+    rotate([90,0,90]) translate([0,0,LM8UU_dia/2+2]) rotate([90,0,0])
+      translate([0,0,exploded_distance])
+        linearBearing(pos=[0,0,-linearBearing_L("LM8UU")/2], model="LM8UU");
+
+    screw_size = 3.5;
+    screw_length = 13;
+    echo("Non-Plastic Parts: 1 x Self tapping screw 3.5 x 13 mm to attach lm8uu_bearing_holder on work bed");
+    translate([plate_height-3+0.2+0.5*exploded_distance,screw_space_x/2,0]) rotate([0,-90,0])
+      color(Steel) csk_bolt(screw_size, screw_length);
   }
+
 }
 
-module lm8uu_bearing_holder_extras(exploded_distance=0) {
-  echo("PART: 1 x LM8UU linear ball bearing for Y axis");
-  rotate([90,0,90]) translate([0,0,LM8UU_dia/2+2]) rotate([90,0,0])
-    translate([0,0,exploded_distance])
-      linearBearing(pos=[0,0,-linearBearing_L("LM8UU")/2], model="LM8UU");
 
-  echo("PART: 1 x Self tapping screw 3.5 x 13 mm");
-  translate([plate_height-3+0.2+0.5*exploded_distance,screw_space_x/2,0]) rotate([0,-90,0])
-    color(Steel) csk_bolt(3.5, 13);
-}
 
 lm8uu_bearing_holder();
 

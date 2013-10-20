@@ -272,12 +272,12 @@ module Z_carriage(showSpindle=false,top_part=true, with_extra_parts=false, explo
 
 module Z_carriage_extras(top_part=true, exploded_distance=0) {
   if(top_part) {
-    echo("PART: 1 x Nema 17 for Z axis");
+    echo("Non-Plastic Parts: 1 x Nema 17 for Z axis");
     translate([-motor_width/2,0,1-exploded_distance])
       rotate([0,180,0])
         motor(Cyclone_Nema17, NemaLengthLong);
 
-    echo("PART: 4 x M3 x 6mm for Z motor");
+    echo("Non-Plastic Parts: 4 x Bolt M3 x 6 mm for Z motor");
     for(i=[-1,1]) for(j=[-1,1])
       translate([-motor_width/2,0,0])
         translate([i*motor_screw_distance/2,j*motor_screw_distance/2,2.5+exploded_distance*0.7]) {
@@ -288,7 +288,7 @@ module Z_carriage_extras(top_part=true, exploded_distance=0) {
       rotate([0,0,-90])
         cyclone_motor_z_gear(with_extra_parts=true, exploded=(exploded_distance!=0));
 
-    echo("PART: 1 x 608 bearing for Z motor");
+    echo("Non-Plastic Parts: 1 x 608 bearing for Z motor");
     translate([0,0,wall_thickness/2])
       bearing(model=608);
 
@@ -296,11 +296,13 @@ module Z_carriage_extras(top_part=true, exploded_distance=0) {
       rotate([180,0,11])
         cyclone_rod_z_gear(with_extra_parts=true, exploded=(exploded_distance!=0));
   }
+  else
+    echo("Non-Plastic Parts: 1 x Spindle");
 
   if(top_part)
-    echo("PART: 2 x LM8UU for Z_carriage top part");
+    echo("Non-Plastic Parts: 2 x LM8UU for Z_carriage top part");
   else
-    echo("PART: 2 x LM8UU for Z_carriage bottom part");
+    echo("Non-Plastic Parts: 2 x LM8UU for Z_carriage bottom part");
   rotate([0,0,-90])
   translate([-wall_height/2,-Z_threaded_pos,0]) {
     translate([wall_height/2-Z_smooth_rods_sep/2,Z_threaded_pos,0])
@@ -312,12 +314,12 @@ module Z_carriage_extras(top_part=true, exploded_distance=0) {
   }
 
   if(top_part) {
-    echo("PART: 1 x M3 x 20 mm for Z_carriage part");
-    echo("PART: 1 x M3 nut forZ_carriage top part");
+    echo("Non-Plastic Parts: 1 x M3 x 20 mm for Z_carriage part");
+    echo("Non-Plastic Parts: 1 x M3 nut for Z_carriage top part");
   }
   else {
-    echo("PART: 1 x M3 x 20 mm for Z_carriage bottom part");
-    echo("PART: 1 x M3 nut for Z_carriage bottom part");
+    echo("Non-Plastic Parts: 1 x M3 x 20 mm for Z_carriage bottom part");
+    echo("Non-Plastic Parts: 1 x M3 nut for Z_carriage bottom part");
   }
   rotate([0,top_part ? 0:180,-90]) translate([-wall_height/2,0,0])
   translate([wall_height/2,wall_width+(top_part?-1:-1.5),0]) {

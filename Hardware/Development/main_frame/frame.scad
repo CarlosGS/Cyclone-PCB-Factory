@@ -244,12 +244,8 @@ translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
   }
   }
 
-  if(with_extra_parts) {
-    if(exploded)
-      frame_extras(with_motor=with_motor, exploded_distance=30);
-    else
-      frame_extras(with_motor=with_motor, exploded_distance=0);
-  }
+  if(with_extra_parts)
+    frame_extras(with_motor=with_motor, exploded_distance=(exploded?30:0));
 
 } // End of union() command
 
@@ -260,13 +256,15 @@ module frame_extras(with_motor=1, exploded_distance=0) {
     translate([X_threaded_rod_posX,X_threaded_rod_posY,0]) {
       rotate([0,0,-motor_axis_angle]) translate([motor_axis_distance,0,0]) rotate([0,0,90+motor_axis_angle]) {
         translate([0,0,wall_thickness-1]) {
-          // --- Stepper ---
+          echo("Non-Plastic Parts: 1 x Nema 17 on motor frame");
           translate([0,0,exploded_distance]) motor(Cyclone_Nema17, NemaLengthLong);
+
           // --- Motor gear ---
           translate([0,0,-12-5.5+1-0.5*exploded_distance])
             cyclone_motor_gear(with_extra_parts=true, exploded=(exploded_distance!=0));
         }
-        // --- M3 x 8 mm bolts for holding the motor ---
+
+        echo("Non-Plastic Parts: 4 x Bolts M3 x 8 mm to attach motor on frame");
         for(i=[-1,1]) for(j=[-1,1])
           translate([i*motor_screw_distance/2,j*motor_screw_distance/2,0])
             translate([0,0,-0.4*exploded_distance]) {
@@ -277,26 +275,27 @@ module frame_extras(with_motor=1, exploded_distance=0) {
 
     translate([X_threaded_rod_posX,X_threaded_rod_posY,0]) {
       rotate([0,0,0])  {
-        // --- Bearing ---
+        echo("Non-Plastic Parts: 1 x 608 bearing for motor frame");
         translate([0,0,-1.0-7/2-0.2*exploded_distance]) bearing(model=608);
-        // --- M8 Nut ---
-        translate([0,0,-1.0-7/2-0.6*exploded_distance]) rotate([0,180,0]) color(Steel) flat_nut(8);
+
         // --- Rod Gear ---
-        translate([0,0,-8-1.0-7/2-1.0*exploded_distance]) rotate([0,0,6]) cyclone_rod_gear();
-        // --- M8 Nut ---
-        translate([0,0,-11.5-8-1.0-7/2-1.2*exploded_distance]) color(Steel) flat_nut(8);
+        translate([0,0,-8-1.0-7/2-1.0*exploded_distance])
+          rotate([0,0,6])
+            cyclone_rod_gear(with_extra_parts=true, exploded=(exploded_distance!=0));
       }
     }
   }
 
-  // --- Self tapping screw 2.9 x 16mm ---
+  screw_size = 2.9;
+  screw_length = 16;
+  echo("Non-Plastic Parts: 3 x Self tapping screw 2.9 x 16 mm to attach frame on base");
   rotate([90,0,0]) translate([frame_width/2,frame_thickness/2,-frame_height+frame_thickness/2+.2+exploded_distance]) color(Steel) {
       translate([-base_screw_distance,0,0]) rotate([180,0,0])
-        csk_bolt(2.9, 16);
+        csk_bolt(screw_size, screw_length);
       translate([base_screw_distance*0.8,0,0]) rotate([180,0,0])
-        csk_bolt(2.9, 16);
+        csk_bolt(screw_size, screw_length);
       translate([base_screw_distance*0.2,0,0]) rotate([180,0,0])
-        csk_bolt(2.9, 16);
+        csk_bolt(screw_size, screw_length);
   }
 
   // --- X smooth rod fix ---
@@ -316,7 +315,7 @@ module frame_extras(with_motor=1, exploded_distance=0) {
 
 //   this seems to reduce working area of Y axis
     if(false) {
-      echo("PART: 1 x Micro switch on Y smooth rod for Y axis");
+      echo("Non-Plastic Parts: 1 x Micro switch on Y smooth rod for Y axis");
       translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
         translate([0,-Y_rod_height+smooth_rod_margin,0])
           translate([0,-smooth_rod_margin,Y_rod_dist_from_wall])
@@ -325,8 +324,8 @@ module frame_extras(with_motor=1, exploded_distance=0) {
     }
 
 //  this seems to reduce working area of X axis
-    if(fasle) {
-      echo("PART: 1 x Micro switch on X smooth rod for X axis");
+    if(false) {
+      echo("Non-Plastic Parts: 1 x Micro switch on X smooth rod for X axis");
       translate([X_smooth_rods_sep_projected,-smooth_rod_margin,0])
         translate([15+0.5*exploded_distance, -8, frame_thickness])
           rotate([180,180,-90])
@@ -335,7 +334,7 @@ module frame_extras(with_motor=1, exploded_distance=0) {
 
 //  this seems to reduce working area of X axis
     if(false) {
-      echo("PART: 1 x Micro switch on motor frame for X axis");
+      echo("Non-Plastic Parts: 1 x Micro switch on motor frame for X axis");
       rotate([90, 0, -45])
         translate([X_rods_corner_shaft_size/2-19.8,0,-X_rods_corner_shaft_size/2+0.5*exploded_distance])
           micro_switch(with_extra_parts=true, exploded=(exploded_distance!=0));
@@ -345,20 +344,21 @@ module frame_extras(with_motor=1, exploded_distance=0) {
   if(!with_motor) {
     translate([X_threaded_rod_posX,X_threaded_rod_posY,0]) {
       rotate([0,0,0])  {
-        // --- Bearing ---
+        echo("Non-Plastic Parts: 1 x 608 bearing for no motor frame");
         translate([0,0,-1.0-7/2-0.2*exploded_distance]) bearing(model=608);
-        // --- M8 Nut ---
+
+        echo("Non-Plastic Parts: 1 x M8 nut to attach threaded rod on no motor frame");
         translate([0,0,-6.5-1.0-7/2-0.6*exploded_distance]) rotate([0,0,0]) color(Steel) flat_nut(8);
       }
     }
 
-    echo("PART: 1 x Micro switch on no motor frame for X axis");
+    echo("Non-Plastic Parts: 1 x Micro switch on no motor frame for X axis");
     rotate([90, 0, -45])
       translate([X_rods_corner_shaft_size/2-19.8,0,-X_rods_corner_shaft_size/2+0.5*exploded_distance])
         micro_switch(with_extra_parts=true, exploded=(exploded_distance!=0));
 
     if(true) {
-      echo("PART: 1 x Micro switch on Y smooth rod for Y axis");
+      echo("Non-Plastic Parts: 1 x Micro switch on Y smooth rod for Y axis");
         translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
           translate([0,-Y_rod_height+smooth_rod_margin,0])
             translate([0,-smooth_rod_margin,Y_rod_dist_from_wall])
@@ -368,7 +368,7 @@ module frame_extras(with_motor=1, exploded_distance=0) {
 
 //  this seems to reduce working area of Y axis
     if(false) {
-      echo("PART: 1 x Micro switch on no motor frame for Y axis");
+      echo("Non-Plastic Parts: 1 x Micro switch on no motor frame for Y axis");
       translate([frame_width-frame_thickness/2+10.8/2-0.5,frame_height-19.8-2,frame_thickness])
         translate([0,-Y_rod_height+smooth_rod_margin,0])
           translate([0,-smooth_rod_margin-8.5-0.5*exploded_distance,0])

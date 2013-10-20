@@ -81,7 +81,7 @@ module herringbone_gear( teeth=12, circles=0, shaft=5 ) {
     );
 }
 
-module cyclone_motor_z_gear(with_extra_parts=false) {
+module cyclone_motor_z_gear(with_extra_parts=false, exploded=false) {
 // Motor gear
 rotate([180,0,0]) union() difference() {	 
   union() {
@@ -119,7 +119,7 @@ rotate([180,0,0]) union() difference() {
     cyclone_motor_z_gear_extras(exploded_distance = (exploded?24:0));
 
   module cyclone_motor_z_gear_extras(exploded_distance=0) {
-    echo("PART: 1 x M3 x 8 mm grub screw to attach Z motor gear to motor shaft");
+    echo("Non-Plastic Parts: 1 x Grub screw M3 x 8 mm to attach Z motor gear to motor shaft");
     translate([0,-2.5-exploded_distance,-(12-3.5)]) rotate([90, 0, 0]) color(Steel) cylinder(r=1.5, h=8, $fn=30);
   }
 }

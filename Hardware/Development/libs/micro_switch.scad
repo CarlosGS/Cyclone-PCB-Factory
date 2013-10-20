@@ -17,23 +17,22 @@ module micro_switch(with_extra_parts=false, exploded=false) {
       rotate([0,0,10])
         color(Steel) cube([17,1,4]);
 
-    if(with_extra_parts) {
-      if(exploded)
-        micro_switch_extras(exploded_distance=15);
-      else
-        micro_switch_extras(exploded_distance=0);
+    if(with_extra_parts)
+      micro_switch_extras(exploded_distance=(exploded?15:0));
+  }
+
+  module micro_switch_extras(exploded_distance=0) {
+    screw_size = 2.2;
+    screw_length = 13;
+    echo("Non-Plastic Parts: 2 x Self tapping screw 2.2 x 13 mm for micro switch");
+    translate([5.15, 2, 0]) color(Steel) {
+      translate([0, 0, 0.5+6.4+exploded_distance])
+        rotate([180,0,0]) csk_bolt(screw_size, screw_length);
+      translate([9.5, 0, 0.5+6.4+exploded_distance])
+        rotate([180,0,0]) csk_bolt(screw_size, screw_length);
     }
   }
-}
 
-module micro_switch_extras(exploded_distance=0) {
-  echo("PART: 2 x Self tapping screw 2.2 x 13 mm");
-  translate([5.15, 2, 0]) color(Steel) {
-    translate([0, 0, 0.5+6.4+exploded_distance])
-      rotate([180,0,0]) csk_bolt(2.2, 13);
-    translate([9.5, 0, 0.5+6.4+exploded_distance])
-      rotate([180,0,0]) csk_bolt(2.2, 13);
-  }
 }
 
 

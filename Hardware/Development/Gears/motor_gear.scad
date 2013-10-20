@@ -121,17 +121,16 @@ union() difference() {
 }
 
 
-  if(with_extra_parts) {
-    if(exploded)
-      cyclone_motor_gear_extras(exploded_distance=20);
-    else
-      cyclone_motor_gear_extras(exploded_distance=0);
+  if(with_extra_parts)
+    cyclone_motor_gear_extras(exploded_distance=(exploded?20:0));
+
+  module cyclone_motor_gear_extras(exploded_distance=0) {
+    echo("Non-Plastic Parts: 1 x Grub screw M3 x 8 mm to attach gear to motor shaft");
+    translate([0,2.5+8+exploded_distance,12-3.5])
+      rotate([90, 0, 0])
+        color(Steel) cylinder(r=1.5, h=8, $fn=30);
   }
 }
 
-module cyclone_motor_gear_extras(exploded_distance=0) {
-  // --- M3 x 8mm grub screw to attach Gear to motor shaft ---
-  translate([0,2.5+8+exploded_distance,12-3.5]) rotate([90, 0, 0]) color(Steel) cylinder(r=1.5, h=8, $fn=30);
-}
 
 cyclone_motor_gear();
