@@ -295,9 +295,29 @@ module Z_carriage_extras(top_part=true, exploded_distance=0) {
     translate([0,0,3/2+0.8*8+wall_thickness/2+7+exploded_distance/2])
       rotate([180,0,11])
         cyclone_rod_z_gear(with_extra_parts=true, exploded=(exploded_distance!=0));
+
+    echo("Non-Plastic Parts: 2 x Bolt M5 x 55 mm to attach Z_carriage top and bottom");
+    rotate([0,0,-90]) translate([-wall_height/2,-Z_threaded_pos,0])
+      translate([wall_height/2,wall_width-4,0]) color(Steel) {
+        translate([20,8,-0.05-2.5*exploded_distance])
+          boltHole(size=5, length=55);
+        translate([-20,8,-0.05-2.5*exploded_distance])
+          boltHole(size=5, length=55);
+      }
   }
   else
+  {
     echo("Non-Plastic Parts: 1 x Spindle");
+
+    echo("Non-Plastic Parts: 2 x M5 nut to attach Z_carriage top and bottom");
+    rotate([0,0,-90]) translate([-wall_height/2,-Z_threaded_pos,0])
+      translate([wall_height/2,wall_width-4,0]) color(Steel) {
+        translate([20,8,wall_thickness+0.8*5+0.5*exploded_distance]) rotate([180,0,0])
+          flat_nut(5);
+        translate([-20,8,wall_thickness+0.8*5+0.5*exploded_distance]) rotate([180,0,0])
+          flat_nut(5);
+      }
+  }
 
   if(top_part)
     echo("Non-Plastic Parts: 2 x LM8UU for Z_carriage top part");
