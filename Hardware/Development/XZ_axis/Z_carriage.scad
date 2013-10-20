@@ -16,6 +16,8 @@ use <../libs/obiscad/bcube.scad>
 use <../libs/build_plate.scad>
 use <../libs/Write/Write.scad>
 use <../libs/linear_bearing.scad>
+use <motor_gear.scad>
+use <rod_gear.scad>
 
 spindle_motor_diam_top = 26*2;
 spindle_motor_diam = 26*2;
@@ -281,6 +283,18 @@ module Z_carriage_extras(top_part=true, exploded_distance=0) {
         translate([i*motor_screw_distance/2,j*motor_screw_distance/2,2.5+exploded_distance*0.7]) {
           rotate([0,180,0]) color(Steel) boltHole(size=3, length=6);
     }
+
+    translate([-motor_width/2,0,7+5+wall_thickness/2+2.9])
+      rotate([0,0,-90])
+        cyclone_motor_z_gear(with_extra_parts=true, exploded=(exploded_distance!=0));
+
+    echo("PART: 1 x 608 bearing for Z motor");
+    translate([0,0,wall_thickness/2])
+      bearing(model=608);
+
+    translate([0,0,3/2+0.8*8+wall_thickness/2+7+exploded_distance/2])
+      rotate([180,0,11])
+        cyclone_rod_z_gear(with_extra_parts=true, exploded=(exploded_distance!=0));
   }
 
   if(top_part)
@@ -317,7 +331,7 @@ module Z_carriage_extras(top_part=true, exploded_distance=0) {
 module Z_carriage_assembled(with_extra_parts=false, exploded=false) {
 	Z_carriage(showSpindle=true,top_part=false,with_extra_parts=with_extra_parts, exploded=exploded);
 	translate([0,0,spindle_holder_distance]) rotate([180,0,0]) Z_carriage(showSpindle=false,top_part=true,
-     ,with_extra_parts=with_extra_parts, exploded=exploded);
+      with_extra_parts=with_extra_parts, exploded=exploded);
 }
 
 

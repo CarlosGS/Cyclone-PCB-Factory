@@ -30,8 +30,13 @@
  * -- 
  *     DeuxVis - device@ymail.com */
 
+include <MCAD/metric_fastners.scad>
+include <MCAD/nuts_and_bolts.scad>
+include <MCAD/materials.scad>
 include <MCAD/teardrop.scad>
 include <MCAD/involute_gears.scad>
+
+module cyclone_rod_z_gear(with_extra_parts=false, exploded=false) {
 
 M8_nut_diameter = 15.3;
 nut_separation = 3;
@@ -93,3 +98,16 @@ difference() {
 
   translate( [0, 0, (nut_separation/2)] ) cylinder( r=M8_nut_diameter/2, h=7, $fn=6 );
 }
+
+  if(with_extra_parts)
+    cyclone_rod_z_gear(exploded_distance = (exploded ?8:0));
+
+  module cyclone_rod_z_gear(exploded_distance=false) {
+    echo("PART: 2 x M8 nut for Z rod gear");
+    translate([0,0,0.8*8+nut_separation/2+exploded_distance]) rotate([180,0,0]) color(Steel) flat_nut(8);
+    translate([0,0,-0.8*8-10/2-exploded_distance]) rotate([0,0,0]) color(Steel) flat_nut(8);
+  }
+
+}
+
+cyclone_rod_z_gear();
