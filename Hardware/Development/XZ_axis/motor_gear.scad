@@ -115,10 +115,13 @@ rotate([180,0,0]) union() difference() {
   translate( [0, 0, -6] ) cylinder( r=motor_shaft_diameter/2, h=20, $fn=30 );
 }
 
-  // --- M3 x 8mm grub screw to attach Gear to motor shaft ---
   if(with_extra_parts)
-    translate([0,-2.5,-(12-3.5)]) rotate([90, 0, 0]) color(Steel) cylinder(r=1.5, h=8, $fn=30);
+    cyclone_motor_z_gear_extras(exploded_distance = (exploded?24:0));
 
+  module cyclone_motor_z_gear_extras(exploded_distance=0) {
+    echo("PART: 1 x M3 x 8 mm grub screw to attach Z motor gear to motor shaft");
+    translate([0,-2.5-exploded_distance,-(12-3.5)]) rotate([90, 0, 0]) color(Steel) cylinder(r=1.5, h=8, $fn=30);
+  }
 }
 
 cyclone_motor_z_gear();
