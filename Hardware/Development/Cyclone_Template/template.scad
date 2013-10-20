@@ -46,8 +46,10 @@ X_PCB_BOARD = 150;
 Y_PCB_BOARD = 100;
 Z_PCB_BOARD = 1.5;
 
-X_Spindle_Bit_Offset = 0;
-Y_Spindle_Bit_Offset = 0;
+//Travel (164 x 101 x 25)
+X_Travel = 0; //0~164
+Y_Travel = 0; //0~101
+Z_Travel = 0; //0~25
 
 //To display steppers, bearings, washers, nuts, screws, micro switchs, etc.
 Display_Extra_Parts = true;
@@ -156,7 +158,7 @@ module X_carriage() {
 }
 
 module Z_carriage_piece() {
-  translate([0,0,41])
+  translate([0,0,33+Z_Travel])
     rotate([0,0,90])
         Z_carriage_assembled(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
 }
@@ -235,7 +237,7 @@ module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
     cnc();
   translate([0,0,Y_rod_height]) { // Y rod height, centered
     // --- workbed ---
-    translate([0,Y_offset+Y_Spindle_Bit_Offset,12.5])
+    translate([0,Y_offset-73+Y_Travel,12.5])
       rotate([0,180,0])
         cnc_workbed();
 
@@ -253,7 +255,7 @@ module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
   translate([0,-19,99.65]) { // X threaded rod height, centered over SMOOTH rod
     // --- X axis ---
     translate([0,-X_rod_sep_real,0]) {
-      translate([-X_offset+X_Spindle_Bit_Offset,0,0]) {
+      translate([-X_offset+31-X_Travel,0,0]) {
         X_carriage();
         translate([0,X_rod_sep_real/2,Z_offset])
           Z_carriage_piece();
