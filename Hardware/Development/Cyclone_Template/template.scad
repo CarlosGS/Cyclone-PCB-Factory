@@ -33,10 +33,11 @@ X_smooth_rods_sep_projected = sqrt((X_smooth_rods_sep*X_smooth_rods_sep)/2); // 
 smooth_rod_margin = 1;
 
 
-X_Final_Threaded_Rod_Length = X_axis_sep+80;
-X_Final_Smooth_Rod_Length = X_axis_sep+60;
-Y_Final_Threaded_Rod_Length = Y_threaded_rod_length+60;
-Y_Final_Smooth_Rod_Length = Y_axis_sep+15;
+X_Final_Threaded_Rod_Length = X_axis_sep+82;
+X_Final_Smooth_Rod_Length = X_axis_sep+46;
+Y_Final_Threaded_Rod_Length = Y_threaded_rod_length+38;
+Y_Final_Smooth_Rod_Length = Y_axis_sep+8;
+Y_threaded_rod_offset = 8;
 
 X_Wood_Base = X_axis_sep+100;
 Y_Wood_Base = Y_axis_sep+30;
@@ -186,7 +187,7 @@ module cnc(show_printbed = 1) {
   // ---- Y threaded rod motor and idler ----
   translate([X_axis_sep/2,Y_axis_sep/2,0]) {
     translate([0,Y_threaded_rod_length/2,0]) Y_motor_stand();
-    translate([0,-Y_threaded_rod_length/2,0]) Y_idle_stand();
+    translate([0,-Y_threaded_rod_length/2+Y_threaded_rod_offset,0]) Y_idle_stand();
   }
 }
 
@@ -242,7 +243,7 @@ module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
         cnc_workbed();
 
     // --- Y threaded rod ---
-    translate([0,0,Y_threaded_rod_height-Y_rod_height])
+    translate([0,6+Y_threaded_rod_offset/2,Y_threaded_rod_height-Y_rod_height])
       color([0.5,0.5,0.5]) rod(Y_Final_Threaded_Rod_Length);
 
     // --- Y smooth rods ---
@@ -261,7 +262,7 @@ module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
           Z_carriage_piece();
       }
       rotate([0,0,90])
-        color([0.5,0.5,0.5]) rod(X_Final_Threaded_Rod_Length);
+        color([0.5,0.5,0.5]) translate([0,6,0]) rod(X_Final_Threaded_Rod_Length);
       translate([0,0,X_rod_sep_real])
         rotate([0,0,90])
           rod(X_Final_Smooth_Rod_Length);
