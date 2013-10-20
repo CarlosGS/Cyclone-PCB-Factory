@@ -73,8 +73,8 @@ _Check Hardware, Software and Firmware sections for details regarding authorship
 
 Render (v0.9.7)  
 --
-![ScreenShot](/home/carlosgs/GitRepos/Cyclone-PCB-Factory/Media/Cyclone_render_v0.9.7_full.png)  
-![ScreenShot](/home/carlosgs/GitRepos/Cyclone-PCB-Factory/Media/Cyclone_render_v0.9.7_full_explodedView.png)  
+![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7_full.png)  
+![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7_full_explodedView.png)  
 **Thanks a lot to Glen Chung for the fully assembled renders**  
 
 Disclaimer  
