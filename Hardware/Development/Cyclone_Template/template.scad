@@ -32,35 +32,85 @@ X_smooth_rods_sep = 50;
 X_smooth_rods_sep_projected = sqrt((X_smooth_rods_sep*X_smooth_rods_sep)/2); // Be careful with this measure, it is not properly named since it is used with the following offset:
 smooth_rod_margin = 1;
 
+
+X_Final_Threaded_Rod_Length = X_axis_sep+82;
+X_Final_Smooth_Rod_Length = X_axis_sep+46;
+Y_Final_Threaded_Rod_Length = Y_threaded_rod_length+38;
+Y_Final_Smooth_Rod_Length = Y_axis_sep+8;
+Y_threaded_rod_offset = 8;
+
+X_Wood_Base = X_axis_sep+100;
+Y_Wood_Base = Y_axis_sep+30;
+Z_Wood_Base = 15;
+
+X_PCB_BOARD = 150;
+Y_PCB_BOARD = 100;
+Z_PCB_BOARD = 1.5;
+
+//Travel (164 x 101 x 25)
+X_Travel = 0; //0~164
+Y_Travel = 0; //0~101
+Z_Travel = 0; //0~25
+
+//To display steppers, bearings, washers, nuts, screws, micro switchs, etc.
+Display_Extra_Parts = true;
+
+//To enable exploded drawing view
+Exploded_Drawing = false;
+
 X_rod_sep_real = X_smooth_rods_sep_projected+smooth_rod_margin;
 
-module frame_right() {
-  color([1,0.8,0]) rotate([0,0,90]) scale([-1,1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 0);
+module frame_right(with_extra_parts = false, exploded=false) {
+  if(with_extra_parts)
+    rotate([0,0,90]) scale([-1,1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 0, with_extra_parts=with_extra_parts, exploded=exploded);
+  else
+    color([1,0.8,0]) rotate([0,0,90]) scale([-1,1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 0, with_extra_parts=with_extra_parts, exploded=exploded);
 }
 
-module frame_left() {
-  color([1,1,0]) rotate([0,0,90]) scale([-1,-1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 1);
+module frame_left(with_extra_parts = false, exploded=false) {
+  if(with_extra_parts)
+    rotate([0,0,90]) scale([-1,-1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 1, with_extra_parts=with_extra_parts, exploded=exploded);
+  else
+    color([1,1,0]) rotate([0,0,90]) scale([-1,-1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 1, with_extra_parts=with_extra_parts, exploded=exploded);
 }
 
-module Y_rod_idler_left() {
-  color([0.8,1,1]) rotate([0,0,90]) scale([1,-1,1]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler();
+module Y_rod_idler_left(with_extra_parts = false, exploded=false) {
+  if(with_extra_parts)
+    rotate([0,0,90]) scale([1,-1,1]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts, exploded=exploded);
+  else
+    color([0.8,1,1]) rotate([0,0,90]) scale([1,-1,1]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts, exploded=exploded);
 }
 
-module Y_rod_idler_right() {
-  color([1,1,1]) rotate([0,0,90]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler();
+module Y_rod_idler_right(with_extra_parts = false, exploded=false) {
+  if(with_extra_parts)
+    rotate([0,0,90]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts, exploded=exploded);
+  else
+    color([1,1,1]) rotate([0,0,90]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler(with_extra_parts=with_extra_parts, exploded=exploded);
 }
 
 module Y_motor_stand() {
-  color([0,1,1]) rotate([0,90,0]) translate([-45,0,52.4]) rotate([-90,0,0]) motor_stand();
+  rotate([0,90,0]) translate([-45,0,52.4]) rotate([-90,0,0]) {
+    if(Display_Extra_Parts)
+      motor_stand(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
+    else
+      color([0,1,1]) motor_stand();
+  }
 }
 
 module Y_idle_stand() {
-  color([0,1,0.8]) rotate([0,90,180]) translate([-45,0,52.4]) rotate([-90,0,0]) idle_stand();
+  rotate([0,90,180]) translate([-45,0,52.4]) rotate([-90,0,0])
+  if(Display_Extra_Parts)
+    idle_stand(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
+  else
+    color([0,1,0.8]) idle_stand();
 }
 
 module linear_bearing_holder() {
-  color([1,0.5,0])
-    rotate([0,-90,-90]) translate([3,0,0]) lm8uu_bearing_holder();
+  rotate([0,-90,-90]) translate([3,0,0])
+    if(Display_Extra_Parts)
+      lm8uu_bearing_holder(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
+    else
+      color([1,0.5,0]) lm8uu_bearing_holder(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
 }
 
 module Y_nut_holder() {
@@ -78,6 +128,10 @@ module cnc_workbed() {
         cube([workbed_X,workbed_Y,workbed_thickness],center=true);
         cube([workbed_X-1,workbed_Y-1,workbed_thickness+1],center=true);
       }
+
+      // --- PCB Board ---
+      translate([0,0,-(workbed_thickness+Z_PCB_BOARD)/2])
+      cube([X_PCB_BOARD,Y_PCB_BOARD,Z_PCB_BOARD],center=true);
     }
   }
 
@@ -105,9 +159,9 @@ module X_carriage() {
 }
 
 module Z_carriage_piece() {
-  translate([0,0,41])
+  translate([0,0,33+Z_Travel])
     rotate([0,0,90])
-        Z_carriage_assembled();
+        Z_carriage_assembled(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
 }
 
 module cnc(show_printbed = 1) {
@@ -119,21 +173,21 @@ module cnc(show_printbed = 1) {
   }
 
   // ---- main frames ----
-  frame_left();
+  frame_left(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
   translate([X_axis_sep,0,0])
-    frame_right();
+    frame_right(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
 
   // ---- Y rod idlers ----
   translate([0,Y_axis_sep,0]) {
-    Y_rod_idler_left();
+    Y_rod_idler_left(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
     translate([X_axis_sep,0,0])
-      Y_rod_idler_right();
+      Y_rod_idler_right(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
   }
 
   // ---- Y threaded rod motor and idler ----
   translate([X_axis_sep/2,Y_axis_sep/2,0]) {
     translate([0,Y_threaded_rod_length/2,0]) Y_motor_stand();
-    translate([0,-Y_threaded_rod_length/2,0]) Y_idle_stand();
+    translate([0,-Y_threaded_rod_length/2+Y_threaded_rod_offset,0]) Y_idle_stand();
   }
 }
 
@@ -178,52 +232,60 @@ module rod(len=100) {
        cylinder(r=8/2,h=len,center=true,$fn=30);
 }
 
+
 module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
   translate([-X_axis_sep/2,-Y_axis_sep/2])
     cnc();
   translate([0,0,Y_rod_height]) { // Y rod height, centered
     // --- workbed ---
-    translate([0,Y_offset,12.5])
+    translate([0,Y_offset-73+Y_Travel,12.5])
       rotate([0,180,0])
         cnc_workbed();
 
     // --- Y threaded rod ---
-    translate([0,0,Y_threaded_rod_height-Y_rod_height])
-      color([0.5,0.5,0.5]) rod(Y_threaded_rod_length+60);
+    translate([0,6+Y_threaded_rod_offset/2,Y_threaded_rod_height-Y_rod_height])
+      color([0.5,0.5,0.5]) rod(Y_Final_Threaded_Rod_Length);
 
     // --- Y smooth rods ---
     translate([X_axis_sep/2,0,0])
-      rod(Y_axis_sep+15);
+      rod(Y_Final_Smooth_Rod_Length);
     translate([-X_axis_sep/2,0,0])
-      rod(Y_axis_sep+15);
+      rod(Y_Final_Smooth_Rod_Length);
   }
 
   translate([0,-19,99.65]) { // X threaded rod height, centered over SMOOTH rod
     // --- X axis ---
     translate([0,-X_rod_sep_real,0]) {
-      translate([-X_offset,0,0]) {
+      translate([-X_offset+31-X_Travel,0,0]) {
         X_carriage();
         translate([0,X_rod_sep_real/2,Z_offset])
           Z_carriage_piece();
       }
       rotate([0,0,90])
-        color([0.5,0.5,0.5]) rod(X_axis_sep+80);
+        color([0.5,0.5,0.5]) translate([0,6,0]) rod(X_Final_Threaded_Rod_Length);
       translate([0,0,X_rod_sep_real])
         rotate([0,0,90])
-          rod(X_axis_sep+60);
+          rod(X_Final_Smooth_Rod_Length);
     }
     rotate([0,0,90])
-      rod(X_axis_sep+60);/// WARNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      rod(X_Final_Smooth_Rod_Length);/// WARNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       /// INCOHERENT X_axis_sep!!!!!!!!!!!
   }
 
   // --- Wood base ---
   translate([0,0,-15/2-0.1])
     color([0.7,0.6,0.4]) 
-      cube([X_axis_sep+70,Y_axis_sep+30,15],center=true);
+      cube([X_Wood_Base,Y_Wood_Base,Z_Wood_Base],center=true);
 }
 
 rotate([0,0,90])cnc_assembled(Y_offset=30,X_offset=-50,Z_offset=10);
 
 //rotate([0,0,90]) cnc_base_template(); // So the generated dxf matches inkscape's default orientation
 //  cnc_workbed_template();
+
+echo("Wood base = ", X_Wood_Base, " x ", Y_Wood_Base, " x ", Z_Wood_Base);
+echo("Work bed = ", workbed_X, " x ", workbed_Y, " x ", workbed_thickness);
+echo("X smooth rod length = ", X_Final_Smooth_Rod_Length);
+echo("X threaded rod length = ", X_Final_Threaded_Rod_Length);
+echo("Y smooth rod length = ", Y_Final_Smooth_Rod_Length);
+echo("Y threaded rod length = ", Y_Final_Threaded_Rod_Length);

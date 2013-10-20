@@ -2,11 +2,20 @@
 // Created by Carlosgs (http://carlosgs.es)
 // License: Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/)
 
+include <MCAD/stepper.scad>
+include <MCAD/bearing.scad>
+include <MCAD/metric_fastners.scad>
+include <MCAD/nuts_and_bolts.scad>
+use <../Gears/rod_gear.scad>
+use <../Gears/motor_gear.scad>
 use <../libs/obiscad/bcube.scad>
 use <../libs/obiscad/bevel.scad>
 use <../libs/build_plate.scad>
+use <../smooth_rod_fix/smooth_rod_fix.scad>
+use <../libs/End_Stop_Holder.scad>
+use <../libs/micro_switch.scad>
 
-module frame(with_motor = 1, show_printbed = 0) {
+
 
 layer_thickness = 0.4;
 
@@ -56,6 +65,30 @@ Y_rod_dist_from_wall = 15;
 Y_rod_support_lenght = Y_rod_dist_from_wall+smooth_rod_screw_sep+smooth_rod_screw_diam+3;
 
 motor_adjust_margin = 3;
+
+Cyclone_Nema17 = [
+                [NemaModel, 17],
+                [NemaLengthShort, 33*mm],
+                [NemaLengthMedium, 39*mm],
+                [NemaLengthLong, 48*mm],
+                [NemaSideSize, 42.30*mm],
+                [NemaDistanceBetweenMountingHoles, 31.0*mm],
+                [NemaMountingHoleDiameter, 4*mm],
+                [NemaMountingHoleDepth, 5.5*mm], //actual is 4.5mm, motor() module is generating 1mm shorter
+                [NemaMountingHoleLip, -1*mm],
+                [NemaMountingHoleCutoutRadius, 0*mm],
+                [NemaEdgeRoundingRadius, 7*mm],
+                [NemaRoundExtrusionDiameter, 22*mm],
+                [NemaRoundExtrusionHeight, 1.9*mm],
+                [NemaAxleDiameter, 5*mm],
+                [NemaFrontAxleLength, 24*mm],
+                [NemaBackAxleLength, 15*mm],
+                [NemaAxleFlatDepth, 0.5*mm],
+                [NemaAxleFlatLengthFront, 15*mm],
+                [NemaAxleFlatLengthBack, 14*mm]
+         ];
+
+module frame(with_motor = 1, show_printbed = 0, with_extra_parts=false, exploded=false) {
 
 if(show_printbed) {
 //for display only, doesn't contribute to final object
@@ -211,9 +244,138 @@ translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
   }
   }
 
+  if(with_extra_parts)
+    frame_extras(with_motor=with_motor, exploded_distance=(exploded?30:0));
+
 } // End of union() command
 
+}
 
+module frame_extras(with_motor=1, exploded_distance=0) {
+  if(with_motor) {
+    translate([X_threaded_rod_posX,X_threaded_rod_posY,0]) {
+      rotate([0,0,-motor_axis_angle]) translate([motor_axis_distance,0,0]) rotate([0,0,90+motor_axis_angle]) {
+        translate([0,0,wall_thickness-1]) {
+          echo("Non-Plastic Parts: 1 x Nema 17 on motor frame");
+          translate([0,0,exploded_distance]) motor(Cyclone_Nema17, NemaLengthLong);
+
+          // --- Motor gear ---
+          translate([0,0,-12-5.5+1-0.5*exploded_distance])
+            cyclone_motor_gear(with_extra_parts=true, exploded=(exploded_distance!=0));
+        }
+
+        echo("Non-Plastic Parts: 4 x Bolts M3 x 8 mm to attach motor on frame");
+        for(i=[-1,1]) for(j=[-1,1])
+          translate([i*motor_screw_distance/2,j*motor_screw_distance/2,0])
+            translate([0,0,-0.4*exploded_distance]) {
+              rotate([0,0,0]) color(Steel) boltHole(size=3, length=8);
+          }
+      }
+    }
+
+    translate([X_threaded_rod_posX,X_threaded_rod_posY,0]) {
+      rotate([0,0,0])  {
+        echo("Non-Plastic Parts: 1 x 608 bearing for motor frame");
+        translate([0,0,-1.0-7/2-0.2*exploded_distance]) bearing(model=608);
+
+        // --- Rod Gear ---
+        translate([0,0,-8-1.0-7/2-1.0*exploded_distance])
+          rotate([0,0,6])
+            cyclone_rod_gear(with_extra_parts=true, exploded=(exploded_distance!=0));
+      }
+    }
+  }
+
+  screw_size = 2.9;
+  screw_length = 16;
+  echo("Non-Plastic Parts: 3 x Self tapping screw 2.9 x 16 mm to attach frame on base");
+  rotate([90,0,0]) translate([frame_width/2,frame_thickness/2,-frame_height+frame_thickness/2+.2+exploded_distance]) color(Steel) {
+      translate([-base_screw_distance,0,0]) rotate([180,0,0])
+        csk_bolt(screw_size, screw_length);
+      translate([base_screw_distance*0.8,0,0]) rotate([180,0,0])
+        csk_bolt(screw_size, screw_length);
+      translate([base_screw_distance*0.2,0,0]) rotate([180,0,0])
+        csk_bolt(screw_size, screw_length);
+  }
+
+  // --- X smooth rod fix ---
+  translate([X_smooth_rods_sep_projected,-smooth_rod_margin,0])
+    rotate([90,0,0]) translate([0,frame_thickness/2,8.5+0.5*exploded_distance])
+      rotate([180,0,0]) smooth_rod_fix(with_extra_parts=true, exploded=(exploded_distance!=0));
+  translate([-smooth_rod_margin,X_smooth_rods_sep_projected,0])
+    rotate([0,90,0]) translate([-frame_thickness/2,0,-8.5-0.5*exploded_distance])
+      rotate([0,0,90]) smooth_rod_fix(with_extra_parts=true, exploded=(exploded_distance!=0));
+  // --- Y smooth rod fix ---
+  translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
+    translate([0,-Y_rod_height+smooth_rod_margin,0])
+      translate([0,-smooth_rod_margin-8.5-0.5*exploded_distance,Y_rod_dist_from_wall]) rotate([90,90,180])
+        smooth_rod_fix(with_extra_parts=true, exploded=(exploded_distance!=0));
+
+  if(with_motor) {
+
+//   this seems to reduce working area of Y axis
+    if(false) {
+      echo("Non-Plastic Parts: 1 x Micro switch on Y smooth rod for Y axis");
+      translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
+        translate([0,-Y_rod_height+smooth_rod_margin,0])
+          translate([0,-smooth_rod_margin,Y_rod_dist_from_wall])
+            translate([-frame_thickness/2-0.5*exploded_distance, 15, 8]) rotate([180,0,0]) rotate([0,-90,0])
+              end_stop_holder(with_extra_parts=true, exploded=(exploded_distance!=0));
+    }
+
+//  this seems to reduce working area of X axis
+    if(false) {
+      echo("Non-Plastic Parts: 1 x Micro switch on X smooth rod for X axis");
+      translate([X_smooth_rods_sep_projected,-smooth_rod_margin,0])
+        translate([15+0.5*exploded_distance, -8, frame_thickness])
+          rotate([180,180,-90])
+            end_stop_holder(with_extra_parts=true, exploded=(exploded_distance!=0));
+    }
+
+//  this seems to reduce working area of X axis
+    if(false) {
+      echo("Non-Plastic Parts: 1 x Micro switch on motor frame for X axis");
+      rotate([90, 0, -45])
+        translate([X_rods_corner_shaft_size/2-19.8,0,-X_rods_corner_shaft_size/2+0.5*exploded_distance])
+          micro_switch(with_extra_parts=true, exploded=(exploded_distance!=0));
+    }
+  }
+
+  if(!with_motor) {
+    translate([X_threaded_rod_posX,X_threaded_rod_posY,0]) {
+      rotate([0,0,0])  {
+        echo("Non-Plastic Parts: 1 x 608 bearing for no motor frame");
+        translate([0,0,-1.0-7/2-0.2*exploded_distance]) bearing(model=608);
+
+        echo("Non-Plastic Parts: 1 x M8 nut to attach threaded rod on no motor frame");
+        translate([0,0,-6.5-1.0-7/2-0.6*exploded_distance]) rotate([0,0,0]) color(Steel) flat_nut(8);
+      }
+    }
+
+    echo("Non-Plastic Parts: 1 x Micro switch on no motor frame for X axis");
+    rotate([90, 0, -45])
+      translate([X_rods_corner_shaft_size/2-19.8,0,-X_rods_corner_shaft_size/2+0.5*exploded_distance])
+        micro_switch(with_extra_parts=true, exploded=(exploded_distance!=0));
+
+    if(true) {
+      echo("Non-Plastic Parts: 1 x Micro switch on Y smooth rod for Y axis");
+        translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
+          translate([0,-Y_rod_height+smooth_rod_margin,0])
+            translate([0,-smooth_rod_margin,Y_rod_dist_from_wall])
+              translate([-frame_thickness/2-0.5*exploded_distance, 8, -15]) rotate([90,0,0]) rotate([0,-90,0])
+                end_stop_holder(with_extra_parts=true, exploded=(exploded_distance!=0));
+    }
+
+//  this seems to reduce working area of Y axis
+    if(false) {
+      echo("Non-Plastic Parts: 1 x Micro switch on no motor frame for Y axis");
+      translate([frame_width-frame_thickness/2+10.8/2-0.5,frame_height-19.8-2,frame_thickness])
+        translate([0,-Y_rod_height+smooth_rod_margin,0])
+          translate([0,-smooth_rod_margin-8.5-0.5*exploded_distance,0])
+            rotate([0, 0, 90])
+              micro_switch(with_extra_parts=true, exploded=(exploded_distance!=0));
+    }
+  }
 }
 
 

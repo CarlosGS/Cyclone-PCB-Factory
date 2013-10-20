@@ -2,12 +2,14 @@
 // Created by Carlosgs (http://carlosgs.es)
 // License: Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/)
 
+include <MCAD/metric_fastners.scad>
+include <MCAD/materials.scad>
 use <../libs/obiscad/bcube.scad>
 use <../libs/obiscad/bevel.scad>
 use <../libs/build_plate.scad>
+use <../smooth_rod_fix/smooth_rod_fix.scad>
 
 
-module Y_rod_idler(show_printbed = 0) {
 
 motor_stand_thickness = 5;
 
@@ -32,6 +34,8 @@ Y_rod_support_lenght = Y_rod_dist_from_wall+smooth_rod_screw_sep+smooth_rod_scre
 frame_width = 30;
 frame_height = Y_rod_height-smooth_rod_margin;
 wall_thickness = 5;
+
+module Y_rod_idler(show_printbed = 0, with_extra_parts=false, exploded=false) {
 
 if(show_printbed) {
 //for display only, doesn't contribute to final object
@@ -91,6 +95,27 @@ translate([frame_width-frame_thickness,frame_height,frame_thickness-2])
 
 } // End of union() command
 
+  if(with_extra_parts)
+      Y_rod_idler_extras(exploded_distance=(exploded?20:0));
+
+  module Y_rod_idler_extras(exploded_distance=0) {
+    screw_size = 2.9;
+    screw_length = 16;
+    echo("Non-Plastic Parts: 2 x Self tapping screw 2.9 x 16 mm for Y_rod_idler");
+    rotate([90,0,0]) translate([frame_width/3,Y_rod_support_lenght/2.5,-frame_height+bottom_thickness+.2+exploded_distance])
+      rotate([180,0,0]) color(Steel) {
+        translate([-5,0,0])
+          csk_bolt(screw_size, screw_length);
+        translate([5,0,0])
+          csk_bolt(screw_size, screw_length);
+      }
+
+    // --- Y smooth rod fix ---
+    translate([frame_width-frame_thickness,frame_height,frame_thickness-2])
+      translate([0,-Y_rod_height+smooth_rod_margin,0])
+        translate([0,-smooth_rod_margin-8.5-exploded_distance,Y_rod_dist_from_wall]) rotate([270,90,0])
+          smooth_rod_fix(with_extra_parts=true,exploded = (exploded_distance!=0));
+  }
 }
 
 
