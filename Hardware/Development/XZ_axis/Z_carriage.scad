@@ -312,9 +312,9 @@ module Z_carriage_extras(top_part=true, exploded_distance=0) {
     echo("Non-Plastic Parts: 2 x M5 nut to attach Z_carriage top and bottom");
     rotate([0,0,-90]) translate([-wall_height/2,-Z_threaded_pos,0])
       translate([wall_height/2,wall_width-4,0]) color(Steel) {
-        translate([20,8,wall_thickness+0.8*5+0.5*exploded_distance]) rotate([180,0,0])
+        translate([20,8,-0.8*5-0.5*exploded_distance])
           flat_nut(5);
-        translate([-20,8,wall_thickness+0.8*5+0.5*exploded_distance]) rotate([180,0,0])
+        translate([-20,8,-0.8*5-0.5*exploded_distance])
           flat_nut(5);
       }
   }
