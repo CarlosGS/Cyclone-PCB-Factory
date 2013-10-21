@@ -283,9 +283,9 @@ rotate([0,0,90])cnc_assembled(Y_offset=30,X_offset=-50,Z_offset=10);
 //rotate([0,0,90]) cnc_base_template(); // So the generated dxf matches inkscape's default orientation
 //  cnc_workbed_template();
 
-echo("Wood base = ", X_Wood_Base, " x ", Y_Wood_Base, " x ", Z_Wood_Base);
-echo("Work bed = ", workbed_X, " x ", workbed_Y, " x ", workbed_thickness);
-echo("X smooth rod length = ", X_Final_Smooth_Rod_Length);
-echo("X threaded rod length = ", X_Final_Threaded_Rod_Length);
-echo("Y smooth rod length = ", Y_Final_Smooth_Rod_Length);
-echo("Y threaded rod length = ", Y_Final_Threaded_Rod_Length);
+echo("Non-Plastic Parts: 1 x Machine base ", X_Wood_Base, " x ", Y_Wood_Base, " x ", Z_Wood_Base);
+echo("Non-Plastic Parts: 1 x Work bed ", workbed_X, " x ",workbed_Y, " x ", workbed_thickness);
+echo("Non-Plastic Parts: 2 x Smooth rod for X axis, M8 x ", X_Final_Smooth_Rod_Length);
+echo("Non-Plastic Parts: 1 x Threaded rod for X axis, M8 x ", X_Final_Threaded_Rod_Length);
+echo("Non-Plastic Parts: 2 x Smooth rod for Y axis, M8 x ", Y_Final_Smooth_Rod_Length);
+echo("Non-Plastic Parts: 1 x Threaded rod for Y axis, M8 x ", Y_Final_Threaded_Rod_Length);
