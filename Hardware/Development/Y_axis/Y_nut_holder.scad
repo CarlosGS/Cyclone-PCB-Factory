@@ -2,6 +2,8 @@
 // Created by Carlosgs (http://carlosgs.es)
 // License: Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/)
 
+include <MCAD/metric_fastners.scad>
+include <MCAD/materials.scad>
 use <../libs/obiscad/bcube.scad>
 use <../libs/build_plate.scad>
 use <../libs/Write/Write.scad>
@@ -72,7 +74,7 @@ module nut_holder_no_hole() {
 }
 
 
-module nut_holder() {
+module nut_holder(with_extra_parts=false, exploded=false) {
    union() {
 		difference() {
 			nut_holder_no_hole();
@@ -101,12 +103,34 @@ module nut_holder() {
 			translate([-8,-5,0])
 				text(M8_nut_height-M8_nut_height_margin);
    } // End of union
+
+   if(with_extra_parts)
+     nut_holder_extras(exploded_distance=(exploded?18:0));
+
+   module nut_holder_extras(exploded_distance=0) {
+     echo("Non-Plastic Parts: 1 x M8 nut for Y_nut_holder");
+     translate([base_width-3.7,Y_threaded_rod_dist_from_workbed,0])
+       translate([-0.5+exploded_distance,0,wall_thickness/2-0.8*8/2])
+         color(Steel) flat_nut(8);
+
+     echo("Non-Plastic Parts: 2 x Self tapping screw 3.9 x 13 mm to attach Y_nut_holder to work bed");
+     screw_size = 3.9;
+     screw_length = 13;
+     color(Steel) translate([0,wall_height]) rotate([0,0,-90])
+       translate([wall_height,wall_width-5.5,20])
+         rotate([0,90,0]) {
+           translate([-5,0,-bottom_thickness-0.2-exploded_distance])
+             csk_bolt(screw_size, screw_length);
+           translate([5,0,-bottom_thickness-0.2-exploded_distance])
+             csk_bolt(screw_size, screw_length);
+        }
+   }
 }
 
-module nut_holder_positioned() {
+module nut_holder_positioned(with_extra_parts=false, exploded=false) {
   rotate([90,0,0])
     translate([-(base_width-3.7),0,-wall_thickness/2])
-      nut_holder();
+      nut_holder(with_extra_parts=with_extra_parts, exploded=exploded);
 }
 
 //for display only, doesn't contribute to final object

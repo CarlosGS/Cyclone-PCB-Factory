@@ -114,8 +114,11 @@ module linear_bearing_holder() {
 }
 
 module Y_nut_holder() {
-  color([0.5,0.5,0])
-     nut_holder_positioned();
+  if(Display_Extra_Parts)
+    nut_holder_positioned(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
+  else
+    color([0.5,0.5,0])
+       nut_holder_positioned();
 }
 
 module cnc_workbed() {
