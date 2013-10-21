@@ -16,6 +16,7 @@ use <../libs/obiscad/bcube.scad>
 use <../libs/build_plate.scad>
 use <../libs/Write/Write.scad>
 use <../libs/linear_bearing.scad>
+use <../libs/rod.scad>
 use <motor_gear.scad>
 use <rod_gear.scad>
 
@@ -350,10 +351,14 @@ module Z_carriage_extras(top_part=true, exploded_distance=0) {
   }
 }
 
-module Z_carriage_assembled(with_extra_parts=false, exploded=false) {
+module Z_carriage_assembled(z_thread_rod_length=120, with_extra_parts=false, exploded=false) {
 	Z_carriage(showSpindle=true,top_part=false,with_extra_parts=with_extra_parts, exploded=exploded);
 	translate([0,0,spindle_holder_distance]) rotate([180,0,0]) Z_carriage(showSpindle=false,top_part=true,
       with_extra_parts=with_extra_parts, exploded=exploded);
+
+    if(z_thread_rod_length)
+      translate([0,0,-z_thread_rod_length/2+spindle_holder_distance]) rotate([90,0,0])
+        rod(len=z_thread_rod_length, threaded=true);
 }
 
 

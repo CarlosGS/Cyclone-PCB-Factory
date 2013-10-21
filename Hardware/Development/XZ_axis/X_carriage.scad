@@ -6,6 +6,7 @@ use <../libs/obiscad/bcube.scad>
 use <../libs/obiscad/bevel.scad>
 use <../libs/build_plate.scad>
 use <../libs/teardrop.scad>
+use <../libs/rod.scad>
 
 include <./lm8uu_holder.scad>
 
@@ -44,11 +45,6 @@ Z_threaded_rod_len = 120;
 
 lbearing_holder_length = Z_smooth_rods_sep+M8_rod_diam+5;
 
-module rod(len=100) {
-	color([0.8,0.8,0.8])
-     rotate([90,0,0])
-       cylinder(r=8/2,h=len,center=true,$fn=30);
-}
 
 module rodHole(len=100,radius=M8_rod_hole_diam/2, truncateMM=1) {
 	color([0.8,0.8,0.8])
@@ -182,7 +178,7 @@ module X_carriage_assembled(show_printbed = 0, show_Xrods = 0, show_Zrods = 0) {
   if(show_Xrods){
 	  // ---- Rods (for reference) ----
 	  translate([-X_rod_sep_real/2,0,0]) {
-	    color([0.5,0.5,0.5]) rod(len=100);
+	    rod(len=100, threaded=true);
 	  }
 	  translate([-X_rod_sep_real/2,0,X_rod_sep_real]) {
 	    rod(len=100);
@@ -194,8 +190,6 @@ module X_carriage_assembled(show_printbed = 0, show_Xrods = 0, show_Zrods = 0) {
   if(show_Zrods)
 	  translate([0,0,0])
 	    rotate([90,0,0]) {
-	      translate([0,Z_threaded_rod_len/2-10,0])
-	        color([0.5,0.5,0.5]) rod(len=Z_threaded_rod_len);
 	      translate([0,Z_smooth_rods_len/2-5,Z_smooth_rods_sep/2])
 	        rod(len=Z_smooth_rods_len);
 	      translate([0,Z_smooth_rods_len/2-5,-Z_smooth_rods_sep/2])

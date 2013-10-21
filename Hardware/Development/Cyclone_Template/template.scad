@@ -11,6 +11,7 @@ use <../Y_axis/linear_bearing_holder.scad>
 use <../Y_axis/Y_nut_holder.scad>
 use <../XZ_axis/X_carriage.scad>
 use <../XZ_axis/Z_carriage.scad>
+use <../libs/rod.scad>
 
 X_axis_sep = 210;
 Y_axis_sep = 210;
@@ -38,6 +39,7 @@ X_Final_Smooth_Rod_Length = X_axis_sep+46;
 Y_Final_Threaded_Rod_Length = Y_threaded_rod_length+38;
 Y_Final_Smooth_Rod_Length = Y_axis_sep+8;
 Y_threaded_rod_offset = 8;
+Z_Final_Threaded_Rod_Length = 120;
 
 X_Wood_Base = X_axis_sep+100;
 Y_Wood_Base = Y_axis_sep+30;
@@ -50,7 +52,7 @@ Z_PCB_BOARD = 1.5;
 //Travel (164 x 101 x 25)
 X_Travel = 0; //0~164
 Y_Travel = 0; //0~101
-Z_Travel = 0; //0~25
+Z_Travel = 30; //0~30
 
 //To display steppers, bearings, washers, nuts, screws, micro switchs, etc.
 Display_Extra_Parts = true;
@@ -164,7 +166,7 @@ module X_carriage() {
 module Z_carriage_piece() {
   translate([0,0,33+Z_Travel])
     rotate([0,0,90])
-        Z_carriage_assembled(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
+        Z_carriage_assembled(z_thread_rod_length=Z_Final_Threaded_Rod_Length, with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
 }
 
 module cnc(show_printbed = 1) {
@@ -229,13 +231,6 @@ module cnc_workbed_template() {
   }
 }
 
-module rod(len=100) {
-	color([0.8,0.8,0.8])
-     rotate([90,0,0])
-       cylinder(r=8/2,h=len,center=true,$fn=30);
-}
-
-
 module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
   translate([-X_axis_sep/2,-Y_axis_sep/2])
     cnc();
@@ -247,7 +242,7 @@ module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
 
     // --- Y threaded rod ---
     translate([0,6+Y_threaded_rod_offset/2,Y_threaded_rod_height-Y_rod_height])
-      color([0.5,0.5,0.5]) rod(Y_Final_Threaded_Rod_Length);
+      rod(Y_Final_Threaded_Rod_Length, threaded=true);
 
     // --- Y smooth rods ---
     translate([X_axis_sep/2,0,0])
@@ -265,7 +260,7 @@ module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
           Z_carriage_piece();
       }
       rotate([0,0,90])
-        color([0.5,0.5,0.5]) translate([0,6,0]) rod(X_Final_Threaded_Rod_Length);
+        translate([0,6,0]) rod(X_Final_Threaded_Rod_Length, threaded=true);
       translate([0,0,X_rod_sep_real])
         rotate([0,0,90])
           rod(X_Final_Smooth_Rod_Length);
@@ -292,3 +287,4 @@ echo("Non-Plastic Parts: 2 x Smooth rod for X axis, M8 x ", X_Final_Smooth_Rod_L
 echo("Non-Plastic Parts: 1 x Threaded rod for X axis, M8 x ", X_Final_Threaded_Rod_Length);
 echo("Non-Plastic Parts: 2 x Smooth rod for Y axis, M8 x ", Y_Final_Smooth_Rod_Length);
 echo("Non-Plastic Parts: 1 x Threaded rod for Y axis, M8 x ", Y_Final_Threaded_Rod_Length);
+echo("Non-Plastic Parts: 1 x Threaded rod for Z axis, M8 x ", Z_Final_Threaded_Rod_Length);
