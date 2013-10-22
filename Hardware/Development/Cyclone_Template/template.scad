@@ -161,7 +161,7 @@ module cnc_workbed() {
 module X_carriage() {
   translate([0,X_rod_sep_real/2,0])
     rotate([0,0,90])
-      X_carriage_assembled(show_printbed = 0, show_Xrods = 0, z_smooth_rods_len = Z_Final_Smooth_Rod_Length);
+      X_carriage_assembled(show_printbed = 0, show_Xrods = 0, z_smooth_rods_len = Z_Final_Smooth_Rod_Length, with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
 }
 
 module Z_carriage_piece() {
