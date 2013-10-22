@@ -12,6 +12,7 @@ use <../Y_axis/Y_nut_holder.scad>
 use <../XZ_axis/X_carriage.scad>
 use <../XZ_axis/Z_carriage.scad>
 use <../libs/rod.scad>
+use <../libs/PCB_Machining_Vise/PCB_vise_1_Part1.scad>
 
 X_axis_sep = 210;
 Y_axis_sep = 210;
@@ -55,7 +56,7 @@ X_Travel = 0; //0~164
 Y_Travel = 0; //0~101
 Z_Travel = 30; //0~30
 
-//To display steppers, bearings, washers, nuts, screws, micro switchs, etc.
+//To display steppers, bearings, washers, nuts, bolts, micro-switches, etc.
 Display_Extra_Parts = true;
 
 //To enable exploded drawing view
@@ -134,10 +135,17 @@ module cnc_workbed() {
         cube([workbed_X,workbed_Y,workbed_thickness],center=true);
         cube([workbed_X-1,workbed_Y-1,workbed_thickness+1],center=true);
       }
+    }
 
+    if(Display_Extra_Parts) {
+      translate([-28-X_PCB_BOARD/2,8+Y_PCB_BOARD/2,-(workbed_thickness)/2])
+        rotate([180,0,0]) PCB_vise_1(with_extra_parts=true, exploded=Exploded_Drawing);
+      translate([28+X_PCB_BOARD/2,-8-Y_PCB_BOARD/2,-(workbed_thickness)/2])
+        rotate([180,0,180]) PCB_vise_1(with_extra_parts=true, exploded=Exploded_Drawing);
       // --- PCB Board ---
-      translate([0,0,-(workbed_thickness+Z_PCB_BOARD)/2])
-      cube([X_PCB_BOARD,Y_PCB_BOARD,Z_PCB_BOARD],center=true);
+      echo("Non-Plastic Parts: Double sided PCB ", X_PCB_BOARD, " x ", Y_PCB_BOARD, " x ", Z_PCB_BOARD);
+      translate([0,0,-(workbed_thickness)/2-15])
+        color([0.72,0.45,0.20]) cube([X_PCB_BOARD,Y_PCB_BOARD,Z_PCB_BOARD],center=true);
     }
   }
 
