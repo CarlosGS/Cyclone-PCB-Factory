@@ -40,6 +40,7 @@ Y_Final_Threaded_Rod_Length = Y_threaded_rod_length+38;
 Y_Final_Smooth_Rod_Length = Y_axis_sep+8;
 Y_threaded_rod_offset = 8;
 Z_Final_Threaded_Rod_Length = 120;
+Z_Final_Smooth_Rod_Length = 140;
 
 X_Wood_Base = X_axis_sep+100;
 Y_Wood_Base = Y_axis_sep+30;
@@ -160,7 +161,7 @@ module cnc_workbed() {
 module X_carriage() {
   translate([0,X_rod_sep_real/2,0])
     rotate([0,0,90])
-      X_carriage_assembled(show_printbed = 0, show_Xrods = 0, show_Zrods = 1);
+      X_carriage_assembled(show_printbed = 0, show_Xrods = 0, z_smooth_rods_len = Z_Final_Smooth_Rod_Length);
 }
 
 module Z_carriage_piece() {
@@ -287,4 +288,5 @@ echo("Non-Plastic Parts: 2 x Smooth rod for X axis, M8 x ", X_Final_Smooth_Rod_L
 echo("Non-Plastic Parts: 1 x Threaded rod for X axis, M8 x ", X_Final_Threaded_Rod_Length);
 echo("Non-Plastic Parts: 2 x Smooth rod for Y axis, M8 x ", Y_Final_Smooth_Rod_Length);
 echo("Non-Plastic Parts: 1 x Threaded rod for Y axis, M8 x ", Y_Final_Threaded_Rod_Length);
+echo("Non-Plastic Parts: 2 x Smooth rod for Z axis, M8 x ", Z_Final_Smooth_Rod_Length);
 echo("Non-Plastic Parts: 1 x Threaded rod for Z axis, M8 x ", Z_Final_Threaded_Rod_Length);

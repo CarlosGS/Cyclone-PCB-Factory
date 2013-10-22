@@ -41,7 +41,6 @@ lbearing_length = 24;
 Z_smooth_rods_sep = 55;
 Z_smooth_rods_len = 140;
 
-Z_threaded_rod_len = 120;
 
 lbearing_holder_length = Z_smooth_rods_sep+M8_rod_diam+5;
 
@@ -172,7 +171,7 @@ module X_carriage(show_printbed = 0, show_support = 0) {
 }
 
 
-module X_carriage_assembled(show_printbed = 0, show_Xrods = 0, show_Zrods = 0) {
+module X_carriage_assembled(show_printbed = 0, show_Xrods = 0, z_smooth_rods_len = 0) {
   X_carriage(show_printbed);
 
   if(show_Xrods){
@@ -187,13 +186,13 @@ module X_carriage_assembled(show_printbed = 0, show_Xrods = 0, show_Zrods = 0) {
 	    rod(len=100);
 	  }
   }
-  if(show_Zrods)
+  if(z_smooth_rods_len)
 	  translate([0,0,0])
 	    rotate([90,0,0]) {
-	      translate([0,Z_smooth_rods_len/2-5,Z_smooth_rods_sep/2])
-	        rod(len=Z_smooth_rods_len);
-	      translate([0,Z_smooth_rods_len/2-5,-Z_smooth_rods_sep/2])
-	        rod(len=Z_smooth_rods_len);
+	      translate([0,z_smooth_rods_len/2-5,Z_smooth_rods_sep/2])
+	        rod(len=z_smooth_rods_len);
+	      translate([0,z_smooth_rods_len/2-5,-Z_smooth_rods_sep/2])
+	        rod(len=z_smooth_rods_len);
 	    }
 }
 
@@ -205,7 +204,7 @@ module X_carriage_print_plate() {
 	    X_carriage(show_printbed = 0, show_support = 1);
 }
 
-//X_carriage_assembled(show_printbed = 1,show_Xrods = 1,show_Zrods = 1);
+//X_carriage_assembled(show_printbed = 1,show_Xrods = 1,z_smooth_rods_len = Z_smooth_rods_len);
 X_carriage_print_plate();
 
 //translate([0,20,0]) X_nut_holder_cover();
