@@ -85,7 +85,7 @@ Cyclone_Nema17 = [
                 [NemaAxleFlatLengthBack, 14*mm]
          ];
 
-module dummySpindle() {
+module dummySpindle(length=0) {
 	translate([0,0,-length]) {
 		translate([0,0,spindle_motor_length-5]) color([0.95,0.95,0.95]) cylinder(r=26,h=30,$fn=60);
 		translate([0,0,spindle_motor_length-10]) color([0.95,0.95,0.95]) cylinder(r=10/2,h=5,$fn=60);
