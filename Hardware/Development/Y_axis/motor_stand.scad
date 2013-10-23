@@ -111,7 +111,7 @@ module motor_stand_no_base_extras(with_motor=false, exploded_distance=0) {
       rotate([0,180,0])
         translate([0,0,-1+exploded_distance])
           motor(Cyclone_Nema17, NemaLengthLong);
-	  echo("Non-Plastic Parts: 1 x Nema 17 motor");
+	  echo("Non-Plastic Parts, 1, Nema 17 for Y axis");
 
       // --- Motor Gear ---
       translate([0,0,12+5.5+exploded_distance])
@@ -121,7 +121,7 @@ module motor_stand_no_base_extras(with_motor=false, exploded_distance=0) {
 
     translate([motor_width/2,motor_width/2,wall_thickness/2]) {
       rotate([0,0,15]) translate([0,axis_distance,2.5-wall_thickness/2]) {
-        echo("Non-Plastic Parts: 1 x 608 bearing for motor stand");
+        echo("Non-Plastic Parts, 1, Bearing 608 for motor stand");
         translate([0,0,0.5*exploded_distance])
           bearing(model=608);
 
@@ -132,7 +132,7 @@ module motor_stand_no_base_extras(with_motor=false, exploded_distance=0) {
       }
     }
 
-    echo("Non-Plastic Parts: 4 x M3 x 6mm bolts to attach motor on motor_stand");
+    echo("Non-Plastic Parts, 4, Bolt M3 x 6 mm to attach motor on motor_stand");
     for(i=[-1,1]) for(j=[-1,1])
       translate([motor_width/2,motor_width/2,wall_thickness/2])
         translate([i*motor_screw_distance/2,j*motor_screw_distance/2,2.5-wall_thickness/2+exploded_distance*0.7]) {
@@ -143,13 +143,13 @@ module motor_stand_no_base_extras(with_motor=false, exploded_distance=0) {
   if(!with_motor) {
     translate([motor_width/2,motor_width/2,wall_thickness/2])
       rotate([0,0,15]) translate([0,axis_distance,2.5-wall_thickness/2]) color(Steel) {
-        echo("Non-Plastic Parts: 1 x 608 bearing for idle stand");
+        echo("Non-Plastic Parts, 1, Bearing 608 for idle stand");
         translate([0,0,0.3*exploded_distance]) bearing(model=608);
 
-        echo("Non-Plastic Parts: 1 x M8 washer for idle stand");
+        echo("Non-Plastic Parts, 1, Washer M8 for idle stand");
         translate([0,0,7+0.6*exploded_distance]) washer(8);
 
-        echo("Non-Plastic Parts: 1 x M8 nut to attach threaded rod on idle stand");
+        echo("Non-Plastic Parts, 1, Nut M8 to attach threaded rod on idle stand");
         translate([0,0,6.4+7+0.8+0.9*exploded_distance]) rotate([0,180,0]) flat_nut(8);
       }
   }
@@ -245,7 +245,7 @@ module idle_stand(with_extra_parts=false, exploded=false) {
 module idle_stand_extras(exploded_distance=0) {
   screw_size = 2.9;
   screw_length = 16;
-  echo("Non-Plastic Parts: 2 x Self tapping screw 2.9 x 16 mm for motor_stand");
+  echo("Non-Plastic Parts, 2, Self Tapping Screw 2.9 x 16 mm for motor_stand");
   translate([wall_height,base_width/2+2.5,base_length/1.5]) color(Steel)
     rotate([0,90,0]) {
       translate([-5,0,-bottom_thickness-.2-exploded_distance])

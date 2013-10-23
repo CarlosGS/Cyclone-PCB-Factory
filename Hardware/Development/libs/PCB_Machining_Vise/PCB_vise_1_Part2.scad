@@ -13,7 +13,7 @@ module PCB_vise_1_Part2(with_extra_parts=false, exploded=false) {
     PCB_vise_1_Part2_extras(exploded_distance=(exploded?5:0));
 
   module PCB_vise_1_Part2_extras(exploded_distance=0) {
-    echo("Non-Plastic Parts: 5 x Bolt M3 x 16 mm for PCB_vise_1_Part2");
+    echo("Non-Plastic Parts, 5, Bolt M3 x 16 mm for PCB_vise_1_Part2");
     color(Steel) {
       translate([4,14,2.5+4*exploded_distance])
         rotate([180,0,0]) boltHole(size=3, length=16);

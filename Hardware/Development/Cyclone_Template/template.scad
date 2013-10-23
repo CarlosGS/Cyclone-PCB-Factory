@@ -64,6 +64,9 @@ Exploded_Drawing = false;
 
 X_rod_sep_real = X_smooth_rods_sep_projected+smooth_rod_margin;
 
+if(Display_Extra_Parts) //Non-Plastic Parts Header
+  echo("Non-Plastic Parts, Quantity, Part");
+
 module frame_right(with_extra_parts = false, exploded=false) {
   if(with_extra_parts)
     rotate([0,0,90]) scale([-1,1,1]) translate([-85,-23,135]) rotate([-90,0,0]) frame(with_motor = 0, with_extra_parts=with_extra_parts, exploded=exploded);
@@ -143,7 +146,7 @@ module cnc_workbed() {
       translate([28+X_PCB_BOARD/2,-8-Y_PCB_BOARD/2,-(workbed_thickness)/2])
         rotate([180,0,180]) PCB_vise_1(with_extra_parts=true, exploded=Exploded_Drawing);
       // --- PCB Board ---
-      echo("Non-Plastic Parts: Double sided PCB ", X_PCB_BOARD, " x ", Y_PCB_BOARD, " x ", Z_PCB_BOARD);
+      echo("Non-Plastic Parts, 1, Double sided PCB ", X_PCB_BOARD, " x ", Y_PCB_BOARD, " x ", Z_PCB_BOARD);
       translate([0,0,-(workbed_thickness)/2-15])
         color([0.72,0.45,0.20]) cube([X_PCB_BOARD,Y_PCB_BOARD,Z_PCB_BOARD],center=true);
     }
@@ -290,11 +293,11 @@ rotate([0,0,90])cnc_assembled(Y_offset=30,X_offset=-50,Z_offset=10);
 //rotate([0,0,90]) cnc_base_template(); // So the generated dxf matches inkscape's default orientation
 //  cnc_workbed_template();
 
-echo("Non-Plastic Parts: 1 x Machine base ", X_Wood_Base, " x ", Y_Wood_Base, " x ", Z_Wood_Base);
-echo("Non-Plastic Parts: 1 x Work bed ", workbed_X, " x ",workbed_Y, " x ", workbed_thickness);
-echo("Non-Plastic Parts: 2 x Smooth rod for X axis, M8 x ", X_Final_Smooth_Rod_Length);
-echo("Non-Plastic Parts: 1 x Threaded rod for X axis, M8 x ", X_Final_Threaded_Rod_Length);
-echo("Non-Plastic Parts: 2 x Smooth rod for Y axis, M8 x ", Y_Final_Smooth_Rod_Length);
-echo("Non-Plastic Parts: 1 x Threaded rod for Y axis, M8 x ", Y_Final_Threaded_Rod_Length);
-echo("Non-Plastic Parts: 2 x Smooth rod for Z axis, M8 x ", Z_Final_Smooth_Rod_Length);
-echo("Non-Plastic Parts: 1 x Threaded rod for Z axis, M8 x ", Z_Final_Threaded_Rod_Length);
+echo("Non-Plastic Parts, 1, Machine Base ", X_Wood_Base, " x ", Y_Wood_Base, " x ", Z_Wood_Base);
+echo("Non-Plastic Parts, 1, Work Bed ", workbed_X, " x ",workbed_Y, " x ", workbed_thickness);
+echo("Non-Plastic Parts, 2, Smooth Rod for X axis, M8 x ", X_Final_Smooth_Rod_Length);
+echo("Non-Plastic Parts, 1, Threaded Rod for X axis, M8 x ", X_Final_Threaded_Rod_Length);
+echo("Non-Plastic Parts, 2, Smooth Rod for Y axis, M8 x ", Y_Final_Smooth_Rod_Length);
+echo("Non-Plastic Parts, 1, Threaded Rod for Y axis, M8 x ", Y_Final_Threaded_Rod_Length);
+echo("Non-Plastic Parts, 2, Smooth Rod for Z axis, M8 x ", Z_Final_Smooth_Rod_Length);
+echo("Non-Plastic Parts, 1, Threaded Rod for Z axis, M8 x ", Z_Final_Threaded_Rod_Length);

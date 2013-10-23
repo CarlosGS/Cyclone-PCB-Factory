@@ -49,7 +49,7 @@ translate([0,0,part_z/2]) difference() {
   module smooth_rod_fix_extras(exploded_distance=0) {
     screw_size = 2.9;
     screw_length = 16;
-    echo("Non-Plastic Parts: 2 x Self tapping screw 2.9 x 16 mm for smooth_rod_fix");
+    echo("Non-Plastic Parts, 2, Self Tapping Screw 2.9 x 16 mm for smooth_rod_fix");
     color(Steel) {
       translate([0,0,-.2-exploded_distance]) {
         translate([-smooth_rod_screw_sep,0,0])

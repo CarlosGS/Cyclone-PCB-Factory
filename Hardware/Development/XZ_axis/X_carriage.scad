@@ -111,7 +111,7 @@ module X_nut_holder_cover(with_extra_parts=false, exploded=false) {
     module X_nut_holder_cover_extras(exploded_distance=0) {
       screw_size = 2.2;
       screw_length = 16;
-      echo("Non-Plastic Parts: 1 x Self tapping screw 2.2 x 16 mm for X_nut_holder_cover");
+      echo("Non-Plastic Parts, 1, Self Tapping Screw 2.2 x 16 mm for X_nut_holder_cover");
       scale([1,1,-1]) rotate([-90,0,0]) translate([-4,-3/2-0.2-exploded_distance,10]) rotate([-90,0,0]) color(Steel)
         csk_bolt(screw_size, screw_length);
     }
@@ -187,7 +187,7 @@ module X_carriage(show_printbed = 0, show_support = 0) {
 
    module X_carriage_extras(exploded_distance=(exploded?8:0)) {
      color(Steel) {
-       echo("Non-Plastic Parts: 2 x M8 nut for X_carriage");
+       echo("Non-Plastic Parts, 2, Nut M8 for X_carriage");
        translate([-X_rod_sep_real/2,-lbearing_holder_length/2+X_axis_nut_support_thickness/2,0])
          rotate([-90,0,0]) translate([0,0,0.8*8+1.5+exploded_distance])
            rotate([0,180,15])

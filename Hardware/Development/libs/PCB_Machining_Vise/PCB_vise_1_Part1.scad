@@ -16,9 +16,9 @@ module PCB_vise_1_Part1(with_extra_parts=false, exploded=false) {
     PCB_vise_1_Part1_extras(exploded_distance=(exploded?5:0));
 
   module PCB_vise_1_Part1_extras(exploded_distance=0) {
-    echo("Non-Plastic Parts: 2 x Large washer M5 for PCB_vise_1_Part1");
-    echo("Non-Plastic Parts: 2 x Self tapping screw 4.8 x 19 mm for PCB_vise_1_Part1");
-    echo("Non-Plastic Parts: 5 x M3 nut for PCB_vise_1_Part1");
+    echo("Non-Plastic Parts, 2, Large Washer M5 for PCB_vise_1_Part1");
+    echo("Non-Plastic Parts, 2, Self Tapping Screw 4.8 x 19 mm for PCB_vise_1_Part1");
+    echo("Non-Plastic Parts, 5, Nut M3 for PCB_vise_1_Part1");
     color(Steel) {
       translate([10,20,8.0+exploded_distance]) {
         large_washer(5);

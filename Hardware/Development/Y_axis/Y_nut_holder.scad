@@ -108,12 +108,12 @@ module nut_holder(with_extra_parts=false, exploded=false) {
      nut_holder_extras(exploded_distance=(exploded?18:0));
 
    module nut_holder_extras(exploded_distance=0) {
-     echo("Non-Plastic Parts: 1 x M8 nut for Y_nut_holder");
+     echo("Non-Plastic Parts, 1, Nut M8 for Y_nut_holder");
      translate([base_width-3.7,Y_threaded_rod_dist_from_workbed,0])
        translate([-0.5+exploded_distance,0,wall_thickness/2-0.8*8/2])
          color(Steel) flat_nut(8);
 
-     echo("Non-Plastic Parts: 2 x Self tapping screw 3.9 x 13 mm to attach Y_nut_holder to work bed");
+     echo("Non-Plastic Parts, 2, Self Tapping Screw 3.9 x 13 mm to attach Y_nut_holder to work bed");
      screw_size = 3.9;
      screw_length = 13;
      color(Steel) translate([0,wall_height]) rotate([0,0,-90])
