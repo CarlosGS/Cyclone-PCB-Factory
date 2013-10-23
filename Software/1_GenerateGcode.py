@@ -26,8 +26,8 @@ import os
 from subprocess import call
 original_dir = os.getcwd()
 os.chdir("./GcodeGenerators/pyGerber2Gcode_CUI/")
-call(["python","./pygerber2gcode_cui_MOD.py"])
-# call(["pypy","./pygerber2gcode_cui_MOD.py"]) # If you have "pypy" installed go ahead!
+#call(["python","./pygerber2gcode_cui_MOD.py"])
+call(["pypy","./pygerber2gcode_cui_MOD.py"]) # If you have "pypy" installed go ahead!
 os.chdir(original_dir)
 
 
@@ -41,8 +41,8 @@ gcodeviewer = pltNewFig() # Define a new figure, this doesnt open a window by it
 
 
 
-filePath = "./GcodeGenerators/pyGerber2Gcode_CUI/out/"
-fileName = "GNBoard" # sys.argv[1]
+#filePath = "./GcodeGenerators/pyGerber2Gcode_CUI/out/"
+#fileName = "GNBoard" # sys.argv[1]
 
 (etch_moves, travel_moves, gcode_minXY_global, gcode_maxXY_global) = gcv.view(filePath,fileName,showAll=1)
 

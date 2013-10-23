@@ -27,6 +27,11 @@ Tutorials
 _Work in progress_  
 <http://reprap.org/wiki/Cyclone_PCB_Factory>  
 
+Also take a look to these branches  
+--  
+<https://github.com/yOPERO/Cyclone-PCB-Factory>  
+<https://github.com/glenchung/Cyclone-PCB-Factory>  
+More: <https://github.com/carlosgs/Cyclone-PCB-Factory/graphs/contributors>  
 
 To-Do list  
 --  
@@ -68,7 +73,9 @@ _Check Hardware, Software and Firmware sections for details regarding authorship
 
 Render (v0.9.7)  
 --
-![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7.png)
+![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7_full.png)  
+![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7_full_explodedView.png)  
+**Thanks a lot to Glen Chung for the fully assembled renders**  
 
 Disclaimer  
 --
