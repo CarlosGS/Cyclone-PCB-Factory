@@ -101,7 +101,7 @@ translate([frame_width-frame_thickness,frame_height,frame_thickness-2])
   module Y_rod_idler_extras(exploded_distance=0) {
     screw_size = 2.9;
     screw_length = 16;
-    echo("Non-Plastic Parts: 2 x Self tapping screw 2.9 x 16 mm for Y_rod_idler");
+    echo("Non-Plastic Parts, 2, Self Tapping Screw 2.9 x 16 mm for Y_rod_idler");
     rotate([90,0,0]) translate([frame_width/3,Y_rod_support_lenght/2.5,-frame_height+bottom_thickness+.2+exploded_distance])
       rotate([180,0,0]) color(Steel) {
         translate([-5,0,0])

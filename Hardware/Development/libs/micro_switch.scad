@@ -24,7 +24,7 @@ module micro_switch(with_extra_parts=false, exploded=false) {
   module micro_switch_extras(exploded_distance=0) {
     screw_size = 2.2;
     screw_length = 13;
-    echo("Non-Plastic Parts: 2 x Self tapping screw 2.2 x 13 mm for micro switch");
+    echo("Non-Plastic Parts, 2, Self Tapping Screw 2.2 x 13 mm for micro switch");
     translate([5.15, 2, 0]) color(Steel) {
       translate([0, 0, 0.5+6.4+exploded_distance])
         rotate([180,0,0]) csk_bolt(screw_size, screw_length);

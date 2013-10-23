@@ -32,7 +32,7 @@
 	space =1; 			//extra space between characters in (character widths)
 	rotate=0;			// text rotation (clockwise)
 	font = "Letters.dxf";	//default for aditional fonts
-	fontPath = "../libs/Write/"; // CGS MOD: Path for the DXF font files
+	fontPath = "./"; // CGS MOD: Path for the DXF font files
 
 
 // write cube defaults

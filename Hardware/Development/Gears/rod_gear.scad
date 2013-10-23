@@ -104,7 +104,7 @@ difference() {
     cyclone_rod_gear_extras(exploded_distance=(exploded?12:0));
 
   module cyclone_rod_gear_extras(exploded_distance=0) {
-    echo("Non-Plastic Parts: 2 x M8 nuts to attach rod_gear on threaded rod");
+    echo("Non-Plastic Parts, 2, Nut M8 to attach rod_gear on threaded rod");
     translate([0,0,-10/2-0.8*8-1.0*exploded_distance]) color(Steel) flat_nut(8);
     translate([0,0,nut_separation/2+0.8*8+1.0*exploded_distance]) rotate([180,0,0]) color(Steel) flat_nut(8);
   }

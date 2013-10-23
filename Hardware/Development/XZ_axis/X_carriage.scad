@@ -2,10 +2,13 @@
 // Created by Carlosgs (http://carlosgs.es)
 // License: Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/)
 
+include <MCAD/metric_fastners.scad>
+include <MCAD/materials.scad>
 use <../libs/obiscad/bcube.scad>
 use <../libs/obiscad/bevel.scad>
 use <../libs/build_plate.scad>
 use <../libs/teardrop.scad>
+use <../libs/rod.scad>
 
 include <./lm8uu_holder.scad>
 
@@ -40,15 +43,9 @@ lbearing_length = 24;
 Z_smooth_rods_sep = 55;
 Z_smooth_rods_len = 140;
 
-Z_threaded_rod_len = 120;
 
 lbearing_holder_length = Z_smooth_rods_sep+M8_rod_diam+5;
 
-module rod(len=100) {
-	color([0.8,0.8,0.8])
-     rotate([90,0,0])
-       cylinder(r=8/2,h=len,center=true,$fn=30);
-}
 
 module rodHole(len=100,radius=M8_rod_hole_diam/2, truncateMM=1) {
 	color([0.8,0.8,0.8])
@@ -80,7 +77,7 @@ module X_nut_holder() {
 	}
 }
 
-module X_nut_holder_cover() {
+module X_nut_holder_cover(with_extra_parts=false, exploded=false) {
 	X_nut_screw_diam = X_nut_screw_diam*1.2;
 	scale([1,1,-1]) rotate([-90,0,0])
 	difference() {
@@ -107,6 +104,17 @@ module X_nut_holder_cover() {
 			rotate([90,0,0])
 				cylinder(r=X_nut_screw_diam/2,h=40,center=true,$fn=20);
 	}
+
+    if(with_extra_parts)
+      X_nut_holder_cover_extras(exploded_distance=(exploded?16:0));
+
+    module X_nut_holder_cover_extras(exploded_distance=0) {
+      screw_size = 2.2;
+      screw_length = 16;
+      echo("Non-Plastic Parts, 1, Self Tapping Screw 2.2 x 16 mm for X_nut_holder_cover");
+      scale([1,1,-1]) rotate([-90,0,0]) translate([-4,-3/2-0.2-exploded_distance,10]) rotate([-90,0,0]) color(Steel)
+        csk_bolt(screw_size, screw_length);
+    }
 }
 
 module X_carriage(show_printbed = 0, show_support = 0) {
@@ -173,16 +181,38 @@ module X_carriage(show_printbed = 0, show_support = 0) {
 	}
 
    } // End of difference
+
+   if(with_extra_parts)
+     X_carriage_extras(exploded=false);
+
+   module X_carriage_extras(exploded_distance=(exploded?8:0)) {
+     color(Steel) {
+       echo("Non-Plastic Parts, 2, Nut M8 for X_carriage");
+       translate([-X_rod_sep_real/2,-lbearing_holder_length/2+X_axis_nut_support_thickness/2,0])
+         rotate([-90,0,0]) translate([0,0,0.8*8+1.5+exploded_distance])
+           rotate([0,180,15])
+             flat_nut(8);
+
+       translate([0,0,40-M8_nut_height_Z+exploded_distance])
+         translate([0,0,0.8*8]) rotate([0,180,0])
+         flat_nut(8);
+     }
+
+     translate([-X_rod_sep_real/2,-lbearing_holder_length/2+X_axis_nut_support_thickness/2,0])
+       rotate([-90,0,0]) translate([0,0,0.8*8+2.0+2*exploded_distance])
+         rotate([0,180,-90-45])
+           X_nut_holder_cover(with_extra_parts=true, exploded=(exploded_distance!=0));
+   }
 }
 
 
-module X_carriage_assembled(show_printbed = 0, show_Xrods = 0, show_Zrods = 0) {
-  X_carriage(show_printbed);
+module X_carriage_assembled(show_printbed = 0, show_Xrods = 0, z_smooth_rods_len = 0, with_extra_parts=false, exploded=false) {
+  X_carriage(show_printbed, with_extra_parts=with_extra_parts, exploded=exploded);
 
   if(show_Xrods){
 	  // ---- Rods (for reference) ----
 	  translate([-X_rod_sep_real/2,0,0]) {
-	    color([0.5,0.5,0.5]) rod(len=100);
+	    rod(len=100, threaded=true);
 	  }
 	  translate([-X_rod_sep_real/2,0,X_rod_sep_real]) {
 	    rod(len=100);
@@ -191,15 +221,13 @@ module X_carriage_assembled(show_printbed = 0, show_Xrods = 0, show_Zrods = 0) {
 	    rod(len=100);
 	  }
   }
-  if(show_Zrods)
+  if(z_smooth_rods_len)
 	  translate([0,0,0])
 	    rotate([90,0,0]) {
-	      translate([0,Z_threaded_rod_len/2-10,0])
-	        color([0.5,0.5,0.5]) rod(len=Z_threaded_rod_len);
-	      translate([0,Z_smooth_rods_len/2-5,Z_smooth_rods_sep/2])
-	        rod(len=Z_smooth_rods_len);
-	      translate([0,Z_smooth_rods_len/2-5,-Z_smooth_rods_sep/2])
-	        rod(len=Z_smooth_rods_len);
+	      translate([0,z_smooth_rods_len/2-5,Z_smooth_rods_sep/2])
+	        rod(len=z_smooth_rods_len);
+	      translate([0,z_smooth_rods_len/2-5,-Z_smooth_rods_sep/2])
+	        rod(len=z_smooth_rods_len);
 	    }
 }
 
@@ -211,7 +239,7 @@ module X_carriage_print_plate() {
 	    X_carriage(show_printbed = 0, show_support = 1);
 }
 
-//X_carriage_assembled(show_printbed = 1,show_Xrods = 1,show_Zrods = 1);
+//X_carriage_assembled(show_printbed = 1,show_Xrods = 1,z_smooth_rods_len = Z_smooth_rods_len);
 X_carriage_print_plate();
 
 //translate([0,20,0]) X_nut_holder_cover();
