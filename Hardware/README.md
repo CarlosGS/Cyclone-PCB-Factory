@@ -1,10 +1,6 @@
 Hardware for Cyclone-PCB-Factory  
 ===================
 
-Render (v0.9.7)  
---
-![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7.png)
-
 To-Do list  
 --  
 - Fix this: The linear bearings of the X carriage must be glued in place (use epoxy or similar) since vibrations produced by the spindle motor move the bearings out of place.  
@@ -18,6 +14,12 @@ News
 --  
 - v0.9.7 has an improved Z carriage: uses much less plastic, it holds the spindle tightly and leaves more metal surface exposed for better cooling.  
 - v0.9.6b has a robust Y axis motor stand (improvement suggested and tested by **Yopero**), and the Z carriage now shows the name of the machine (how cool is that? :P)  
+
+Render (v0.9.7)  
+--
+![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7_full.png)  
+![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7_full_explodedView.png)  
+**Thanks a lot to Glen Chung for the fully assembled renders**  
 
 Notes  
 --  
@@ -34,8 +36,9 @@ License: **Attribution - Share Alike - Creative Commons (<http://creativecommons
 Authors (Hardware):  
 --
 - **Carlos García Saura (Carlosgs <http://carlosgs.es>)** (original design)  
-- **Daniel Garrido (yOPERO <http://yopero-tech.blogspot.com.es/>)** (hardware improvements)  
+- **Daniel Garrido (yOPERO <https://github.com/yOPERO> & <http://yopero-tech.blogspot.com.es/>)** (hardware improvements)  
 - **Harry Binnema** (hardware improvements)
+- **Glen Chung (<https://github.com/glenchung>)** (Full assembly in OpenScad)
 
 Special thanks  
 --  
