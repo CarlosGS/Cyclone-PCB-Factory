@@ -315,7 +315,6 @@ module frame_extras(with_motor=1, exploded_distance=0) {
 
 //   this seems to reduce working area of Y axis
     if(false) {
-      echo("Non-Plastic Parts, 1, Micro Switch on Y smooth rod for Y axis");
       translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
         translate([0,-Y_rod_height+smooth_rod_margin,0])
           translate([0,-smooth_rod_margin,Y_rod_dist_from_wall])
@@ -325,7 +324,6 @@ module frame_extras(with_motor=1, exploded_distance=0) {
 
 //  this seems to reduce working area of X axis
     if(false) {
-      echo("Non-Plastic Parts, 1, Micro Switch on X smooth rod for X axis");
       translate([X_smooth_rods_sep_projected,-smooth_rod_margin,0])
         translate([15+0.5*exploded_distance, -8, frame_thickness])
           rotate([180,180,-90])
@@ -358,7 +356,6 @@ module frame_extras(with_motor=1, exploded_distance=0) {
         micro_switch(with_extra_parts=true, exploded=(exploded_distance!=0));
 
     if(true) {
-      echo("Non-Plastic Parts, 1, Micro Switch on Y smooth rod for Y axis");
         translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
           translate([0,-Y_rod_height+smooth_rod_margin,0])
             translate([0,-smooth_rod_margin,Y_rod_dist_from_wall])
