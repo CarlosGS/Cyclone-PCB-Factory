@@ -9,7 +9,7 @@ use <../libs/obiscad/bevel.scad>
 use <../libs/build_plate.scad>
 use <../libs/teardrop.scad>
 use <../libs/rod.scad>
-
+use <../libs/End_Stop_Holder.scad>
 include <./lm8uu_holder.scad>
 
 cyl_res = 40;
@@ -226,8 +226,13 @@ module X_carriage_assembled(show_printbed = 0, show_Xrods = 0, z_smooth_rods_len
 	    rotate([90,0,0]) {
 	      translate([0,z_smooth_rods_len/2-5,Z_smooth_rods_sep/2])
 	        rod(len=z_smooth_rods_len);
-	      translate([0,z_smooth_rods_len/2-5,-Z_smooth_rods_sep/2])
+	      translate([0,z_smooth_rods_len/2-5,-Z_smooth_rods_sep/2]) {
 	        rod(len=z_smooth_rods_len);
+
+	        rotate([-90,-150,180])
+	          translate([-8, -15, -z_smooth_rods_len/2-(exploded?40:0)])
+	            end_stop_holder(with_extra_parts=with_extra_parts, exploded=exploded);
+	      }
 	    }
 }
 

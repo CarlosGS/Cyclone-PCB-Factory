@@ -41,7 +41,7 @@ Y_Final_Threaded_Rod_Length = Y_threaded_rod_length+38;
 Y_Final_Smooth_Rod_Length = Y_axis_sep+8;
 Y_threaded_rod_offset = 8;
 Z_Final_Threaded_Rod_Length = 120;
-Z_Final_Smooth_Rod_Length = 140;
+Z_Final_Smooth_Rod_Length = 195;
 
 X_Wood_Base = X_axis_sep+100;
 Y_Wood_Base = Y_axis_sep+30;
