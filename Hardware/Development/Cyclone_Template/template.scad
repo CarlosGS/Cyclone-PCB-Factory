@@ -50,11 +50,12 @@ Z_Wood_Base = 15;
 X_PCB_BOARD = 150;
 Y_PCB_BOARD = 100;
 Z_PCB_BOARD = 1.5;
+X_PCB_BOARD_OFFSET = 12;
 
-//Travel (164 x 101 x 25)
-X_Travel = 0; //0~164
-Y_Travel = 0; //0~101
-Z_Travel = 30; //0~30
+//Travel (152 x 101 x 25)
+X_Travel = 81; //0~152
+Y_Travel = 80; //0~101
+Z_Travel = 15; //0~30
 
 //To display steppers, bearings, washers, nuts, bolts, micro-switches, etc.
 Display_Extra_Parts = true;
@@ -141,13 +142,13 @@ module cnc_workbed() {
     }
 
     if(Display_Extra_Parts) {
-      translate([-28-X_PCB_BOARD/2,8+Y_PCB_BOARD/2,-(workbed_thickness)/2])
+      translate([X_PCB_BOARD_OFFSET/2-28-X_PCB_BOARD/2,8+Y_PCB_BOARD/2,-(workbed_thickness)/2])
         rotate([180,0,0]) PCB_vise_1(with_extra_parts=true, exploded=Exploded_Drawing);
-      translate([28+X_PCB_BOARD/2,-8-Y_PCB_BOARD/2,-(workbed_thickness)/2])
+      translate([X_PCB_BOARD_OFFSET/2+28+X_PCB_BOARD/2,-8-Y_PCB_BOARD/2,-(workbed_thickness)/2])
         rotate([180,0,180]) PCB_vise_1(with_extra_parts=true, exploded=Exploded_Drawing);
       // --- PCB Board ---
       echo("Non-Plastic Parts, 1, Double sided PCB ", X_PCB_BOARD, " x ", Y_PCB_BOARD, " x ", Z_PCB_BOARD);
-      translate([0,0,-(workbed_thickness)/2-15])
+      translate([X_PCB_BOARD_OFFSET/2,0,-(workbed_thickness)/2-15])
         color([0.72,0.45,0.20]) cube([X_PCB_BOARD,Y_PCB_BOARD,Z_PCB_BOARD],center=true);
     }
   }
@@ -266,7 +267,7 @@ module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
   translate([0,-19,99.65]) { // X threaded rod height, centered over SMOOTH rod
     // --- X axis ---
     translate([0,-X_rod_sep_real,0]) {
-      translate([-X_offset+31-X_Travel,0,0]) {
+      translate([-X_offset+31-X_PCB_BOARD_OFFSET-X_Travel,0,0]) {
         X_carriage();
         translate([0,X_rod_sep_real/2,Z_offset])
           Z_carriage_piece();
