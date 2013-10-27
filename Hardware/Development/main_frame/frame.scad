@@ -350,11 +350,15 @@ module frame_extras(with_motor=1, exploded_distance=0) {
       }
     }
 
-    echo("Non-Plastic Parts, 1, Micro Switch on no motor frame for X axis");
-    rotate([90, 0, -45])
-      translate([X_rods_corner_shaft_size/2-19.8,0,-X_rods_corner_shaft_size/2+0.5*exploded_distance])
-        micro_switch(with_extra_parts=true, exploded=(exploded_distance!=0));
+    //this is not how carlosgs designed
+    if(false) {
+      echo("Non-Plastic Parts, 1, Micro Switch on no motor frame for X axis");
+      rotate([90, 0, -45])
+        translate([X_rods_corner_shaft_size/2-19.8,0,-X_rods_corner_shaft_size/2+0.5*exploded_distance])
+          micro_switch(with_extra_parts=true, exploded=(exploded_distance!=0));
+    }
 
+    //Y end_stop_holder
     if(true) {
         translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
           translate([0,-Y_rod_height+smooth_rod_margin,0])
@@ -363,7 +367,7 @@ module frame_extras(with_motor=1, exploded_distance=0) {
                 end_stop_holder(with_extra_parts=true, exploded=(exploded_distance!=0));
     }
 
-//  this seems to reduce working area of Y axis
+    //this seems to reduce working area of Y axis
     if(false) {
       echo("Non-Plastic Parts, 1, Micro Switch on no motor frame for Y axis");
       translate([frame_width-frame_thickness/2+10.8/2-0.5,frame_height-19.8-2,frame_thickness])
@@ -372,6 +376,15 @@ module frame_extras(with_motor=1, exploded_distance=0) {
             rotate([0, 0, 90])
               micro_switch(with_extra_parts=true, exploded=(exploded_distance!=0));
     }
+
+    //Carlosgs design of X end_stop_holder
+    if(true) {
+      translate([X_smooth_rods_sep_projected,-smooth_rod_margin,0])
+        translate([15+0.5*exploded_distance, -8, frame_thickness])
+          rotate([180,180,-90])
+            end_stop_holder(with_extra_parts=true, exploded=(exploded_distance!=0));
+    }
+
   }
 }
 
