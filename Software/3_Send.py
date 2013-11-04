@@ -77,7 +77,7 @@ probingResults()
 #print("Must be zero, otherwise the interpolation is wrong!: " + floats(getZoffset(0,0)))
 
 # Display the Gcode that is going to be etched
-(etch_moves, travel_moves, gcode_minXY, gcode_maxXY) = gcv.view(filePath,fileName,0,showEtch,showEtch,showEtch2,showDrill,showEdge)
+(etch_moves, travel_moves, gcode_minXY, gcode_maxXY) = gcv.view(filePath,fileName,0,showEtch,showEtch2,showEtch3,showDrill,showEdge)
 #(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEtch1=1)
 #(etch_moves, travel_moves) = gcv.view(filePath,fileName,showEtch2=1)
 #(etch_moves, travel_moves) = gcv.view(filePath,fileName,showDrill=1)
