@@ -34,9 +34,7 @@ os.chdir(original_dir)
 Z_PROBING_FILE = "Z_probing_data.p"
 
 
-plt.ion() # IMPORTANT: Enable real-time plotting
-
-gcodeviewer = pltNewFig() # Define a new figure, this doesnt open a window by itself (real-time plotting disabled)
+gcodeviewer = plt.figure()
 
 
 
@@ -64,8 +62,7 @@ Z_probing_data['grid_len'] = (grid_len_X,grid_len_Y)
 
 saveToFile(Z_probing_data,Z_PROBING_FILE)
 
-pltRefresh(gcodeviewer) # Draw the figure contents, still no window
-pltShow() # Open the window showing our figure
+plt.show() # Open the window showing our figure
 
 print("Press enter to exit...")
 val = sys.stdin.readline()

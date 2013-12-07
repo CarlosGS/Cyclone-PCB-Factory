@@ -5,7 +5,7 @@ Emulate = False # Won't connect to the machine, will emulate the commands!
 
 # For GenerateGcode and Send
 filePath = "./GcodeGenerators/pyGerber2Gcode_CUI/out/"
-fileName = "4LDR_Board"
+fileName = "controller"
 # Note: Don't forget to edit ./GcodeGenerators/pyGerber2Gcode_CUI/pygerber2gcode_cui_MOD.conf to match the name and board files
 
 # For Zprobe
