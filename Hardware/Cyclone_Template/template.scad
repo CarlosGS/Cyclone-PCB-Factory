@@ -101,13 +101,14 @@ module cnc_workbed() {
 module X_carriage() {
   translate([0,X_rod_sep_real/2,0])
     rotate([0,0,90])
-      X_carriage_assembled(show_printbed = 0, show_Xrods = 0, show_Zrods = 1);
+      X_carriage_assembled(Show_Nut_Cover = 1,show_printbed = 0, show_Xrods = 0, show_Zrods = 1);
 }
 
 module Z_carriage_piece() {
   translate([0,0,41])
     rotate([0,0,90])
         Z_carriage_assembled();
+
 }
 
 module cnc(show_printbed = 1) {
