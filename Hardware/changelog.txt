@@ -1,4 +1,3 @@
-
 ==================================-=======ChangeLOG======================================================
 So far I have modified these files:
 - y rod frontal idlers, Mendel 90 style plus logo.
@@ -13,3 +12,5 @@ So far I have modified these files:
     to assamble it gives more stability as it was woobly when motor was spinning.
   _Also to help minimize the twisting of the frame when the motor was spinning I added a 8mm threaded rod
     that connects left and right frame and makes the XZ axis more stable.
+    
+==================================-=======ChangeLOG======================================================
