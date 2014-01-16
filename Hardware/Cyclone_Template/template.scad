@@ -2,14 +2,14 @@
 // Created by Carlosgs (http://carlosgs.es)
 // License: Attribution - Share Alike - Creative Commons (http://creativecommons.org/licenses/by-sa/3.0/)
 
-use <../libs/Write/Write.scad>
+use <./libs/Write/Write.scad>
 use <../libs/build_plate.scad>
-use <../main_frame/frame.scad>
-use <../Y_axis/Y_rod_idler.scad>
-use <../Y_axis/motor_stand.scad>
+use <../main_frame/frame_hex-grid_6screws.scad>
+use <../Y_axis/Y_rod_idler_YOP.scad>
+use <../Y_axis/motor_holder.scad>
 use <../Y_axis/linear_bearing_holder.scad>
 use <../Y_axis/Y_nut_holder.scad>
-use <../XZ_axis/X_carriage.scad>
+use <../XZ_axis/X_carriage_YOP.scad>
 use <../XZ_axis/Z_carriage.scad>
 
 X_axis_sep = 210;
@@ -43,11 +43,11 @@ module frame_left() {
 }
 
 module Y_rod_idler_left() {
-  color([0.8,1,1]) rotate([0,0,90]) scale([1,-1,1]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler();
+  color([0.8,1,1]) rotate([0,0,180]) translate([26,0,40]) rotate([-90,0,0])  Y_rod_idler_leftX(1);
 }
 
 module Y_rod_idler_right() {
-  color([1,1,1]) rotate([0,0,90]) translate([-26,-17,39]) rotate([-90,0,0]) Y_rod_idler();
+  color([1,1,1]) rotate([0,0,180]) translate([-26,0,40]) rotate([-90,0,0]) Y_rod_idler_rightX(1);
 }
 
 module Y_motor_stand() {
@@ -55,7 +55,7 @@ module Y_motor_stand() {
 }
 
 module Y_idle_stand() {
-  color([0,1,0.8]) rotate([0,90,180]) translate([-45,0,52.4]) rotate([-90,0,0]) idle_stand();
+  color([0,1,0.8]) rotate([90,270,0]) translate([45,-52.4,0]) idle_stand();
 }
 
 module linear_bearing_holder() {
@@ -105,10 +105,9 @@ module X_carriage() {
 }
 
 module Z_carriage_piece() {
-  translate([0,0,90])
-    rotate([0,0,-90])
-      rotate([0,180,0])
-        Z_carriage(showSpindle=true);
+  translate([0,0,41])
+    rotate([0,0,90])
+        Z_carriage_assembled();
 }
 
 module cnc(show_printbed = 1) {
@@ -126,9 +125,9 @@ module cnc(show_printbed = 1) {
 
   // ---- Y rod idlers ----
   translate([0,Y_axis_sep,0]) {
-    Y_rod_idler_left();
+    Y_rod_idler_right();
     translate([X_axis_sep,0,0])
-      Y_rod_idler_right();
+      Y_rod_idler_left();
   }
 
   // ---- Y threaded rod motor and idler ----
@@ -174,7 +173,7 @@ module cnc_workbed_template() {
 }
 
 module rod(len=100) {
-	color([0.8,0.8,0.8])
+  color([0.8,0.8,0.8])
      rotate([90,0,0])
        cylinder(r=8/2,h=len,center=true,$fn=30);
 }
@@ -190,6 +189,9 @@ module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
 
     // --- Y threaded rod ---
     translate([0,0,Y_threaded_rod_height-Y_rod_height])
+      color([0.5,0.5,0.5]) rod(Y_threaded_rod_length+60);
+    //extra threaded rod for stability 
+    translate([64,0,Y_threaded_rod_height-Y_rod_height])
       color([0.5,0.5,0.5]) rod(Y_threaded_rod_length+60);
 
     // --- Y smooth rods ---
@@ -207,12 +209,19 @@ module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
         translate([0,X_rod_sep_real/2,Z_offset])
           Z_carriage_piece();
       }
+      //X motor threaded rod
+      translate([0,-48,-20])
       rotate([0,0,90])
         color([0.5,0.5,0.5]) rod(X_axis_sep+80);
+      //X motor threaded rod
+      rotate([0,0,90])
+        color([0.5,0.5,0.5]) rod(X_axis_sep+80);
+      //X Upper smoth rod
       translate([0,0,X_rod_sep_real])
         rotate([0,0,90])
           rod(X_axis_sep+60);
     }
+    //X Upper smoth rod
     rotate([0,0,90])
       rod(X_axis_sep+60);/// WARNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       /// INCOHERENT X_axis_sep!!!!!!!!!!!
@@ -224,11 +233,7 @@ module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
       cube([X_axis_sep+70,Y_axis_sep+30,15],center=true);
 }
 
-rotate([0,0,90])
-  cnc_assembled(Y_offset=30,
-    X_offset=-50,
-      Z_offset=0);
+rotate([0,0,90])cnc_assembled(Y_offset=30,X_offset=-50,Z_offset=10);
 
-//rotate([0,0,90]) // So the generated dxf matches
-//  cnc_base_template();// inkscape's default orientation
+//rotate([0,0,90]) cnc_base_template(); // So the generated dxf matches inkscape's default orientation
 //  cnc_workbed_template();

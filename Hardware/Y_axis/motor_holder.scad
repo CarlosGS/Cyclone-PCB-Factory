@@ -48,7 +48,7 @@ module motorHolesY() {
         cylinder(r=motor_center_diameter/2,h=10*wall_thickness,center=true,$fn=40);
     }
 
-    // Screws for holding the motor
+    // Screws to hold the motor
     for(i=[-1,1]) for(j=[-1,1])
     translate([i*motor_screw_distance/2,j*motor_screw_distance/2,0]) {
       hull() {
@@ -83,12 +83,12 @@ difference() {
 
     // Bearing holes          
     rotate([0,0,15]) translate([0,axis_distance,0]) {
-      #cylinder(r=(M8_rod_diameter*2)/2,h=100*wall_thickness,center=true,$fn=40);
+      cylinder(r=(M8_rod_diameter*2)/2,h=100*wall_thickness,center=true,$fn=40);
       cylinder(r=bearing_diameter/2,h=10*wall_thickness,center=false,$fn=60);
       }
 
-    //Threaded rods
-    #translate([0,-64,0])rotate([0,0,15]) translate([0,axis_distance,0]) {
+    //Threaded rod for added stability
+    translate([0,-64,0])rotate([0,0,15]) translate([0,axis_distance,0]) {
       cylinder(r=(M8_rod_diameter)/2,h=100*wall_thickness,center=true,$fn=40);
       }
 
@@ -143,18 +143,23 @@ module motor_stand(with_motor=true) {
   }
 }
 
+module idle_stand(){
+  mirror([1,0,0])
+        motor_stand();
 
-module idle_stand() {
-  union() {
-		intersection() { // Remove the motor part
-			motor_stand(with_motor=false);
-			translate([wall_height/2,wall_width/2+52.4-(wall_width+wall_extraWidth_right-52.4),wall_thickness/2])
-			bcube([wall_height,wall_width,100],cr=4,cres=10);
-		}
-		translate([0,wall_width+5-2*(wall_width+wall_extraWidth_right-52.4)]) holder(noScrews=true);
-		translate([0,52.4+5/2]) scale([1,-1,1]) holder(h=15,base_width_inc=1);
-	}
 }
+//original module
+// module idle_stand() {
+//   union() {
+// 		intersection() { // Remove the motor part
+// 			motor_stand(with_motor=false);
+// 			translate([wall_height/2,wall_width/2+52.4-(wall_width+wall_extraWidth_right-52.4),wall_thickness/2])
+// 			bcube([wall_height,wall_width,100],cr=4,cres=10);
+// 		}
+// 		translate([0,wall_width+5-2*(wall_width+wall_extraWidth_right-52.4)]) holder(noScrews=true);
+// 		translate([0,52.4+5/2]) scale([1,-1,1]) holder(h=15,base_width_inc=1);
+// 	}
+// }
 
 module motor_stand_front(){
   motor_stand();
@@ -172,6 +177,9 @@ module motor_stand_back(){
 
 
 motor_stand_front();
+/*I am currently testing having two
+of this modules to hold the threaded rod 
+on the Y axis.*/
 //motor_stand_back();
 
 

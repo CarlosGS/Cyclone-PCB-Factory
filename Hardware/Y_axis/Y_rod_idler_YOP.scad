@@ -5,7 +5,7 @@
 
 use <../libs/build_plate.scad>
 use <../libs/MCAD/nuts_and_bolts.scad>
-fileNameLogo = "../libs/logo/cyclone_logoC.dxf";
+fileNameLogo = "../libs/logo/cyclonelogoC.dxf";
 
 M8_rod_diam = 8.2;
 M3_rod_diam = 3.2;
@@ -115,7 +115,7 @@ module Y_rod_idler(side = 0, logo = 0){
 	    gap();
 	    hole(); 
       if(logo)
-      logo(side);	      
+        logo(side);	      
 	}
 }
 
@@ -123,22 +123,24 @@ module show_printbed(){
 	translate([frame_width/2,frame_height/2,-frame_depth/2]) build_plate(3,150,140);
 }
 
-module Y_rod_idler_left(logo){
+module Y_rod_idler_leftX(logo){
 	translate([-25,0,0])	
 		Y_rod_idler(1, logo);
 }
 
-module Y_rod_idler_right(logo){
+module Y_rod_idler_rightX(logo){
 	translate([25,0,0])	
 		Y_rod_idler(0, logo);
 }
 
 /***************************************************************/
-Y_rod_idler_right(logo = 1);
-Y_rod_idler_left(logo = 1);
+//Y_rod_idler_rightX(logo = 1);
+Y_rod_idler_leftX(logo = 1);
 // Y_rod_idler_right(); // Without logo
-// Y_rod_idler_left(); // Without logo
-show_printbed();
+// Y_rod_idler_right(); // Without logo
+//show_printbed();
+
+
 
 
 

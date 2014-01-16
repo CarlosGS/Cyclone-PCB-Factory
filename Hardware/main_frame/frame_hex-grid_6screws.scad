@@ -5,7 +5,7 @@
 use <../libs/obiscad/bcube.scad>
 use <../libs/obiscad/bevel.scad>
 use <../libs/build_plate.scad>
-use <hex_structure.scad>
+use <../libs/hex_structure.scad>
 
 module frame(with_motor = 1, show_printbed = 0) {
 
@@ -133,7 +133,7 @@ difference() {
 
 
          }   
-        #translate([0,58,0])
+        translate([0,58,0])
         cube([100,100,100],center=true);
 
 
@@ -193,10 +193,10 @@ difference() {
 } // End of difference() command
 
 
-// --------- Support column for the triangular structure --------- //
+// --------- Support middle column for the structure --------- //
 translate([frame_width/2-3,115,frame_thickness/2])
   //rotate([0,0,-23])
-    #cube([wall_thickness,38,frame_thickness],center=true);
+    cube([wall_thickness,38,frame_thickness],center=true);
 
 
 
@@ -238,11 +238,11 @@ translate([frame_width-frame_thickness/2,frame_height,frame_thickness-0.5])
       cylinder(r=base_screw_diameter/2,h=2*smooth_rod_screw_len,center=true,$fn=6);
     /********holes in the base****/
     translate([-base_screw_distance+5,26/2,0])
-    #cylinder(r=20/2,h=frame_thickness*2,center=true,$fn=6);
+    cylinder(r=20/2,h=frame_thickness*2,center=true,$fn=6);
       translate([-base_screw_distance+30,26/2,0])
-    #cylinder(r=15/2,h=frame_thickness*2,center=true,$fn=6);
+    cylinder(r=15/2,h=frame_thickness*2,center=true,$fn=6);
         translate([-base_screw_distance+55,26/2,0])
-    #cylinder(r=20/2,h=frame_thickness*2,center=true,$fn=6);
+    cylinder(r=20/2,h=frame_thickness*2,center=true,$fn=6);
   }
 
 
@@ -275,6 +275,9 @@ translate([frame_width-frame_thickness/2,frame_height,frame_thickness-2])
 
 
 // Toggle parameters and mirror to create the other side part
-*frame(with_motor = 1, show_printbed = 1);
-scale([-1,1,1]) frame(with_motor = 0, show_printbed = 1);
+
+frame(with_motor = 1, show_printbed = 1);
+//frame without motor
+*scale([-1,1,1]) 
+  frame(with_motor = 0, show_printbed = 1);
 

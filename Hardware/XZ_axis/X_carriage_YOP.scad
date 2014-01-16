@@ -249,9 +249,10 @@ module X_carriage_print_plate() {
 }
 
 X_carriage_assembled(show_printbed = 0,show_Xrods = 0,show_Zrods = 0);
-//Debug only
-//X_carriage_assembled(show_printbed = 0,show_Xrods = 0,show_Zrods = 0, Show_Nut_Cover = 1/*DEBUG only*/);
-//X_carriage_print_plate();
 
 //uncomment  the  line below to get the x nut cover
 //Show_Nut_Cover();
+
+//Debug only
+//X_carriage_assembled(show_printbed = 0,show_Xrods = 0,show_Zrods = 0, Show_Nut_Cover = 1/*DEBUG only*/);
+//X_carriage_print_plate();
