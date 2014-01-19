@@ -1,4 +1,0 @@
-- Make sure I identify the files used in my current build.
-- Make sure I identify the files I am not using and put them in a separated folder
-  with clear description of the current changes.
-- Remember to put in a place a change log for each part.
