@@ -54,6 +54,8 @@ Authors (Hardware):
 - **Daniel Garrido (yOPERO <https://github.com/yOPERO> & <http://yopero-tech.blogspot.com.es/>)** (hardware improvements)  
 - **Harry Binnema** (hardware improvements)
 - **Glen Chung (<https://github.com/glenchung>)** (Full assembly in OpenScad)
+- **Jiří Pilný** (hardware improvements)
+- **Martin Zabojnik** (hardware improvements)
 
 Special thanks  
 --  
