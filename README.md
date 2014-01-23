@@ -1,6 +1,8 @@
 Cyclone-PCB-Factory v0.9.7  
 ===================
 
+![ScreenShot](Media/CycloneLogo_1/CycloneLogo_1.png)
+
 The first 3D-printable (Rep-Rap alike) CNC machine, intended for PCB manufacture.  
 
 ![ScreenShot](Media/Cyclone_built_v0.9.7.jpg)
