@@ -4,7 +4,7 @@ Spindle Pen
 
 Spindle Pen  by glenchung , published Jan 18, 2014
 
-![Image](img/IMG_2634_display_large.jpg "Title")
+![Image](img/IMG_2634_display_large.jpg)
 
 Description
 --------
@@ -30,11 +30,11 @@ Files
 
 Pictures
 --------
-![Image](img/IMG_9989_display_large.jpg "Title")
-![Image](img/SpindlePen_display_large.jpg "Title")
-![Image](img/IMG_9990_display_large.jpg "Title")
-![Image](img/IMG_9992_display_large.jpg "Title")
-![Image](img/IMG_2629_display_large.jpg "Title")
+![Image](img/IMG_9989_display_large.jpg)
+![Image](img/SpindlePen_display_large.jpg)
+![Image](img/IMG_9990_display_large.jpg)
+![Image](img/IMG_9992_display_large.jpg)
+![Image](img/IMG_2629_display_large.jpg)
 
 
 Tags
