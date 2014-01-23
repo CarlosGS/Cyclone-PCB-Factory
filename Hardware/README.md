@@ -3,17 +3,32 @@ Hardware for Cyclone-PCB-Factory
 
 To-Do list  
 --  
-- Fix this: The linear bearings of the X carriage must be glued in place (use epoxy or similar) since vibrations produced by the spindle motor move the bearings out of place.  
-- Reinforce left&right frames  
-- Reinforce screw holders in the Z axis parts  
-- Add Endstop holder files (same of Prusa/Mendel)  
-- Create holder for a vacuum cleaner  
-- Create assembly instructions  
+There are plenty of work fronts open, as many task are pending:
+
+* Tougher parts (great ongoing work!):
+ * Stronger holders for the linear bearings (vibration makes them slide away)
+ * Reinforce screw holders
+* Attachment for a vacuum cleaner
+* Better scalability (particularly for the Y axis)
+* Better spindle motor design:
+ * Brushless motor for the spindle
+ * Spindle speed control
+* Integrated endstop holders
 
 News  
---  
-- v0.9.7 has an improved Z carriage: uses much less plastic, it holds the spindle tightly and leaves more metal surface exposed for better cooling.  
-- v0.9.6b has a robust Y axis motor stand (improvement suggested and tested by **Yopero**), and the Z carriage now shows the name of the machine (how cool is that? :P)  
+-- 
+* Check out [yOPERO's variant of Cyclone](yOPERO/):
+
+![ScreenShot](Media/Cyclone_first_year_16_YrodIdler_XnutHolder_byYopero.jpg)
+
+* Check out these [sturdy frames by Jiří Pilný](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/uVLyKMvz4hA/HmpsZP1CiLUJ):
+
+![ScreenShot](Media/Cyclone_first_year_16_frames_byJiriPilny.jpg)
+
+* Check out [Martin's variant of Cyclone](http://www.thingiverse.com/thing:230233):
+
+![ScreenShot](Media/Cyclone_first_year_17_variant_by_Martin_Zabojnik.jpg)
+
 
 Render (v0.9.7)  
 --
