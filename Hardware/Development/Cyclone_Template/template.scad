@@ -55,7 +55,7 @@ X_PCB_BOARD_OFFSET = 12;
 //Travel (152 x 101 x 25)
 X_Travel = 81; //0~152
 Y_Travel = 80; //0~101
-Z_Travel = 15; //0~30
+Z_Travel = 16; //0~27
 
 //To display steppers, bearings, washers, nuts, bolts, micro-switches, etc.
 Display_Extra_Parts = true;
@@ -129,23 +129,24 @@ module Y_nut_holder() {
        nut_holder_positioned();
 }
 
-module cnc_workbed() {
+module cnc_workbed(template=false) {
 
   // ---- work bed ----
-  translate([0,0,-workbed_thickness/2+1]) {
+  translate([0,0,-workbed_thickness/2+(template?2:0)]) {
+    translate([0,0,template?-2:0])
     color([0.5,1,0.5,0.5]) { // Transparent color
-      %cube([workbed_X,workbed_Y,workbed_thickness],center=true);
+      %cube([workbed_X,workbed_Y,workbed_thickness+(template?4:0)],center=true);
       difference() {
-        cube([workbed_X,workbed_Y,workbed_thickness],center=true);
-        cube([workbed_X-1,workbed_Y-1,workbed_thickness+1],center=true);
+        cube([workbed_X,workbed_Y,workbed_thickness+(template?4:0)],center=true);
+        cube([workbed_X-1,workbed_Y-1,workbed_thickness+(template?4:0)+1],center=true);
       }
     }
 
+    translate([X_PCB_BOARD_OFFSET/2-28-X_PCB_BOARD/2,8+Y_PCB_BOARD/2,-(workbed_thickness)/2])
+      rotate([180,0,0]) PCB_vise_1(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
+    translate([X_PCB_BOARD_OFFSET/2+28+X_PCB_BOARD/2,-8-Y_PCB_BOARD/2,-(workbed_thickness)/2])
+      rotate([180,0,180]) PCB_vise_1(with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
     if(Display_Extra_Parts) {
-      translate([X_PCB_BOARD_OFFSET/2-28-X_PCB_BOARD/2,8+Y_PCB_BOARD/2,-(workbed_thickness)/2])
-        rotate([180,0,0]) PCB_vise_1(with_extra_parts=true, exploded=Exploded_Drawing);
-      translate([X_PCB_BOARD_OFFSET/2+28+X_PCB_BOARD/2,-8-Y_PCB_BOARD/2,-(workbed_thickness)/2])
-        rotate([180,0,180]) PCB_vise_1(with_extra_parts=true, exploded=Exploded_Drawing);
       // --- PCB Board ---
       echo("Non-Plastic Parts, 1, Double sided PCB ", X_PCB_BOARD, " x ", Y_PCB_BOARD, " x ", Z_PCB_BOARD);
       translate([X_PCB_BOARD_OFFSET/2,0,-(workbed_thickness)/2-15])
@@ -177,7 +178,7 @@ module X_carriage() {
 }
 
 module Z_carriage_piece() {
-  translate([0,0,33+Z_Travel])
+  translate([0,0,35+Z_Travel])
     rotate([0,0,90])
         Z_carriage_assembled(z_thread_rod_length=Z_Final_Threaded_Rod_Length, with_extra_parts=Display_Extra_Parts, exploded=Exploded_Drawing);
 }
@@ -233,14 +234,18 @@ module cnc_base_template() {
   }
 }
 
-module cnc_workbed_template() {
-  projection(cut=true) translate([0,0,-1]) {
-    cnc_workbed(); // Main structure
-    translate([0,-20,0])
-      reference(workbed_X,60);
-    translate([-20,0,0])
-      rotate([0,0,90])
-        reference(workbed_Y,40);
+module cnc_workbed_template(top_side=false) {
+  offset = top_side ? (workbed_thickness+1):-1;
+  projection(cut=true) rotate([top_side?180:0,0,0]) translate([0,0,offset]) {
+    cnc_workbed(template=true); // Main structure
+
+    rotate([top_side?180:0,0,0]) {
+      translate([0,-20,offset])
+        reference(workbed_X,60);
+      translate([-20,0,offset])
+        rotate([0,0,90])
+          reference(workbed_Y,40);
+    }
   }
 }
 
@@ -292,7 +297,8 @@ module cnc_assembled(Y_offset=0,X_offset=0,Z_offset=0) {
 rotate([0,0,90])cnc_assembled(Y_offset=30,X_offset=-50,Z_offset=10);
 
 //rotate([0,0,90]) cnc_base_template(); // So the generated dxf matches inkscape's default orientation
-//  cnc_workbed_template();
+//  cnc_workbed_template(top_side=true);
+//  cnc_workbed_template(top_side=false);
 
 echo("Non-Plastic Parts, 1, Machine Base ", X_Wood_Base, " x ", Y_Wood_Base, " x ", Z_Wood_Base);
 echo("Non-Plastic Parts, 1, Work Bed ", workbed_X, " x ",workbed_Y, " x ", workbed_thickness);
