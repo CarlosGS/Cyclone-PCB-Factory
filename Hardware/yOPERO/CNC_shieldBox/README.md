@@ -1,7 +1,7 @@
 CNC_ShieldBoX
 ===========================
 This is a 3D printable box created to house an Arduino Uno form factor and a CNC Shield.
-![ScreenShot](https://github.com/yOPERO/CNC_shieldBox/blob/master/Pictures/printedSmall.gif?raw=true)
+![ScreenShot](Pictures/printedSmall.gif)
 
 Status
 --
