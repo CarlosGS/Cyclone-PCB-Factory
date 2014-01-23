@@ -3,7 +3,7 @@ Cyclone-PCB-Factory v0.9.7
 
 The first 3D-printable (Rep-Rap alike) CNC machine, intended for PCB manufacture.  
 
-![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_built_v0.9.7.jpg)
+![ScreenShot](Media/Cyclone_built_v0.9.7.jpg)
 
 Mail list / Forum  
 --
@@ -14,6 +14,10 @@ Any help is appreciated, particularly with software development :)
 Wiki entry on RepRap.org  
 --
 <http://reprap.org/wiki/Cyclone_PCB_Factory>  
+
+Must read: Progress and current status of the Cyclone proyect  
+--
+<http://carlosgs.es/node/47>
 
 Bill of materials  
 --  
@@ -73,8 +77,8 @@ _Check Hardware, Software and Firmware sections for details regarding authorship
 
 Render (v0.9.7)  
 --
-![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7_full.png)  
-![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7_full_explodedView.png)  
+![ScreenShot](Media/Cyclone_render_v0.9.7_full.png)  
+![ScreenShot](Media/Cyclone_render_v0.9.7_full_explodedView.png)  
 **Thanks a lot to Glen Chung for the fully assembled renders**  
 
 Disclaimer  

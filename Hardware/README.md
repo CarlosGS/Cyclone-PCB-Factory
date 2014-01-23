@@ -17,8 +17,8 @@ News
 
 Render (v0.9.7)  
 --
-![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7_full.png)  
-![ScreenShot](https://github.com/carlosgs/Cyclone-PCB-Factory/raw/master/Media/Cyclone_render_v0.9.7_full_explodedView.png)  
+![ScreenShot](../Media/Cyclone_render_v0.9.7_full.png)  
+![ScreenShot](../Media/Cyclone_render_v0.9.7_full_explodedView.png)  
 **Thanks a lot to Glen Chung for the fully assembled renders**  
 
 Notes  
