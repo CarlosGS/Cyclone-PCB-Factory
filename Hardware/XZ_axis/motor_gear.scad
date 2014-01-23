@@ -38,7 +38,7 @@ include <MCAD/teardrop.scad>
 include <MCAD/involute_gears.scad>
 
 motor_shaft_diameter=5.4;
-pos=15.4; //position hole for grubnut
+pos=15.4-1; //position hole for grubnut
 nholes = 7;
 shaft_diam=10;
 shaft_height=7;

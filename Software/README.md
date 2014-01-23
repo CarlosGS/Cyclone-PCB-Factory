@@ -1,48 +1,18 @@
 Software for Cyclone-PCB-Factory  
 ===================
 
-**To-Do list**  
---  
-- Create simple program to provide Z probing support for any Gcode
-- Graphical User Interface (development in progress in the mail-list)
-- Note: The timeout for commands need to be increased.
+The original python scripts were only a proof of concept: the lack of GUI was a big drawback.  
 
-News  
---
-- _TO-DO update this list_
-- First Z probing results are promising, read: <https://plus.google.com/u/0/113437723819360223498/posts/9VCHqqnirj6> and <https://plus.google.com/u/0/113437723819360223498/posts/89W2cv1fgQW>  
-- Added the python probing script (v0.1) and Octave/Matlab visualizer  
+Some alternatives were suggested, and two of them have been made by developers inside the group. Kobus Du Toit and Patrick Knöbel have worked on two different alternatives that simplify the task of Z probing by making it more visual and intuitive for the end users:  
 
-Software: previous existing work  
---  
-Here is a compilation of links that have inspired the software controller (specifically the Z probing technique):  
+![ScreenShot](Media/Cyclone_first_year_13_GUIs.jpg)
 
-- <http://www.re-innovation.co.uk/web12/index.php/en/blog-75/181-making-pcbs-with-a-cnc-machine>  
-- <http://phk.freebsd.dk/CncPcb/>  
-- <http://wiki.linuxcnc.org/cgi-bin/wiki.pl?Touch_Probe>  
-- <http://things.onshoulders.org/software/PcbSubtraction.php>  
-- <http://www.cnczone.com/forums/pcb_milling/82628-cheap_simple_height-probing-5.html>  
-- <http://drillcity.stores.yahoo.net/>  
-- <http://www.drewtronics.net/>  
+* [Kobus's GUI](https://www.dropbox.com/sh/k7p896n0upv29u1/1T_lcIZDnH/prototypeGui2) ([forum](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/S3m1baPzwRk/DtyngGGJmBoJ)) and [Patrick Knöbel's gcode postprocessor](https://github.com/pknoe3lh/cncgcodecontroller/releases) ([forum](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/ToTGIpXWUmA/gyQMDqDOXfUJ))
 
-- **Examples of the PCB probing method**  
- - onshouldersTv: Open Source Circuit Boards at Home <http://www.youtube.com/watch?v=L-5SRtwx3kY>  
- - PCB routing using the Probe method <http://www.youtube.com/watch?v=fwgT9sCL8fs>  
-- <http://pcbgcode.org/>  
-- <http://sourceforge.net/apps/mediawiki/pcb2gcode/index.php?title=Main_Page>  
-- Very interesting toguether with cam.py: <http://code.google.com/p/pygerber2gcode/>  
-- <http://replicat.org/generators>  
-- For arranging panels: <http://ruggedcircuits.com/gerbmerge/>  
 
-License  
---
-**Attribution - Share Alike - Creative Commons (<http://creativecommons.org/licenses/by-sa/3.0/>)**  
+![ScreenShot](Media/Cyclone_v0.9.7_ViewGcode.jpg)
 
-Authors (Software)  
---
-- **Carlos García Saura (Carlosgs <http://carlosgs.es>)** (original python scripts)  
-- _GUI work in progress by various members of the mail-list_  
-
+* [Python scripts by Carlosgs](PythonScripts/)
 
 Disclaimer  
 --
