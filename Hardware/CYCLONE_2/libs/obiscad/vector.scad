@@ -7,6 +7,8 @@
 //-- Released under the GPL license
 //---------------------------------------------------------------
 
+obiscad_drawing_resolution = 6;
+
 //----------------------------------------
 //-- FUNCTIONS FOR WORKING WITH VECTORS
 //----------------------------------------
@@ -26,11 +28,8 @@ function dot(u,v) = u[0]*v[0]+u[1]*v[1]+u[2]*v[2];
 //-- Return the unit vector of a vector
 function unitv(v) = v/mod(v);
 
-//-- Return the angle between two vectors
+//-- Return the angle between two vectores
 function anglev(u,v) = acos( dot(u,v) / (mod(u)*mod(v)) );
-
-//-- Return a vector that is perpendicular
-function perpendicular(vec) = vec.x == 0 ? [1,0,0] : vec.y == 0 ? [0,1,0] : vec.z == 0 ? [0,0,1] : [-vec.y,vec.x,0];;
 
 //----------------------------------------------------------
 //--  Draw a point in the position given by the vector p  
@@ -38,7 +37,7 @@ function perpendicular(vec) = vec.x == 0 ? [1,0,0] : vec.y == 0 ? [0,1,0] : vec.
 module point(p)
 {
   translate(p)
-    sphere(r=0.7,$fn=20);
+    sphere(r=0.7,$fn=obiscad_drawing_resolution);
 }
 
 //------------------------------------------------------------------
@@ -62,7 +61,7 @@ module vectorz(l=10, l_arrow=4, mark=false)
 
     //-- Draw the arrow
     translate([0,0,lb/2])
-      cylinder(r1=2/2, r2=0.2, h=l_arrow, $fn=20);
+      cylinder(r1=2/2, r2=0.2, h=l_arrow, $fn=obiscad_drawing_resolution);
 
     //-- Draw the mark
     if (mark) {
@@ -72,11 +71,11 @@ module vectorz(l=10, l_arrow=4, mark=false)
     }
 
     //-- Draw the body
-    cylinder(r=1/2, h=lb, center=true, $fn=20);
+    cylinder(r=1/2, h=lb, center=true, $fn=obiscad_drawing_resolution);
   }
 
   //-- Draw a sphere in the vector base
-  sphere(r=1/2, $fn=20);
+  sphere(r=1/2, $fn=obiscad_drawing_resolution);
 }
 
 //-----------------------------------------------------------------
@@ -180,7 +179,7 @@ module frame(l=10, l_arrow=4)
 
   //-- Origin
   color("Gray")
-    sphere(r=1, $fn=20);
+    sphere(r=1, $fn=obiscad_drawing_resolution);
 }
 
 //--------------------------------------------------
