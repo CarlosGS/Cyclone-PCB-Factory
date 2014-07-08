@@ -7,6 +7,6 @@
 
 module Cyclone_X_carriage() {
 	color("lightblue") translate([-(axes_Zsmooth_separation+10)/2,-5,-5])
-		cube([axes_Zsmooth_separation+10,50,axes_Xsmooth_separation+10]);
+		cube([axes_Zsmooth_separation+10,axes_Xsmooth_separation+10,axes_Zreference_height+5]);
 }
 

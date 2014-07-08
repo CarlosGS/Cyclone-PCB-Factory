@@ -12,56 +12,62 @@ use <libs/obiscad/bcube.scad>
 use <libs/standard_parts.scad>
 use <libs/hole_for_screw.scad>
 
+// Functions for animations. Quick and dirty implementation, will need some cleanup
+animated_parts_number = 10;
+animated_timePerPart = 1/animated_parts_number;
+function animationBump(tbegin,tend,t=$t%1) = ((t >= tbegin) && (t <= tend)) ? (1+sin((t-tbegin)*360/(tend-tbegin)-90)) : 0;
+function animatePart(n,dist=30,overlap=animated_timePerPart*0.25) = dist*animationBump((n-1)*animated_timePerPart-overlap,n*animated_timePerPart+overlap);
+
 
 // Parameters for the bottom base
-base_size_X			= 304.8+50*(1+sin(0.5*$t*360));
-base_size_Y			= 261.62+50*(1+sin(0.5*$t*360));
+base_size_X			= 304.8+animatePart(1,overlap=0);
+base_size_Y			= 261.62+animatePart(2);
 base_thickness		= 8;
 base_corner_radius	= 20;
 base_corner_res		= 0;
 
 
 // Parameters for the axes sizes
-axes_Xsmooth_rodLen	= 265+50*(1+sin(0.5*$t*360));
-axes_Ysmooth_rodLen	= 240+50*(1+sin(0.5*$t*360));
-axes_Zsmooth_rodLen	= 100+50*(1+sin(0.5*$t*360));
+axes_Xsmooth_rodLen	= 265+animatePart(1,overlap=0);
+axes_Ysmooth_rodLen	= 240+animatePart(2);
+axes_Zsmooth_rodLen	= 100+animatePart(3);
 
 axes_Xthreaded_rodLen	= axes_Xsmooth_rodLen+50;
 axes_Ythreaded_rodLen	= axes_Ysmooth_rodLen-50;
 axes_Zthreaded_rodLen	= axes_Zsmooth_rodLen+50;
 
-axes_Xsmooth_rodD	= 8.5;
-axes_Ysmooth_rodD	= 8.5;
-axes_Zsmooth_rodD	= 8.5;
+axes_Xsmooth_rodD	= 8.5+animatePart(4,dist=5);
+axes_Ysmooth_rodD	= 8.5+animatePart(4,dist=5);
+axes_Zsmooth_rodD	= 8.5+animatePart(4,dist=5);
 
-axes_Xthreaded_rodD	= 8;
-axes_Ythreaded_rodD	= 8;
-axes_Zthreaded_rodD	= 8;
+axes_Xthreaded_rodD	= 8+animatePart(4,dist=5);
+axes_Ythreaded_rodD	= 8+animatePart(4,dist=5);
+axes_Zthreaded_rodD	= 8+animatePart(4,dist=5);
 
 // Parameters for the axes reference position
 // Note: The reference coordinates are centered like this:
 // Y axis reference is the Y smooth rod end, BACK of RIGHT FRAME
 // X axis reference is the frontal X smooth rod end, RIGHT FRAME
 // Z axis reference is the Z threaded rod, at the height of the Z nut, and relative to the X reference
-axes_Yreference_height	= 30;
-axes_Xreference_height	= 60; // relative to Y reference
-axes_Zreference_height	= 45; // relative to X reference
+axes_Yreference_height	= 30+animatePart(5);
+axes_Xreference_height	= 60+animatePart(6); // relative to Y reference
+axes_Zreference_height	= 45+animatePart(7)+animatePart(9); // relative to X reference
 
-axes_Xreference_posY	= -70; // relative to Y reference. Moves the X axis towards the front of the machine
+axes_Xreference_posY	= -70-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
 axes_Zreference_posY	= 15; // relative to X reference. Positions Z nut between the Y rods
 
-axes_Y_threaded_height = 25;
+axes_Y_threaded_height = 25+animatePart(5);
 
-axes_Ysmooth_separation	= 180+50*(1+sin(0.5*$t*360));
-axes_Xsmooth_separation = 40;
-axes_Zsmooth_separation = 35;
+axes_Ysmooth_separation	= 180+animatePart(1,overlap=0);
+axes_Xsmooth_separation = 40+animatePart(9);
+axes_Zsmooth_separation = 35+animatePart(10,overlap=0);
 
 
 
 // Carriage positions (for rendering)
 axes_Xcarriage_pos = axes_Xsmooth_rodLen/2+sin($t*360)*axes_Xsmooth_rodLen/3;
 axes_Ycarriage_pos = axes_Ysmooth_rodLen/2+sin($t*360)*axes_Ysmooth_rodLen/3;
-axes_Zcarriage_pos = axes_Zsmooth_rodLen/3+sin(5*$t*360)*axes_Zsmooth_rodLen/4;
+axes_Zcarriage_pos = axes_Zsmooth_rodLen/3+sin($t*360)*axes_Zsmooth_rodLen/4;
 
 
 
