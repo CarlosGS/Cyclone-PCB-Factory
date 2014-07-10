@@ -16,3 +16,16 @@ module Cyclone_Y_backFrame() {
 	scale([1,-1,1]) Cyclone_Y_frontFrame();
 }
 
+
+module Cyclone_Y_rightSmoothRodIdler() {
+	color("lightcyan")
+		translate([-5,0,-axes_Yreference_height]) {
+			cube([20,10,axes_Yreference_height+5]);
+		}
+}
+
+
+module Cyclone_Y_leftSmoothRodIdler() {
+	scale([-1,1,1]) Cyclone_Y_rightSmoothRodIdler();
+}
+

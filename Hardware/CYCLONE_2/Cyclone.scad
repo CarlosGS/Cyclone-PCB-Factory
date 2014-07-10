@@ -84,7 +84,6 @@ draw_references = true;
 include <Cyclone_X_carriage.scad>
 include <Cyclone_Z_carriage.scad>
 include <Cyclone_X_frames.scad>
-include <Cyclone_Y_SmoothRodIdlers.scad>
 include <Cyclone_Y_carriage.scad>
 include <Cyclone_Y_frames.scad>
 
