@@ -8,19 +8,19 @@ use <obiscad/obiscad/bcube.scad>
 
 $render_standard_parts = false;
 
-module renderStandardPart() {
-	if($render_standard_parts) children();
+module renderStandardPart(renderPart) {
+	if(renderPart) children();
 	else %children();
 }
 
-module standard_paperSheet_A4(t=0.05) {
-	renderStandardPart()
+module standard_paperSheet_A4(t=0.05, renderPart=false) {
+	renderStandardPart(renderPart)
 		translate([0,0,t/2])
 			color("white") cube([297,210,t], center=true);
 }
 
-module standard_rod(diam=8, length=10, threaded=true, center=false) {
-	renderStandardPart()
+module standard_rod(diam=8, length=10, threaded=true, center=false, renderPart=false) {
+	renderStandardPart(renderPart)
 		if(threaded) {
 			color("black") rotate([-90,0,0]) cylinder(r=diam/2, h=length, center=center);
 		} else {
@@ -28,16 +28,16 @@ module standard_rod(diam=8, length=10, threaded=true, center=false) {
 		}
 }
 
-module rubberFoot(diam=40, thickness=8) {
-	renderStandardPart()
+module rubberFoot(diam=40, thickness=8, renderPart=false) {
+	renderStandardPart(renderPart)
 		color("black")
 			translate([0,0,-thickness])
 				cylinder(r=diam/2, h=thickness);
 }
 
 
-module beveledBase(size=[100,200,10], radius=10, res=15) {
-	renderStandardPart()
+module beveledBase(size=[100,200,10], radius=10, res=15, renderPart=false) {
+	renderStandardPart(renderPart)
 		color("brown")
 			translate([0,0,-size.z/2])
 				bcube(size, cr=radius, cres=res);

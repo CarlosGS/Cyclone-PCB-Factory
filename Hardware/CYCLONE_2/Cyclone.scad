@@ -13,7 +13,7 @@ use <libs/obiscad/obiscad/vector.scad>
 use <libs/obiscad/obiscad/attach.scad>
 use <libs/obiscad/obiscad/bcube.scad>
 use <libs/standard_parts.scad>
-use <libs/hole_for_screw.scad>
+use <libs/helpers.scad>
 
 // Functions for animations. Quick and dirty implementation, will need some cleanup
 animated_parts_number = 10;
@@ -52,7 +52,7 @@ axes_Zthreaded_rodD	= 8+animatePart(4,dist=5);
 // Y axis reference is the Y smooth rod end, BACK of RIGHT FRAME
 // X axis reference is the frontal X smooth rod end, RIGHT FRAME
 // Z axis reference is the Z threaded rod, at the height of the Z nut, and relative to the X reference
-axes_Yreference_height	= 30+animatePart(5);
+axes_Yreference_height	= 42+animatePart(5);
 axes_Xreference_height	= 60+animatePart(6); // relative to Y reference
 axes_Zreference_height	= 45+animatePart(7)+animatePart(9); // relative to X reference
 
@@ -234,6 +234,4 @@ translate([0,-axes_Ysmooth_rodLen/2+axes_Ycarriage_pos,axes_Y_threaded_height]) 
 	
 	Cyclone_Y_carriage();
 }
-
-hole_for_screw(size=3,length=20,nutDepth=0,nutAddedLen=0,captiveLen=10);
 

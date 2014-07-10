@@ -5,25 +5,31 @@
 // Designed with http://www.openscad.org/
 
 
-Ycarriage_linearBearingSeparation = 60;
+Ycarriage_linearBearingSeparation = 35;
+
+
+module Cyclone_YsubPart_nutHolder() {
+	
+}
 
 module Cyclone_Y_carriage() {
+	baseHeight = 10;
 	color("lightgreen") {
 		translate([-10,-5,-5])
-			cube([20,15,axes_Y_smoothThreaded_verticalSeparation+10]);
-		translate([0,0,axes_Y_smoothThreaded_verticalSeparation]) {
+			cube([20,15,axes_Y_smoothThreaded_verticalSeparation+10+baseHeight]);
+		translate([0,0,axes_Y_smoothThreaded_verticalSeparation+baseHeight/2]) {
 			translate([axes_Ysmooth_separation/2,Ycarriage_linearBearingSeparation/2])
-				cube([10,10,10], center=true);
+				cube([10,10,10+baseHeight], center=true);
 			translate([-axes_Ysmooth_separation/2,Ycarriage_linearBearingSeparation/2])
-				cube([10,10,10], center=true);
+				cube([10,10,10+baseHeight], center=true);
 			translate([-axes_Ysmooth_separation/2,-Ycarriage_linearBearingSeparation/2])
-				cube([10,10,10], center=true);
+				cube([10,10,10+baseHeight], center=true);
 			translate([axes_Ysmooth_separation/2,-Ycarriage_linearBearingSeparation/2])
-				cube([10,10,10], center=true);
+				cube([10,10,10+baseHeight], center=true);
 		}
 	}
 	
-	translate([0,0,8+5+axes_Y_smoothThreaded_verticalSeparation])
-		beveledBase(size=[axes_Ysmooth_separation+50,Ycarriage_linearBearingSeparation+50,8], radius=3, res=15);
+	translate([0,0,8+5+axes_Y_smoothThreaded_verticalSeparation+baseHeight])
+		beveledBase(size=[axes_Ysmooth_separation+50,Ycarriage_linearBearingSeparation+100,8], radius=3, res=15);
 }
 
