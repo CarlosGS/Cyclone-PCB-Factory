@@ -4,6 +4,9 @@
 // License: CC BY-SA 4.0 (Attribution-ShareAlike 4.0 International, http://creativecommons.org/licenses/by-sa/4.0/)
 // Designed with http://www.openscad.org/
 
+// Increase the resolution of default shapes
+$fa = 5; // Minimum angle for fragments [degrees]
+$fs = 0.5; // Minimum fragment size [mm]
 
 // Load necessary libraries
 use <libs/obiscad/vector.scad>
@@ -232,5 +235,5 @@ translate([0,-axes_Ysmooth_rodLen/2+axes_Ycarriage_pos,axes_Y_threaded_height]) 
 	Cyclone_Y_carriage();
 }
 
-
+hole_for_screw(size=3,length=20,nutDepth=0,nutAddedLen=0,captiveLen=10);
 

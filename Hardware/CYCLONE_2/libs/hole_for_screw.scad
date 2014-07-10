@@ -27,7 +27,7 @@ module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tol
 				}
 	translate([0,length/2-2.6,0])
 		rotate([90,0,0])
-			render() boltHole(size=size, length=length-2.6+0.5, tolerance=tolerance-0.1, proj=-1, $fn=40);
+			render() boltHole(size=size, length=length-2.6+0.5, tolerance=tolerance-0.1, proj=-1);
 }
 
 hole_for_screw(size=3,length=20,nutDepth=0,nutAddedLen=0,captiveLen=10);

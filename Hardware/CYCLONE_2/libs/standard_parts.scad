@@ -19,7 +19,7 @@ module standard_paperSheet_A4(t=0.05) {
 			color("white") cube([297,210,t], center=true);
 }
 
-module standard_rod(diam=8, length=10, threaded=true, center=false, $fn=18) {
+module standard_rod(diam=8, length=10, threaded=true, center=false) {
 	renderStandardPart()
 		if(threaded) {
 			color("black") rotate([-90,0,0]) cylinder(r=diam/2, h=length, center=center);
