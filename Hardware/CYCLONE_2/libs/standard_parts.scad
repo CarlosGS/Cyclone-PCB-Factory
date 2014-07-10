@@ -4,7 +4,7 @@
 // License: CC BY-SA 4.0 (Attribution-ShareAlike 4.0 International, http://creativecommons.org/licenses/by-sa/4.0/)
 // Designed with http://www.openscad.org/
 
-use <obiscad/bcube.scad>
+use <obiscad/obiscad/bcube.scad>
 
 $render_standard_parts = false;
 

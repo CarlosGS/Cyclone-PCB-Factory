@@ -9,9 +9,9 @@ $fa = 5; // Minimum angle for fragments [degrees]
 $fs = 0.5; // Minimum fragment size [mm]
 
 // Load necessary libraries
-use <libs/obiscad/vector.scad>
-use <libs/obiscad/attach.scad>
-use <libs/obiscad/bcube.scad>
+use <libs/obiscad/obiscad/vector.scad>
+use <libs/obiscad/obiscad/attach.scad>
+use <libs/obiscad/obiscad/bcube.scad>
 use <libs/standard_parts.scad>
 use <libs/hole_for_screw.scad>
 
