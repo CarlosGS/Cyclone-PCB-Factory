@@ -6,40 +6,148 @@
 
 use <obiscad/obiscad/bcube.scad>
 
-$render_standard_parts = false;
+// Activate to generate STL for the fully assembled machine
+render_all_parts = false;
 
+// Selects if the part is fully rendered or only in preview mode
 module renderStandardPart(renderPart) {
-	if(renderPart) children();
+	if(renderPart || render_all_parts) children();
 	else %children();
 }
 
-module standard_paperSheet_A4(t=0.05, renderPart=false) {
+module standard_paperSheet_A4(t=0.05, renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
 		translate([0,0,t/2])
 			color("white") cube([297,210,t], center=true);
+	if(echoPart) echo(str("BOM: Paper sheet. A4. Thickness ", t, "mm"));
 }
 
-module standard_rod(diam=8, length=10, threaded=true, center=false, renderPart=false) {
+module standard_rod(diam=8, length=10, threaded=true, center=false, renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
 		if(threaded) {
 			color("black") rotate([-90,0,0]) cylinder(r=diam/2, h=length, center=center);
+			if(echoPart) echo(str("BOM: Rod. Threaded. Diameter ", diam, "mm. Length ", length, "mm"));
 		} else {
 			color("grey") rotate([-90,0,0]) cylinder(r=diam/2, h=length, center=center);
+			if(echoPart) echo(str("BOM: Rod. Smooth. Diameter ", diam, "mm. Length ", length, "mm"));
 		}
 }
 
-module rubberFoot(diam=40, thickness=8, renderPart=false) {
+module rubberFoot(diam=40, thickness=8, renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
 		color("black")
 			translate([0,0,-thickness])
 				cylinder(r=diam/2, h=thickness);
+	if(echoPart) echo(str("BOM: Rubber foot. Diameter ", diam, "mm. Thickness ", thickness, "mm"));
 }
 
 
-module beveledBase(size=[100,200,10], radius=10, res=15, renderPart=false) {
+module beveledBase(size=[100,200,10], radius=10, res=15, renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
 		color("brown")
 			translate([0,0,-size.z/2])
 				bcube(size, cr=radius, cres=res);
+	if(echoPart) echo(str("BOM: Base. Size ", size, "mm"));
 }
+
+
+
+
+include <MCAD/nuts_and_bolts.scad>
+
+module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0.15, echoPart=false) {
+	radius = METRIC_NUT_AC_WIDTHS[size]/2+tolerance;
+	height = METRIC_NUT_THICKNESS[size]+tolerance;
+	translate([0,-length/2,0]) {
+	translate([0,-length/2+height+nutAddedLen+nutDepth-0.01,0])
+		scale([1,(height+nutAddedLen)/height,1])
+			rotate([90,0,0])
+				hull() {
+					nutHole(size=size, tolerance=tolerance, proj=-1);
+					translate([0,captiveLen,0])
+						nutHole(size=size, tolerance=tolerance, proj=-1);
+				}
+	translate([0,length/2-height+0.01,0]) //TODO (from MCAD): proper screw cap values: instead of "height" will use METRIC_BOLT_CAP_HEIGHTS[size]+tolerance;
+		rotate([90,0,0])
+			render() boltHole(size=size, length=length-2.6+0.5, tolerance=tolerance, proj=-1);
+	}
+	if(echoPart) echo(str("BOM: Screw. M", size, ". Length ", length, "mm"));
+	if(echoPart) echo(str("BOM: Nut. M", size, "."));
+}
+
+module screw_and_nut(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0, autoNutOffset=false, renderPart=false, echoPart=false) {
+	renderStandardPart(renderPart)
+		color("black")
+			difference() {
+				if(autoNutOffset)
+					hole_for_screw(size,length+METRIC_NUT_THICKNESS[size],nutDepth,nutAddedLen,captiveLen,tolerance, echoPart=echoPart);
+				else
+					hole_for_screw(size,length,nutDepth,nutAddedLen,captiveLen,tolerance, echoPart=echoPart);
+				rotate([0,45,0]) {
+					cube([1,1,10],center=true);
+					cube([10,1,1],center=true);
+				}
+			}
+}
+
+module screw_single(size=3,length=10,tolerance=0, renderPart=false, echoPart=false) {
+	height = METRIC_NUT_THICKNESS[size]+tolerance;
+	color("black")
+	renderStandardPart(renderPart)
+	difference() {
+	translate([0,-length/2,0]) {
+		translate([0,length/2-height+0.01,0]) //TODO (from MCAD): proper screw cap values: instead of "height" will use METRIC_BOLT_CAP_HEIGHTS[size]+tolerance;
+			rotate([90,0,0])
+				boltHole(size=size, length=length-2.6+0.5, tolerance=tolerance, proj=-1);
+		}
+		rotate([0,45,0]) {
+			cube([1,1,10],center=true);
+			cube([10,1,1],center=true);
+		}
+	}
+	if(echoPart) echo(str("BOM: Screw. M", size, ". Length ", length, "mm"));
+}
+
+use <MCAD/motors.scad>
+include <MCAD/stepper.scad>
+module stepperMotor_mount(height, tolerance=0.15, slide_distance=5, sideLen=42.20, slideOut=false, renderPart=false) {
+	render() union() {
+	linear_extrude(height=height) offset(delta = tolerance, join_type = "round") union() {
+		stepper_motor_mount(nema_standard=17, slide_distance=slide_distance, mochup=false);
+		if(slideOut) translate([0,50]) square([22,100],center=true);
+	}
+	if(slideOut)
+		translate([0,25,-25]) bcube([sideLen+2*tolerance,sideLen+slide_distance+2*tolerance+50,50],cr=3,cres=10);
+	else
+		translate([0,0,-25]) bcube([sideLen+2*tolerance,sideLen+slide_distance+2*tolerance,50],cr=3,cres=10);
+	}
+}
+
+module stepperMotor(screwHeight=10, renderPart=false, echoPart=false) {
+	nema_screw_separation = lookup(NemaDistanceBetweenMountingHoles, Nema17);
+	realScrewLength = screwHeight+METRIC_NUT_THICKNESS[3];
+	scale([1,1,-1]) renderStandardPart(renderPart) {
+		translate([0,0,-1]) motor(Nema17, size=NemaMedium, dualAxis=false);
+		translate([nema_screw_separation/2,nema_screw_separation/2,-realScrewLength]) rotate([-90,0,0]) screw_single(size=3,length=realScrewLength+5,echoPart=echoPart);
+		//translate([nema_screw_separation/2,-nema_screw_separation/2,-realScrewLength]) rotate([-90,0,0]) screw_single(size=3,length=realScrewLength+5,echoPart=echoPart);
+		translate([-nema_screw_separation/2,-nema_screw_separation/2,-realScrewLength]) rotate([-90,0,0]) screw_single(size=3,length=realScrewLength+5,echoPart=echoPart);
+		//translate([-nema_screw_separation/2,nema_screw_separation/2,-realScrewLength]) rotate([-90,0,0]) screw_single(size=3,length=realScrewLength+5,echoPart=echoPart);
+	}
+	if(echoPart) echo(str("BOM: Motor. Nema17"));
+}
+
+
+
+module motorGear(r=30,renderPart=false, echoPart=false) {
+	renderStandardPart(renderPart)
+		#color("lightgreen") cylinder(r=r,h=10)
+	if(echoPart) echo(str("BOM: Gear. Motor."));
+}
+
+module rodGear(r=30,renderPart=false, echoPart=false) {
+	renderStandardPart(renderPart)
+		#color("lightgreen") cylinder(r=r,h=10)
+	if(echoPart)  echo(str("BOM: Gear. Rod."));
+}
+
 

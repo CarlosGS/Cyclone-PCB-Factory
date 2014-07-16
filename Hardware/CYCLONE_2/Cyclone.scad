@@ -13,7 +13,6 @@ use <libs/obiscad/obiscad/vector.scad>
 use <libs/obiscad/obiscad/attach.scad>
 use <libs/obiscad/obiscad/bcube.scad>
 use <libs/standard_parts.scad>
-use <libs/helpers.scad>
 
 // Functions for animations. Quick and dirty implementation, will need some cleanup
 animated_parts_number = 10;
@@ -32,7 +31,7 @@ base_corner_res		= 0;
 
 // Parameters for the axes sizes
 axes_Xsmooth_rodLen	= 265+animatePart(1,overlap=0);
-axes_Ysmooth_rodLen	= 240+animatePart(2);
+axes_Ysmooth_rodLen	= 240+animatePart(2)-30;
 axes_Zsmooth_rodLen	= 100+animatePart(3);
 
 axes_Xthreaded_rodLen	= axes_Xsmooth_rodLen+50;
@@ -53,7 +52,7 @@ axes_Zthreaded_rodD	= 8+animatePart(4,dist=5);
 // X axis reference is the frontal X smooth rod end, RIGHT FRAME
 // Z axis reference is the Z threaded rod, at the height of the Z nut, and relative to the X reference
 axes_Yreference_height	= 42+animatePart(5);
-axes_Xreference_height	= 60+animatePart(6); // relative to Y reference
+axes_Xreference_height	= 70+animatePart(6); // relative to Y reference
 axes_Zreference_height	= 45+animatePart(7)+animatePart(9); // relative to X reference
 
 axes_Xreference_posY	= -70-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
@@ -65,6 +64,9 @@ axes_Ysmooth_separation	= 180+animatePart(1,overlap=0);
 axes_Xsmooth_separation = 40+animatePart(9);
 axes_Zsmooth_separation = 35+animatePart(10,overlap=0);
 
+
+motor_sideLen = 42.20;
+axialBearingD = 22;
 
 
 // Carriage positions (for rendering)
@@ -81,8 +83,6 @@ axes_Y_smoothThreaded_verticalSeparation = axes_Yreference_height-axes_Y_threade
 // Activate/Deactivate rendering auxiliary references (LCS axis, etc)
 draw_references = true;
 
-
-
 // Include Cyclone parts
 include <Cyclone_X_carriage.scad>
 include <Cyclone_Z_carriage.scad>
@@ -95,25 +95,25 @@ include <Cyclone_Y_frames.scad>
 if(draw_references) %frame();
 
 // Main base for the machine
-beveledBase([base_size_X,base_size_Y,base_thickness], radius=base_corner_radius, res=base_corner_res);
+beveledBase([base_size_X,base_size_Y,base_thickness], radius=base_corner_radius, res=base_corner_res, echoPart=true);
 //%color("brown") translate([0,0,-base_thickness/2]) bcube([base_size_X,base_size_Y,base_thickness], cr=base_corner_radius, cres=base_corner_res);
 
 
 // A4 paper sheet for reference
-standard_paperSheet_A4();
+standard_paperSheet_A4(echoPart=true);
 
 
 // Cyclone foot stands
 foot_offset = 40;
 translate([0,0,-base_thickness]) {
 	translate([base_size_X/2-foot_offset,base_size_Y/2-foot_offset])
-		rubberFoot();
+		rubberFoot(echoPart=true);
 	translate([-base_size_X/2+foot_offset,base_size_Y/2-foot_offset])
-		rubberFoot();
+		rubberFoot(echoPart=true);
 	translate([-base_size_X/2+foot_offset,-base_size_Y/2+foot_offset])
-		rubberFoot();
+		rubberFoot(echoPart=true);
 	translate([base_size_X/2-foot_offset,-base_size_Y/2+foot_offset])
-		rubberFoot();
+		rubberFoot(echoPart=true);
 }
 
 
@@ -123,7 +123,7 @@ translate([-axes_Ysmooth_separation/2,axes_Ysmooth_rodLen/2,axes_Yreference_heig
 	if(draw_references) %frame();
 
 	// Draw right Y smooth rod
-	rotate([0,0,180]) standard_rod(diam=axes_Ysmooth_rodD, length=axes_Ysmooth_rodLen, threaded=false);
+	rotate([0,0,180]) standard_rod(diam=axes_Ysmooth_rodD, length=axes_Ysmooth_rodLen, threaded=false, echoPart=true);
 	
 	Cyclone_X_rightFrame();
 	
@@ -133,7 +133,7 @@ translate([-axes_Ysmooth_separation/2,axes_Ysmooth_rodLen/2,axes_Yreference_heig
 		if(draw_references) %frame();
 		
 		// Draw right Y smooth rod
-		rotate([0,0,180]) standard_rod(diam=axes_Ysmooth_rodD, length=axes_Ysmooth_rodLen, threaded=false);
+		rotate([0,0,180]) standard_rod(diam=axes_Ysmooth_rodD, length=axes_Ysmooth_rodLen, threaded=false, echoPart=true);
 		
 		Cyclone_X_leftFrame();
 	}
@@ -144,13 +144,13 @@ translate([-axes_Ysmooth_separation/2,axes_Ysmooth_rodLen/2,axes_Yreference_heig
 		if(draw_references) %frame();
 		
 		// Draw bottom X smooth rod
-		rotate([0,0,-90]) standard_rod(diam=axes_Xsmooth_rodD, length=axes_Xsmooth_rodLen, threaded=false);
+		rotate([0,0,-90]) standard_rod(diam=axes_Xsmooth_rodD, length=axes_Xsmooth_rodLen, threaded=false, echoPart=true);
 		// Draw X threaded rod
 		translate([-(axes_Xthreaded_rodLen-axes_Xsmooth_rodLen)/2,axes_Xsmooth_separation,0])
-			rotate([0,0,-90]) standard_rod(diam=axes_Xthreaded_rodD, length=axes_Xthreaded_rodLen, threaded=true);
+			rotate([0,0,-90]) standard_rod(diam=axes_Xthreaded_rodD, length=axes_Xthreaded_rodLen, threaded=true, echoPart=true);
 		// Draw top X smooth rod
 		translate([0,axes_Xsmooth_separation,axes_Xsmooth_separation])
-			rotate([0,0,-90]) standard_rod(diam=axes_Xsmooth_rodD, length=axes_Xsmooth_rodLen, threaded=false);
+			rotate([0,0,-90]) standard_rod(diam=axes_Xsmooth_rodD, length=axes_Xsmooth_rodLen, threaded=false, echoPart=true);
 		
 		
 		// TRANSLATE REFERENCE POSITION to the X carriage (centered)
@@ -165,13 +165,13 @@ translate([-axes_Ysmooth_separation/2,axes_Ysmooth_rodLen/2,axes_Yreference_heig
 				if(draw_references) %frame();
 				
 				// Draw Z smooth rod (right)
-				rotate([90,0,0]) standard_rod(diam=axes_Zsmooth_rodD, length=axes_Zsmooth_rodLen, threaded=false);
+				rotate([90,0,0]) standard_rod(diam=axes_Zsmooth_rodD, length=axes_Zsmooth_rodLen, threaded=false, echoPart=true);
 				// Draw Z smooth rod (left)
 				translate([axes_Zsmooth_separation,0,0])
-					rotate([90,0,0]) standard_rod(diam=axes_Zsmooth_rodD, length=axes_Zsmooth_rodLen, threaded=false);
+					rotate([90,0,0]) standard_rod(diam=axes_Zsmooth_rodD, length=axes_Zsmooth_rodLen, threaded=false, echoPart=true);
 				// Draw Z threaded rod
 				translate([axes_Zsmooth_separation/2,0,0])
-					rotate([90,0,0]) standard_rod(diam=axes_Zthreaded_rodD, length=axes_Zthreaded_rodLen, threaded=true);
+					rotate([90,0,0]) standard_rod(diam=axes_Zthreaded_rodD, length=axes_Zthreaded_rodLen, threaded=true, echoPart=true);
 				
 				
 				// TRANSLATE REFERENCE POSITION to the Z axis reference

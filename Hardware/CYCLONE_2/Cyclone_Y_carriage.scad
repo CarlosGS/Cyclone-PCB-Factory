@@ -29,7 +29,7 @@ module Cyclone_Y_carriage() {
 		}
 	}
 	
-	translate([0,0,8+5+axes_Y_smoothThreaded_verticalSeparation+baseHeight])
-		beveledBase(size=[axes_Ysmooth_separation+50,Ycarriage_linearBearingSeparation+100,8], radius=3, res=15);
+	*translate([0,0,8+5+axes_Y_smoothThreaded_verticalSeparation+baseHeight])
+		beveledBase(size=[axes_Ysmooth_separation+50,Ycarriage_linearBearingSeparation+100,8], radius=3, res=15, echoPart=true);
 }
 
