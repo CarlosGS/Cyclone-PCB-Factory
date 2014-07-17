@@ -19,10 +19,41 @@ module Cyclone_Y_frontFrame() {
 			cube([20,10,axes_Y_threaded_height+5]);
 }
 
+use <MCAD/bearing.scad>
 
 module Cyclone_Y_backFrame() {
-	scale([1,-1,1]) Cyclone_Y_frontFrame();
+	//scale([1,-1,1]) Cyclone_Y_frontFrame();
+	rod_nut_len = 0.8*axes_Ythreaded_rodD;
+	bearing_width = bearingWidth(608);
+	bearingDepth = 3;
+	partThickness = 10;
+	
+	translate([0,0.01,0])
+		rotate([90,0,0])
+			rotate([0,0,45]) nut(size=axes_Ythreaded_rodD, chamfer=true, echoPart=true);
+	translate([0,-rod_nut_len,0])
+		rotate([90,0,0])
+			nut(size=axes_Ythreaded_rodD, echoPart=true);
+	
+	translate([0,-2*rod_nut_len,0]) {
+		translate([0,bearingDepth-bearing_width,0]) {
+			difference() {
+				scale([1,-1,1]) translate([-15,0,-axes_Y_threaded_height])
+					cube([30,partThickness,axes_Y_threaded_height+15]);
+				rotate([90,0,0])
+					bearingHole(depth=bearingDepth, thickness=partThickness);
+			}
+		}
+		rotate([90,0,0])
+			radialBearing(echoPart=true);
+	}
 }
+
+
+
+
+
+
 
 
 

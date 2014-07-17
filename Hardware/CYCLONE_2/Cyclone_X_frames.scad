@@ -22,8 +22,12 @@
 /*}*/
 
 
+motor_sideLen = 42.20;
+
 axes_XgearSeparation = 37;
-axes_XgearRatio = 0.6;
+axes_XgearRatio = 21/21; // Number of tooth (motor/rod)
+
+X_frames_additional_thickness = 10;
 
 module Cyclone_X_rightFrame() {
 	scale([-1,1,1]) Cyclone_X_leftFrame(isLeft=false);
@@ -37,7 +41,7 @@ module Cyclone_X_leftFrame(isLeft=true) {
 	motorRotatedOffset = 10;
 	gearWallSeparation = 5;
 	
-	partThickness = 10+screwSize*2;
+	partThickness = X_frames_additional_thickness+screwSize*2;
 	
 	dimX = partThickness;
 	dimY = max(-axes_Xreference_posY,axes_Xsmooth_separation+axes_XgearSeparation*cos(motorRotatedOffset)+motor_sideLen/2+2);
@@ -81,11 +85,7 @@ module Cyclone_X_leftFrame(isLeft=true) {
 				translate([0,-15,-40]) rotate([0,-90,0]) cylinder(r=15,h=partThickness*2);
 				translate([0,30,-40]) rotate([0,-90,0]) cylinder(r=15,h=partThickness*2);
 				translate([0,-15,-80]) rotate([0,-90,0]) cylinder(r=15,h=partThickness*2);
-				rotate([0,-90,0]) {
-					cylinder(r=axialBearingD/2,h=bearingDepth);
-					translate([0,0,bearingDepth-0.01]) cylinder(r1=axialBearingD/2,r2=axialBearingD/2-1,h=1.5);
-					cylinder(r=axialBearingD/2-1,h=partThickness*2);
-				}
+				rotate([0,-90,0]) bearingHole(depth=bearingDepth, thickness=partThickness);
 				//rotate([0,0,90]) standard_rod(diam=axes_Xthreaded_rodD+10, length=partThickness*4, threaded=false, renderPart=true, center=true);
 				// Translate to motor position
 				if(isLeft)
@@ -127,14 +127,17 @@ hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nut
 		// TRANSLATE REFERENCE POSITION to the threaded rod
 		translate([0,axes_Xsmooth_separation,0]) {
 			if(draw_references) color("green") %frame(20);
+			translate([-bearingDepth,0,0]) rotate([0,90,0])
+				radialBearing(echoPart=true);
 			if(isLeft) {
-				translate([gearWallSeparation,0,0]) rotate([0,90,0]) rodGear(r=axes_XgearSeparation*(1-axes_XgearRatio), echoPart=true);
+				translate([gearWallSeparation,0,0]) rotate([0,90,0])
+					rodGear(r=axes_XgearSeparation/(1+1/axes_XgearRatio), echoPart=true);
 				// Translate to motor position
 				rotate([motorRotatedOffset,0,0]) {
 					translate([0,axes_XgearSeparation,0])
 						rotate([-motorRotatedOffset,0,0]) {
 							translate([-motorWallSeparation,0,0]) rotate([0,90,0]) stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
-							translate([gearWallSeparation,0,0]) rotate([0,90,0]) rodGear(r=axes_XgearSeparation*axes_XgearRatio, echoPart=true);
+							translate([gearWallSeparation,0,0]) rotate([0,90,0]) rodGear(r=axes_XgearSeparation/(1+axes_XgearRatio), echoPart=true);
 						}
 				}
 			}
@@ -166,7 +169,7 @@ hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nut
 module rodHolder(rodD=8.5, screwSize=3, height=0, sideLen=0, thickness=5, space=2, negative=false) {
 	screwAditionalDistance = rodD/2;
 	dimX = rodD+4*screwSize+screwAditionalDistance;
-	dimY = 10+screwSize*2;
+	dimY = X_frames_additional_thickness+screwSize*2;
 	dimZ = rodD/2+thickness;
 	if(negative) {
 		translate([screwSize+screwAditionalDistance,-dimY/2,dimZ])

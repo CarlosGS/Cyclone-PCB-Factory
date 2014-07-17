@@ -5,6 +5,19 @@
 // Designed with http://www.openscad.org/
 
 use <obiscad/obiscad/bcube.scad>
+use <MCAD/metric_fastners.scad>
+
+/*Oak = [0.65, 0.5, 0.4];*/
+/*Pine = [0.85, 0.7, 0.45];*/
+/*Birch = [0.9, 0.8, 0.6];*/
+/*FiberBoard = [0.7, 0.67, 0.6];*/
+/*BlackPaint = [0.2, 0.2, 0.2];*/
+/*Iron = [0.36, 0.33, 0.33];*/
+/*Steel = [0.65, 0.67, 0.72];*/
+/*Stainless = [0.45, 0.43, 0.5];*/
+/*Aluminum = [0.77, 0.77, 0.8];*/
+/*Brass = [0.88, 0.78, 0.5];*/
+/*Transparent = [1, 1, 1, 0.2];*/
 
 // Activate to generate STL for the fully assembled machine
 render_all_parts = false;
@@ -25,17 +38,17 @@ module standard_paperSheet_A4(t=0.05, renderPart=false, echoPart=false) {
 module standard_rod(diam=8, length=10, threaded=true, center=false, renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
 		if(threaded) {
-			color("black") rotate([-90,0,0]) cylinder(r=diam/2, h=length, center=center);
+			color(BlackPaint) rotate([-90,0,0]) cylinder(r=diam/2, h=length, center=center);
 			if(echoPart) echo(str("BOM: Rod. Threaded. Diameter ", diam, "mm. Length ", length, "mm"));
 		} else {
-			color("grey") rotate([-90,0,0]) cylinder(r=diam/2, h=length, center=center);
+			color(Stainless) rotate([-90,0,0]) cylinder(r=diam/2, h=length, center=center);
 			if(echoPart) echo(str("BOM: Rod. Smooth. Diameter ", diam, "mm. Length ", length, "mm"));
 		}
 }
 
 module rubberFoot(diam=40, thickness=8, renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
-		color("black")
+		color(BlackPaint)
 			translate([0,0,-thickness])
 				cylinder(r=diam/2, h=thickness);
 	if(echoPart) echo(str("BOM: Rubber foot. Diameter ", diam, "mm. Thickness ", thickness, "mm"));
@@ -55,7 +68,7 @@ module beveledBase(size=[100,200,10], radius=10, res=15, renderPart=false, echoP
 
 include <MCAD/nuts_and_bolts.scad>
 
-module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0.15, echoPart=false) {
+module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0.25, echoPart=false) {
 	radius = METRIC_NUT_AC_WIDTHS[size]/2+tolerance;
 	height = METRIC_NUT_THICKNESS[size]+tolerance;
 	translate([0,-length/2,0]) {
@@ -77,7 +90,7 @@ module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tol
 
 module screw_and_nut(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0, autoNutOffset=false, renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
-		color("black")
+		color(BlackPaint)
 			difference() {
 				if(autoNutOffset)
 					hole_for_screw(size,length+METRIC_NUT_THICKNESS[size],nutDepth,nutAddedLen,captiveLen,tolerance, echoPart=echoPart);
@@ -90,9 +103,21 @@ module screw_and_nut(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tole
 			}
 }
 
+module nut(size=8, chamfer=false, renderPart=false, echoPart=false) {
+	renderStandardPart(renderPart)
+		color(steel)
+			flat_nut(size, apply_chamfer=chamfer);
+	if(echoPart) {
+		if(chamfer)
+			echo(str("BOM: Nut. M", size, ". With chamfer."));
+		else
+			echo(str("BOM: Nut. M", size, "."));
+	}
+}
+
 module screw_single(size=3,length=10,tolerance=0, renderPart=false, echoPart=false) {
 	height = METRIC_NUT_THICKNESS[size]+tolerance;
-	color("black")
+	color(BlackPaint)
 	renderStandardPart(renderPart)
 	difference() {
 	translate([0,-length/2,0]) {
@@ -126,6 +151,7 @@ module stepperMotor_mount(height, tolerance=0.15, slide_distance=5, sideLen=42.2
 module stepperMotor(screwHeight=10, renderPart=false, echoPart=false) {
 	nema_screw_separation = lookup(NemaDistanceBetweenMountingHoles, Nema17);
 	realScrewLength = screwHeight+METRIC_NUT_THICKNESS[3];
+	echo("BOM:");
 	scale([1,1,-1]) renderStandardPart(renderPart) {
 		translate([0,0,-1]) motor(Nema17, size=NemaMedium, dualAxis=false);
 		translate([nema_screw_separation/2,nema_screw_separation/2,-realScrewLength]) rotate([-90,0,0]) screw_single(size=3,length=realScrewLength+5,echoPart=echoPart);
@@ -133,21 +159,39 @@ module stepperMotor(screwHeight=10, renderPart=false, echoPart=false) {
 		translate([-nema_screw_separation/2,-nema_screw_separation/2,-realScrewLength]) rotate([-90,0,0]) screw_single(size=3,length=realScrewLength+5,echoPart=echoPart);
 		//translate([-nema_screw_separation/2,nema_screw_separation/2,-realScrewLength]) rotate([-90,0,0]) screw_single(size=3,length=realScrewLength+5,echoPart=echoPart);
 	}
-	if(echoPart) echo(str("BOM: Motor. Nema17"));
+	//if(echoPart) echo(str("BOM: Motor. Nema17")); // The motor library already outputs motor information
 }
 
 
 
 module motorGear(r=30,renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
-		#color("lightgreen") cylinder(r=r,h=10)
+		color("lightgreen") cylinder(r=r,h=10)
 	if(echoPart) echo(str("BOM: Gear. Motor."));
 }
 
 module rodGear(r=30,renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
-		#color("lightgreen") cylinder(r=r,h=10)
-	if(echoPart)  echo(str("BOM: Gear. Rod."));
+		color("lightgreen") cylinder(r=r,h=10)
+	if(echoPart) echo(str("BOM: Gear. Rod."));
+}
+
+
+
+use <MCAD/bearing.scad>
+module bearingHole(depth=3, thickness=10, model=608) {
+	bearingD = bearingOuterDiameter(model);
+	union() {
+		cylinder(r=bearingD/2,h=depth);
+		translate([0,0,depth-0.01]) cylinder(r1=bearingD/2,r2=bearingD/2-1,h=1.5);
+		cylinder(r=bearingD/2-1,h=thickness+0.1);
+	}
+}
+
+module radialBearing(model=608,renderPart=false, echoPart=false) {
+	renderStandardPart(renderPart)
+		bearing(model=model, outline=false);
+	if(echoPart) echo(str("BOM: Radial bearing. Model ",model));
 }
 
 
