@@ -68,7 +68,7 @@ module beveledBase(size=[100,200,10], radius=10, res=15, renderPart=false, echoP
 
 include <MCAD/nuts_and_bolts.scad>
 
-module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0.25, echoPart=false) {
+module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0.35, echoPart=false) {
 	radius = METRIC_NUT_AC_WIDTHS[size]/2+tolerance;
 	height = METRIC_NUT_THICKNESS[size]+tolerance;
 	translate([0,-length/2,0]) {
@@ -155,7 +155,7 @@ module stepperMotor(screwHeight=10, renderPart=false, echoPart=false) {
 	scale([1,1,-1]) renderStandardPart(renderPart) {
 		translate([0,0,-1]) motor(Nema17, size=NemaMedium, dualAxis=false);
 		translate([nema_screw_separation/2,nema_screw_separation/2,-realScrewLength]) rotate([-90,0,0]) screw_single(size=3,length=realScrewLength+5,echoPart=echoPart);
-		//translate([nema_screw_separation/2,-nema_screw_separation/2,-realScrewLength]) rotate([-90,0,0]) screw_single(size=3,length=realScrewLength+5,echoPart=echoPart);
+		translate([nema_screw_separation/2,-nema_screw_separation/2,-realScrewLength]) rotate([-90,0,0]) screw_single(size=3,length=realScrewLength+5,echoPart=echoPart);
 		translate([-nema_screw_separation/2,-nema_screw_separation/2,-realScrewLength]) rotate([-90,0,0]) screw_single(size=3,length=realScrewLength+5,echoPart=echoPart);
 		//translate([-nema_screw_separation/2,nema_screw_separation/2,-realScrewLength]) rotate([-90,0,0]) screw_single(size=3,length=realScrewLength+5,echoPart=echoPart);
 	}
@@ -179,8 +179,8 @@ module rodGear(r=30,renderPart=false, echoPart=false) {
 
 
 use <MCAD/bearing.scad>
-module bearingHole(depth=3, thickness=10, model=608) {
-	bearingD = bearingOuterDiameter(model);
+module bearingHole(depth=3, thickness=10, model=608, tolerance=1) {
+	bearingD = bearingOuterDiameter(model)+tolerance;
 	union() {
 		cylinder(r=bearingD/2,h=depth);
 		translate([0,0,depth-0.01]) cylinder(r1=bearingD/2,r2=bearingD/2-1,h=1.5);

@@ -5,7 +5,7 @@
 // Designed with http://www.openscad.org/
 
 
-motor_sideLen = 42.20;
+Xmotor_sideLen = 42.20;
 
 axes_XgearSeparation = 37;
 axes_XgearRatio = 21/21; // Number of tooth (motor/rod)
@@ -27,7 +27,7 @@ module Cyclone_X_leftFrame(isLeft=true) {
 	partThickness = X_frames_additional_thickness+screwSize*2;
 	
 	dimX = partThickness;
-	dimY = max(-axes_Xreference_posY,axes_Xsmooth_separation+axes_XgearSeparation*cos(motorRotatedOffset)+motor_sideLen/2+2);
+	dimY = max(-axes_Xreference_posY,axes_Xsmooth_separation+axes_XgearSeparation*cos(motorRotatedOffset)+Xmotor_sideLen/2+2);
 	dimZ = axes_Yreference_height+axes_Xreference_height+axes_Xsmooth_separation;
 	
 	
@@ -78,7 +78,7 @@ module Cyclone_X_leftFrame(isLeft=true) {
 				rotate([motorRotatedOffset,0,0])
 					translate([0,axes_XgearSeparation,0])
 						rotate([-motorRotatedOffset,0,0])
-							rotate([0,90,0]) stepperMotor_mount(motorWallSeparation, slide_distance=5, sideLen=motor_sideLen, slideOut=true);
+							rotate([0,90,0]) stepperMotor_mount(motorWallSeparation, slide_distance=5, sideLen=Xmotor_sideLen, slideOut=true);
 			translate([0,0,axes_Xsmooth_separation]) {
 				rotate([0,0,90]) standard_rod(diam=axes_Xsmooth_rodD, length=partThickness*4, threaded=false, renderPart=true, center=true);
 				rotate([0,0,-90])
@@ -91,14 +91,14 @@ module Cyclone_X_leftFrame(isLeft=true) {
 			rotate([0,90,0])
 					rotate([0,0,90])
 						hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0);
-			translate([0,dimY/3,0])
+			translate([0,dimY/2,0])
 				rotate([0,90,0])
 						rotate([0,0,90])
-hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0);
+							hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0);
 			translate([0,dimY-2*footSeparation,0])
 				rotate([0,90,0])
 						rotate([0,0,90])
-hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0);
+							hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0);
 		}
 	}
 	
@@ -122,7 +122,7 @@ hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nut
 					translate([0,axes_XgearSeparation,0])
 						rotate([-motorRotatedOffset,0,0]) {
 							translate([-motorWallSeparation,0,0]) rotate([0,90,0]) stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
-							translate([gearWallSeparation,0,0]) rotate([0,90,0]) rodGear(r=axes_XgearSeparation/(1+axes_XgearRatio), echoPart=true);
+							translate([gearWallSeparation,0,0]) rotate([0,90,0]) motorGear(r=axes_XgearSeparation/(1+axes_XgearRatio), echoPart=true);
 						}
 				}
 			}
@@ -135,7 +135,7 @@ hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nut
 		rotate([0,90,0])
 				rotate([0,0,90])
 					screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, autoNutOffset=true, echoPart=true);
-		translate([0,dimY/3,0])
+		translate([0,dimY/2,0])
 			rotate([0,90,0])
 					rotate([0,0,90])
 						screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, autoNutOffset=true, echoPart=true);

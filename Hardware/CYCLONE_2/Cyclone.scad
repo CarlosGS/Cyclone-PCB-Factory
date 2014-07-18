@@ -32,13 +32,13 @@ foot_offset = 40;
 
 
 // Parameters for the axes sizes
-axes_Xsmooth_rodLen	= 265+animatePart(1,overlap=0);
-axes_Ysmooth_rodLen	= 240+animatePart(2)-30;
-axes_Zsmooth_rodLen	= 100+animatePart(3);
+axes_Xsmooth_rodLen	= animatePart(1,overlap=0)+250;//265;
+axes_Ysmooth_rodLen	= animatePart(2)+210;
+axes_Zsmooth_rodLen	= 90+animatePart(3);
 
 axes_Xthreaded_rodLen	= axes_Xsmooth_rodLen+50;
-axes_Ythreaded_rodLen	= axes_Ysmooth_rodLen-50;
-axes_Zthreaded_rodLen	= axes_Zsmooth_rodLen+50;
+axes_Ythreaded_rodLen	= axes_Ysmooth_rodLen-30;
+axes_Zthreaded_rodLen	= axes_Zsmooth_rodLen-20;
 
 axes_Xsmooth_rodD	= 8.5+animatePart(4,dist=5);
 axes_Ysmooth_rodD	= 8.5+animatePart(4,dist=5);
@@ -57,12 +57,12 @@ axes_Yreference_height	= 42+animatePart(5);
 axes_Xreference_height	= 70+animatePart(6); // relative to Y reference
 axes_Zreference_height	= 45+animatePart(7)+animatePart(9); // relative to X reference
 
-axes_Xreference_posY	= -70-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
+axes_Xreference_posY	= -80-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
 axes_Zreference_posY	= 15; // relative to X reference. Positions Z nut between the Y rods
 
 axes_Y_threaded_height = 30+animatePart(5);
 
-axes_Ysmooth_separation	= 180+animatePart(1,overlap=0);
+axes_Ysmooth_separation	= 180-15+animatePart(1,overlap=0);
 axes_Xsmooth_separation = 40+animatePart(9);
 axes_Zsmooth_separation = 35+animatePart(10,overlap=0);
 
