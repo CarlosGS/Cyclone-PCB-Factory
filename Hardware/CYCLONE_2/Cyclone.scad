@@ -60,7 +60,7 @@ axes_Zreference_height	= 45+animatePart(7)+animatePart(9); // relative to X refe
 axes_Xreference_posY	= -70-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
 axes_Zreference_posY	= 15; // relative to X reference. Positions Z nut between the Y rods
 
-axes_Y_threaded_height = 25+animatePart(5);
+axes_Y_threaded_height = 30+animatePart(5);
 
 axes_Ysmooth_separation	= 180+animatePart(1,overlap=0);
 axes_Xsmooth_separation = 40+animatePart(9);

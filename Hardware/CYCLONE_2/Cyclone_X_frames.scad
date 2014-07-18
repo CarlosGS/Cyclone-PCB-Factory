@@ -5,29 +5,12 @@
 // Designed with http://www.openscad.org/
 
 
-/*module Cyclone_X_rightFrame() {*/
-/*	color("lightyellow")*/
-/*		translate([axes_Xreference_posX,axes_Xreference_posY-5,-axes_Yreference_height]) {*/
-/*			cube([15,-axes_Xreference_posY+5,axes_Yreference_height+axes_Xreference_height+axes_Xsmooth_separation+5]);*/
-/*		}*/
-/*	color("lightyellow") // smooth rod idler*/
-/*		translate([axes_Xreference_posX,-10,-axes_Yreference_height]) {*/
-/*			cube([abs(axes_Xreference_posX)+5,10,axes_Yreference_height+5]);*/
-/*		}*/
-/*}*/
-
-
-/*module Cyclone_X_leftFrame() {*/
-/*	scale([-1,1,1]) Cyclone_X_rightFrame();*/
-/*}*/
-
-
 motor_sideLen = 42.20;
 
 axes_XgearSeparation = 37;
 axes_XgearRatio = 21/21; // Number of tooth (motor/rod)
 
-X_frames_additional_thickness = 10;
+X_frames_additional_thickness = 5;
 
 module Cyclone_X_rightFrame() {
 	scale([-1,1,1]) Cyclone_X_leftFrame(isLeft=false);
@@ -54,13 +37,15 @@ module Cyclone_X_leftFrame(isLeft=true) {
 	
 	bearingDepth = 3;
 	
+	corner_radius = 10;
+	
 	
 	difference() {
 		// Main block
 		union() {
 			translate([-axes_Xreference_posX-dimX-0.01,axes_Xreference_posY,-axes_Yreference_height]) {
 				cube([dimX,dimY,dimZ-axes_Xsmooth_separation]);
-				translate([-footWidth/2+dimX,dimY/2,footThickness/2]) bcube([footWidth,dimY,footThickness],cr=3,cres=10);
+				translate([-footWidth/2+dimX,dimY/2,footThickness/2]) bcube([footWidth,dimY,footThickness], cr=corner_radius, cres=10);
 			}
 			//translate([-axes_Xreference_posX-dimX-0.01,axes_Xreference_posY+axes_Xsmooth_separation,-axes_Yreference_height])
 			//	cube([dimX,dimY-axes_Xsmooth_separation,dimZ]);
@@ -171,6 +156,9 @@ module rodHolder(rodD=8.5, screwSize=3, height=0, sideLen=0, thickness=5, space=
 	dimX = rodD+4*screwSize+screwAditionalDistance;
 	dimY = X_frames_additional_thickness+screwSize*2;
 	dimZ = rodD/2+thickness;
+	
+	corner_radius = 4;
+	
 	if(negative) {
 		translate([screwSize+screwAditionalDistance,-dimY/2,dimZ])
 			rotate([-90,0,0])
@@ -183,11 +171,11 @@ module rodHolder(rodD=8.5, screwSize=3, height=0, sideLen=0, thickness=5, space=
 	} else {
 		difference() {
 			union() {
-				translate([0,-dimY/2,dimZ/2+space/4]) bcube([dimX,dimY,dimZ-space/2],cr=3,cres=10);
+				translate([0,-dimY/2,dimZ/2+space/4]) bcube([dimX,dimY,dimZ-space/2],cr=corner_radius,cres=10);
 				if(sideLen>dimX/2)
-					translate([sideLen/2-dimX/4,-dimY/2,-height/2-space/4]) bcube([dimX/2+sideLen,dimY,height-space/2],cr=3,cres=10);
+					translate([sideLen/2-dimX/4,-dimY/2,-height/2-space/4]) bcube([dimX/2+sideLen,dimY,height-space/2],cr=corner_radius,cres=10);
 				else
-					translate([0,-dimY/2,-height/2-space/4]) bcube([dimX,dimY,height-space/2],cr=3,cres=10);
+					translate([0,-dimY/2,-height/2-space/4]) bcube([dimX,dimY,height-space/2],cr=corner_radius,cres=10);
 			}
 			translate([screwSize+screwAditionalDistance,-dimY/2,dimZ])
 				rotate([-90,0,0])
