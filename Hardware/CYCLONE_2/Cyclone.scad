@@ -44,9 +44,9 @@ axes_Xsmooth_rodD	= 8.5+animatePart(4,dist=5);
 axes_Ysmooth_rodD	= 8.5+animatePart(4,dist=5);
 axes_Zsmooth_rodD	= 8.5+animatePart(4,dist=5);
 
-axes_Xthreaded_rodD	= 8+animatePart(4,dist=5);
-axes_Ythreaded_rodD	= 8+animatePart(4,dist=5);
-axes_Zthreaded_rodD	= 8+animatePart(4,dist=5);
+axes_Xthreaded_rodD	= 8.5+animatePart(4,dist=5);
+axes_Ythreaded_rodD	= 8.5+animatePart(4,dist=5);
+axes_Zthreaded_rodD	= 8.5+animatePart(4,dist=5);
 
 // Parameters for the axes reference position
 // Note: The reference coordinates are centered like this:
@@ -62,7 +62,7 @@ axes_Zreference_posY	= 15; // relative to X reference. Positions Z nut between t
 
 axes_Y_threaded_height = 30+animatePart(5);
 
-axes_Ysmooth_separation	= 180-15+animatePart(1,overlap=0);
+axes_Ysmooth_separation	= 165+animatePart(1,overlap=0);
 axes_Xsmooth_separation = 40+animatePart(9);
 axes_Zsmooth_separation = 35+animatePart(10,overlap=0);
 
@@ -71,6 +71,16 @@ axes_Zsmooth_separation = 35+animatePart(10,overlap=0);
 axes_Xcarriage_pos = axes_Xsmooth_rodLen/2+sin($t*360)*axes_Xsmooth_rodLen/3;
 axes_Ycarriage_pos = axes_Ysmooth_rodLen/2+sin($t*360)*axes_Ysmooth_rodLen/3;
 axes_Zcarriage_pos = axes_Zsmooth_rodLen/3+sin($t*360)*axes_Zsmooth_rodLen/4;
+
+
+
+
+// Parameters for the workbed
+Ycarriage_linearBearingSeparation = 50;
+workbed_size_X			= axes_Ysmooth_separation+50;
+workbed_size_Y			= Ycarriage_linearBearingSeparation+70;
+workbed_thickness		= 8;
+workbed_separation_from_Y_smooth_rod = 10;
 
 
 

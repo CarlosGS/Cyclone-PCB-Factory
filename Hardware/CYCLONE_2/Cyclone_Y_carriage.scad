@@ -5,18 +5,27 @@
 // Designed with http://www.openscad.org/
 
 
-Ycarriage_linearBearingSeparation = 35;
-
-
 module Cyclone_YsubPart_nutHolder() {
-	
+	workbed_separation_from_Y_threaded_rod = axes_Y_smoothThreaded_verticalSeparation+workbed_separation_from_Y_smooth_rod+axes_Ysmooth_rodD/2;
+	footThickness = 10;
+	screwSeparation = 14;
+	dimX = 15;
+	dimY = screwSeparation*2;
+	dimZ = workbed_separation_from_Y_threaded_rod+10;
+	#translate([-10,-dimY/2,-10])
+		cube([dimX,dimY,dimZ]);
+	translate([0,-screwSeparation/2,workbed_separation_from_Y_threaded_rod+workbed_thickness])
+		rotate([90,0,0])
+			hole_for_screw(size=3,length=workbed_thickness+footThickness,nutDepth=-dimZ,nutAddedLen=dimZ,captiveLen=0);
+	translate([0,+screwSeparation/2,workbed_separation_from_Y_threaded_rod+workbed_thickness])
+		rotate([90,0,0])
+			hole_for_screw(size=3,length=workbed_thickness+footThickness,nutDepth=-dimZ,nutAddedLen=dimZ,captiveLen=0);
 }
 
 module Cyclone_Y_carriage() {
-	baseHeight = 10;
+	baseHeight = workbed_separation_from_Y_smooth_rod-1;
 	color("lightgreen") {
-		translate([-10,-5,-5])
-			cube([20,15,axes_Y_smoothThreaded_verticalSeparation+10+baseHeight]);
+		Cyclone_YsubPart_nutHolder();
 		translate([0,0,axes_Y_smoothThreaded_verticalSeparation+baseHeight/2]) {
 			translate([axes_Ysmooth_separation/2,Ycarriage_linearBearingSeparation/2])
 				cube([10,10,10+baseHeight], center=true);
@@ -29,7 +38,7 @@ module Cyclone_Y_carriage() {
 		}
 	}
 	
-	*translate([0,0,8+5+axes_Y_smoothThreaded_verticalSeparation+baseHeight])
-		beveledBase(size=[axes_Ysmooth_separation+50,Ycarriage_linearBearingSeparation+100,8], radius=3, res=15, echoPart=true);
+	color([0.9,0.8,0.8,0.5]) translate([0,0,8+5+axes_Y_smoothThreaded_verticalSeparation+baseHeight])
+		beveledBase(size=[workbed_size_X,workbed_size_Y,workbed_thickness], radius=3, res=15, echoPart=true);
 }
 
