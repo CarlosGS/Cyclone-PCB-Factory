@@ -38,7 +38,7 @@ include <MCAD/involute_gears.scad>
 M8_nut_diameter = 15.3;
 nut_separation = 3;
 
-SmallGear_N_Teeth = 17; // 12
+SmallGear_N_Teeth = 21;//17; // 12
 M8_rod_diam = 8.4;
 
 /* Herringbone gear module, adapted from MCAD/involute_gears */

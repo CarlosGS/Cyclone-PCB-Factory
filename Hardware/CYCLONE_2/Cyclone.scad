@@ -37,7 +37,7 @@ axes_Ysmooth_rodLen	= animatePart(2)+210;
 axes_Zsmooth_rodLen	= 90+animatePart(3);
 
 axes_Xthreaded_rodLen	= axes_Xsmooth_rodLen+50;
-axes_Ythreaded_rodLen	= axes_Ysmooth_rodLen-30;
+axes_Ythreaded_rodLen	= axes_Ysmooth_rodLen-10;
 axes_Zthreaded_rodLen	= axes_Zsmooth_rodLen-20;
 
 axes_Xsmooth_rodD	= 8.5+animatePart(4,dist=5);
@@ -112,7 +112,7 @@ render_2D_or_3D() {
 	if(draw_references) %frame();
 
 	// Main base for the machine
-	beveledBase([base_size_X,base_size_Y,base_thickness], radius=base_corner_radius, res=base_corner_res, echoPart=true);
+	beveledBase([base_size_X,base_size_Y,base_thickness], radius=base_corner_radius, res=base_corner_res, echoPart=true);//, renderPart=render_2D_plane);
 	//%color("brown") translate([0,0,-base_thickness/2]) bcube([base_size_X,base_size_Y,base_thickness], cr=base_corner_radius, cres=base_corner_res);
 
 
