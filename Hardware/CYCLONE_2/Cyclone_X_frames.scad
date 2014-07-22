@@ -66,7 +66,7 @@ module Cyclone_X_leftFrame(isLeft=true) {
 				rotate([0,90,0])
 					rodHolder(rodD=axes_Xsmooth_rodD, screwSize=screwSize, negative=true);
 			// TRANSLATE REFERENCE POSITION to the threaded rod
-			translate([0,axes_Xsmooth_separation,0]) {
+			translate([+0.01,axes_Xsmooth_separation,0]) {
 				translate([0,-15,-40]) rotate([0,-90,0]) cylinder(r=15,h=partThickness*2);
 				translate([0,30,-40]) rotate([0,-90,0]) cylinder(r=15,h=partThickness*2);
 				translate([0,-15,-80]) rotate([0,-90,0]) cylinder(r=15,h=partThickness*2);

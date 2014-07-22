@@ -115,6 +115,21 @@ module nut(size=8, chamfer=false, renderPart=false, echoPart=false) {
 	}
 }
 
+
+module hole_for_nut(size=3,nutAddedLen=0,captiveLen=0,tolerance=0.35) {
+	radius = METRIC_NUT_AC_WIDTHS[size]/2+tolerance;
+	height = METRIC_NUT_THICKNESS[size]+tolerance;
+	translate([0,height+nutAddedLen+nutDepth-0.01,0])
+		scale([1,(height+nutAddedLen)/height,1])
+			rotate([90,0,0])
+				hull() {
+					nutHole(size=size, tolerance=tolerance, proj=-1);
+					translate([0,captiveLen,0])
+						nutHole(size=size, tolerance=tolerance, proj=-1);
+				}
+}
+
+
 module screw_single(size=3,length=10,tolerance=0, renderPart=false, echoPart=false) {
 	height = METRIC_NUT_THICKNESS[size]+tolerance;
 	color(BlackPaint)
@@ -188,10 +203,17 @@ module bearingHole(depth=3, thickness=10, model=608, tolerance=1) {
 	}
 }
 
-module radialBearing(model=608,renderPart=false, echoPart=false) {
+module radialBearing(model=608, renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
 		bearing(model=model, outline=false);
 	if(echoPart) echo(str("BOM: Radial bearing. Model ",model));
+}
+
+module washer_single(diam=15.8, thickness=1.6, tolerance=0.1, renderPart=false, echoPart=false) {
+	renderStandardPart(renderPart)
+		color(steel)
+			rotate([90,0,0]) translate([0,0,-tolerance]) cylinder(r=diam/2+tolerance, h=thickness+2*tolerance);
+	if(echoPart) echo(str("BOM: Washer. Diameter ", diam, "mm. Thickness ", thickness, "mm"));
 }
 
 
