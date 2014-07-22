@@ -17,9 +17,21 @@ Wiki entry on RepRap.org
 --
 <http://reprap.org/wiki/Cyclone_PCB_Factory>  
 
-Must read: Progress and current status of the Cyclone proyect  
---
+*Must read: Progress and current status of the Cyclone proyect:*
 <http://carlosgs.es/node/47>
+
+Getting the source code  
+--
+Install git (http://git-scm.com/) onto your system. Then run a clone:
+
+    git clone git://github.com/carlosgs/Cyclone-PCB-Factory.git
+
+This will download the latest sources into a directory named 'openscad'. 
+
+To pull the MCAD (<http://reprap.org/wiki/MCAD>) and Obiscad (<https://github.com/Obijuan/obiscad>) libraries, do the following:
+
+    cd Cyclone-PCB-Factory
+    git submodule update --init
 
 Bill of materials  
 --  
