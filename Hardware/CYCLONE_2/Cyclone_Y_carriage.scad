@@ -69,21 +69,23 @@ module Cyclone_YsubPart_nutHolder() {
 
 module Cyclone_Y_carriage() {
 	baseHeight = workbed_separation_from_Y_smooth_rod-1;
-	Cyclone_YsubPart_nutHolder();
-	color("lightgreen") {
-		translate([0,0,axes_Y_smoothThreaded_verticalSeparation+baseHeight/2]) {
-			translate([axes_Ysmooth_separation/2,Ycarriage_linearBearingSeparation/2])
-				cube([10,10,10+baseHeight], center=true);
-			translate([-axes_Ysmooth_separation/2,Ycarriage_linearBearingSeparation/2])
-				cube([10,10,10+baseHeight], center=true);
-			translate([-axes_Ysmooth_separation/2,-Ycarriage_linearBearingSeparation/2])
-				cube([10,10,10+baseHeight], center=true);
-			translate([axes_Ysmooth_separation/2,-Ycarriage_linearBearingSeparation/2])
-				cube([10,10,10+baseHeight], center=true);
+	//projection(cut = true) translate([0,0,-axes_Y_smoothThreaded_verticalSeparation-baseHeight-axes_Ysmooth_rodD/2]){
+		Cyclone_YsubPart_nutHolder();
+		color("lightgreen") {
+			translate([0,0,axes_Y_smoothThreaded_verticalSeparation+baseHeight/2]) {
+				translate([axes_Ysmooth_separation/2,Ycarriage_linearBearingSeparation/2])
+					cube([10,10,10+baseHeight], center=true);
+				translate([-axes_Ysmooth_separation/2,Ycarriage_linearBearingSeparation/2])
+					cube([10,10,10+baseHeight], center=true);
+				translate([-axes_Ysmooth_separation/2,-Ycarriage_linearBearingSeparation/2])
+					cube([10,10,10+baseHeight], center=true);
+				translate([axes_Ysmooth_separation/2,-Ycarriage_linearBearingSeparation/2])
+					cube([10,10,10+baseHeight], center=true);
+			}
 		}
-	}
 	
-	color([0.9,0.8,0.8,0.5]) translate([0,0,8+5+axes_Y_smoothThreaded_verticalSeparation+baseHeight])
-		beveledBase(size=[workbed_size_X,workbed_size_Y,workbed_thickness], radius=3, res=15, echoPart=true);
+		color([0.9,0.8,0.8,0.5]) translate([0,0,8+5+axes_Y_smoothThreaded_verticalSeparation+baseHeight])
+			beveledBase(size=[workbed_size_X,workbed_size_Y,workbed_thickness], radius=3, res=15, echoPart=true);
+	//}
 }
 
