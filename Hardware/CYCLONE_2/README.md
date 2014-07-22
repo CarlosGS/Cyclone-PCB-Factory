@@ -18,11 +18,11 @@ Adressing all the issues from the original design, implementing improvements by 
 Work in progress  
 --  
 
-![ScreenShot](output/cyclone.png)
+![ScreenShot](output/cyclone.png)  
 
 The new design tries to be more parameterized:
 
-<img src="output/cyclone.gif" alt="Drawing" style="width: 100%;"/> 
+![ScreenShot](output/cyclone.gif)  
 
 Disclaimer  
 --
