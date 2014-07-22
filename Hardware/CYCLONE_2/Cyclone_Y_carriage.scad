@@ -9,7 +9,7 @@ include <MCAD/nuts_and_bolts.scad>
 module Cyclone_YsubPart_nutHolder() {
 	workbed_separation_from_Y_threaded_rod = axes_Y_smoothThreaded_verticalSeparation+workbed_separation_from_Y_smooth_rod+axes_Ysmooth_rodD/2;
 	footThickness = 10;
-	screwSeparation = 16;
+	screwSeparation = 25;
 	rod_nut_len = 0.8*axes_Ythreaded_rodD;
 	dimX = axes_Ythreaded_rodD*2+5;
 	dimY = screwSeparation+10;
@@ -59,7 +59,12 @@ module Cyclone_YsubPart_nutHolder() {
 			rotate([90,0,0])
 				hole_for_screw(size=3,length=workbed_thickness+footThickness,nutDepth=-dimZ,nutAddedLen=dimZ,captiveLen=0);
 	}
-	translate([0,dimY/2,0]) rotate([0,90,0]) rotate([90,0,0]) nut(size=8, echoPart=true);
+	translate([0,dimY/2,0])
+		rotate([0,90,0]) rotate([90,0,0]) nut(size=8, echoPart=true);
+	translate([0,-dimY/2,0])
+		rotate([0,90,0]) rotate([-90,0,0]) nut(size=8, echoPart=true);
+	translate([0,dimY/2+0.01-rod_nut_len-3,0])
+		washer_single(diam=washer_D, thickness=washer_thickness, tolerance=0, echoPart=true);
 }
 
 module Cyclone_Y_carriage() {
