@@ -22,7 +22,7 @@ Work in progress
 
 The new design tries to be more parameterized:
 
-![ScreenShot](output/cyclone.gif)
+<img src="output/cyclone.gif" alt="Drawing" style="width: 100%;"/> 
 
 Disclaimer  
 --
