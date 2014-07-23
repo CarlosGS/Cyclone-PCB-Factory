@@ -209,7 +209,7 @@ module radialBearing(model=608, renderPart=false, echoPart=false) {
 	if(echoPart) echo(str("BOM: Radial bearing. Model ",model));
 }
 
-module washer_single(diam=15.8, thickness=1.6, tolerance=0.2, renderPart=false, echoPart=false) {
+module washer_single(diam=15.8, thickness=1.6, tolerance=0, renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
 		color(steel)
 			rotate([90,0,0]) translate([0,0,-tolerance])

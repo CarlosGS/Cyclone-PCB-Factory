@@ -90,7 +90,9 @@ axes_Y_smoothThreaded_verticalSeparation = axes_Yreference_height-axes_Y_threade
 
 // Activate/Deactivate rendering auxiliary references (LCS axis, etc)
 draw_references = true;
-render_2D_plane = false;
+render_DXF_base = false;
+render_DXF_workbed = false;
+render_bases_outline = false; // Useful when rendering DXFs
 
 // Include Cyclone parts
 include <Cyclone_X_carriage.scad>
@@ -102,7 +104,7 @@ include <Cyclone_Y_frames.scad>
 
 // This small module is used to select if an object is rendered as a 2D plane or as a 3D object
 module render_2D_or_3D() {
-	if(render_2D_plane) {
+	if(render_DXF_base) {
 		projection(cut = true) children();
 	} else children();
 }
@@ -112,7 +114,7 @@ render_2D_or_3D() {
 	if(draw_references) %frame();
 
 	// Main base for the machine
-	beveledBase([base_size_X,base_size_Y,base_thickness], radius=base_corner_radius, res=base_corner_res, echoPart=true);//, renderPart=render_2D_plane);
+	beveledBase([base_size_X,base_size_Y,base_thickness], radius=base_corner_radius, res=base_corner_res, echoPart=true, renderPart=render_bases_outline);
 	//%color("brown") translate([0,0,-base_thickness/2]) bcube([base_size_X,base_size_Y,base_thickness], cr=base_corner_radius, cres=base_corner_res);
 
 
@@ -247,8 +249,10 @@ render_2D_or_3D() {
 	// TRANSLATE REFERENCE POSITION to the CENTERED Y carriage nut, Y threaded rod
 	translate([0,-axes_Ysmooth_rodLen/2+axes_Ycarriage_pos,axes_Y_threaded_height]) {
 		if(draw_references) %frame();
-	
-		Cyclone_Y_carriage();
+		
+		if(render_DXF_workbed)
+			!Cyclone_Y_carriage(); // Render carriage exclusively
+		else Cyclone_Y_carriage();
 	}
 }
 
