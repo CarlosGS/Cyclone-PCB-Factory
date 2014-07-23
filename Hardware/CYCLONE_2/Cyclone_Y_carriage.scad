@@ -70,21 +70,50 @@ module Cyclone_YsubPart_nutHolder() {
 }
 
 
+//use <libs/linear_bearing.scad>;
+module Cyclone_YsubPart_singleLinearBearingHolder() {
+	linearBearingModel = "LM8UU";
+	linearBearingLength = linearBearing_L(linearBearingModel);
+	linearBearingDiameter = linearBearing_D(linearBearingModel);
+	
+	dimX = linearBearingDiameter+10;
+	dimY = linearBearingLength;
+	dimZ = workbed_separation_from_Y_smooth_rod+axes_Ysmooth_rodD/2;
+	
+	holderExtension = 10;
+	
+	footThickness = 10;
+	
+	difference() {
+		union() {
+		translate([0,0,dimZ/2])
+			bcube([dimX,dimY,dimZ], cr=3, cres=10);
+		hull() {
+			translate([0,0,dimZ/2+footThickness/4])
+				cylinder(r=dimY/2,h=footThickness,center=true);
+			translate([dimX/2,0,dimZ/2+footThickness/4])
+				cylinder(r=dimY/2,h=footThickness,center=true);
+		}
+		translate([0,0,-holderExtension/2])
+			bcube([dimX,dimY,holderExtension], cr=3, cres=10);
+		}
+		
+		translate([0,linearBearingLength/2,0])
+			rotate([90,0,0]) linearBearingHole(model=linearBearingModel, renderPart=true);
+	}
+	translate([0,linearBearingLength/2,0])
+		rotate([90,0,0]) linearBearing_single(model=linearBearingModel, echoPart=true);
+}
 
 module Cyclone_YsubPart_linearBearingHolders() {
-	baseHeight = workbed_separation_from_Y_smooth_rod-1;
-	color("lightgreen") {
-		translate([0,0,axes_Y_smoothThreaded_verticalSeparation+baseHeight/2]) {
-			translate([axes_Ysmooth_separation/2,Ycarriage_linearBearingSeparation/2])
-				cube([10,10,10+baseHeight], center=true);
-			translate([-axes_Ysmooth_separation/2,Ycarriage_linearBearingSeparation/2])
-				cube([10,10,10+baseHeight], center=true);
-			translate([-axes_Ysmooth_separation/2,-Ycarriage_linearBearingSeparation/2])
-				cube([10,10,10+baseHeight], center=true);
-			translate([axes_Ysmooth_separation/2,-Ycarriage_linearBearingSeparation/2])
-				cube([10,10,10+baseHeight], center=true);
-		}
-	}
+	translate([axes_Ysmooth_separation/2,Ycarriage_linearBearingSeparation/2])
+		Cyclone_YsubPart_singleLinearBearingHolder();
+	translate([axes_Ysmooth_separation/2,-Ycarriage_linearBearingSeparation/2])
+		Cyclone_YsubPart_singleLinearBearingHolder();
+	scale([-1,1,1]) translate([axes_Ysmooth_separation/2,Ycarriage_linearBearingSeparation/2])
+		Cyclone_YsubPart_singleLinearBearingHolder();
+	scale([-1,1,1]) translate([axes_Ysmooth_separation/2,-Ycarriage_linearBearingSeparation/2])
+		Cyclone_YsubPart_singleLinearBearingHolder();
 }
 
 module Cyclone_Y_carriage() {
@@ -92,13 +121,16 @@ module Cyclone_Y_carriage() {
 		projection(cut = true)
 			translate([0,0,-workbed_separation_from_Y_threaded_rod]) {
 				Cyclone_YsubPart_nutHolder();
-				Cyclone_YsubPart_linearBearingHolders();
+				translate([0,0,axes_Y_smoothThreaded_verticalSeparation])
+					Cyclone_YsubPart_linearBearingHolders();
 				color([0.9,0.8,0.8,0.5]) translate([0,0,workbed_separation_from_Y_threaded_rod+workbed_thickness])
 					beveledBase(size=[workbed_size_X,workbed_size_Y,workbed_thickness], radius=3, res=15, echoPart=true, renderPart=render_bases_outline);
 			}
 	} else {
+		if(draw_references) color("red") %frame(20);
 		Cyclone_YsubPart_nutHolder();
-		Cyclone_YsubPart_linearBearingHolders();
+		translate([0,0,axes_Y_smoothThreaded_verticalSeparation])
+			Cyclone_YsubPart_linearBearingHolders();
 		color([0.9,0.8,0.8,0.5]) translate([0,0,workbed_separation_from_Y_threaded_rod+workbed_thickness])
 			beveledBase(size=[workbed_size_X,workbed_size_Y,workbed_thickness], radius=3, res=15, echoPart=true);
 	}

@@ -105,7 +105,7 @@ module screw_and_nut(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tole
 
 module nut(size=8, chamfer=false, renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
-		color(steel)
+		color(Steel)
 			flat_nut(size, apply_chamfer=chamfer);
 	if(echoPart) {
 		if(chamfer)
@@ -119,14 +119,13 @@ module nut(size=8, chamfer=false, renderPart=false, echoPart=false) {
 module hole_for_nut(size=3,nutAddedLen=0,captiveLen=0,tolerance=0.35) {
 	radius = METRIC_NUT_AC_WIDTHS[size]/2+tolerance;
 	height = METRIC_NUT_THICKNESS[size]+tolerance;
-	translate([0,height+nutAddedLen+nutDepth-0.01,0])
-		scale([1,(height+nutAddedLen)/height,1])
-			rotate([90,0,0])
-				hull() {
+	scale([1,(height+nutAddedLen)/height,1])
+		rotate([90,0,0])
+			hull() {
+				nutHole(size=size, tolerance=tolerance, proj=-1);
+				translate([0,captiveLen,0])
 					nutHole(size=size, tolerance=tolerance, proj=-1);
-					translate([0,captiveLen,0])
-						nutHole(size=size, tolerance=tolerance, proj=-1);
-				}
+			}
 }
 
 
@@ -211,7 +210,7 @@ module radialBearing(model=608, renderPart=false, echoPart=false) {
 
 module washer_single(diam=15.8, thickness=1.6, tolerance=0, renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
-		color(steel)
+		color(Steel)
 			rotate([90,0,0]) translate([0,0,-tolerance])
 				difference() {
 					cylinder(r=diam/2+tolerance, h=thickness+2*tolerance);
@@ -219,5 +218,22 @@ module washer_single(diam=15.8, thickness=1.6, tolerance=0, renderPart=false, ec
 				}
 	if(echoPart) echo(str("BOM: Washer. Diameter ", diam, "mm. Thickness ", thickness, "mm"));
 }
+
+
+
+
+include <linear_bearing.scad>;
+
+module linearBearing_single(model="LM8UU", renderPart=false, echoPart=false) {
+	renderStandardPart(renderPart)
+		linearBearing(model=model);
+	if(echoPart) echo(str("BOM: Linear bearing. Model ", model));
+}
+
+module linearBearingHole(model="LM8UU", tolerance=0.1) {
+	translate([0,0,-tolerance])
+		cylinder(r=linearBearing_D(model)/2+tolerance, h=linearBearing_L(model)+2*tolerance);
+}
+
 
 
