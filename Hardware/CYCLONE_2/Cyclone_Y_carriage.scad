@@ -150,7 +150,7 @@ module Cyclone_YsubPart_linearBearingHolders() {
 
 module Cyclone_Y_carriage() {
 	if(render_DXF_workbed) {
-		projection(cut = true)
+		offset(delta = DXF_offset) projection(cut = true)
 			translate([0,0,-workbed_separation_from_Y_threaded_rod]) {
 				Cyclone_YsubPart_nutHolder();
 				translate([0,0,axes_Y_smoothThreaded_verticalSeparation])

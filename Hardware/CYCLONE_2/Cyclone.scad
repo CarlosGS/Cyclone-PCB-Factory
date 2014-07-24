@@ -92,7 +92,8 @@ axes_Y_smoothThreaded_verticalSeparation = axes_Yreference_height-axes_Y_threade
 draw_references = true;
 render_DXF_base = false;
 render_DXF_workbed = false;
-render_bases_outline = false; // Useful when rendering DXFs
+render_bases_outline = false; // Toggle for rendering outline DXFs
+DXF_offset = 0.5; // Needed to adjust the tolerance of the laser cutter
 
 // Include Cyclone parts
 include <Cyclone_X_carriage.scad>
@@ -105,7 +106,7 @@ include <Cyclone_Y_frames.scad>
 // This small module is used to select if an object is rendered as a 2D plane or as a 3D object
 module render_2D_or_3D() {
 	if(render_DXF_base) {
-		projection(cut = true) children();
+		offset(delta = DXF_offset) projection(cut = true) children();
 	} else children();
 }
 
