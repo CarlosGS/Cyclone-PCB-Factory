@@ -76,31 +76,63 @@ module Cyclone_YsubPart_singleLinearBearingHolder() {
 	linearBearingLength = linearBearing_L(linearBearingModel);
 	linearBearingDiameter = linearBearing_D(linearBearingModel);
 	
-	dimX = linearBearingDiameter+10;
-	dimY = linearBearingLength;
+	plasticHolderLength = 3;
+	
+	dimX = linearBearingDiameter+linearBearingDiameter/2;
+	dimY = linearBearingLength+2*plasticHolderLength;
 	dimZ = workbed_separation_from_Y_smooth_rod+axes_Ysmooth_rodD/2;
 	
-	holderExtension = 10;
+	holderExtension = linearBearingDiameter/3;
 	
-	footThickness = 10;
+	screwSize = 3; // M3, M4, etc (integers only)
+	
+	footSeparation = screwSize*2;
+	footThickness = 7;
+	
+	workbed_screws_aditional_length = 10;
+	
+	linearBearing_pressureFitTolerance = 0.5;
 	
 	difference() {
+		// Main part
 		union() {
-		translate([0,0,dimZ/2])
-			bcube([dimX,dimY,dimZ], cr=3, cres=10);
-		hull() {
-			translate([0,0,dimZ/2+footThickness/4])
-				cylinder(r=dimY/2,h=footThickness,center=true);
-			translate([dimX/2,0,dimZ/2+footThickness/4])
-				cylinder(r=dimY/2,h=footThickness,center=true);
+			translate([0,0,dimZ/2])
+				bcube([dimX,dimY,dimZ], cr=3, cres=0);
+			translate([0,0,dimZ])
+				hull() {
+					translate([screwSize/2,0,-footThickness/2])
+						bcube([dimX+screwSize,dimY,footThickness], cr=3, cres=0);
+					translate([dimX/2+footSeparation,0,-footThickness/2])
+						cylinder(r=screwSize+3,h=footThickness,center=true);
+				}
+			translate([0,0,-holderExtension/2])
+				bcube([dimX,dimY,holderExtension], cr=3, cres=0);
 		}
-		translate([0,0,-holderExtension/2])
-			bcube([dimX,dimY,holderExtension], cr=3, cres=10);
-		}
-		
+		// Hole for linear bearing
 		translate([0,linearBearingLength/2,0])
 			rotate([90,0,0]) linearBearingHole(model=linearBearingModel, renderPart=true);
+		// Slot for inserting the bearing
+		translate([0,0,-holderExtension/2])
+			cube([linearBearingDiameter-linearBearing_pressureFitTolerance*2,dimY+0.01,holderExtension+0.01], center=true);
+		// Plastic holders to keep the bearing in place
+		translate([0,dimY/2,0])
+			hull() {
+				translate([0,-plasticHolderLength,0])
+					rotate([90,0,0]) cylinder(r=linearBearingDiameter/2, h=0.01, center=true);
+				rotate([90,0,0]) cylinder(r=linearBearingDiameter/2-2*linearBearing_pressureFitTolerance, h=0.01, center=true);
+			}
+		scale([1,-1,1]) translate([0,dimY/2,0])
+			hull() {
+				translate([0,-plasticHolderLength,0])
+					rotate([90,0,0]) cylinder(r=linearBearingDiameter/2, h=0.01, center=true);
+				rotate([90,0,0]) cylinder(r=linearBearingDiameter/2-2*linearBearing_pressureFitTolerance, h=0.01, center=true);
+			}
+		rotate([90,0,0]) cylinder(r=linearBearingDiameter/2-linearBearing_pressureFitTolerance, h=dimY+1, center=true);//linearBearingHole(model=linearBearingModel, renderPart=true);
+		// Hole for the screw and nut
+		translate([dimX/2+footSeparation,0,dimZ+workbed_thickness+workbed_screws_aditional_length])
+			rotate([90,0,0]) hole_for_screw(size=screwSize,length=workbed_screws_aditional_length+footThickness+workbed_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0);
 	}
+
 	translate([0,linearBearingLength/2,0])
 		rotate([90,0,0]) linearBearing_single(model=linearBearingModel, echoPart=true);
 }
