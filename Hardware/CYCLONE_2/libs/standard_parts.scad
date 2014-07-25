@@ -230,9 +230,34 @@ module linearBearing_single(model="LM8UU", renderPart=false, echoPart=false) {
 	if(echoPart) echo(str("BOM: Linear bearing. Model ", model));
 }
 
-module linearBearingHole(model="LM8UU", tolerance=0.1) {
-	translate([0,0,-tolerance])
-		cylinder(r=linearBearing_D(model)/2+tolerance, h=linearBearing_L(model)+2*tolerance);
+module linearBearingHole(model="LM8UU", lateralExtension=10, pressureFitTolerance=0.5, lengthExtension=6, holderLength=1.5, tolerance=0.1) {
+	linearBearingLength = linearBearing_L(model);
+	linearBearingDiameter = linearBearing_D(model);
+	
+	dimY = linearBearingLength+lengthExtension;
+	
+	// Hole for linear bearing
+	translate([0,linearBearingLength/2,0])
+		rotate([90,0,0])
+		translate([0,0,-tolerance])
+			cylinder(r=linearBearingDiameter/2+tolerance, h=linearBearingLength+2*tolerance);
+	// Slot for inserting the bearing
+	translate([0,0,-lateralExtension/2])
+		cube([linearBearingDiameter-pressureFitTolerance*2,dimY+0.01,lateralExtension+0.01], center=true);
+	// Plastic holders to keep the bearing in place
+	translate([0,linearBearingLength/2,0])
+		hull() {
+			translate([0,holderLength,0])
+				rotate([90,0,0]) cylinder(r=linearBearingDiameter/2-pressureFitTolerance, h=0.01, center=true);
+			rotate([90,0,0]) cylinder(r=linearBearingDiameter/2, h=0.01, center=true);
+		}
+	scale([1,-1,1]) translate([0,linearBearingLength/2,0])
+		hull() {
+			translate([0,holderLength,0])
+				rotate([90,0,0]) cylinder(r=linearBearingDiameter/2-pressureFitTolerance, h=0.01, center=true);
+			rotate([90,0,0]) cylinder(r=linearBearingDiameter/2, h=0.01, center=true);
+		}
+	rotate([90,0,0]) cylinder(r=linearBearingDiameter/2-pressureFitTolerance, h=dimY+1, center=true);//linearBearingHole(model=linearBearingModel, renderPart=true);
 }
 
 

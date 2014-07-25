@@ -109,25 +109,8 @@ module Cyclone_YsubPart_singleLinearBearingHolder() {
 				bcube([dimX,dimY,holderExtension], cr=3, cres=0);
 		}
 		// Hole for linear bearing
-		translate([0,linearBearingLength/2,0])
-			rotate([90,0,0]) linearBearingHole(model=linearBearingModel, renderPart=true);
-		// Slot for inserting the bearing
-		translate([0,0,-holderExtension/2])
-			cube([linearBearingDiameter-linearBearing_pressureFitTolerance*2,dimY+0.01,holderExtension+0.01], center=true);
-		// Plastic holders to keep the bearing in place
-		translate([0,dimY/2,0])
-			hull() {
-				translate([0,-plasticHolderLength,0])
-					rotate([90,0,0]) cylinder(r=linearBearingDiameter/2, h=0.01, center=true);
-				rotate([90,0,0]) cylinder(r=linearBearingDiameter/2-2*linearBearing_pressureFitTolerance, h=0.01, center=true);
-			}
-		scale([1,-1,1]) translate([0,dimY/2,0])
-			hull() {
-				translate([0,-plasticHolderLength,0])
-					rotate([90,0,0]) cylinder(r=linearBearingDiameter/2, h=0.01, center=true);
-				rotate([90,0,0]) cylinder(r=linearBearingDiameter/2-2*linearBearing_pressureFitTolerance, h=0.01, center=true);
-			}
-		rotate([90,0,0]) cylinder(r=linearBearingDiameter/2-linearBearing_pressureFitTolerance, h=dimY+1, center=true);//linearBearingHole(model=linearBearingModel, renderPart=true);
+		linearBearingHole(model=linearBearingModel, lateralExtension=holderExtension, lengthExtension=2*plasticHolderLength, holderLength=plasticHolderLength/2);
+		//linearBearingHole(model=linearBearingModel);
 		// Hole for the screw and nut
 		translate([dimX/2+footSeparation,0,dimZ+workbed_thickness+workbed_screws_aditional_length])
 			rotate([90,0,0]) hole_for_screw(size=screwSize,length=workbed_screws_aditional_length+footThickness+workbed_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0);
