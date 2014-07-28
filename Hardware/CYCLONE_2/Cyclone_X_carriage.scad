@@ -10,6 +10,9 @@ module Cyclone_X_carriage() {
 	linearBearingLength = linearBearing_L(linearBearingModel);
 	linearBearingDiameter = linearBearing_D(linearBearingModel);
 	
+	// Correction is needed to account for 3D printer tolerances
+	axes_effective_Xsmooth_separation = axes_Xsmooth_separation-1;
+	
 	linearBearingSeparation = 0;
 	
 	sideExtensions = linearBearingDiameter/3;
@@ -20,6 +23,8 @@ module Cyclone_X_carriage() {
 	
 	dimX = 2*linearBearingLength+linearBearingLengthExtension;
 	
+	echo(str(axes_Xsmooth_separation-2*axes_ZthreadedReference_posY, "######################################################"));
+	
 	difference() {
 	//	color("lightblue") translate([-(axes_Zsmooth_separation+10)/2,-5,-5])
 	//		cube([axes_Zsmooth_separation+10,axes_Xsmooth_separation+10,axes_Zreference_height+5]);
@@ -28,13 +33,13 @@ module Cyclone_X_carriage() {
 		hull() {
 			rotate([0,90,0]) 
 				bcube([linearBearingDiameter,linearBearingDiameter+sideExtensions, dimX], cr=3, cres=5);// cylinder(r=linearBearingDiameter/2, h=dimX, center=true);
-			translate([0,axes_Xsmooth_separation,axes_Xsmooth_separation])
+			translate([0,axes_effective_Xsmooth_separation,axes_effective_Xsmooth_separation])
 				rotate([0,90,0]) 
 					bcube([linearBearingDiameter+sideExtensions,linearBearingDiameter, dimX], cr=3, cres=5);// cylinder(r=linearBearingDiameter/2, h=dimX, center=true);
 		}
 	
 		translate([-dimX/2-0.5,0,-sideExtensions+ZrodHolderLength])
-			cube([dimX+1,axes_Xsmooth_separation-axes_ZthreadedReference_posY,axes_Xsmooth_separation]);
+			cube([dimX+1,axes_effective_Xsmooth_separation-axes_ZthreadedReference_posY,axes_effective_Xsmooth_separation]);
 		
 		// ----- Holes for the linear bearings ------
 		// Bottom right linear bearing
@@ -44,7 +49,7 @@ module Cyclone_X_carriage() {
 		translate([linearBearingLength/2+linearBearingSeparation/2,0,0])
 			rotate([0,0,90]) linearBearingHole(model=linearBearingModel, lateralExtension=sideExtensions*2, lengthExtension=linearBearingLengthExtension);
 		// Top linear bearing
-		translate([0,axes_Xsmooth_separation,axes_Xsmooth_separation])
+		translate([0,axes_effective_Xsmooth_separation,axes_effective_Xsmooth_separation])
 			rotate([90,0,0]) rotate([0,0,90]) linearBearingHole(model=linearBearingModel, lateralExtension=sideExtensions*2, lengthExtension=linearBearingLength+linearBearingLengthExtension+linearBearingSeparation);
 		
 		// ----- Holes for the rods ------
@@ -62,5 +67,11 @@ module Cyclone_X_carriage() {
 				rotate([90,0,0]) standard_rod(diam=1.5*axes_Zthreaded_rodD, length=axes_Zthreaded_rodLen, threaded=true, renderPart=true);
 		}
 	}
+	
+	// Draw linear bearings
+	rotate([0,90,0]) linearBearing_single(model=linearBearingModel, echoPart=true);
+	rotate([0,-90,0]) linearBearing_single(model=linearBearingModel, echoPart=true);
+	translate([linearBearingLength/2,axes_effective_Xsmooth_separation,axes_effective_Xsmooth_separation])
+			rotate([0,-90,0]) linearBearing_single(model=linearBearingModel, echoPart=true);
 }
 

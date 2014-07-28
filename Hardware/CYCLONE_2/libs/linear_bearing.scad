@@ -82,10 +82,10 @@ module linearBearing(pos=[0,0,0], angle=[0,0,0], model=LinearBearing,
     color(material) {
       translate(pos)
         difference() {
-          cylinder(r=od/2, h=h,  $fn = 100);
+          cylinder(r=od/2, h=h);
           color(holeMaterial)
             translate([0,0,-10*epsilon])
-              cylinder(r=id/2, h=h+20*epsilon,  $fn = 100);
+              cylinder(r=id/2, h=h+20*epsilon);
         }
     }
   }

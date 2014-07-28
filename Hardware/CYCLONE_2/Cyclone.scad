@@ -42,7 +42,7 @@ axes_Zthreaded_rodLen	= axes_Zsmooth_rodLen-20;
 
 axes_Xsmooth_rodD	= 8.5+animatePart(4,dist=5);
 axes_Ysmooth_rodD	= 8.5+animatePart(4,dist=5);
-axes_Zsmooth_rodD	= 8.5+animatePart(4,dist=5);
+axes_Zsmooth_rodD	= 8.3+animatePart(4,dist=5);
 
 axes_Xthreaded_rodD	= 8.5+animatePart(4,dist=5);
 axes_Ythreaded_rodD	= 8.5+animatePart(4,dist=5);
@@ -179,9 +179,6 @@ render_2D_or_3D() {
 				if(draw_references) %frame();
 				
 				Cyclone_X_carriage();
-				
-				rotate([0,90,0]) linearBearing_single(model=linearBearingModel, echoPart=true);
-				rotate([0,-90,0]) linearBearing_single(model=linearBearingModel, echoPart=true);
 				
 				// TRANSLATE REFERENCE POSITION to the Z axis origin (right smooth rod)
 				translate([-axes_Zsmooth_separation/2,axes_Zreference_posY,axes_Zreference_height]) {
