@@ -55,7 +55,7 @@ axes_Zthreaded_rodD	= 8.5+animatePart(4,dist=5);
 // Z axis reference is the Z threaded rod, at the height of the Z nut, and relative to the X reference
 axes_Yreference_height	= 42+animatePart(5);
 axes_Xreference_height	= 70+animatePart(6); // relative to Y reference
-axes_Zreference_height	= -5+animatePart(7)+animatePart(9); // relative to X reference
+axes_Zreference_height	= -3+animatePart(7)+animatePart(9); // relative to X reference
 
 axes_Xreference_posY	= -80-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
 axes_Zreference_posY	= 14; // relative to X reference. Positions Z rods between the Y rods
@@ -87,6 +87,8 @@ workbed_separation_from_Y_smooth_rod = 10;
 // Calculations
 axes_Xreference_posX	= (axes_Ysmooth_separation-axes_Xsmooth_rodLen)/2; // relative to Y reference
 axes_Y_smoothThreaded_verticalSeparation = axes_Yreference_height-axes_Y_threaded_height;
+
+axes_ZthreadedReference_posY = axes_Xsmooth_separation-axes_Zreference_posY-axes_Zreference_posY; // Relative to X carriage reference
 
 // Activate/Deactivate rendering auxiliary references (LCS axis, etc)
 draw_references = true;
@@ -176,12 +178,12 @@ render_2D_or_3D() {
 			translate([axes_Xcarriage_pos,0,0]) {
 				if(draw_references) %frame();
 				
-				//Cyclone_X_carriage();
+				Cyclone_X_carriage();
 				
 				rotate([0,90,0]) linearBearing_single(model=linearBearingModel, echoPart=true);
 				rotate([0,-90,0]) linearBearing_single(model=linearBearingModel, echoPart=true);
 				
-				// TRANSLATE REFERENCE POSITION to the Z axis origin (top of X carriage, right smooth rod)
+				// TRANSLATE REFERENCE POSITION to the Z axis origin (right smooth rod)
 				translate([-axes_Zsmooth_separation/2,axes_Zreference_posY,axes_Zreference_height]) {
 					if(draw_references) %frame();
 				
@@ -191,14 +193,14 @@ render_2D_or_3D() {
 					translate([axes_Zsmooth_separation,0,0])
 						rotate([90,0,0]) standard_rod(diam=axes_Zsmooth_rodD, length=axes_Zsmooth_rodLen, threaded=false, echoPart=true);
 					// Draw Z threaded rod
-					translate([axes_Zsmooth_separation/2,axes_Xsmooth_separation-axes_Zreference_posY-axes_Zreference_posY,0])
+					translate([axes_Zsmooth_separation/2,axes_ZthreadedReference_posY,0])
 						rotate([90,0,0]) standard_rod(diam=axes_Zthreaded_rodD, length=axes_Zthreaded_rodLen, threaded=true, echoPart=true);
 					
 					// TRANSLATE REFERENCE POSITION to the Z axis reference
 						translate([0,0,axes_Zcarriage_pos]) {
 							if(draw_references) %frame();
 						
-							Cyclone_Z_carriage();
+							//Cyclone_Z_carriage();
 							
 							linearBearing_single(model=linearBearingModel, echoPart=true);
 							translate([axes_Zsmooth_separation,0,0])

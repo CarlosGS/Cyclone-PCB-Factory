@@ -70,7 +70,7 @@ module Cyclone_YsubPart_nutHolder() {
 }
 
 
-//use <libs/linear_bearing.scad>;
+use <libs/linear_bearing.scad>
 module Cyclone_YsubPart_singleLinearBearingHolder() {
 	linearBearingModel = "LM8UU";
 	linearBearingLength = linearBearing_L(linearBearingModel);

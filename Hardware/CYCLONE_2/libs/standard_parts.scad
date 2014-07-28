@@ -222,7 +222,7 @@ module washer_single(diam=15.8, thickness=1.6, tolerance=0, renderPart=false, ec
 
 
 
-include <linear_bearing.scad>;
+include <linear_bearing.scad>
 
 module linearBearing_single(model="LM8UU", renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
