@@ -22,7 +22,7 @@ Work in progress. Pending tasks:
 * Better plastic-saving holes for the X frames
 * Add the X nut holder to the X carriage
 * Add the Z nut holder to the X carriage
-* Re-design the [Z carriage](INHERITED) after testing performance
+* Re-design the [Z carriage](INHERITED) after testing performance. Integrate vacuum cleaner attachment
 * Re-design the [gears](INHERITED) with smoother edges
 
 
