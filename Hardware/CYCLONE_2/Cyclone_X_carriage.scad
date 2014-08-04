@@ -31,13 +31,11 @@ module Cyclone_X_carriage() {
 	dimX = 2*linearBearingLength+linearBearingLengthExtension;
 	
 	module Cyclone_XsubPart_ZnutHolder(holes=false) {
-		rod_nut_len = 0.8*axes_Ythreaded_rodD;
+		rod_nut_len = 0.8*axes_Zthreaded_rodD;
 		rodTolerance = 0.5;
 		rodSize = 8; // M3, M4, etc (integers only)
-		washer_D = 15.8;
-		washer_thickness = 1.6;
+		dimZ = rod_nut_len+3; // Nut holder thickness
 		
-		dimZ = 10;
 		if(!holes) {
 			rotate([0,180,0])
 				hull() {
@@ -52,6 +50,33 @@ module Cyclone_X_carriage() {
 			translate([0,0,-axes_effective_Xsmooth_separation+dimZ])
 				rotate([90,0,0]) standard_rod(diam=axes_Zthreaded_rodD+rodTolerance, length=axes_effective_Xsmooth_separation*2, threaded=true, renderPart=true, center=true);
 			translate([0,0,-dimZ-0.01]) rotate([180,0,0]) cylinder(r=axes_Zthreaded_rodD, h=axes_effective_Xsmooth_separation+dimZ, $fn=6);
+		}
+	}
+	
+	module Cyclone_XsubPart_XnutHolder(holes=false) {
+		rod_nut_len = 0.8*axes_Xthreaded_rodD;
+		rodTolerance = 0.5;
+		rodSize = 8; // M3, M4, etc (integers only)
+		washer_D = 15.8;
+		washer_thickness = 1.6;
+		
+		armWidth = axes_Xthreaded_rodD*2+5;
+		
+		armThickness = rod_nut_len*2;
+		
+		if(!holes) {
+			translate([armThickness/2,0,-axes_effective_Xsmooth_separation/2+washer_D/2])
+				rotate([0,90,0]) bcube([axes_effective_Xsmooth_separation,armWidth,armThickness], cr=3,cres=10);
+		} else {
+			if(draw_references) %frame();
+			translate([-0.01+rod_nut_len/2+6,0,0])
+				hull() {
+					rotate([0,0,-90]) hole_for_nut(size=8,nutAddedLen=-0.1,captiveLen=axes_Xthreaded_rodD*3,tolerance=0.1);
+					translate([2,0,0])
+						rotate([0,0,-90]) hole_for_nut(size=6,nutAddedLen=0,captiveLen=axes_Xthreaded_rodD*3,tolerance=0.1);
+				}
+			translate([armThickness+0.01,0,0])
+				rotate([0,0,-90]) hole_for_nut(size=6,nutAddedLen=armThickness,captiveLen=axes_Xthreaded_rodD*3,tolerance=0.1);
 		}
 	}
 	
@@ -80,9 +105,12 @@ module Cyclone_X_carriage() {
 			// Top screw
 			translate([0,axes_effective_Xsmooth_separation+screwExtension/2+linearBearingDiameter/2,axes_effective_Xsmooth_separation])
 				cylinder(r=screwSize*2,h=screwLength, center=true, $fn=6);
-			// Z nut
+			// Z nut holder
 			translate([0,axes_Zreference_posY+axes_ZthreadedReference_posY,axes_effective_Xsmooth_separation+(linearBearingDiameter+sideExtensions)/2])
 				Cyclone_XsubPart_ZnutHolder(holes=false);
+			// X nut holder
+			translate([-dimX/2,axes_effective_Xsmooth_separation,0])
+				rotate([-135,0,0]) Cyclone_XsubPart_XnutHolder(holes=false);
 		}
 		
 		// ----- Hole for the Z carriage space ------
@@ -115,15 +143,17 @@ module Cyclone_X_carriage() {
 		translate([0,axes_effective_Xsmooth_separation+screwExtension/2+linearBearingDiameter/2,axes_effective_Xsmooth_separation+screwLength/2+screwAditionalLength/2])
 			rotate([90,0,0]) hole_for_screw(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0);
 		
-		// ----- Hole for the Z nut
+		// ----- Hole for the Z nut ------
 		translate([0,axes_Zreference_posY+axes_ZthreadedReference_posY,axes_effective_Xsmooth_separation+(linearBearingDiameter+sideExtensions)/2])
-				Cyclone_XsubPart_ZnutHolder(holes=true);
+			Cyclone_XsubPart_ZnutHolder(holes=true);
+		
+		// ----- Hole for the X nut ------
+		translate([-dimX/2,axes_effective_Xsmooth_separation,0])
+			rotate([-135,0,0]) Cyclone_XsubPart_XnutHolder(holes=true);
 		
 		// ----- Holes for the rods ------
 		// TRANSLATE REFERENCE POSITION to the Z axis origin (right smooth rod)
 		translate([-axes_Zsmooth_separation/2,axes_Zreference_posY,axes_Zreference_height]) {
-			if(draw_references) %frame();
-	
 			// Z smooth rod (right)
 			cylinder(r=axes_Zsmooth_rodD/2, h=axes_Zsmooth_rodLen);
 			// Z smooth rod (left)
@@ -135,6 +165,6 @@ module Cyclone_X_carriage() {
 	rotate([0,90,0]) linearBearing_single(model=linearBearingModel, echoPart=true);
 	rotate([0,-90,0]) linearBearing_single(model=linearBearingModel, echoPart=true);
 	translate([linearBearingLength/2,axes_effective_Xsmooth_separation,axes_effective_Xsmooth_separation])
-			rotate([0,-90,0]) linearBearing_single(model=linearBearingModel, echoPart=true);
+			rotate([0,-90,0]) linearBearing_single(model=linearBearingModel, echoPart=true);			
 }
 
