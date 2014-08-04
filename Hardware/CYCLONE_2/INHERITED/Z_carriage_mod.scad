@@ -145,7 +145,7 @@ module motorHolesZ() {
 
     // Screws for holding the motor
     for(i=[-1,1]) for(j=[-1,1])
-    translate([i*motor_screw_distance/2,j*motor_screw_distance/2,2.5-wall_thickness/2]) {
+    translate([i*motor_screw_distance/2,j*motor_screw_distance/2,2.5-wall_thickness/2+3]) {
       hull() {
         translate([0,motor_adjust_margin/2,0])
           cylinder(r=motor_screw_diameter/2,h=10*wall_thickness,center=true,$fn=40);
@@ -267,11 +267,8 @@ module Z_carriage(showSpindle=false,top_part=true, with_extra_parts=false, explo
 
 		// Hole for the threaded rod
 		if(!top_part) {
-			translate([-axes_Xsmooth_separation,0,0]) hull() {
-				cylinder(r=2+M8_rod_diameter/2,h=wall_thickness*10,center=true,$fn=30);
-				translate([-15,0,0])
-					cylinder(r=2+M8_rod_diameter/2,h=wall_thickness*10,center=true,$fn=30);
-			}
+			translate([-axes_Xsmooth_separation,0,0]) 
+				cylinder(r=6+M8_rod_diameter,h=wall_thickness*10,center=true,$fn=30);
 		}
 
 		// Truncation in the base for avoiding collision with the X axis

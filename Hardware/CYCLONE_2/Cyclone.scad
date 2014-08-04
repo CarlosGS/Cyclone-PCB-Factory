@@ -42,7 +42,7 @@ axes_Zthreaded_rodLen	= axes_Zsmooth_rodLen-20;
 
 axes_Xsmooth_rodD	= 8.5+animatePart(4,dist=5);
 axes_Ysmooth_rodD	= 8.5+animatePart(4,dist=5);
-axes_Zsmooth_rodD	= 8.3+animatePart(4,dist=5);
+axes_Zsmooth_rodD	= 8.2+animatePart(4,dist=5);
 
 axes_Xthreaded_rodD	= 8.5+animatePart(4,dist=5);
 axes_Ythreaded_rodD	= 8.5+animatePart(4,dist=5);
@@ -53,11 +53,11 @@ axes_Zthreaded_rodD	= 8.5+animatePart(4,dist=5);
 // Y axis reference is the Y smooth rod end, BACK of RIGHT FRAME
 // X axis reference is the frontal X smooth rod end, RIGHT FRAME
 // Z axis reference is the Z threaded rod, at the height of the Z nut, and relative to the X reference
-axes_Yreference_height	= 42+animatePart(5);
-axes_Xreference_height	= 70+animatePart(6); // relative to Y reference
+axes_Yreference_height	= 40+animatePart(5);
+axes_Xreference_height	= 72+animatePart(6); // relative to Y reference
 axes_Zreference_height	= -3+animatePart(7)+animatePart(9); // relative to X reference
 
-axes_Xreference_posY	= -80-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
+axes_Xreference_posY	= -81-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
 axes_Zreference_posY	= 14; // relative to X reference. Positions Z rods between the Y rods
 
 axes_Y_threaded_height = 30+animatePart(5);
@@ -95,7 +95,7 @@ draw_references = true;
 render_DXF_base = false;
 render_DXF_workbed = false;
 render_bases_outline = false; // Toggle for rendering outline DXFs
-DXF_offset = 0.5; // Needed to adjust the tolerance of the laser cutter
+DXF_offset = 0.4; // Needed to adjust the tolerance of the laser cutter
 
 // Include Cyclone parts
 include <Cyclone_X_carriage.scad>
@@ -178,7 +178,7 @@ render_2D_or_3D() {
 			translate([axes_Xcarriage_pos,0,0]) {
 				if(draw_references) %frame();
 				
-				Cyclone_X_carriage();
+				!Cyclone_X_carriage();
 				
 				// TRANSLATE REFERENCE POSITION to the Z axis origin (right smooth rod)
 				translate([-axes_Zsmooth_separation/2,axes_Zreference_posY,axes_Zreference_height]) {
