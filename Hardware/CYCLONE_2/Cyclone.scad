@@ -54,7 +54,7 @@ axes_Zthreaded_rodD	= 8.5+animatePart(4,dist=5);
 // X axis reference is the frontal X smooth rod end, RIGHT FRAME
 // Z axis reference is the Z threaded rod, at the height of the Z nut, and relative to the X reference
 axes_Yreference_height	= 40+animatePart(5);
-axes_Xreference_height	= 72+animatePart(6); // relative to Y reference
+axes_Xreference_height	= 74+animatePart(6); // relative to Y reference
 axes_Zreference_height	= -3+animatePart(7)+animatePart(9); // relative to X reference
 
 axes_Xreference_posY	= -81-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
@@ -161,7 +161,7 @@ render_2D_or_3D() {
 	
 	
 		// TRANSLATE REFERENCE POSITION to the right frame, X lower smooth rod end
-		translate([axes_Xreference_posX,axes_Xreference_posY,axes_Xreference_height]) {
+		!translate([axes_Xreference_posX,axes_Xreference_posY,axes_Xreference_height]) {
 			if(draw_references) %frame();
 		
 			// Draw bottom X smooth rod

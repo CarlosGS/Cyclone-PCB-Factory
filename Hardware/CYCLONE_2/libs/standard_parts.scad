@@ -116,15 +116,15 @@ module nut(size=8, chamfer=false, renderPart=false, echoPart=false) {
 }
 
 
-module hole_for_nut(size=3,nutAddedLen=0,captiveLen=0,tolerance=0.35) {
+module hole_for_nut(size=3,nutAddedLen=0,captiveLen=0,rot=0,tolerance=0.35) {
 	radius = METRIC_NUT_AC_WIDTHS[size]/2+tolerance;
 	height = METRIC_NUT_THICKNESS[size]+tolerance;
 	scale([1,(height+nutAddedLen)/height,1])
 		rotate([90,0,0])
 			hull() {
-				nutHole(size=size, tolerance=tolerance, proj=-1);
+				rotate([0,0,rot]) nutHole(size=size, tolerance=tolerance, proj=-1);
 				translate([0,captiveLen,0])
-					nutHole(size=size, tolerance=tolerance, proj=-1);
+					rotate([0,0,rot]) nutHole(size=size, tolerance=tolerance, proj=-1);
 			}
 }
 

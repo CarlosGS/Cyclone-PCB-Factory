@@ -37,7 +37,7 @@ motor_length = 49; // not used
 motor_screw_distance = 31.3;
 motor_center_diameter = 23;
 
-motor_adjust_margin = 3;
+motor_adjust_margin = 10;
 
 motor_screw_diameter = 3.7;
 motor_screw_head_diameter = 8;
@@ -55,12 +55,13 @@ idler_width = 25;
 
 lbearing_holder_length = 23*2;
 
+ZthreadedOffset = -3.5;
 
-axes_Xsmooth_separation = 16;
+axes_Xsmooth_separation = 16+ZthreadedOffset;
 
 Z_threaded_pos = motor_width/2+axis_distance+axes_Xsmooth_separation;
 
-spindle_front_offset = 10;
+spindle_front_offset = 10+ZthreadedOffset;
 
 
 Z_smooth_rods_sep = 40;
@@ -272,7 +273,7 @@ module Z_carriage(showSpindle=false,top_part=true, with_extra_parts=false, explo
 		}
 
 		// Truncation in the base for avoiding collision with the X axis
-		if(!top_part) translate([-15-axes_Xsmooth_separation+11,0,0]) cube([20,100,50],center=true);
+		if(!top_part) translate([-15-axes_Xsmooth_separation+11+ZthreadedOffset,0,0]) cube([20,100,50],center=true);
 	}
 	*if(showSpindle) rotate([0,0,-90]) translate([0,wall_width-4-Z_threaded_pos,0])
 			translate([0,38,-20+8]) dummySpindle();

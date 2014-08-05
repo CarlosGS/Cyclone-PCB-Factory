@@ -12,7 +12,7 @@ module Cyclone_X_carriage() {
 	linearBearingDiameter = linearBearing_D(linearBearingModel);
 	
 	// Correction is needed to account for 3D printer tolerances
-	axes_effective_Xsmooth_separation = axes_Xsmooth_separation-1;
+	axes_effective_Xsmooth_separation = axes_Xsmooth_separation-0.5;
 	
 	linearBearingSeparation = 0;
 	
@@ -69,14 +69,14 @@ module Cyclone_X_carriage() {
 				rotate([0,90,0]) bcube([axes_effective_Xsmooth_separation,armWidth,armThickness], cr=3,cres=10);
 		} else {
 			if(draw_references) %frame();
-			translate([-0.01+rod_nut_len/2+6,0,0])
+			#translate([-0.01+rod_nut_len/2+6,0,0])
 				hull() {
-					rotate([0,0,-90]) hole_for_nut(size=8,nutAddedLen=-0.1,captiveLen=axes_Xthreaded_rodD*3,tolerance=0.1);
+					rotate([0,0,-90]) hole_for_nut(size=8,nutAddedLen=-1.25,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
 					translate([2,0,0])
-						rotate([0,0,-90]) hole_for_nut(size=6,nutAddedLen=0,captiveLen=axes_Xthreaded_rodD*3,tolerance=0.1);
+						rotate([0,0,-90]) hole_for_nut(size=6,nutAddedLen=0,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
 				}
 			translate([armThickness+0.01,0,0])
-				rotate([0,0,-90]) hole_for_nut(size=6,nutAddedLen=armThickness,captiveLen=axes_Xthreaded_rodD*3,tolerance=0.1);
+				rotate([0,0,-90]) hole_for_nut(size=6,nutAddedLen=armThickness,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
 		}
 	}
 	
@@ -116,10 +116,16 @@ module Cyclone_X_carriage() {
 		// ----- Hole for the Z carriage space ------
 		difference() {
 			translate([-dimX/2-0.5,0,-sideExtensions+ZrodHolderLength])
-				cube([dimX+1,axes_effective_Xsmooth_separation-axes_ZthreadedReference_posY,axes_effective_Xsmooth_separation]);
+				cube([dimX+1,axes_Zreference_posY+axes_ZthreadedReference_posY,axes_effective_Xsmooth_separation]);
 			translate([0,axes_Zreference_posY+axes_ZthreadedReference_posY,axes_effective_Xsmooth_separation+(linearBearingDiameter+sideExtensions)/2])
 				Cyclone_XsubPart_ZnutHolder(mainPart=true);
 		}
+		
+		#frame(100);
+		
+		// ----- Hole for the spindle tool ------
+		translate([0,-35+8.5,0])
+			cylinder(r=35/2, h=100, center=true);
 		
 		// ----- Holes for the linear bearings ------
 		// Bottom right linear bearing
