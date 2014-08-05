@@ -69,7 +69,7 @@ module Cyclone_X_carriage() {
 				rotate([0,90,0]) bcube([axes_effective_Xsmooth_separation,armWidth,armThickness], cr=3,cres=10);
 		} else {
 			if(draw_references) %frame();
-			#translate([-0.01+rod_nut_len/2+6,0,0])
+			translate([-0.01+rod_nut_len/2+6,0,0])
 				hull() {
 					rotate([0,0,-90]) hole_for_nut(size=8,nutAddedLen=-1.25,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
 					translate([2,0,0])

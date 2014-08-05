@@ -4,6 +4,14 @@
 // License: CC BY-SA 4.0 (Attribution-ShareAlike 4.0 International, http://creativecommons.org/licenses/by-sa/4.0/)
 // Designed with http://www.openscad.org/
 
+
+
+// NOTE: For a proper rendering in OpenScad it is important to change a default setting:
+// Go to: Edit --> Preferences --> Advanced
+// And increase "Turn off rendering at 2000 elements" to a larger number like 20000
+
+
+
 // Increase the resolution of default shapes
 $fa = 5; // Minimum angle for fragments [degrees]
 $fs = 0.5; // Minimum fragment size [mm]
@@ -161,7 +169,7 @@ render_2D_or_3D() {
 	
 	
 		// TRANSLATE REFERENCE POSITION to the right frame, X lower smooth rod end
-		!translate([axes_Xreference_posX,axes_Xreference_posY,axes_Xreference_height]) {
+		translate([axes_Xreference_posX,axes_Xreference_posY,axes_Xreference_height]) {
 			if(draw_references) %frame();
 		
 			// Draw bottom X smooth rod

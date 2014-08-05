@@ -20,8 +20,7 @@ Work in progress. Pending tasks:
 * PCB holder
 * Fork Marlin firmware and add Cyclone parameters
 * Better plastic-saving holes for the X frames
-* Add the X nut holder to the X carriage
-* Add the Z nut holder to the X carriage
+* Improve the nut holder in the X carriage
 * Re-design the [Z carriage](INHERITED) after testing performance. Integrate vacuum cleaner attachment
 * Re-design the [gears](INHERITED) with smoother edges
 
