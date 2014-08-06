@@ -121,8 +121,6 @@ module Cyclone_X_carriage() {
 				Cyclone_XsubPart_ZnutHolder(mainPart=true);
 		}
 		
-		#frame(100);
-		
 		// ----- Hole for the spindle tool ------
 		translate([0,-35+8.5,0])
 			cylinder(r=35/2, h=100, center=true);

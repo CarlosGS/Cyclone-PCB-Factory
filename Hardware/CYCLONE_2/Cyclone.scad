@@ -186,7 +186,7 @@ render_2D_or_3D() {
 			translate([axes_Xcarriage_pos,0,0]) {
 				if(draw_references) %frame();
 				
-				Cyclone_X_carriage();
+				!Cyclone_X_carriage();
 				
 				// TRANSLATE REFERENCE POSITION to the Z axis origin (right smooth rod)
 				translate([-axes_Zsmooth_separation/2,axes_Zreference_posY,axes_Zreference_height]) {
