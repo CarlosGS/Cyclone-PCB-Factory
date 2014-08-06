@@ -143,16 +143,47 @@ module Cyclone_YsubPart_linearBearingHolders(onlyScrews=false) {
 
 
 module Cyclone_YsubPart_PCBholder() {
-	translate([0,0,PCBholder_height/2])
-		bcube([workbed_size_X,workbed_size_Y,PCBholder_height], cr=25, cres=10);
-	translate([0,0,1.6/2+PCBholder_height])
-		color("green") cube([160,100,1.6], center=true);
+	PCB_dimX = 160;
+	PCB_dimY = 100;
+	PCB_dimZ = 1.6;
+	
+	PCB_holder_edge_length = 3;
+	PCB_holder_tolerance = 0.2;
+	
+	screwSeparation = 2.5;
+	
+	holderArmLength = 30;
+	
+	difference() {
+		translate([0,0,PCBholder_height/2])
+			bcube([workbed_size_X,workbed_size_Y,PCBholder_height], cr=25, cres=0);
+		translate([0,0,PCBholder_height/2])
+			cube([PCB_dimX-PCB_holder_edge_length*2,PCB_dimY-PCB_holder_edge_length*2,PCBholder_height+1], center=true);
+		translate([0,0,PCBholder_height])
+			color("green") cube([PCB_dimX+PCB_holder_tolerance*2,PCB_dimY+PCB_holder_tolerance*2,PCB_dimZ], center=true);
+		
+		translate([-PCB_dimX/2+PCB_holder_edge_length,0,-0.5])
+			cube([PCB_dimX-holderArmLength-PCB_holder_edge_length,workbed_size_Y,PCBholder_height+1]);
+		scale([-1,-1,1]) translate([-PCB_dimX/2+PCB_holder_edge_length,0,-0.5])
+			cube([PCB_dimX-holderArmLength-PCB_holder_edge_length,workbed_size_Y,PCBholder_height+1]);
+		
+		for (x = [-1,1], y=[-1,0,1]) {
+			translate([x*(PCB_dimX/2+screwSeparation),y*PCB_dimY/4,PCBholder_height+2.8])
+				rotate([0,0,x*-90]) rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height+3,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
+		}
+		
+		translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+2.8])
+			rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height+3,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
+		scale([-1,-1,1]) translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+2.8])
+			rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height+3,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
+
+	}
 }
 
 
 
 module Cyclone_Y_carriage() {
-	!if(render_DXF_workbed) {
+	if(render_DXF_workbed) {
 		offset(delta = DXF_offset) projection(cut = true)
 			translate([0,0,-workbed_separation_from_Y_threaded_rod]) {
 				Cyclone_YsubPart_nutHolder();
@@ -166,10 +197,10 @@ module Cyclone_Y_carriage() {
 		Cyclone_YsubPart_nutHolder();
 		translate([0,0,axes_Y_smoothThreaded_verticalSeparation]) {
 			Cyclone_YsubPart_linearBearingHolders();
-			difference() {
+			!difference() {
 				translate([0,0,workbed_separation_from_Y_threaded_rod+workbed_thickness-axes_Y_smoothThreaded_verticalSeparation])
 					Cyclone_YsubPart_PCBholder();
-				#Cyclone_YsubPart_linearBearingHolders(onlyScrews=true);
+				Cyclone_YsubPart_linearBearingHolders(onlyScrews=true);
 			}
 		}
 		color([0.9,0.8,0.8,0.5]) translate([0,0,workbed_separation_from_Y_threaded_rod+workbed_thickness])

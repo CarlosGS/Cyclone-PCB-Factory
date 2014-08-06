@@ -68,7 +68,7 @@ module beveledBase(size=[100,200,10], radius=10, res=15, renderPart=false, echoP
 
 include <MCAD/nuts_and_bolts.scad>
 
-module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0.35, echoPart=false) {
+module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0.35,rot=0, echoPart=false) {
 	radius = METRIC_NUT_AC_WIDTHS[size]/2+tolerance;
 	height = METRIC_NUT_THICKNESS[size]+tolerance;
 	translate([0,-length/2,0]) {
@@ -76,9 +76,9 @@ module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tol
 		scale([1,(height+nutAddedLen)/height,1])
 			rotate([90,0,0])
 				hull() {
-					nutHole(size=size, tolerance=tolerance, proj=-1);
+					rotate([0,0,rot]) nutHole(size=size, tolerance=tolerance, proj=-1);
 					translate([0,captiveLen,0])
-						nutHole(size=size, tolerance=tolerance, proj=-1);
+						rotate([0,0,rot]) nutHole(size=size, tolerance=tolerance, proj=-1);
 				}
 	translate([0,length/2-height+0.01,0]) //TODO (from MCAD): proper screw cap values: instead of "height" will use METRIC_BOLT_CAP_HEIGHTS[size]+tolerance;
 		rotate([90,0,0])
