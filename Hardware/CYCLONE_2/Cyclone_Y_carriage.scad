@@ -148,7 +148,7 @@ module Cyclone_YsubPart_PCBholder() {
 	PCB_dimZ = 1.6;
 	
 	PCB_holder_edge_length = 3;
-	PCB_holder_tolerance = 0.2;
+	PCB_holder_tolerance = 0.6;
 	
 	screwSeparation = 2.5;
 	
@@ -197,7 +197,7 @@ module Cyclone_Y_carriage() {
 		Cyclone_YsubPart_nutHolder();
 		translate([0,0,axes_Y_smoothThreaded_verticalSeparation]) {
 			Cyclone_YsubPart_linearBearingHolders();
-			!difference() {
+			difference() {
 				translate([0,0,workbed_separation_from_Y_threaded_rod+workbed_thickness-axes_Y_smoothThreaded_verticalSeparation])
 					Cyclone_YsubPart_PCBholder();
 				Cyclone_YsubPart_linearBearingHolders(onlyScrews=true);

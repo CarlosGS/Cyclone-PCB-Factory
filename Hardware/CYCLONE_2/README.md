@@ -1,7 +1,7 @@
 Hardware for Cyclone-PCB-Factory  
 ===================
 
-Version 2.0  
+Version 2.0a  
 --  
 Adressing all the issues from the original design, implementing improvements by yOPERO, Martin Zabojnik and others.
 
@@ -15,13 +15,12 @@ Adressing all the issues from the original design, implementing improvements by 
 
 Work in progress. Pending tasks:  
 --  
-
+* Improve vacuum cleaner attachment (make it detachable)
+* Create protective covers for the gears
 * Endstop integration for X, Y and Z
-* PCB holder
-* Fork Marlin firmware and add Cyclone parameters
 * Better plastic-saving holes for the X frames
-* Improve the nut holder in the X carriage
-* Re-design the [Z carriage](INHERITED) after testing performance. Integrate vacuum cleaner attachment
+* Improve the nut holder in the X carriage (with the same spring mechanism as in Y)
+* Re-design the [Z carriage](INHERITED) after testing performance
 * Re-design the [gears](INHERITED) with smoother edges
 
 
