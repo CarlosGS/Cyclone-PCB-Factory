@@ -148,7 +148,7 @@ module Cyclone_YsubPart_PCBholder() {
 	PCB_dimZ = 1.6;
 	
 	PCB_holder_edge_length = 3;
-	PCB_holder_tolerance = 0.6;
+	PCB_holder_tolerance = 1;
 	
 	screwSeparation = 2.5;
 	
@@ -168,13 +168,13 @@ module Cyclone_YsubPart_PCBholder() {
 			cube([PCB_dimX-holderArmLength-PCB_holder_edge_length,workbed_size_Y,PCBholder_height+1]);
 		
 		for (x = [-1,1], y=[-1,0,1]) {
-			translate([x*(PCB_dimX/2+screwSeparation),y*PCB_dimY/4,PCBholder_height+2.8])
+			translate([x*(PCB_dimX/2+screwSeparation),y*PCB_dimY/4,PCBholder_height+2.9])
 				rotate([0,0,x*-90]) rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height+3,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
 		}
 		
-		translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+2.8])
+		translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+2.9])
 			rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height+3,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
-		scale([-1,-1,1]) translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+2.8])
+		scale([-1,-1,1]) translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+2.9])
 			rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height+3,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
 
 	}
