@@ -50,9 +50,14 @@ $fs = 0.5; // Minimum fragment size [mm]
 
 /* Herringbone gear module, adapted from MCAD/involute_gears */
 module herringbone_gear( teeth=12, circles=0, shaft=5 ) {
-	twist=200;
+	twist=100;
 	height=10;
 	pressure_angle=30;
+	
+	diam = teeth*2;
+	
+	truncation_length = 3;
+	truncation_height = height/3;
 
 	module myGear() {
 		difference() {
@@ -71,11 +76,11 @@ module herringbone_gear( teeth=12, circles=0, shaft=5 ) {
 				twist=twist/teeth,
 				$fn=15*2
 			);
-			translate([0,0,-height/2-0.01]) {
+			mirror([0,0,1]) translate([0,0,-height/2-0.01]) {
 				difference() {
-					cylinder(r=40.5/2, h=height/4);
+					cylinder(r=diam/2, h=truncation_height);
 					translate([0,0,-0.01])
-						cylinder(r1=30/2, r2=40.5/2, h=height/4+0.02);
+						cylinder(r1=diam/2-truncation_length, r2=diam/2, h=truncation_height+0.02);
 				}
 			}
 		}
