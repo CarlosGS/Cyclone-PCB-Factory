@@ -87,7 +87,7 @@ axes_Zcarriage_pos = axes_Zsmooth_rodLen/3+sin($t*360)*axes_Zsmooth_rodLen/4;
 Ycarriage_linearBearingSeparation = 50;
 workbed_size_X			= axes_Ysmooth_separation+50;
 workbed_size_Y			= Ycarriage_linearBearingSeparation+70;
-workbed_thickness		= 8;
+workbed_thickness		= 8+3;
 workbed_separation_from_Y_smooth_rod = 10;
 
 
@@ -214,24 +214,24 @@ render_2D_or_3D() {
 				}
 			}
 		}
-
+	
 	}
-
-
-
-
-
-
-
-
-
+	
+	
+	
+	translate([axes_Xsmooth_rodLen/2,0,0])
+		control_board();
+	
+	
+	
+	
 	// TRANSLATE REFERENCE POSITION to the FRONT RIGHT Y rod idler, Y smooth rod end
 	translate([-axes_Ysmooth_separation/2,-axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
 		if(draw_references) %frame();
 	
 		Cyclone_Y_rightSmoothRodIdler();
 	}
-
+	
 	// TRANSLATE REFERENCE POSITION to the FRONT LEFT Y rod idler, Y smooth rod end
 	translate([axes_Ysmooth_separation/2,-axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
 		if(draw_references) %frame();

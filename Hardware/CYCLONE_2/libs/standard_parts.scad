@@ -262,3 +262,15 @@ module linearBearingHole(model="LM8UU", lateralExtension=10, pressureFitToleranc
 
 
 
+module control_board() {
+	rotate([0,0,180])
+	translate([15,0])
+	difference() {
+		translate([-15,-12.5])
+			cube([102.5,64.5,1.6]);
+		translate([0,0,5]) rotate([90,0,0]) hole_for_screw(size=3,length=10,nutDepth=0,nutAddedLen=0,captiveLen=0);
+		translate([82.5,0,5]) rotate([90,0,0]) hole_for_screw(size=3,length=10,nutDepth=0,nutAddedLen=0,captiveLen=0);
+		translate([0,48.5,5]) rotate([90,0,0]) hole_for_screw(size=3,length=10,nutDepth=0,nutAddedLen=0,captiveLen=0);
+	}
+}
+
