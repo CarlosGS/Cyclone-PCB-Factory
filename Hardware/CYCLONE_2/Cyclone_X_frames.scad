@@ -57,10 +57,18 @@ module Cyclone_X_leftFrame(isLeft=true) {
 	module Cyclone_XsubPart_gearCover() {
 		margin = 4;
 		wallThickness = 2;
-		color("grey")
 		difference() {
-			union()
-				Cyclone_XsubPart_gearsAndMotor(renderGears=true, gearMargin=margin+wallThickness);
+			union() {
+				translate([gearWallSeparation,0,0]) rotate([0,90,0])
+					cylinder(r=axes_XgearSeparation/(1+1/axes_XgearRatio)+wallThickness+margin, h=axes_XgearThickness+wallThickness+margin);
+				// Translate to motor position
+				rotate([motorRotatedOffset,0,0]) {
+					translate([0,axes_XgearSeparation,0])
+						rotate([-motorRotatedOffset,0,0]) {
+							translate([gearWallSeparation,0,0]) rotate([0,90,0]) cylinder(r=axes_XgearSeparation/(1+axes_XgearRatio)+wallThickness+margin, h=axes_XgearThickness+wallThickness+margin);
+						}
+				}
+			}	//Cyclone_XsubPart_gearsAndMotor(renderGears=true, gearMargin=margin+wallThickness);
 			translate([-0.01,0,0])
 				union()
 					Cyclone_XsubPart_gearsAndMotor(renderGears=true, gearMargin=margin);
@@ -144,7 +152,16 @@ module Cyclone_X_leftFrame(isLeft=true) {
 			translate([-bearingDepth,0,0]) rotate([0,90,0])
 				radialBearing(echoPart=true);
 			if(isLeft) {
-				Cyclone_XsubPart_gearsAndMotor(echoPart=true, drawMotor=true);
+				translate([gearWallSeparation,0,0]) rotate([0,90,0])
+					rodGear(r=axes_XgearSeparation/(1+1/axes_XgearRatio), h=axes_XgearThickness, echoPart=true);
+				// Translate to motor position
+				rotate([motorRotatedOffset,0,0]) {
+					translate([0,axes_XgearSeparation,0])
+						rotate([-motorRotatedOffset,0,0]) {
+							translate([-motorWallSeparation,0,0]) rotate([0,90,0]) stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
+							translate([gearWallSeparation,0,0]) rotate([0,90,0]) motorGear(r=axes_XgearSeparation/(1+axes_XgearRatio), h=axes_XgearThickness, echoPart=true);
+						}
+				}
 				Cyclone_XsubPart_gearCover();
 			}
 			translate([0,0,axes_Xsmooth_separation])

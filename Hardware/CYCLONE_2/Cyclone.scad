@@ -207,9 +207,9 @@ render_2D_or_3D() {
 						
 							//Cyclone_Z_carriage();
 							
-							linearBearing_single(model=linearBearingModel, echoPart=true);
+							linearBearing_single(model="LM8UU", echoPart=true);
 							translate([axes_Zsmooth_separation,0,0])
-								linearBearing_single(model=linearBearingModel, echoPart=true);
+								linearBearing_single(model="LM8UU", echoPart=true);
 						}
 				}
 			}
