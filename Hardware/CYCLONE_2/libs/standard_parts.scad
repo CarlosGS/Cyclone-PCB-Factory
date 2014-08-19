@@ -178,15 +178,15 @@ module stepperMotor(screwHeight=10, renderPart=false, echoPart=false) {
 
 
 
-module motorGear(r=30,renderPart=false, echoPart=false) {
+module motorGear(r=30,h=10,renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
-		color("lightgreen") cylinder(r=r,h=10)
+		color("lightgreen") cylinder(r=r,h=h)
 	if(echoPart) echo(str("BOM: Gear. Motor."));
 }
 
-module rodGear(r=30,renderPart=false, echoPart=false) {
+module rodGear(r=30,h=10,renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
-		color("lightgreen") cylinder(r=r,h=10)
+		color("lightgreen") cylinder(r=r,h=h)
 	if(echoPart) echo(str("BOM: Gear. Rod."));
 }
 

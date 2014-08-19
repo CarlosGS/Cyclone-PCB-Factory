@@ -37,7 +37,7 @@ include <MCAD/materials.scad>
 include <MCAD/teardrop.scad>
 include <MCAD/involute_gears.scad>
 
-motor_shaft_diameter=5.3;
+motor_shaft_diameter=5.6;
 BigGear_N_Teeth = 21; // 24
 
 nholes = 9; // 7
@@ -73,8 +73,7 @@ module herringbone_gear( teeth=12, circles=0, shaft=5 ) {
 				hub_diameter=1,
 				bore_diameter=shaft,
 				circles=circles,
-				twist=twist/teeth,
-				$fn=15*2
+				twist=twist/teeth
 			);
 			mirror([0,0,1]) translate([0,0,-height/2-0.01]) {
 				difference() {
@@ -101,32 +100,28 @@ union() difference() {
 
 		translate( [0, 0, 12] ) mirror( [0, 0, 1] ) difference() {
 			//shaft
-			cylinder( r=9, h=15, $fn=40 );
-	//adapted to include 3 captive nuts for symmetrical positioning
-	//adpted bij HJ Binnema on August 26 2013.
-	for (i= [0:2]){
-		rotate([0,0,i*120]){
+			cylinder( r=9, h=15);
 			//captive nut and grub holes
-			translate( [0, 20, 3.5] ) rotate( [90, 0, 0] ) union() {
+			translate( [0, 19.5, 3.5] ) rotate( [90, 0, 0] ) union() {
 				//enterance
-				translate( [0, -3, 14.5] ) cube( [6, 6, 2.6], center=true );
+				translate( [0, -3, 14.5] ) cube( [6, 6, 2.8], center=true );
 				//nut
-				translate( [0, 0, 13.3] ) rotate( [0, 0, 30] )
-					cylinder( r=6/2+0.5, h=2.6, $fn=6 );
+				translate( [0, 0, 14.5] ) rotate( [0, 0, 30] )
+					cylinder( r=6/2+0.5, h=2.8, $fn=6, center=true);
 				//grub hole
-				translate( [0, 0, 9] ) cylinder( r=3.2/2, h=10, $fn=6 );
-			}}}
+				translate( [0, 0, 9] ) cylinder( r=3.2/2, h=10);
+			}
 		}
 	}
 
 	//holes to save plastic
-	for(i=[0:nholes-1])
-		rotate( [0, 0, i*360/(nholes)+45], $fn=20 )
-			translate( [hole_distance_from_center, 0] )
-				cylinder( r=holes_diam/2, h=11, center=true, $fn=30 );
+	//for(i=[0:nholes-1])
+	//	rotate( [0, 0, i*360/(nholes)+45])
+	//		translate( [hole_distance_from_center, 0] )
+	//			cylinder( r=holes_diam/2, h=11, center=true);
 
 	//shaft hole
-	translate( [0, 0, -6] ) cylinder( r=motor_shaft_diameter/2, h=20, $fn=30 );
+	translate( [0, 0, -6] ) cylinder( r=motor_shaft_diameter/2, h=20);
 }
 }
 

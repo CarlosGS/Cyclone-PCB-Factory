@@ -9,6 +9,7 @@ Xmotor_sideLen = 42.20;
 
 axes_XgearSeparation = 37;
 axes_XgearRatio = 21/21; // Number of tooth (motor/rod)
+axes_XgearThickness = 10;
 
 X_frames_additional_thickness = 5;
 
@@ -38,6 +39,34 @@ module Cyclone_X_leftFrame(isLeft=true) {
 	bearingDepth = 3;
 	
 	corner_radius = 10;
+	
+	module Cyclone_XsubPart_gearsAndMotor(renderGears=false, echoPart=false, drawMotor=false, gearMargin=0) {
+		translate([gearWallSeparation,0,0]) rotate([0,90,0])
+			rodGear(r=axes_XgearSeparation/(1+1/axes_XgearRatio)+gearMargin, h=axes_XgearThickness+gearMargin, echoPart=echoPart, renderPart=renderGears);
+		// Translate to motor position
+		rotate([motorRotatedOffset,0,0]) {
+			translate([0,axes_XgearSeparation,0])
+				rotate([-motorRotatedOffset,0,0]) {
+					if(drawMotor)
+						translate([-motorWallSeparation,0,0]) rotate([0,90,0]) stepperMotor(screwHeight=motorWallSeparation, echoPart=echoPart);
+					translate([gearWallSeparation,0,0]) rotate([0,90,0]) motorGear(r=axes_XgearSeparation/(1+axes_XgearRatio)+gearMargin, h=axes_XgearThickness+gearMargin, echoPart=echoPart, renderPart=renderGears);
+				}
+		}
+	}
+	
+	module Cyclone_XsubPart_gearCover() {
+		margin = 4;
+		wallThickness = 2;
+		color("grey")
+		difference() {
+			union()
+				Cyclone_XsubPart_gearsAndMotor(renderGears=true, gearMargin=margin+wallThickness);
+			translate([-0.01,0,0])
+				union()
+					Cyclone_XsubPart_gearsAndMotor(renderGears=true, gearMargin=margin);
+			rotate([0,90,0]) cylinder(r=20/2-1.5, h=30);
+		}
+	}
 	
 	
 	difference() {
@@ -115,16 +144,8 @@ module Cyclone_X_leftFrame(isLeft=true) {
 			translate([-bearingDepth,0,0]) rotate([0,90,0])
 				radialBearing(echoPart=true);
 			if(isLeft) {
-				translate([gearWallSeparation,0,0]) rotate([0,90,0])
-					rodGear(r=axes_XgearSeparation/(1+1/axes_XgearRatio), echoPart=true);
-				// Translate to motor position
-				rotate([motorRotatedOffset,0,0]) {
-					translate([0,axes_XgearSeparation,0])
-						rotate([-motorRotatedOffset,0,0]) {
-							translate([-motorWallSeparation,0,0]) rotate([0,90,0]) stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
-							translate([gearWallSeparation,0,0]) rotate([0,90,0]) motorGear(r=axes_XgearSeparation/(1+axes_XgearRatio), echoPart=true);
-						}
-				}
+				Cyclone_XsubPart_gearsAndMotor(echoPart=true, drawMotor=true);
+				Cyclone_XsubPart_gearCover();
 			}
 			translate([0,0,axes_Xsmooth_separation])
 				rotate([0,0,-90])
