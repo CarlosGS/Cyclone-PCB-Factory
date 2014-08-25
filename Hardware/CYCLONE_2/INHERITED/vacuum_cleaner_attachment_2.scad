@@ -2,17 +2,22 @@
 
 
 dremel_accessory_diam = 20;
-dremel_accesory_height = 12-2;
+dremel_accesory_height = 15-2;
+
+screws_vertical_offset = 1;
 
 aspirator_thickness_thick = 2;
 aspirator_thickness_slim = 1;
 aspirator_thickness_screw = 4;
 
-aspirator_tube_diam = 20;
+aspirator_tube_diam = 16+0.5;
 aspirator_tube_holder_height = 15;
 
-aspirator_hole_height = 15;
-aspirator_hole_diam = 35;
+aspirator_hole_height = 15-5;
+aspirator_hole_diam = 35+15;
+aspirator_hole_Yscale = 0.5;
+
+edge_height = 2;
 
 dremel_wrench_diam = 0;
 dremel_wrench_hole_offset = 8;
@@ -65,7 +70,16 @@ module aspirator_accessory_filledshape() {
 				aspirator_accessory_2Dshape();
 		translate([0,dremel_accessory_hole_offset/2,-dremel_accesory_height/2-aspirator_hole_height])
 			linear_extrude(height=0.001,center=true)
-				circle(r=aspirator_thickness_slim+aspirator_hole_diam/2, $fn=60);
+				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_thickness_slim+aspirator_hole_diam/2, $fn=60);
+	}
+	hull() {
+		translate([0,dremel_accessory_hole_offset/2,-dremel_accesory_height/2-aspirator_hole_height])
+			linear_extrude(height=0.001,center=true)
+				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_thickness_slim+aspirator_hole_diam/2, $fn=60);
+		translate([0,dremel_accessory_hole_offset/2,-dremel_accesory_height/2-aspirator_hole_height-edge_height])
+			linear_extrude(height=0.001,center=true)
+				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_thickness_slim+aspirator_hole_diam/2+edge_height/2, $fn=60);
+	
 	}
 }
 
@@ -99,11 +113,11 @@ module aspirator_accessory_holes() {
 				aspirator_accessory_2Dholes();
 		translate([0,dremel_accessory_hole_offset/2,-dremel_accesory_height/2-aspirator_hole_height+1-0.01])
 			linear_extrude(height=0.001,center=true)
-				circle(r=aspirator_hole_diam/2, $fn=60);
+				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_hole_diam/2, $fn=60);
 	}
-	translate([0,dremel_accessory_hole_offset/2,-dremel_accesory_height/2-aspirator_hole_height])
-			linear_extrude(height=2+0.1,center=true)
-				circle(r=aspirator_hole_diam/2, $fn=60);
+	translate([0,dremel_accessory_hole_offset/2,-dremel_accesory_height/2-aspirator_hole_height-1])
+			linear_extrude(height=2+edge_height+0.1,center=true)
+				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_hole_diam/2, $fn=60);
 	// Hole for the tightener
 	translate([0,-dremel_accessory_tube_offset/4,0])
 		cube([aspirator_tube_separation,2.5,dremel_accesory_height+0.01],center=true);
@@ -111,10 +125,10 @@ module aspirator_accessory_holes() {
 	translate([0,(dremel_accessory_diam+aspirator_thickness_thick)/2,-(dremel_accesory_height+aspirator_hole_height)/2-dremel_wrench_hole_offset])
 		cube([dremel_wrench_diam,10,aspirator_hole_height+0.01],center=true);
 	// Holes for the nut/screws
-	#translate([dremel_accessory_screw_separation/2,0,0])
+	#translate([dremel_accessory_screw_separation/2,0,screws_vertical_offset])
 		rotate([0,0,-dremel_accessory_angle])
 			screwHole();
-	#translate([-dremel_accessory_screw_separation/2,0,0])
+	#translate([-dremel_accessory_screw_separation/2,0,screws_vertical_offset])
 		rotate([0,0,dremel_accessory_angle])
 			screwHole();
 }

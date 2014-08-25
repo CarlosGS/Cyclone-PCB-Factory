@@ -1,13 +1,13 @@
 
 
 dremel_accessory_diam = 20;
-dremel_accesory_height = 12-2;
+dremel_accesory_height = 15;
 
 aspirator_thickness_thick = 2;
-aspirator_thickness_slim = 2;
+aspirator_thickness_slim = 1.5;
 aspirator_thickness_screw = 4;
 
-aspirator_tube_diam = 20;
+aspirator_tube_diam = 16+0.5;
 aspirator_tube_holder_height = 15;
 
 aspirator_hole_height = 20;
