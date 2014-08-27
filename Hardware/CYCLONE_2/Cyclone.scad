@@ -36,7 +36,7 @@ base_size_Y			= 261.62+animatePart(2);
 base_thickness		= 8;
 base_corner_radius	= 20;
 base_corner_res		= 0;
-foot_offset = 40;
+foot_offset = 25;
 
 
 // Parameters for the axes sizes

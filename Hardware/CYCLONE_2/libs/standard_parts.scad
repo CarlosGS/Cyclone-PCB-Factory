@@ -68,10 +68,11 @@ module beveledBase(size=[100,200,10], radius=10, res=15, renderPart=false, echoP
 
 include <MCAD/nuts_and_bolts.scad>
 
-module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0.45,rot=0, echoPart=false) {
+module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0.45,rot=0,invert=false, echoPart=false) {
 	radius = METRIC_NUT_AC_WIDTHS[size]/2+tolerance;
 	height = METRIC_NUT_THICKNESS[size]+tolerance;
-	translate([0,-length/2,0]) {
+	rotate([0,0,invert ? 180 : 0])
+	translate([0,invert ? length/2 : -length/2,0]) {
 	translate([0,-length/2+height+nutAddedLen+nutDepth-0.01,0])
 		scale([1,(height+nutAddedLen)/height,1])
 			rotate([90,0,0])
@@ -88,14 +89,15 @@ module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tol
 	if(echoPart) echo(str("BOM: Nut. M", size, "."));
 }
 
-module screw_and_nut(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0, autoNutOffset=false, renderPart=false, echoPart=false) {
+module screw_and_nut(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0, autoNutOffset=false, rot=0, invert=false, renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
 		color(BlackPaint)
 			difference() {
 				if(autoNutOffset)
-					hole_for_screw(size,length+METRIC_NUT_THICKNESS[size],nutDepth,nutAddedLen,captiveLen,tolerance, echoPart=echoPart);
+					hole_for_screw(size,length+METRIC_NUT_THICKNESS[size],nutDepth,nutAddedLen,captiveLen,tolerance,rot,invert, echoPart);
 				else
-					hole_for_screw(size,length,nutDepth,nutAddedLen,captiveLen,tolerance, echoPart=echoPart);
+					hole_for_screw(size,length,nutDepth,nutAddedLen,captiveLen,tolerance,rot,invert, echoPart);
+				translate([0,invert ? -length-METRIC_NUT_THICKNESS[size] : 0,0])
 				rotate([0,45,0]) {
 					cube([1,1,10],center=true);
 					cube([10,1,1],center=true);
@@ -149,7 +151,7 @@ module screw_single(size=3,length=10,tolerance=0, renderPart=false, echoPart=fal
 
 use <MCAD/motors.scad>
 include <MCAD/stepper.scad>
-module stepperMotor_mount(height, tolerance=0.15, slide_distance=5, sideLen=42.20, slideOut=false, renderPart=false) {
+module stepperMotor_mount(height, tolerance=0.15, slide_distance=6, sideLen=42.20, slideOut=false, renderPart=false) {
 	render() union() {
 	linear_extrude(height=height) offset(delta = tolerance, join_type = "round") union() {
 		stepper_motor_mount(nema_standard=17, slide_distance=slide_distance, mochup=false);
@@ -276,4 +278,57 @@ module control_board() {
 			color("green") cube([102.5,64.5,15]);
 	}
 }
+
+
+module endstop_holder(holes=false) {
+	boardX = 39.53;
+	boardY = 16.05;
+	boardZ = 1.62;
+	
+	holderX = 29;
+	holderY = 8;
+	holderZ = 6;
+	
+	screwWallSep = 2.75;
+	
+	if(holes) {
+		translate([0,0,-boardZ]) {
+			// PCB
+			cube([boardX,boardY,boardZ]);
+			// Endstop pins
+			translate([6.2,6.5,-3])
+				cube([13.5,5,3]);
+			// Connector pins
+			translate([26.7,3.5,-3])
+				cube([3,7.8,3]);
+		}
+		translate([0,screwWallSep,3]) {
+			translate([3.7,0,0])
+				rotate([90,0,0])
+					hole_for_screw(size=3,length=15,nutDepth=0,nutAddedLen=5,captiveLen=10,rot=90);
+			translate([22.7,0,0])
+				rotate([90,0,0])
+					hole_for_screw(size=3,length=15,nutDepth=0,nutAddedLen=5,captiveLen=10,rot=90);
+		}
+	} else {
+		translate([holderX/2,holderY/2,-holderZ/2-boardZ])
+			bcube([holderX,holderY,holderZ], cr=2, cres=4);
+		// PCB
+		color("lightgrey") translate([0,0,-boardZ])
+			%cube([boardX,boardY,boardZ]);
+		// Endstop
+		color("grey") translate([6.8,0,0])
+			%cube([12.8,6.5,6.3]);
+		// Screws
+		translate([0,screwWallSep,3]) {
+			translate([3.7,0,0])
+				rotate([90,0,0])
+					screw_and_nut(size=3,length=10,nutDepth=0, rot=90, echoPart=true);
+			translate([22.7,0,0])
+				rotate([90,0,0])
+					screw_and_nut(size=3,length=10,nutDepth=0, rot=90, echoPart=true);
+		}
+	}
+}
+
 

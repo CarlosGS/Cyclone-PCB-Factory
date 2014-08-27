@@ -119,7 +119,7 @@ module Cyclone_X_leftFrame(isLeft=true) {
 				rotate([motorRotatedOffset,0,0])
 					translate([0,axes_XgearSeparation,0])
 						rotate([-motorRotatedOffset,0,0])
-							rotate([0,90,0]) stepperMotor_mount(motorWallSeparation, slide_distance=5, sideLen=Xmotor_sideLen, slideOut=true);
+							rotate([0,90,0]) stepperMotor_mount(motorWallSeparation, sideLen=Xmotor_sideLen, slideOut=true);
 			translate([0,0,axes_Xsmooth_separation]) {
 				rotate([0,0,90]) standard_rod(diam=axes_Xsmooth_rodD, length=partThickness*4, threaded=false, renderPart=true, center=true);
 				rotate([0,0,-90])
@@ -131,15 +131,15 @@ module Cyclone_X_leftFrame(isLeft=true) {
 		translate([-axes_Xreference_posX-dimX-footSeparation,axes_Xreference_posY+footSeparation,-axes_Yreference_height+footThickness]) {
 			rotate([0,90,0])
 					rotate([0,0,90])
-						hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0);
+						hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, invert=true);
 			translate([0,dimY/2,0])
 				rotate([0,90,0])
 						rotate([0,0,90])
-							hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0);
+							hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, invert=true);
 			translate([0,dimY-2*footSeparation,0])
 				rotate([0,90,0])
 						rotate([0,0,90])
-							hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0);
+							hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, invert=true);
 		}
 	}
 	
@@ -176,15 +176,15 @@ module Cyclone_X_leftFrame(isLeft=true) {
 	translate([-axes_Xreference_posX-dimX-footSeparation,axes_Xreference_posY+footSeparation,-axes_Yreference_height+footThickness]) {
 		rotate([0,90,0])
 				rotate([0,0,90])
-					screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, autoNutOffset=true, echoPart=true);
+					screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, invert=true, autoNutOffset=true, echoPart=true);
 		translate([0,dimY/2,0])
 			rotate([0,90,0])
 					rotate([0,0,90])
-						screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, autoNutOffset=true, echoPart=true);
+						screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, invert=true, autoNutOffset=true, echoPart=true);
 		translate([0,dimY-2*footSeparation,0])
 			rotate([0,90,0])
 					rotate([0,0,90])
-						screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, autoNutOffset=true, echoPart=true);
+						screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, invert=true, autoNutOffset=true, echoPart=true);
 	}
 }
 
@@ -205,11 +205,11 @@ module rodHolder(rodD=8.5, screwSize=3, height=0, sideLen=0, thickness=5, space=
 		translate([screwSize+screwAditionalDistance,-dimY/2,dimZ])
 			rotate([-90,0,0])
 				rotate([0,0,180])
-					hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10);
+					hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10, rot=90);
 		translate([-screwSize-screwAditionalDistance,-dimY/2,dimZ])
 			rotate([-90,0,0])
 				rotate([0,0,180])
-					hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10);
+					hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10, rot=90);
 	} else {
 		difference() {
 			union() {
@@ -222,11 +222,11 @@ module rodHolder(rodD=8.5, screwSize=3, height=0, sideLen=0, thickness=5, space=
 			translate([screwSize+screwAditionalDistance,-dimY/2,dimZ])
 				rotate([-90,0,0])
 					rotate([0,0,180])
-						hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10);
+						hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10, rot=90);
 			translate([-screwSize-screwAditionalDistance,-dimY/2,dimZ])
 				rotate([-90,0,0])
 					rotate([0,0,180])
-						hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10);
+						hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10, rot=90);
 			standard_rod(diam=rodD, length=dimY*4, threaded=false, renderPart=true, center=true);
 			rodHolder(rodD=rodD, screwSize=screwSize, negative=true);
 		}
@@ -234,11 +234,11 @@ module rodHolder(rodD=8.5, screwSize=3, height=0, sideLen=0, thickness=5, space=
 		translate([screwSize+screwAditionalDistance,-dimY/2,dimZ+0.01])
 			rotate([-90,0,0])
 				rotate([0,0,180])
-					screw_and_nut(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=0, echoPart=true);
+					screw_and_nut(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=0, rot=90, echoPart=true);
 		translate([-screwSize-screwAditionalDistance,-dimY/2,dimZ+0.01])
 			rotate([-90,0,0])
 				rotate([0,0,180])
-					screw_and_nut(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=0, echoPart=true);
+					screw_and_nut(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=0, rot=90, echoPart=true);
 	}
 }
 
