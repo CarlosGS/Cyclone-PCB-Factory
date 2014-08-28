@@ -232,7 +232,7 @@ module linearBearing_single(model="LM8UU", renderPart=false, echoPart=false) {
 	if(echoPart) echo(str("BOM: Linear bearing. Model ", model));
 }
 
-module linearBearingHole(model="LM8UU", lateralExtension=10, pressureFitTolerance=0.5, lengthExtension=6, holderLength=1.5, tolerance=0.1) {
+module linearBearingHole(model="LM8UU", lateralExtension=10, pressureFitTolerance=0.25, lengthExtension=6, holderLength=1.5, tolerance=0.1) {
 	linearBearingLength = linearBearing_L(model);
 	linearBearingDiameter = linearBearing_D(model);
 	
@@ -280,8 +280,8 @@ module control_board() {
 }
 
 
-module endstop_holder(holes=false) {
-	boardX = 39.53;
+module endstop_holder(holes=false, shortNuts=false) {
+	boardX = 41;
 	boardY = 16.05;
 	boardZ = 1.62;
 	
@@ -294,7 +294,7 @@ module endstop_holder(holes=false) {
 	if(holes) {
 		translate([0,0,-boardZ]) {
 			// PCB
-			cube([boardX,boardY,boardZ]);
+			cube([boardX,boardY,boardZ+10]);
 			// Endstop pins
 			translate([6.2,6.5,-3])
 				cube([13.5,5,3]);
@@ -305,10 +305,10 @@ module endstop_holder(holes=false) {
 		translate([0,screwWallSep,3]) {
 			translate([3.7,0,0])
 				rotate([90,0,0])
-					hole_for_screw(size=3,length=15,nutDepth=0,nutAddedLen=5,captiveLen=10,rot=90);
+					hole_for_screw(size=3,length=15,nutDepth=shortNuts?5:0,nutAddedLen=shortNuts?0:5,captiveLen=10,rot=90);
 			translate([22.7,0,0])
 				rotate([90,0,0])
-					hole_for_screw(size=3,length=15,nutDepth=0,nutAddedLen=5,captiveLen=10,rot=90);
+					hole_for_screw(size=3,length=15,nutDepth=shortNuts?5:0,nutAddedLen=shortNuts?0:5,captiveLen=10,rot=90);
 		}
 	} else {
 		translate([holderX/2,holderY/2,-holderZ/2-boardZ])
@@ -319,6 +319,9 @@ module endstop_holder(holes=false) {
 		// Endstop
 		color("grey") translate([6.8,0,0])
 			%cube([12.8,6.5,6.3]);
+		color("lightgrey") translate([6.8+12.8-1,0,0])
+			rotate([0,0,180+15])
+				%cube([12.8,0.2,6.3]);
 		// Screws
 		translate([0,screwWallSep,3]) {
 			translate([3.7,0,0])

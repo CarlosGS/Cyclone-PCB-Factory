@@ -81,6 +81,17 @@ module Cyclone_X_leftFrame(isLeft=true) {
 	}
 	
 	
+	module Cyclone_X_endstopHolder(holes=false) {
+		// Endstop holder
+		translate([-partThickness-0.04,19,-5+axes_Xsmooth_separation])
+			rotate([-60,0,0]) {
+				rotate([0,0,-90]) mirror([1,0,0]) endstop_holder(holes, shortNuts=true);
+				if(holes)
+					cube([partThickness+1,100,50]);
+			}
+	}
+	
+	
 	difference() {
 		// Main block
 		union() {
@@ -88,14 +99,14 @@ module Cyclone_X_leftFrame(isLeft=true) {
 				cube([dimX,dimY,dimZ-axes_Xsmooth_separation]);
 				translate([-footWidth/2+dimX,dimY/2,footThickness/2]) bcube([footWidth,dimY,footThickness], cr=corner_radius, cres=10);
 			}
-			//translate([-axes_Xreference_posX-dimX-0.01,axes_Xreference_posY+axes_Xsmooth_separation,-axes_Yreference_height])
-			//	cube([dimX,dimY-axes_Xsmooth_separation,dimZ]);
 			rodHolder(rodD=axes_Ysmooth_rodD, screwSize=screwSize, height=axes_Yreference_height, sideLen=-axes_Xreference_posX-1);
 			// TRANSLATE REFERENCE POSITION to the left frame, X lower smooth rod end
 			translate([-axes_Xreference_posX,axes_Xreference_posY,axes_Xreference_height]) {
 				// TRANSLATE REFERENCE POSITION to the threaded rod
 				translate([-0.01,axes_Xsmooth_separation,0]) {
 					rotate([0,-90,0]) cylinder(r=axes_Xsmooth_separation,h=partThickness);
+					if(!isLeft) 
+						Cyclone_X_endstopHolder(holes=false);
 				}
 			}
 		}
@@ -108,18 +119,23 @@ module Cyclone_X_leftFrame(isLeft=true) {
 					rodHolder(rodD=axes_Xsmooth_rodD, screwSize=screwSize, negative=true);
 			// TRANSLATE REFERENCE POSITION to the threaded rod
 			translate([+0.01,axes_Xsmooth_separation,0]) {
+				// Plastic saving holes
 				translate([0,-15,-40]) rotate([0,-90,0]) cylinder(r=15,h=partThickness*2);
 				translate([0,30,-40]) rotate([0,-90,0]) cylinder(r=15,h=partThickness*2);
 				translate([0,-15,-80]) rotate([0,-90,0]) cylinder(r=15,h=partThickness*2);
 				rotate([0,-90,0]) bearingHole(depth=bearingDepth, thickness=partThickness);
-				//rotate([0,0,90]) standard_rod(diam=axes_Xthreaded_rodD+10, length=partThickness*4, threaded=false, renderPart=true, center=true);
+				
 				// Translate to motor position
 				if(isLeft)
-				translate([-motorWallSeparation,0,0])
-				rotate([motorRotatedOffset,0,0])
-					translate([0,axes_XgearSeparation,0])
-						rotate([-motorRotatedOffset,0,0])
-							rotate([0,90,0]) stepperMotor_mount(motorWallSeparation, sideLen=Xmotor_sideLen, slideOut=true);
+					translate([-motorWallSeparation,0,0])
+					rotate([motorRotatedOffset,0,0])
+						translate([0,axes_XgearSeparation,0])
+							rotate([-motorRotatedOffset,0,0])
+								rotate([0,90,0]) stepperMotor_mount(motorWallSeparation, sideLen=Xmotor_sideLen, slideOut=true);
+			// Endstop holder
+			if(!isLeft) 
+						Cyclone_X_endstopHolder(holes=true);
+			
 			translate([0,0,axes_Xsmooth_separation]) {
 				rotate([0,0,90]) standard_rod(diam=axes_Xsmooth_rodD, length=partThickness*4, threaded=false, renderPart=true, center=true);
 				rotate([0,0,-90])

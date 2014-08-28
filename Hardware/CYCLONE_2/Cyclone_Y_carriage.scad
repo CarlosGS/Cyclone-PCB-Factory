@@ -15,8 +15,8 @@ module Cyclone_YsubPart_nutHolder() {
 	footThickness = 10;
 	screwSeparation = 10;
 	rod_nut_len = 0.8*axes_Ythreaded_rodD;
-	dimX = axes_Ythreaded_rodD*2+5;
-	dimY = screwSeparation+20;
+	dimX = axes_Ythreaded_rodD*2+6;
+	dimY = screwSeparation+22;
 	dimZ = workbed_separation_from_Y_threaded_rod;
 	holderExtension = 10;
 	rodTolerance = 0.5;
@@ -27,7 +27,7 @@ module Cyclone_YsubPart_nutHolder() {
 	difference() {
 		// Main shape
 		translate([0,0,dimZ/2-holderExtension/2])
-			bcube([dimX,dimY,dimZ+holderExtension],cr=3,cres=10);
+			bcube([dimX,dimY,dimZ+holderExtension],cr=2,cres=10);
 		// Hole for the rod
 		hull() {
 			standard_rod(diam=axes_Ythreaded_rodD+rodTolerance, length=dimY*4, threaded=true, renderPart=true, center=true);
@@ -194,7 +194,7 @@ module Cyclone_Y_carriage() {
 			}
 	} else {
 		if(draw_references) color("red") %frame(20);
-		Cyclone_YsubPart_nutHolder();
+		rotate([0,0,180]) Cyclone_YsubPart_nutHolder();
 		translate([0,0,axes_Y_smoothThreaded_verticalSeparation]) {
 			Cyclone_YsubPart_linearBearingHolders();
 			difference() {
