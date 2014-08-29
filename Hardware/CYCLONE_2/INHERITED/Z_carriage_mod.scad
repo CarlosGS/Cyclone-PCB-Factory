@@ -20,9 +20,13 @@ use <../libs/rod.scad>
 use <motor_gear.scad>
 use <rod_gear.scad>
 
-spindle_motor_diam_top = 51;
-spindle_motor_diam_top_smaller = 47;
-spindle_motor_diam = 47;
+// Increase the resolution of default shapes
+$fa = 5; // Minimum angle for fragments [degrees]
+$fs = 0.5; // Minimum fragment size [mm]
+
+spindle_motor_diam_top = 51.5;
+spindle_motor_diam_top_smaller = 47.5;
+spindle_motor_diam = 47.5;
 spindle_holder_thickness = 8;
 spindle_holder_distance = linearBearing_L("LM8UU")*2+3;
 spindle_motor_length = 90;
@@ -67,9 +71,9 @@ spindle_front_offset = 10+ZthreadedOffset;
 Z_smooth_rods_sep = 40;
 
 textHscale = 0.8;
-textThickness = 1;
+textThickness = 1.5;
 
-LM8UU_dia = 15.4;
+LM8UU_dia = 14.95+0.5;
 
 Cyclone_Nema17 = [
                 [NemaModel, 17],
@@ -95,25 +99,25 @@ Cyclone_Nema17 = [
 
 module dummySpindle(length=0) {
 	translate([0,0,-length]) {
-		translate([0,0,spindle_motor_length-5]) color([0.95,0.95,0.95]) cylinder(r=26,h=30,$fn=60);
-		translate([0,0,spindle_motor_length-10]) color([0.95,0.95,0.95]) cylinder(r=10/2,h=5,$fn=60);
-		translate([0,0,-10]) color([0.6,0.6,0.6]) cylinder(r=26,h=spindle_motor_length,$fn=60);
-		translate([0,0,-40]) color([0.9,0.9,0.9]) cylinder(r=15/2,h=40,$fn=60);
-		translate([0,0,-50]) color([0.4,0.4,0.4]) cylinder(r=20/2,h=10,$fn=60);
-		translate([0,0,-50-20]) color([0.9,0.9,0.9]) cylinder(r1=1/2,r2=3/2,h=20,$fn=60);
+		translate([0,0,spindle_motor_length-5]) color([0.95,0.95,0.95]) cylinder(r=26,h=30);
+		translate([0,0,spindle_motor_length-10]) color([0.95,0.95,0.95]) cylinder(r=10/2,h=5);
+		translate([0,0,-10]) color([0.6,0.6,0.6]) cylinder(r=26,h=spindle_motor_length);
+		translate([0,0,-40]) color([0.9,0.9,0.9]) cylinder(r=15/2,h=40);
+		translate([0,0,-50]) color([0.4,0.4,0.4]) cylinder(r=20/2,h=10);
+		translate([0,0,-50-20]) color([0.9,0.9,0.9]) cylinder(r1=1/2,r2=3/2,h=20);
 	}
 }
 
 // Derived from Spindle mount for ShapeOko by Misan (http://www.thingiverse.com/thing:26740)
 module spindle_holder_holes(length,spindiam, basediam,top_part) {
-	$fn=6;
+	//$fn=6;
 
-	translate([20,8,-0.05]) cylinder(r=basediam/2,h=length+2,$fn=60);
-	translate([-20,8,-0.05]) cylinder(r=basediam/2,h=length+2,$fn=60);
+	translate([20,8,-0.05]) cylinder(r=basediam/2,h=length+2);
+	translate([-20,8,-0.05]) cylinder(r=basediam/2,h=length+2);
 	translate([0,spindle_front_offset,0])
 	if (top_part){
 		translate([0,38,0]) rotate([0,0,0]) {
-		translate([0,0,-0.05]) resize([spindle_motor_diam_top, spindle_motor_diam_top_smaller, length+2]) cylinder(r=spindle_motor_diam_top/2,h=length+2,$fn=60);
+		translate([0,0,-0.05]) resize([spindle_motor_diam_top, spindle_motor_diam_top_smaller, length+2]) cylinder(r=spindle_motor_diam_top/2,h=length+2);
 		translate([0,-3,-0.01]) cube([90,3,length+2]);
 		translate ([spindiam/2+15,15,length/2]) rotate([90,0,0]) cylinder(r=2,h=30);
 		translate ([spindiam/2+15,-10.5,length/2]) rotate([90,0,0]) cylinder(r=3.5,h=4,$fn=6);
@@ -122,7 +126,7 @@ module spindle_holder_holes(length,spindiam, basediam,top_part) {
 	else
 		{
 		translate([0,38,0]) rotate([0,0,180]) {
-		translate([0,0,-0.05]) cylinder(r=spindle_motor_diam/2,h=length+2,$fn=60);
+		translate([0,0,-0.05]) cylinder(r=spindle_motor_diam/2,h=length+2);
 		translate([0,0,-0.01]) cube([90,3,length+2]);
 		translate ([spindiam/2+15,20,length/2]) rotate([90,0,0]) cylinder(r=2,h=30);
 		translate ([spindiam/2+15,15,length/2]) rotate([90,0,0]) cylinder(r=3.5,h=4,$fn=6);
@@ -136,9 +140,9 @@ module motorHolesZ() {
     // Hole for the motor shaft
     hull() {
       translate([0,motor_adjust_margin/2,0])
-        cylinder(r=motor_center_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+        cylinder(r=motor_center_diameter/2,h=10*wall_thickness,center=true);
       translate([0,-motor_adjust_margin/2,0])
-        cylinder(r=motor_center_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+        cylinder(r=motor_center_diameter/2,h=10*wall_thickness,center=true);
     }
 
     // Hole for the screwdriver
@@ -149,15 +153,15 @@ module motorHolesZ() {
     translate([i*motor_screw_distance/2,j*motor_screw_distance/2,2.5-wall_thickness/2+3]) {
       hull() {
         translate([0,motor_adjust_margin/2,0])
-          cylinder(r=motor_screw_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+          cylinder(r=motor_screw_diameter/2,h=10*wall_thickness,center=true);
         translate([0,-motor_adjust_margin/2,0])
-          cylinder(r=motor_screw_diameter/2,h=10*wall_thickness,center=true,$fn=40);
+          cylinder(r=motor_screw_diameter/2,h=10*wall_thickness,center=true);
       }
       hull() {
         translate([0,motor_adjust_margin/2,0])
-          cylinder(r=motor_screw_head_diameter/2,h=10*wall_thickness,center=false,$fn=40);
+          cylinder(r=motor_screw_head_diameter/2,h=10*wall_thickness,center=false);
         translate([0,-motor_adjust_margin/2,0])
-          cylinder(r=motor_screw_head_diameter/2,h=10*wall_thickness,center=false,$fn=40);
+          cylinder(r=motor_screw_head_diameter/2,h=10*wall_thickness,center=false);
       }
     }
 }
@@ -175,11 +179,11 @@ module motor_stand_holes_Z() {
     // Bearing holes
     rotate([0,0,0]) translate([0,axis_distance,0]) {
 		hull() {
-      	cylinder(r=(M8_rod_diameter*2)/2,h=10*wall_thickness,center=true,$fn=40);
+      	cylinder(r=(M8_rod_diameter*2)/2,h=10*wall_thickness,center=true);
 			translate([0,-axis_distance,0])
-				cylinder(r=(M8_rod_diameter*2)/2,h=10*wall_thickness,center=true,$fn=40);
+				cylinder(r=(M8_rod_diameter*2)/2,h=10*wall_thickness,center=true);
 		}
-      cylinder(r=bearing_diameter/2,h=10*wall_thickness,center=false,$fn=60);
+      cylinder(r=bearing_diameter/2,h=10*wall_thickness,center=false);
 
     }
 
@@ -189,8 +193,8 @@ module motor_stand_holes_Z() {
 
 
 module linearBearingHolderZ(h=10) {
-	translate([0,0,1.5]) cylinder(r=LM8UU_dia/2,h=h,$fn=50);
-	cylinder(r=LM8UU_dia/2.5,h=10*h,center=true,$fn=50);
+	translate([0,0,1.5]) cylinder(r=LM8UU_dia/2,h=h);
+	cylinder(r=LM8UU_dia/2.5,h=10*h,center=true);
 }
 
 
@@ -206,17 +210,17 @@ module Z_solid_body(top_part=true) {
 			translate([wall_height/2,wall_width-4,0])
 			translate([0,38,0])
 				if(top_part)
-					cylinder(r=spindle_motor_diam_top/2+spindle_holder_thickness,h=wall_thickness,$fn=60);
+					cylinder(r=spindle_motor_diam_top/2+spindle_holder_thickness,h=wall_thickness);
 				else
-					cylinder(r=spindle_motor_diam/2+spindle_holder_thickness,h=wall_thickness,$fn=60);
+					cylinder(r=spindle_motor_diam/2+spindle_holder_thickness,h=wall_thickness);
 	}
 
 	// For the linear bearing holders
 	hull() {
 		translate([wall_height/2-Z_smooth_rods_sep/2,Z_threaded_pos,0])
-			cylinder(r=3+LM8UU_dia/2,h=wall_thickness,$fn=50);
+			cylinder(r=3+LM8UU_dia/2,h=wall_thickness);
 		translate([wall_height/2+Z_smooth_rods_sep/2,Z_threaded_pos,0])
-			cylinder(r=3+LM8UU_dia/2,h=wall_thickness,$fn=50);
+			cylinder(r=3+LM8UU_dia/2,h=wall_thickness);
 	}
 
 	// For the claw of the spindle holder
@@ -225,7 +229,7 @@ if(top_part){
 	translate([wall_height/2,wall_width-4,0])
 		translate([0,38,0]) {
 			rotate([0,0,0]) {
-				translate([spindle_motor_diam_top/2,-12.5,0]) cube([25,20,wall_thickness]);
+				translate([spindle_motor_diam_top/2,-12.5,0]) cube([20,20,wall_thickness]);
 				
 	// Write text in the front
 	color([0.5,0.5,0.5])
@@ -239,7 +243,7 @@ translate([wall_height/2,wall_width-4,0])
 		translate([0,38,0]) {
 			
 			rotate([0,0,180]) {
-			translate([spindle_motor_diam/2,-7,0]) cube([25,20,wall_thickness]);
+			translate([spindle_motor_diam/2,-7-0.5,0]) cube([22,20,wall_thickness]);
 			color([0.2,0.2,0.5])
 			scale([1,1,textHscale])
 				writecylinder("PCB Factory",[0,0,wall_thickness/(2*textHscale)+1],spindle_motor_diam/2+spindle_holder_thickness,0,font="orbitron.dxf",space=1.1,h=wall_thickness-2,t=textThickness,center=true,ccw=true);
@@ -269,7 +273,7 @@ module Z_carriage(showSpindle=false,top_part=true, with_extra_parts=false, explo
 		// Hole for the threaded rod
 		if(!top_part) {
 			translate([-axes_Xsmooth_separation,0,0]) 
-				cylinder(r=6+M8_rod_diameter,h=wall_thickness*10,center=true,$fn=30);
+				cylinder(r=6+M8_rod_diameter,h=wall_thickness*10,center=true);
 		}
 
 		// Truncation in the base for avoiding collision with the X axis
