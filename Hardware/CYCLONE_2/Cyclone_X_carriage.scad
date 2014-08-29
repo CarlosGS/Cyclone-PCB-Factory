@@ -123,7 +123,7 @@ module Cyclone_X_carriage() {
 		
 		// ----- Hole for the spindle tool ------
 		translate([0,-35+8.5,0])
-			cylinder(r=35/2, h=100, center=true);
+			cylinder(r=34/2, h=100, center=true);
 		
 		// ----- Holes for the linear bearings ------
 		// Bottom right linear bearing
