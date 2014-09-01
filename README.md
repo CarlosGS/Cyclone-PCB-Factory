@@ -1,9 +1,7 @@
 
-<p align="center">
-<img src="Media/CycloneLogo_1/CycloneLogo_1.png" title="Cyclone PCB Factory" width="50%">
-</p>
+![Cyclone PCB Factory](Media/CycloneLogo_1/CycloneLogo_1.png)  
 
-<center>The first 3D-printable (Rep-Rap alike) CNC machine, intended for PCB manufacture.</center>
+The first 3D-printable (Rep-Rap alike) CNC machine, intended for PCB manufacture.  
 
 Read this, it's important!
 ===========================
