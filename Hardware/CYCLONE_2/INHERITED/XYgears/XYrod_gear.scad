@@ -36,7 +36,7 @@ M8_nut_diameter = 15.3;
 nut_separation = 5;
 
 SmallGear_N_Teeth = 21;
-M8_rod_diam = 8.4;
+M8_rod_diam = 8.6;
 
 // Increase the resolution of default shapes
 $fa = 5; // Minimum angle for fragments [degrees]

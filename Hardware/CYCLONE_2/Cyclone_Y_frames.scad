@@ -178,6 +178,8 @@ module Cyclone_Y_backFrame() {
 	foot_additional_separation = 5;
 	footThickness = 10;
 	
+	endstopHolderRotation = 5;
+	
 	translate([0,-2*rod_nut_len,0]) {
 		translate([0,bearingDepth-bearing_width,0]) {
 			difference() {
@@ -196,11 +198,13 @@ module Cyclone_Y_backFrame() {
 								cylinder(r=dimY/2,h=footThickness);
 						}
 					translate([0,-dimY-0.01,dimX/2])
-						endstop_holder(holes=false);
+						rotate([0,endstopHolderRotation,0])
+							endstop_holder(holes=false);
 				}
 				
 				translate([0,-dimY-0.01,dimX/2])
-					endstop_holder(holes=true);
+					rotate([0,endstopHolderRotation,0])
+						endstop_holder(holes=true);
 				
 				translate([0,0.01,0])
 					rotate([90,0,0])
