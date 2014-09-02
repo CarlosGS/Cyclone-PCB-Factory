@@ -24,9 +24,10 @@ use <rod_gear.scad>
 $fa = 5; // Minimum angle for fragments [degrees]
 $fs = 0.5; // Minimum fragment size [mm]
 
-spindle_motor_diam_top = 51.5;
+spindle_motor_diam_top = 51.3;
 spindle_motor_diam_top_smaller = 47.5;
 spindle_motor_diam = 47.5;
+spindle_motor_sidelen = 32;
 spindle_holder_thickness = 8;
 spindle_holder_distance = linearBearing_L("LM8UU")*2+3;
 spindle_motor_length = 90;
@@ -41,12 +42,12 @@ motor_length = 49; // not used
 motor_screw_distance = 31.3;
 motor_center_diameter = 23;
 
-motor_adjust_margin = 10;
+motor_adjust_margin = 5;
 
 motor_screw_diameter = 3.7;
 motor_screw_head_diameter = 8;
 
-bearing_diameter = 22.4;
+bearing_diameter = 22.6;
 M8_rod_diameter = 8.2;
 
 axis_distance = 21;
@@ -117,7 +118,13 @@ module spindle_holder_holes(length,spindiam, basediam,top_part) {
 	translate([0,spindle_front_offset,0])
 	if (top_part){
 		translate([0,38,0]) rotate([0,0,0]) {
-		translate([0,0,-0.05]) resize([spindle_motor_diam_top, spindle_motor_diam_top_smaller, length+2]) cylinder(r=spindle_motor_diam_top/2,h=length+2);
+		translate([0,0,-0.05]) {
+			cylinder(r=spindle_motor_diam_top_smaller/2,h=length+2);
+			intersection() {
+				cylinder(r=spindle_motor_diam_top/2,h=length+2);
+				cube([spindle_motor_diam_top,spindle_motor_sidelen,2*(length+2)],center=true);
+			}
+		}
 		translate([0,-3,-0.01]) cube([90,3,length+2]);
 		translate ([spindiam/2+15,15,length/2]) rotate([90,0,0]) cylinder(r=2,h=30);
 		translate ([spindiam/2+15,-10.5,length/2]) rotate([90,0,0]) cylinder(r=3.5,h=4,$fn=6);
