@@ -47,7 +47,7 @@ motor_adjust_margin = 5;
 motor_screw_diameter = 3.7;
 motor_screw_head_diameter = 8;
 
-bearing_diameter = 22.6;
+bearing_diameter = 22.4;
 M8_rod_diameter = 8.2;
 
 axis_distance = 21;
@@ -125,7 +125,7 @@ module spindle_holder_holes(length,spindiam, basediam,top_part) {
 				cube([spindle_motor_diam_top,spindle_motor_sidelen,2*(length+2)],center=true);
 			}
 		}
-		translate([0,-3,-0.01]) cube([90,3,length+2]);
+		translate([0,-4,-0.01]) cube([90,4,length+2]);
 		translate ([spindiam/2+15,15,length/2]) rotate([90,0,0]) cylinder(r=2,h=30);
 		translate ([spindiam/2+15,-10.5,length/2]) rotate([90,0,0]) cylinder(r=3.5,h=4,$fn=6);
 		}		
@@ -134,7 +134,7 @@ module spindle_holder_holes(length,spindiam, basediam,top_part) {
 		{
 		translate([0,38,0]) rotate([0,0,180]) {
 		translate([0,0,-0.05]) cylinder(r=spindle_motor_diam/2,h=length+2);
-		translate([0,0,-0.01]) cube([90,3,length+2]);
+		translate([0,0,-0.01]) cube([90,4,length+2]);
 		translate ([spindiam/2+15,20,length/2]) rotate([90,0,0]) cylinder(r=2,h=30);
 		translate ([spindiam/2+15,15,length/2]) rotate([90,0,0]) cylinder(r=3.5,h=4,$fn=6);
 		}
