@@ -45,11 +45,11 @@ module Cyclone_X_carriage() {
 				}
 		} else {
 			// Hole for the main Z nut
-			translate([0,0,0.1]) rotate([90,0,0]) hole_for_nut(size=rodSize,nutAddedLen=0,captiveLen=0,tolerance=0.1);
+			translate([0,0,0.1]) rotate([90,0,0]) hole_for_nut(size=rodSize,nutAddedLen=0,captiveLen=0, tolerance=0.2);
 			// Hole for the Z threaded rod
 			translate([0,0,-axes_effective_Xsmooth_separation+dimZ])
 				rotate([90,0,0]) standard_rod(diam=axes_Zthreaded_rodD+rodTolerance, length=axes_effective_Xsmooth_separation*2, threaded=true, renderPart=true, center=true);
-			translate([0,0,-dimZ-0.01]) rotate([180,0,0]) cylinder(r=axes_Zthreaded_rodD, h=axes_effective_Xsmooth_separation+dimZ, $fn=6);
+			translate([0,0,-dimZ-0.01]) rotate([180,0,0]) cylinder(r=axes_Zthreaded_rodD*0.8, h=axes_effective_Xsmooth_separation+dimZ, $fn=6);
 		}
 	}
 	
@@ -67,6 +67,8 @@ module Cyclone_X_carriage() {
 		if(!holes) {
 			translate([armThickness/2,0,-axes_effective_Xsmooth_separation/2+washer_D/2])
 				rotate([0,90,0]) bcube([axes_effective_Xsmooth_separation,armWidth,armThickness], cr=3,cres=10);
+			*translate([32/2,0,0])
+				rotate([180,0,0]) rotate([0,0,90]) Cyclone_YsubPart_nutHolder();
 		} else {
 			if(draw_references) %frame();
 			translate([-0.01+rod_nut_len/2+6,0,0])
@@ -78,6 +80,19 @@ module Cyclone_X_carriage() {
 			translate([armThickness+0.01,0,0])
 				rotate([0,0,-90]) hole_for_nut(size=6,nutAddedLen=armThickness,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
 		}
+	}
+	
+	module Cyclone_XsubPart_XendstopBumper() {
+		XendBumper_x = 5;
+		XendBumper_y = 53;
+		XendBumper_z = 12;
+		XendBumper_D = 15;
+		translate([XendBumper_x/2, XendBumper_y/2-axes_Xsmooth_separation/2, -XendBumper_z/2-linearBearingDiameter/2]) {
+				rotate([0,90,0]) bcube([XendBumper_z,XendBumper_y,XendBumper_x], cr=XendBumper_z/2-0.01, cres=10);
+				translate([0,XendBumper_y/2-XendBumper_z/2,0])
+					rotate([0,90,0]) cylinder(r=XendBumper_D/2, h=XendBumper_x, center=true);
+					//rotate([0,90,0]) bcube([XendBumper_z,XendBumper_y,XendBumper_x], cr=XendBumper_z/2-0.01, cres=10);
+			}
 	}
 	
 	difference() {
@@ -111,6 +126,9 @@ module Cyclone_X_carriage() {
 			// X nut holder
 			translate([-dimX/2,axes_effective_Xsmooth_separation,0])
 				rotate([-135,0,0]) Cyclone_XsubPart_XnutHolder(holes=false);
+			// X endstop bumper
+			translate([-dimX/2,axes_effective_Xsmooth_separation,axes_effective_Xsmooth_separation])
+				Cyclone_XsubPart_XendstopBumper();
 		}
 		
 		// ----- Hole for the Z carriage space ------
