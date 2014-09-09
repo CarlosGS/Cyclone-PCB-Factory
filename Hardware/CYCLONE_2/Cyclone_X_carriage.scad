@@ -57,8 +57,8 @@ module Cyclone_X_carriage() {
 		rod_nut_len = 0.8*axes_Xthreaded_rodD;
 		rodTolerance = 0.5;
 		rodSize = 8; // M3, M4, etc (integers only)
-		washer_D = 15.8;
-		washer_thickness = 1.6;
+		washer_D = 15.8-0.5;
+		washer_thickness = 1.6-0.9;
 		
 		holderExtension = 10;
 		
@@ -74,13 +74,19 @@ module Cyclone_X_carriage() {
 				rotate([180,0,0]) rotate([0,0,90]) Cyclone_YsubPart_nutHolder();
 		} else {
 			if(draw_references) %frame();
-			translate([-rod_nut_len/2,0,0]) rotate([0,0,-90]) rotate([180,0,0]) {
+			translate([-rod_nut_len/2+1,0,0]) rotate([0,0,-90]) rotate([180,0,0]) {
 				// Hole for the main nut
 				hull() {
 					rotate([0,180,0]) hole_for_nut(size=rodSize,nutAddedLen=0,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
 					translate([0,-3.25,0])
 						rotate([0,180,0]) hole_for_nut(size=rodSize-2,nutAddedLen=0,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
 				}
+				translate([0,3,0])
+					hull() {
+						rotate([0,180,0]) hole_for_nut(size=rodSize,nutAddedLen=0,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
+						translate([0,4,0])
+							rotate([0,180,0]) hole_for_nut(size=rodSize+2,nutAddedLen=0,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
+					}
 				// Hole for the sliding nut
 				translate([0,-rod_nut_len-3-washer_thickness/2,0]) hull() {
 					rotate([0,180,0]) hole_for_nut(size=rodSize,nutAddedLen=armThickness,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.3);
@@ -91,7 +97,7 @@ module Cyclone_X_carriage() {
 				rotate([0,180,0])hole_for_nut(size=rodSize-2,nutAddedLen=armThickness,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
 			}
 			// Hole for the washer
-			translate([rod_nut_len/2+3,0,0]) rotate([0,0,-90]) rotate([180,0,0])
+			translate([rod_nut_len/2+3+1,0,0]) rotate([0,0,-90]) rotate([180,0,0])
 				hull() {
 					hull() {
 						washer_single(diam=washer_D, thickness=washer_thickness, renderPart=true, tolerance=0.3);
