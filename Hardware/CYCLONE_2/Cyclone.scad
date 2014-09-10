@@ -4,11 +4,36 @@
 // License: CC BY-SA 4.0 (Attribution-ShareAlike 4.0 International, http://creativecommons.org/licenses/by-sa/4.0/)
 // Designed with http://www.openscad.org/
 
+// ---------- NOTES FOR A PROPER RENDERING IN OPENSCAD -----------
+//   First of all, make sure you are using the latest version of OpenScad (>= 2014.05.31)
+//   Then, it is important to change a default setting. Go to: Edit --> Preferences --> Advanced
+//   And increase "Turn off rendering at 2000 elements" to a larger number like 20000
+//   
+//   If problems persist, you may need to install the MCAD (<http://reprap.org/wiki/MCAD>)
+//   and Obiscad (<https://github.com/Obijuan/obiscad>) libraries into the /libs directory.
+//   With Git, this can be achieved automatically by running the following command:
+//      git submodule update --init
+// -------------------------------------------------------------
 
-
-// NOTE: For a proper rendering in OpenScad it is important to change a default setting:
-// Go to: Edit --> Preferences --> Advanced
-// And increase "Turn off rendering at 2000 elements" to a larger number like 20000
+// ---------- GENERATING THE STL FILES  ------------------------
+//   In OpenScad, it is possible to preview designs (F5 key) or to render them (F6 key)
+//   to be able to export them as STL files ready for 3D printing.
+//   Please note that some parts will only be present in the preview, but not in the
+//   final render. This is normal, as they are used only as a reference and do not need
+//   to be 3D printed.
+//   
+//   The main file that needs to be opened with OpenScad is Cyclone.scad (this document).
+//   From here, it is possible to select most of the parts, using the root modifier (!).
+//   Place it before a function to exclusively render that subtree. When used, for instance, as
+//      !Cyclone_Y_frontFrame();
+//   it will show only the frontal Y axis frame. Rendering it with F6 will output only
+//   that part, which will be ready to be exported as STL.
+//   
+//   It is also possible to generate larger STL files that contain multiple elements,
+//   and afterwards split them. This can be achieved with a software like Cura, that
+//   also allows easy rotation and positioning of the models for printing.
+//   To split STLs in Cura: right click over the part --> "split into parts"
+// -------------------------------------------------------------
 
 
 

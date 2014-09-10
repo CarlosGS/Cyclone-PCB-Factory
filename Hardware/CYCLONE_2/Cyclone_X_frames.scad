@@ -121,61 +121,6 @@ module Cyclone_X_leftFrame(isLeft=true) {
 		}
 	}
 	
-	module Cyclone_XsubPart_gearCover_OLD() {
-		margin = 4;
-		rodGearAddedMargin = 1;
-		wallThickness = 0.4*4;
-		screwHeadSpaceHeight = 4;
-		screwHeadSpaceDiam = 7;
-		coverHeight = gearWallSeparation+axes_XgearThickness+wallThickness+margin;
-		coverExtraHeight = 5;
-		nema_screw_separation = lookup(NemaDistanceBetweenMountingHoles, Nema17);
-		difference() {
-			union() {
-				rotate([0,90,0])
-					cylinder(r=axes_XgearSeparation/(1+1/axes_XgearRatio)+wallThickness+margin+rodGearAddedMargin, h=coverHeight);
-				// Translate to motor position
-				rotate([motorRotatedOffset,0,0]) {
-					translate([0,axes_XgearSeparation,0])
-						rotate([-motorRotatedOffset,0,0]) {
-							rotate([0,90,0]) cylinder(r=axes_XgearSeparation/(1+axes_XgearRatio)+wallThickness+margin, h=coverHeight);
-							// Support screw
-							translate([0,-nema_screw_separation/2,nema_screw_separation/2])
-								//rotate([0,90,0]) cylinder(r1=screwHeadSpaceDiam/1.5, r2=0, h=coverHeight);
-								rotate([0,90,0]) cylinder(r=screwHeadSpaceDiam/1.5, h=coverHeight);
-						}
-				}
-			}
-			translate([-0.01,0,0])
-				union() {
-					rotate([0,90,0])
-						cylinder(r=axes_XgearSeparation/(1+1/axes_XgearRatio)+margin+rodGearAddedMargin, h=gearWallSeparation+axes_XgearThickness+margin);
-					rotate([0,90,0]) cylinder(r=20/2-1.5, h=30);
-					// Translate to motor position
-					rotate([motorRotatedOffset,0,0]) {
-						translate([0,axes_XgearSeparation,0])
-							rotate([-motorRotatedOffset,0,0]) {
-								difference() {
-									rotate([0,90,0]) cylinder(r=axes_XgearSeparation/(1+axes_XgearRatio)+margin, h=gearWallSeparation+axes_XgearThickness+margin);
-									translate([0,-nema_screw_separation/2,nema_screw_separation/2])
-										rotate([0,90,0]) cylinder(r=screwHeadSpaceDiam/1.5, h=wallThickness);
-								}
-								rotate([0,90,0]) cylinder(r=7/2, h=30);
-								translate([0,nema_screw_separation/2,-nema_screw_separation/2])
-									rotate([0,90,0]) cylinder(r=screwHeadSpaceDiam/2, h=screwHeadSpaceHeight);
-								translate([0,-nema_screw_separation/2,-nema_screw_separation/2])
-									rotate([0,90,0]) cylinder(r=screwHeadSpaceDiam/2, h=screwHeadSpaceHeight);
-								// Support screw
-								translate([0,-nema_screw_separation/2,nema_screw_separation/2])
-									rotate([0,90,0]) cylinder(r=3.5/2, h=coverHeight+0.1);
-								translate([wallThickness,-nema_screw_separation/2,nema_screw_separation/2])
-									rotate([0,90,0]) cylinder(r=screwHeadSpaceDiam/2, h=coverHeight+0.1);
-							}
-					}
-				}
-		}
-	}
-	
 	
 	module Cyclone_X_endstopHolder(holes=false) {
 		// Endstop holder
