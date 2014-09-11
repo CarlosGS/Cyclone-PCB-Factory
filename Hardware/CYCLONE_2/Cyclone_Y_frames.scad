@@ -48,14 +48,17 @@ module Cyclone_Y_frontFrame() {
 	
 	module Cyclone_YsubPart_gearCover() {
 		margin = 4;
-		rodGearAddedMargin = 1;
+		rodGearAddedMargin = 0;
+		effectiveYgearSeparation = axes_YgearSeparation+0.5;
 		wallThickness = 0.4*4;
 		screwHeadSpaceHeight = 4;
-		screwHeadSpaceDiam = 7;
+		screwHeadSpaceDiam = 6;
 		coverHeight = 16;
 		coverExtraHeight = 5;
 		coverExtraRadius = -7;
 		nema_screw_separation = lookup(NemaDistanceBetweenMountingHoles, Nema17);
+		
+		truncationAngle = 10;
 		
 		motorGearRadius = axes_YgearSeparation/(1+axes_YgearRatio)+margin;
 		rodGearRadius = axes_YgearSeparation/(1+1/axes_YgearRatio)+margin+rodGearAddedMargin;
@@ -70,65 +73,70 @@ module Cyclone_Y_frontFrame() {
 						cylinder(r1=rodGearRadius+wallThickness, r2=rodGearRadius+wallThickness+coverExtraRadius, h=coverExtraHeight+wallThickness);
 				// Translate to motor position
 				rotate([0,-motorRotatedOffset,0]) {
-					translate([-axes_YgearSeparation,0,0])
+					translate([-effectiveYgearSeparation,0,0])
 						rotate([0,motorRotatedOffset,0]) {
 							// Cover for the motor gear
 							rotate([90,0,0]) cylinder(r=motorGearRadius+wallThickness, h=coverHeight);
 							translate([0,-coverHeight,0])
 								rotate([90,0,0]) cylinder(r1=motorGearRadius+wallThickness, r2=motorGearRadius+wallThickness+coverExtraRadius, h=coverExtraHeight+wallThickness);
 							// Cylinder for the support screw
-							translate([nema_screw_separation/2,0,nema_screw_separation/2])
+							translate([nema_screw_separation/2,0,-nema_screw_separation/2])
 								rotate([90,0,0]) cylinder(r=screwHeadSpaceDiam/2+wallThickness, h=coverHeight);
 						}
 				}
 			}
 			translate([0,0.01,0])
 				union() {
+					// Truncation for avoiding collisions with Y carriage
+					translate([-rodGearRadius/2,0,rodGearRadius+0.5])
+						rotate([90-truncationAngle,0,0]) cube(rodGearRadius);
+					rotate([90,0,0])
+						cylinder(r=rodGearRadius, h=coverHeight);
+						// Hole for the rod gear
+						rotate([90,0,0])
+							cylinder(r=rodGearRadius, h=coverHeight);
+						translate([0,-coverHeight+0.02,0])
+							rotate([90,0,0])
+								cylinder(r1=rodGearRadius, r2=rodGearRadius+coverExtraRadius, h=coverExtraHeight);
+						rotate([90,0,0])
+							cylinder(r=rodGearRadius+coverExtraRadius, h=coverHeight+coverExtraHeight+wallThickness+0.1);
 					// Translate to motor position
 					rotate([0,-motorRotatedOffset,0]) {
-						translate([-axes_YgearSeparation,0,0])
+						translate([-effectiveYgearSeparation,0,0])
 							rotate([0,motorRotatedOffset,0]) {
 								difference() {
 									union() {
-										// Translate to the rod position
-										rotate([0,-motorRotatedOffset,0])
-											translate([+axes_YgearSeparation,0,0])
-												rotate([0,motorRotatedOffset,0]) {
-													rotate([90,0,0])
-														cylinder(r=rodGearRadius, h=coverHeight);
-														// Hole for the rod gear
-														rotate([90,0,0])
-															cylinder(r=rodGearRadius, h=coverHeight);
-														translate([0,-coverHeight+0.02,0])
-															rotate([90,0,0])
-																cylinder(r1=rodGearRadius, r2=rodGearRadius+coverExtraRadius, h=coverExtraHeight);
-														rotate([90,0,0])
-															cylinder(r=rodGearRadius+coverExtraRadius, h=coverHeight+coverExtraHeight+wallThickness+0.1);
-												}
 										// Hole for the motor gear
 										rotate([90,0,0]) cylinder(r=motorGearRadius, h=coverHeight);
 										translate([0,-coverHeight+0.02,0])
 											rotate([90,0,0]) cylinder(r1=motorGearRadius, r2=motorGearRadius+coverExtraRadius, h=coverExtraHeight);
 										rotate([90,0,0]) cylinder(r=motorGearRadius+coverExtraRadius, h=coverHeight+coverExtraHeight+wallThickness+0.1);
 										// Outer hole for the support screw
-										translate([nema_screw_separation/2,0,nema_screw_separation/2])
-											rotate([90,0,0]) cylinder(r=screwHeadSpaceDiam/2, h=coverHeight+coverExtraHeight);
+										translate([nema_screw_separation/2,0,-nema_screw_separation/2])
+											rotate([90,0,0]) cylinder(r=screwHeadSpaceDiam/2, h=coverHeight+coverExtraHeight*2);
 									}
 									// Support screw holder
-									translate([nema_screw_separation/2,0,nema_screw_separation/2])
+									translate([nema_screw_separation/2,0,-nema_screw_separation/2])
 										rotate([90,0,0]) cylinder(r=screwHeadSpaceDiam/2+wallThickness, h=wallThickness);
 								}
 								// Inner hole for the support screw
-								translate([nema_screw_separation/2,0,nema_screw_separation/2])
-									rotate([90,0,0]) cylinder(r=(screwSize+1)/2, h=coverHeight+0.1);
-								// Holes for the other two screws
 								translate([nema_screw_separation/2,0,-nema_screw_separation/2])
-									rotate([90,0,0]) cylinder(r=screwHeadSpaceDiam/2, h=screwHeadSpaceHeight);
+									rotate([90,0,0]) cylinder(r=(screwSize+1)/2, h=coverHeight+0.1);
+								// Holes for the other three screws
+								translate([nema_screw_separation/2,0,nema_screw_separation/2])
+									rotate([90,0,0]) cylinder(r=screwHeadSpaceDiam/2, h=screwHeadSpaceHeight/2);
+								translate([nema_screw_separation/2,-screwHeadSpaceHeight/2,nema_screw_separation/2])
+									rotate([90,0,0]) sphere(r=screwHeadSpaceDiam/2);
+								
 								translate([-nema_screw_separation/2,0,-nema_screw_separation/2])
-									rotate([90,0,0]) cylinder(r=screwHeadSpaceDiam/2, h=screwHeadSpaceHeight);
-							// Hole for the Y idler stand part
-							*translate([-10,-coverHeight-2,-5])
-								scale(-1) cube([50,50,50]);
+									rotate([90,0,0]) cylinder(r=screwHeadSpaceDiam/2, h=screwHeadSpaceHeight/2);
+								translate([-nema_screw_separation/2,-screwHeadSpaceHeight/2,-nema_screw_separation/2])
+									rotate([90,0,0]) sphere(r=screwHeadSpaceDiam/2);
+								
+								translate([-nema_screw_separation/2,0,nema_screw_separation/2])
+									rotate([90,0,0]) cylinder(r=screwHeadSpaceDiam/2, h=screwHeadSpaceHeight/2);
+								translate([-nema_screw_separation/2,-screwHeadSpaceHeight/2,nema_screw_separation/2])
+									rotate([90,0,0]) sphere(r=screwHeadSpaceDiam/2);
 							}
 					}
 				}
