@@ -148,6 +148,62 @@ module Cyclone_X_leftFrame(isLeft=true) {
 			}
 	}
 	
+	// Crocodile clip holders and wire guide
+	module Cyclone_X_frameHoles() {
+		frameFrontalThickness = 15;
+		holeWidth = dimY/2;
+		holeHeight = dimZ/2;
+		
+		crocodileHolderStepLenght = 12/2;
+		crocodileHolderThick = 5;
+		crocodileHolderSlim = 2.5;
+		crocodileHoldersSeparation = holeWidth/3;
+		
+		wireSlotSeparation = dimX; // Distance from outer wall
+		wireSlotThicknessThick = 4;
+		wireSlotThicknessSlim = 1.5;
+		wireSlotDepth = 5;
+		
+		wireHoleDiam = 10;
+		
+		module SingleCrocodileClipHolder() {
+			translate([-partThickness/2,0,0]) union() {
+				rotate([0,90,0]) bcube([crocodileHolderStepLenght*2,crocodileHolderThick,partThickness*2], cr=1, cres=10);
+				rotate([0,90,0]) bcube([crocodileHolderStepLenght*4,crocodileHolderSlim,partThickness*2], cr=1, cres=10);
+			}
+		}
+		
+		// Translate to lower-front corner
+		translate([0,frameFrontalThickness, -axes_Yreference_height-axes_Xreference_height+footThickness+0.01]) {
+			difference() {
+				// Main hole
+				translate([-partThickness/2,holeWidth/2,holeHeight/2])
+					rotate([0,90,0]) bcube([holeHeight,holeWidth,partThickness*2], cr=15, cres=10);
+				// Translate to top center position
+				translate([0,holeWidth/2,holeHeight]) {
+					// Crocodile clip holders
+					translate([0,crocodileHoldersSeparation/2,0])
+						SingleCrocodileClipHolder();
+					translate([0,-crocodileHoldersSeparation/2,0])
+						SingleCrocodileClipHolder();
+				}
+			}
+			if(!isLeft) {
+				// Wire slot
+				translate([wireSlotDepth-dimX, dimY-frameFrontalThickness-wireSlotSeparation-wireSlotThicknessSlim/2, dimZ/2+0.01]) {
+					translate([-wireSlotDepth,0,0])
+						rotate([0,0,180]) cube([wireSlotDepth*2,wireSlotThicknessSlim,dimZ], center=true);
+					cylinder(r=wireSlotThicknessThick/2, h=dimZ, center=true);
+					translate([0,0,-dimZ/2+wireHoleDiam/2])
+						rotate([0,-90,0]) cylinder(r=wireSlotThicknessThick/2, h=wireSlotDepth*2);
+					// Wire hole (thick)
+					translate([-wireSlotDepth-wireHoleDiam/2,0,-dimZ/2+wireHoleDiam/2])
+						rotate([90,90,0]) cylinder(r=wireHoleDiam/2, h=100, center=true);
+				}
+			}
+		}
+	}
+	
 	
 	difference() {
 		// Main block
@@ -174,12 +230,13 @@ module Cyclone_X_leftFrame(isLeft=true) {
 			rotate([0,0,-90])
 				rotate([0,90,0])
 					rodHolder(rodD=axes_Xsmooth_rodD, screwSize=screwSize, negative=true);
+			// Crocodile clip holders and wire guide
+			Cyclone_X_frameHoles();
+			
 			// TRANSLATE REFERENCE POSITION to the threaded rod
 			translate([+0.01,axes_Xsmooth_separation,0]) {
-				// Plastic saving holes
-				translate([0,-15,-40]) rotate([0,-90,0]) cylinder(r=15,h=partThickness*2);
-				translate([0,30,-40]) rotate([0,-90,0]) cylinder(r=15,h=partThickness*2);
-				translate([0,-15,-80]) rotate([0,-90,0]) cylinder(r=15,h=partThickness*2);
+				
+				// Rod radial bearing hole
 				rotate([0,-90,0]) bearingHole(depth=bearingDepth, thickness=partThickness);
 				
 				// Translate to motor position
