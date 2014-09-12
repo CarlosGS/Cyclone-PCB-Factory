@@ -199,6 +199,7 @@ module bearingHole(depth=3, thickness=10, model=608, tolerance=1) {
 	bearingD = bearingOuterDiameter(model)+tolerance;
 	union() {
 		cylinder(r=bearingD/2,h=depth);
+		cylinder(r1=bearingD/2+0.5,r2=bearingD/2,h=0.5);
 		translate([0,0,depth-0.01]) cylinder(r1=bearingD/2,r2=bearingD/2-1,h=1.5);
 		cylinder(r=bearingD/2-1,h=thickness+0.1);
 	}
