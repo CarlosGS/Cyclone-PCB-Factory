@@ -152,7 +152,7 @@ module Cyclone_X_leftFrame(isLeft=true) {
 	module Cyclone_X_frameHoles() {
 		frameFrontalThickness = 15;
 		holeWidth = dimY/2;
-		holeHeight = dimZ/2;
+		holeHeight = dimZ-footThickness-axes_Xsmooth_separation-27;
 		
 		crocodileHolderStepLenght = 12/2;
 		crocodileHolderThick = 5;
@@ -197,7 +197,7 @@ module Cyclone_X_leftFrame(isLeft=true) {
 					translate([0,0,-dimZ/2+wireHoleDiam/2])
 						rotate([0,-90,0]) cylinder(r=wireSlotThicknessThick/2, h=wireSlotDepth*2);
 					// Wire hole (thick)
-					translate([-wireSlotDepth-wireHoleDiam/2,0,-dimZ/2+wireHoleDiam/2])
+					translate([-wireSlotDepth-wireHoleDiam/2-0.01,0,-dimZ/2+wireHoleDiam/2])
 						rotate([90,90,0]) cylinder(r=wireHoleDiam/2, h=100, center=true);
 				}
 			}
