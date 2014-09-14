@@ -161,7 +161,7 @@ module Cyclone_X_carriage() {
 			}
 	}
 	
-	difference() {
+	color(color_movingPart) difference() {
 		// Main shape
 		union() {
 			hull() {

@@ -142,7 +142,8 @@ module Cyclone_X_leftFrame(isLeft=true) {
 		// Endstop holder
 		translate([-partThickness-0.04,19,-5+axes_Xsmooth_separation])
 			rotate([-60,0,0]) {
-				rotate([0,0,-90]) mirror([1,0,0]) endstop_holder(holes, shortNuts=true);
+				rotate([0,0,-90]) mirror([1,0,0])
+					endstop_holder(holes, shortNuts=true, plasticColor=color_stillPart);
 				if(holes)
 					cube([partThickness+1,100,50]);
 			}
@@ -175,19 +176,20 @@ module Cyclone_X_leftFrame(isLeft=true) {
 		
 		// Translate to lower-front corner
 		translate([0,frameFrontalThickness, -axes_Yreference_height-axes_Xreference_height+footThickness+0.01]) {
-			difference() {
-				// Main hole
-				translate([-partThickness/2,holeWidth/2,holeHeight/2])
-					rotate([0,90,0]) bcube([holeHeight,holeWidth,partThickness*2], cr=15, cres=10);
-				// Translate to top center position
-				translate([0,holeWidth/2,holeHeight]) {
-					// Crocodile clip holders
-					translate([0,crocodileHoldersSeparation/2,0])
-						SingleCrocodileClipHolder();
-					translate([0,-crocodileHoldersSeparation/2,0])
-						SingleCrocodileClipHolder();
+			color(color_stillPart)
+				difference() {
+					// Main hole
+					translate([-partThickness/2,holeWidth/2,holeHeight/2])
+						rotate([0,90,0]) bcube([holeHeight,holeWidth,partThickness*2], cr=15, cres=10);
+					// Translate to top center position
+					translate([0,holeWidth/2,holeHeight]) {
+						// Crocodile clip holders
+						translate([0,crocodileHoldersSeparation/2,0])
+							SingleCrocodileClipHolder();
+						translate([0,-crocodileHoldersSeparation/2,0])
+							SingleCrocodileClipHolder();
+					}
 				}
-			}
 			if(!isLeft) {
 				// Wire slot
 				translate([wireSlotDepth-dimX, dimY-frameFrontalThickness-wireSlotSeparation-wireSlotThicknessSlim/2, dimZ/2+0.01]) {
@@ -208,7 +210,7 @@ module Cyclone_X_leftFrame(isLeft=true) {
 	difference() {
 		// Main block
 		union() {
-			translate([-axes_Xreference_posX-dimX-0.01,axes_Xreference_posY,-axes_Yreference_height]) {
+			color(color_stillPart) translate([-axes_Xreference_posX-dimX-0.01,axes_Xreference_posY,-axes_Yreference_height]) {
 				cube([dimX,dimY,dimZ-axes_Xsmooth_separation]);
 				translate([-footWidth/2+dimX,dimY/2,footThickness/2]) bcube([footWidth,dimY,footThickness], cr=corner_radius, cres=10);
 			}
@@ -217,7 +219,8 @@ module Cyclone_X_leftFrame(isLeft=true) {
 			translate([-axes_Xreference_posX,axes_Xreference_posY,axes_Xreference_height]) {
 				// TRANSLATE REFERENCE POSITION to the threaded rod
 				translate([-0.01,axes_Xsmooth_separation,0]) {
-					rotate([0,-90,0]) cylinder(r=axes_Xsmooth_separation,h=partThickness);
+					rotate([0,-90,0])
+					 	color(color_stillPart) cylinder(r=axes_Xsmooth_separation,h=partThickness);
 					if(!isLeft) 
 						Cyclone_X_endstopHolder(holes=false);
 				}
@@ -286,18 +289,19 @@ module Cyclone_X_leftFrame(isLeft=true) {
 			translate([-bearingDepth,0,0]) rotate([0,90,0])
 				radialBearing(echoPart=true);
 			if(isLeft) {
-				translate([gearWallSeparation,0,0]) rotate([0,90,0])
+				translate([gearWallSeparation,0,0]) rotate([0,90,0]) color(color_movingPart)
 					rodGear(r=axes_XgearSeparation/(1+1/axes_XgearRatio), h=axes_XgearThickness, echoPart=true);
 				// Translate to motor position
 				rotate([motorRotatedOffset,0,0]) {
 					translate([0,axes_XgearSeparation,0])
 						rotate([-motorRotatedOffset,0,0]) {
 							translate([-motorWallSeparation,0,0]) rotate([0,90,0]) stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
-							translate([gearWallSeparation,0,0]) rotate([0,90,0]) motorGear(r=axes_XgearSeparation/(1+axes_XgearRatio), h=axes_XgearThickness, echoPart=true);
+							translate([gearWallSeparation,0,0]) rotate([0,90,0])
+								color(color_movingPart) motorGear(r=axes_XgearSeparation/(1+axes_XgearRatio), h=axes_XgearThickness, echoPart=true);
 						}
 				}
 				translate([0.1,0,0])
-					Cyclone_XsubPart_gearCover();
+					color(color_stillPart) Cyclone_XsubPart_gearCover();
 			}
 			translate([0,0,axes_Xsmooth_separation])
 				rotate([0,0,-90])
@@ -342,11 +346,12 @@ module rodHolder(rodD=8.5, screwSize=3, height=0, sideLen=0, thickness=5, space=
 	} else {
 		difference() {
 			union() {
-				translate([0,-dimY/2,dimZ/2+space/4]) bcube([dimX,dimY,dimZ-space/2],cr=corner_radius,cres=10);
-				if(sideLen>dimX/2)
-					translate([sideLen/2-dimX/4,-dimY/2,-height/2-space/4]) bcube([dimX/2+sideLen,dimY,height-space/2],cr=corner_radius,cres=10);
-				else
-					translate([0,-dimY/2,-height/2-space/4]) bcube([dimX,dimY,height-space/2],cr=corner_radius,cres=10);
+				color(color_movingPart) translate([0,-dimY/2,dimZ/2+space/4]) bcube([dimX,dimY,dimZ-space/2],cr=corner_radius,cres=10);
+				color(color_stillPart)
+					if(sideLen>dimX/2)
+						translate([sideLen/2-dimX/4,-dimY/2,-height/2-space/4]) bcube([dimX/2+sideLen,dimY,height-space/2],cr=corner_radius,cres=10);
+					else
+						translate([0,-dimY/2,-height/2-space/4]) bcube([dimX,dimY,height-space/2],cr=corner_radius,cres=10);
 			}
 			translate([screwSize+screwAditionalDistance,-dimY/2,dimZ])
 				rotate([90,0,0])

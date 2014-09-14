@@ -116,6 +116,10 @@ workbed_thickness		= 8+3;
 workbed_separation_from_Y_smooth_rod = 10;
 
 
+// Part colors
+color_movingPart = "yellow";
+color_stillPart = "green";
+
 
 // Calculations
 axes_Xreference_posX	= (axes_Ysmooth_separation-axes_Xsmooth_rodLen)/2; // relative to Y reference
@@ -151,7 +155,6 @@ render_2D_or_3D() {
 
 	// Main base for the machine
 	beveledBase([base_size_X,base_size_Y,base_thickness], radius=base_corner_radius, res=base_corner_res, echoPart=true, renderPart=render_bases_outline);
-	//%color("brown") translate([0,0,-base_thickness/2]) bcube([base_size_X,base_size_Y,base_thickness], cr=base_corner_radius, cres=base_corner_res);
 
 
 	// A4 paper sheet for reference

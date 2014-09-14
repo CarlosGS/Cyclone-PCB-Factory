@@ -149,7 +149,7 @@ module Cyclone_Y_frontFrame() {
 			if(draw_references) color("blue") %frame(20);
 			difference() {
 				// Main block
-				union() {
+				color(color_stillPart) union() {
 					hull() {
 						rotate([-90,0,0])
 							cylinder(r=dimX/2,h=dimY);
@@ -231,12 +231,13 @@ module Cyclone_Y_frontFrame() {
 							rotate([90,0,0])
 								stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
 						translate([0,-rod_nut_len-gear_thickness-bearing_width+bearingDepth,0])
-							rotate([-90,0,0]) motorGear(r=axes_YgearSeparation/(1+axes_YgearRatio), echoPart=true);
+							rotate([-90,0,0]) color(color_movingPart) 
+								motorGear(r=axes_YgearSeparation/(1+axes_YgearRatio), echoPart=true);
 					}
 			}
 			// Draw the Y gear cover
 			translate([0,-0.1,0])
-				Cyclone_YsubPart_gearCover();
+				color(color_stillPart) Cyclone_YsubPart_gearCover();
 		}
 		rotate([-90,0,0])
 			radialBearing(echoPart=true);
@@ -248,7 +249,7 @@ module Cyclone_Y_frontFrame() {
 		rotate([-90,0,0])
 			nut(size=axes_Ythreaded_rodD, echoPart=true);
 	translate([0,rod_nut_len,0])
-		rotate([-90,0,0])
+		rotate([-90,0,0]) color(color_movingPart)
 			rodGear(r=axes_YgearSeparation/(1+1/axes_YgearRatio), echoPart=true);
 }
 
@@ -282,22 +283,24 @@ module Cyclone_Y_backFrame() {
 		translate([0,bearingDepth-bearing_width,0]) {
 			difference() {
 				union() {
-					rotate([90,0,0])
-						cylinder(r=dimX/2,h=dimY);
-					translate([-dimX/2,-dimY,-axes_Y_threaded_height])
-						cube([dimX,dimY,axes_Y_threaded_height]);
-					translate([0,-dimY/2,-axes_Y_threaded_height])
-						hull() {
-							translate([-footSeparation-dimX/2,0,0])
-								cylinder(r=dimY/2,h=footThickness);
-							translate([footSeparation+dimX/2,0,0])
-								cylinder(r=dimY/2,h=footThickness);
-							translate([0,dimY/2+footSeparation+foot_additional_separation,0])
-								cylinder(r=dimY/2,h=footThickness);
-						}
+					color(color_stillPart) {
+						rotate([90,0,0])
+							cylinder(r=dimX/2,h=dimY);
+						translate([-dimX/2,-dimY,-axes_Y_threaded_height])
+							cube([dimX,dimY,axes_Y_threaded_height]);
+						translate([0,-dimY/2,-axes_Y_threaded_height])
+							hull() {
+								translate([-footSeparation-dimX/2,0,0])
+									cylinder(r=dimY/2,h=footThickness);
+								translate([footSeparation+dimX/2,0,0])
+									cylinder(r=dimY/2,h=footThickness);
+								translate([0,dimY/2+footSeparation+foot_additional_separation,0])
+									cylinder(r=dimY/2,h=footThickness);
+							}
+					}
 					translate([0,-dimY-0.01,dimX/2])
 						rotate([0,endstopHolderRotation,0])
-							endstop_holder(holes=false);
+							endstop_holder(holes=false, plasticColor=color_stillPart);
 				}
 				
 				translate([0,-dimY-0.01,dimX/2])
@@ -391,49 +394,47 @@ module Cyclone_Y_rightSmoothRodIdler(mirrorLogo = false) {
 	footSeparation = screwSize*2;
 	footThickness = 10;
 	
-	color("lightcyan") {
-		difference() {
-			union() {
-				translate([0,0,-axes_Yreference_height])
-					cube([dimX,dimY,dimZ+holderThickness+axes_Ysmooth_rodD/2]);
-				translate([-holderOuterRadius,0,-axes_Yreference_height])
-					cube([dimX,dimY,dimZ]);
-				rotate([-90,0,0]) cylinder(r=holderOuterRadius, h=dimY);
-				translate([0,dimY/2,-axes_Yreference_height])
-					hull() {
-						translate([-holderOuterRadius-footSeparation,0,0])
-							cylinder(r=dimY/2,h=footThickness);
-						translate([holderOuterRadius*2+footSeparation,0,0])
-							cylinder(r=dimY/2,h=footThickness);
-						translate([holderOuterRadius/2,dimY/2+footSeparation,0])
-							cylinder(r=dimY/2,h=footThickness);
-					}
-			}
-			standard_rod(diam=axes_Ysmooth_rodD, length=dimY*4, threaded=false, renderPart=true, center=true);
-			translate([2.5+holderOuterRadius,dimY/2,holderOuterRadius])
+	difference() {
+		color(color_stillPart) union() {
+			translate([0,0,-axes_Yreference_height])
+				cube([dimX,dimY,dimZ+holderThickness+axes_Ysmooth_rodD/2]);
+			translate([-holderOuterRadius,0,-axes_Yreference_height])
+				cube([dimX,dimY,dimZ]);
+			rotate([-90,0,0]) cylinder(r=holderOuterRadius, h=dimY);
+			translate([0,dimY/2,-axes_Yreference_height])
+				hull() {
+					translate([-holderOuterRadius-footSeparation,0,0])
+						cylinder(r=dimY/2,h=footThickness);
+					translate([holderOuterRadius*2+footSeparation,0,0])
+						cylinder(r=dimY/2,h=footThickness);
+					translate([holderOuterRadius/2,dimY/2+footSeparation,0])
+						cylinder(r=dimY/2,h=footThickness);
+				}
+		}
+		standard_rod(diam=axes_Ysmooth_rodD, length=dimY*4, threaded=false, renderPart=true, center=true);
+		translate([2.5+holderOuterRadius,dimY/2,holderOuterRadius])
+			rotate([0,90,0])
+					rotate([0,0,90])
+						hole_for_screw(size=screwSize,length=screwLength+10,nutDepth=10,nutAddedLen=0,captiveLen=10, rot=90);
+		translate([dimX/2,dimY/2,0])
+			cube([dimX+1,dimY+1,slotHeight],center=true);
+		translate([(dimX-holderOuterRadius)/2,-0.1,-(dimZ+axes_Ysmooth_rodD/2)/2])
+			scale([1,-1,1])
+				rotate([90,0,0])
+					Cyclone_logo(sizemm = min(dimX+holderOuterRadius-5,dimZ-axes_Ysmooth_rodD/2-5), thickness = logoDepth, mirrorLogo = mirrorLogo);
+		translate([0,dimY/2,-axes_Yreference_height+footThickness]) {
+			translate([-holderOuterRadius-footSeparation,0,0])
 				rotate([0,90,0])
-						rotate([0,0,90])
-							hole_for_screw(size=screwSize,length=screwLength+10,nutDepth=10,nutAddedLen=0,captiveLen=10, rot=90);
-			translate([dimX/2,dimY/2,0])
-				cube([dimX+1,dimY+1,slotHeight],center=true);
-			translate([(dimX-holderOuterRadius)/2,-0.1,-(dimZ+axes_Ysmooth_rodD/2)/2])
-				scale([1,-1,1])
-					rotate([90,0,0])
-						Cyclone_logo(sizemm = min(dimX+holderOuterRadius-5,dimZ-axes_Ysmooth_rodD/2-5), thickness = logoDepth, mirrorLogo = mirrorLogo);
-			translate([0,dimY/2,-axes_Yreference_height+footThickness]) {
-				translate([-holderOuterRadius-footSeparation,0,0])
-					rotate([0,90,0])
-						rotate([0,0,90])
-							hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, rot=90, invert=true);
-				translate([holderOuterRadius*2+footSeparation,0,0])
-					rotate([0,90,0])
-						rotate([0,0,90])
-							hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, rot=90, invert=true);
-				translate([holderOuterRadius/2,dimY/2+footSeparation,0])
-					rotate([0,90,0])
-						rotate([0,0,90])
-							hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, rot=90, invert=true);
-			}
+					rotate([0,0,90])
+						hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, rot=90, invert=true);
+			translate([holderOuterRadius*2+footSeparation,0,0])
+				rotate([0,90,0])
+					rotate([0,0,90])
+						hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, rot=90, invert=true);
+			translate([holderOuterRadius/2,dimY/2+footSeparation,0])
+				rotate([0,90,0])
+					rotate([0,0,90])
+						hole_for_screw(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, rot=90, invert=true);
 		}
 	}
 	// Draw nuts and bolts

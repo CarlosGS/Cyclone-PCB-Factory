@@ -182,13 +182,13 @@ module stepperMotor(screwHeight=10, renderPart=false, echoPart=false) {
 
 module motorGear(r=30,h=10,renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
-		color("lightgreen") cylinder(r=r,h=h)
+		cylinder(r=r,h=h)
 	if(echoPart) echo(str("BOM: Gear. Motor."));
 }
 
 module rodGear(r=30,h=10,renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
-		color("lightgreen") cylinder(r=r,h=h)
+		cylinder(r=r,h=h)
 	if(echoPart) echo(str("BOM: Gear. Rod."));
 }
 
@@ -281,7 +281,7 @@ module control_board() {
 }
 
 
-module endstop_holder(holes=false, shortNuts=false) {
+module endstop_holder(holes=false, plasticColor="blue", shortNuts=false) {
 	boardX = 41;
 	boardY = 16.05;
 	boardZ = 1.62;
@@ -312,7 +312,7 @@ module endstop_holder(holes=false, shortNuts=false) {
 					hole_for_screw(size=3,length=15,nutDepth=shortNuts?5:0,nutAddedLen=shortNuts?0:5,captiveLen=10,rot=90);
 		}
 	} else {
-		translate([holderX/2,holderY/2,-holderZ/2-boardZ])
+		color(plasticColor) translate([holderX/2,holderY/2,-holderZ/2-boardZ])
 			bcube([holderX,holderY,holderZ], cr=2, cres=4);
 		// PCB
 		color("lightgrey") translate([0,0,-boardZ])

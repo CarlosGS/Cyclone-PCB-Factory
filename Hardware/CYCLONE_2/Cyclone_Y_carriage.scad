@@ -27,7 +27,7 @@ module Cyclone_YsubPart_nutHolder() {
 	difference() {
 		// Main shape
 		translate([0,0,dimZ/2-holderExtension/2])
-			bcube([dimX,dimY,dimZ+holderExtension],cr=2,cres=10);
+			color(color_movingPart) bcube([dimX,dimY,dimZ+holderExtension],cr=2,cres=10);
 		// Hole for the rod
 		hull() {
 			standard_rod(diam=axes_Ythreaded_rodD+rodTolerance, length=dimY*4, threaded=true, renderPart=true, center=true);
@@ -102,7 +102,7 @@ module Cyclone_YsubPart_singleLinearBearingHolder(onlyScrews=false) {
 	} else {
 		difference() {
 			// Main part
-			union() {
+			color(color_movingPart) union() {
 				translate([0,0,dimZ/2])
 					bcube([dimX,dimY,dimZ], cr=3, cres=0);
 				translate([0,0,dimZ])
@@ -154,29 +154,66 @@ module Cyclone_YsubPart_PCBholder() {
 	
 	holderArmLength = 30;
 	
+	holderL_thickness = 2;
+	holderL_width = workbed_size_Y-PCB_dimY-PCB_holder_tolerance*2;
+	
+	// Draw the PCB (transparent)
+	%translate([0,0,PCBholder_height])
+		color([0.2,0.6,0,0.5]) cube([PCB_dimX+PCB_holder_tolerance*2,PCB_dimY+PCB_holder_tolerance*2,PCB_dimZ], center=true);
+	%translate([0,0,PCBholder_height+PCB_dimZ/2])
+		color([0.8,0.5,0,0.5]) cube([PCB_dimX+PCB_holder_tolerance*2,PCB_dimY+PCB_holder_tolerance*2,PCB_dimZ/10], center=true);
+	
 	difference() {
-		translate([0,0,PCBholder_height/2])
+		color(color_stillPart) translate([0,0,PCBholder_height/2])
 			bcube([workbed_size_X,workbed_size_Y,PCBholder_height], cr=25, cres=0);
-		translate([0,0,PCBholder_height/2])
-			cube([PCB_dimX-PCB_holder_edge_length*2,PCB_dimY-PCB_holder_edge_length*2,PCBholder_height+1], center=true);
+		
+		// Hole for the PCB
 		translate([0,0,PCBholder_height])
-			color("green") cube([PCB_dimX+PCB_holder_tolerance*2,PCB_dimY+PCB_holder_tolerance*2,PCB_dimZ], center=true);
+			cube([PCB_dimX+PCB_holder_tolerance*2,PCB_dimY+PCB_holder_tolerance*2,PCB_dimZ], center=true);
 		
+		// Holes to split the part in two pieces
+		translate([0,0,PCBholder_height/2])
+			cube([PCB_dimX-PCB_holder_edge_length*2,PCB_dimY-PCB_holder_edge_length*2, 2*PCBholder_height+1], center=true);
 		translate([-PCB_dimX/2+PCB_holder_edge_length,0,-0.5])
-			cube([PCB_dimX-holderArmLength-PCB_holder_edge_length,workbed_size_Y,PCBholder_height+1]);
+			cube([PCB_dimX-holderArmLength-PCB_holder_edge_length,workbed_size_Y, 2*PCBholder_height+1]);
 		scale([-1,-1,1]) translate([-PCB_dimX/2+PCB_holder_edge_length,0,-0.5])
-			cube([PCB_dimX-holderArmLength-PCB_holder_edge_length,workbed_size_Y,PCBholder_height+1]);
+			cube([PCB_dimX-holderArmLength-PCB_holder_edge_length,workbed_size_Y, 2*PCBholder_height+1]);
 		
+		// Holes for the screws
 		for (x = [-1,1], y=[-1,0,1]) {
 			translate([x*(PCB_dimX/2+screwSeparation),y*PCB_dimY/4,PCBholder_height+2.9])
 				rotate([0,0,x*-90]) rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height+3,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
 		}
-		
 		translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+2.9])
 			rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height+3,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
 		scale([-1,-1,1]) translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+2.9])
 			rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height+3,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
 
+	}
+	// Holder top L supports
+	translate([0,0,0.1])
+	difference() {
+		color(color_movingPart) translate([0,0,PCBholder_height+holderL_thickness/2])
+			bcube([PCB_dimX+PCB_holder_tolerance*2+holderL_width, PCB_dimY+PCB_holder_tolerance*2+holderL_width, holderL_thickness], cr=8, cres=0);
+		translate([0,0,PCBholder_height/2])
+			cube([PCB_dimX-PCB_holder_edge_length*2,PCB_dimY-PCB_holder_edge_length*2, 2*PCBholder_height+1], center=true);
+		translate([-PCB_dimX/2+PCB_holder_edge_length,0,-0.5])
+			cube([PCB_dimX-holderArmLength-PCB_holder_edge_length,workbed_size_Y, 2*PCBholder_height+1]);
+		scale([-1,-1,1]) translate([-PCB_dimX/2+PCB_holder_edge_length,0,-0.5])
+			cube([PCB_dimX-holderArmLength-PCB_holder_edge_length,workbed_size_Y, 2*PCBholder_height+1]);
+		
+		// Holes for the screws
+		translate([0,0,holderL_thickness]) {
+			for (x = [-1,1], y=[-1,0,1]) {
+				translate([x*(PCB_dimX/2+screwSeparation),y*PCB_dimY/4,PCBholder_height+2.9])
+					rotate([0,0,x*-90]) rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height*10,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
+			}
+		
+			translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+2.9])
+				rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height*10,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
+			scale([-1,-1,1]) translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+2.9])
+				rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height*10,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
+		}
 	}
 }
 
