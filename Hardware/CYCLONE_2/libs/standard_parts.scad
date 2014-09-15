@@ -57,7 +57,7 @@ module rubberFoot(diam=40, thickness=8, renderPart=false, echoPart=false) {
 
 module beveledBase(size=[100,200,10], radius=10, res=15, renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
-		color("brown")
+		color([0.05,0.05,0.05])
 			translate([0,0,-size.z/2])
 				bcube(size, cr=radius, cres=res);
 	if(echoPart) echo(str("BOM: Base. Size ", size, "mm"));
@@ -68,7 +68,7 @@ module beveledBase(size=[100,200,10], radius=10, res=15, renderPart=false, echoP
 
 include <MCAD/nuts_and_bolts.scad>
 
-module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0.45,rot=0,invert=false, echoPart=false) {
+module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0.4,rot=0,invert=false, echoPart=false) {
 	radius = METRIC_NUT_AC_WIDTHS[size]/2+tolerance;
 	height = METRIC_NUT_THICKNESS[size]+tolerance;
 	rotate([0,0,invert ? 180 : 0])
@@ -233,7 +233,7 @@ module linearBearing_single(model="LM8UU", renderPart=false, echoPart=false) {
 	if(echoPart) echo(str("BOM: Linear bearing. Model ", model));
 }
 
-module linearBearingHole(model="LM8UU", lateralExtension=10, pressureFitTolerance=0.25, lengthExtension=6, holderLength=1.5, tolerance=0.1) {
+module linearBearingHole(model="LM8UU", lateralExtension=10, pressureFitTolerance=0.4, lengthExtension=6, holderLength=1.5, tolerance=0.1) {
 	linearBearingLength = linearBearing_L(model);
 	linearBearingDiameter = linearBearing_D(model);
 	
@@ -265,7 +265,7 @@ module linearBearingHole(model="LM8UU", lateralExtension=10, pressureFitToleranc
 
 
 
-module control_board() {
+module control_board(plasticColor="green") {
 	rotate([0,0,180])
 	translate([15,0]) {
 		difference() {
@@ -276,7 +276,7 @@ module control_board() {
 			translate([0,48.5,5]) rotate([90,0,0]) hole_for_screw(size=3,length=10,nutDepth=0,nutAddedLen=0,captiveLen=0);
 		}
 		%translate([-15,-12.5,1.6])
-			color("green") cube([102.5,64.5,15]);
+			color(plasticColor) cube([102.5,64.5,15]);
 	}
 }
 

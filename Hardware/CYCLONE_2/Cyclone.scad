@@ -117,8 +117,8 @@ workbed_separation_from_Y_smooth_rod = 10;
 
 
 // Part colors
-color_movingPart = "yellow";
-color_stillPart = "green";
+color_movingPart = [0.4,0.5,0.9];
+color_stillPart = [0.9,0.9,0.1];
 
 
 // Calculations
@@ -158,7 +158,7 @@ render_2D_or_3D() {
 
 
 	// A4 paper sheet for reference
-	standard_paperSheet_A4(echoPart=true);
+	color([1,1,1, 0.2]) standard_paperSheet_A4(echoPart=true);
 
 
 	// Cyclone foot stands
@@ -248,7 +248,7 @@ render_2D_or_3D() {
 	
 	
 	translate([axes_Xsmooth_rodLen/2,0,0])
-		control_board();
+		control_board(plasticColor=color_stillPart);
 	
 	
 	

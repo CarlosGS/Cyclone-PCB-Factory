@@ -162,7 +162,7 @@ module Cyclone_X_leftFrame(isLeft=true) {
 		
 		wireSlotSeparation = dimX; // Distance from outer wall
 		wireSlotThicknessThick = 4;
-		wireSlotThicknessSlim = 2.5;
+		wireSlotThicknessSlim = 3;
 		wireSlotDepth = 5;
 		
 		wireHoleDiam = 10;
