@@ -56,8 +56,8 @@ function animatePart(n,dist=30,overlap=animated_timePerPart*0.25) = dist*animati
 
 
 // Parameters for the bottom base
-base_size_X			= 304.8+animatePart(1,overlap=0);
-base_size_Y			= 261.62+animatePart(2);
+base_size_X			= 304.8 + animatePart(1,overlap=0);
+base_size_Y			= 261.62 + animatePart(2);
 base_thickness		= 8;
 base_corner_radius	= 20;
 base_corner_res		= 0;
@@ -65,45 +65,45 @@ foot_offset = 25;
 
 
 // Parameters for the axes sizes
-axes_Xsmooth_rodLen	= animatePart(1,overlap=0)+250;//265;
-axes_Ysmooth_rodLen	= animatePart(2)+210;
-axes_Zsmooth_rodLen	= 90+animatePart(3);
+axes_Xsmooth_rodLen	= 250 + animatePart(1,overlap=0);
+axes_Ysmooth_rodLen	= 210 + animatePart(2);
+axes_Zsmooth_rodLen	= 110 + animatePart(3);
 
 axes_Xthreaded_rodLen	= axes_Xsmooth_rodLen+50;
 axes_Ythreaded_rodLen	= axes_Ysmooth_rodLen-10;
-axes_Zthreaded_rodLen	= axes_Zsmooth_rodLen-20;
+axes_Zthreaded_rodLen	= 90;
 
-axes_Xsmooth_rodD	= 8.5+animatePart(4,dist=5);
-axes_Ysmooth_rodD	= 8.5+animatePart(4,dist=5);
-axes_Zsmooth_rodD	= 8.2+animatePart(4,dist=5);
+axes_Xsmooth_rodD	= 8.5 + animatePart(4,dist=5);
+axes_Ysmooth_rodD	= 8.5 + animatePart(4,dist=5);
+axes_Zsmooth_rodD	= 8.2 + animatePart(4,dist=5);
 
-axes_Xthreaded_rodD	= 8.5+animatePart(4,dist=5);
-axes_Ythreaded_rodD	= 8.5+animatePart(4,dist=5);
-axes_Zthreaded_rodD	= 8.5+animatePart(4,dist=5);
+axes_Xthreaded_rodD	= 8.5 + animatePart(4,dist=5);
+axes_Ythreaded_rodD	= 8.5 + animatePart(4,dist=5);
+axes_Zthreaded_rodD	= 8.5 + animatePart(4,dist=5);
 
 // Parameters for the axes reference position
 // Note: The reference coordinates are centered like this:
 // Y axis reference is the Y smooth rod end, BACK of RIGHT FRAME
 // X axis reference is the frontal X smooth rod end, RIGHT FRAME
 // Z axis reference is the Z threaded rod, at the height of the Z nut, and relative to the X reference
-axes_Yreference_height	= 40+animatePart(5);
-axes_Xreference_height	= 74+animatePart(6); // relative to Y reference
-axes_Zreference_height	= -3+animatePart(7)+animatePart(9); // relative to X reference
+axes_Yreference_height	= 40 + animatePart(5);
+axes_Xreference_height	= 74 + animatePart(6); // relative to Y reference
+axes_Zreference_height	= -3 + animatePart(7) + animatePart(9); // relative to X reference
 
 axes_Xreference_posY	= -81-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
 axes_Zreference_posY	= 14; // relative to X reference. Positions Z rods between the Y rods
 
-axes_Y_threaded_height = 30+animatePart(5);
+axes_Y_threaded_height = 30 + animatePart(5);
 
-axes_Ysmooth_separation	= 165+animatePart(1,overlap=0);
-axes_Xsmooth_separation = 40+animatePart(9);
-axes_Zsmooth_separation = 40+animatePart(10,overlap=0);
+axes_Ysmooth_separation	= 165 + animatePart(1,overlap=0);
+axes_Xsmooth_separation = 40 + animatePart(9);
+axes_Zsmooth_separation = 40 + animatePart(10,overlap=0);
 
 
 // Carriage positions (for rendering)
 axes_Xcarriage_pos = axes_Xsmooth_rodLen/2+sin($t*360)*axes_Xsmooth_rodLen/3;
 axes_Ycarriage_pos = axes_Ysmooth_rodLen/2+sin($t*360)*axes_Ysmooth_rodLen/4.1;
-axes_Zcarriage_pos = axes_Zsmooth_rodLen/3+sin($t*360)*axes_Zsmooth_rodLen/4;
+axes_Zcarriage_pos = axes_Zsmooth_rodLen/2+sin($t*360)*axes_Zsmooth_rodLen/8;
 
 
 
@@ -117,8 +117,12 @@ workbed_separation_from_Y_smooth_rod = 10;
 
 
 // Part colors
-color_movingPart = [0.4,0.5,0.9];
-color_stillPart = [0.9,0.9,0.1];
+blueColor = [0.3,0.6,0.9];
+redColor = [0.8,0.3,0.3];
+yellowColor = [0.9,0.9,0.1];
+blackColor = [0.2,0.2,0.2];
+color_movingPart = yellowColor+[0.1,0.1,0.1];
+color_stillPart = yellowColor;
 
 
 // Calculations
@@ -128,7 +132,7 @@ axes_Y_smoothThreaded_verticalSeparation = axes_Yreference_height-axes_Y_threade
 axes_ZthreadedReference_posY = axes_Xsmooth_separation-axes_Zreference_posY-axes_Zreference_posY; // Relative to X carriage reference
 
 // Activate/Deactivate rendering auxiliary references (LCS axis, etc)
-draw_references = true;
+draw_references = false;
 render_DXF_base = false;
 render_DXF_workbed = false;
 render_bases_outline = false; // Toggle for rendering outline DXFs
@@ -233,11 +237,7 @@ render_2D_or_3D() {
 						translate([0,0,axes_Zcarriage_pos]) {
 							if(draw_references) %frame();
 						
-							//Cyclone_Z_carriage();
-							
-							linearBearing_single(model="LM8UU", echoPart=true);
-							translate([axes_Zsmooth_separation,0,0])
-								linearBearing_single(model="LM8UU", echoPart=true);
+							Cyclone_Z_carriage();
 						}
 				}
 			}

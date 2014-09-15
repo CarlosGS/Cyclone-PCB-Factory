@@ -228,7 +228,7 @@ module Cyclone_X_leftFrame(isLeft=true) {
 		}
 		
 		// TRANSLATE REFERENCE POSITION to the left frame, X lower smooth rod end
-		translate([-axes_Xreference_posX,axes_Xreference_posY,axes_Xreference_height]) {
+		color(color_stillPart) translate([-axes_Xreference_posX,axes_Xreference_posY,axes_Xreference_height]) {
 			rotate([0,0,90]) standard_rod(diam=axes_Xsmooth_rodD, length=partThickness*4, threaded=false, renderPart=true, center=true);
 			rotate([0,0,-90])
 				rotate([0,90,0])

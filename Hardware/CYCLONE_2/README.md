@@ -17,11 +17,8 @@ Adressing all the issues from the original design, and implementing improvements
 Work in progress. Pending tasks:  
 --  
 * Improve vacuum cleaner attachment (make it detachable)
-* Finish protective covers for the gears
-* Endstop integration for Z
-* Better plastic-saving holes for the X frames
-* Improve the nut holder in the X carriage (with the same spring mechanism as in Y)
-* Re-design the [Z carriage](INHERITED) after testing performance
+* Endstop integration for Z (integrated probe)
+* Re-implement the [Z carriage](INHERITED), currently inherited from Cyclone V1
 
 
 ![ScreenShot](output/cyclone.png)  

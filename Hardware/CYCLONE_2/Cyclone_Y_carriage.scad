@@ -161,9 +161,9 @@ module Cyclone_YsubPart_PCBholder() {
 	
 	// Draw the PCB (transparent)
 	%translate([0,0,PCBholder_height])
-		color([0.2,0.6,0,0.5]) cube([PCB_dimX+PCB_holder_tolerance*2,PCB_dimY+PCB_holder_tolerance*2,PCB_dimZ], center=true);
+		color([0.2,0.6,0, 1]) cube([PCB_dimX+PCB_holder_tolerance*2,PCB_dimY+PCB_holder_tolerance*2,PCB_dimZ], center=true);
 	%translate([0,0,PCBholder_height+PCB_dimZ/2])
-		color([0.8,0.5,0,0.5]) cube([PCB_dimX+PCB_holder_tolerance*2,PCB_dimY+PCB_holder_tolerance*2,PCB_dimZ/10], center=true);
+		color([0.8,0.5,0, 1]) cube([PCB_dimX+PCB_holder_tolerance*2,PCB_dimY+PCB_holder_tolerance*2,PCB_dimZ/10], center=true);
 	
 	difference() {
 		color(color_stillPart) translate([0,0,PCBholder_height/2])
@@ -199,7 +199,9 @@ module Cyclone_YsubPart_PCBholder() {
 			bcube([PCB_dimX+PCB_holder_tolerance*2+holderL_width, PCB_dimY+PCB_holder_tolerance*2+holderL_width, holderL_thickness+holderL_thickness_btm], cr=8, cres=0);
 		translate([0,0,PCBholder_height+holderL_thickness_btm/2])
 			bcube([PCB_dimX+PCB_holder_tolerance*2+holderL_innerWidth, PCB_dimY+PCB_holder_tolerance*2+holderL_innerWidth, holderL_thickness_btm], cr=8, cres=0);
-		#frame(100);
+		
+		if(draw_references) %frame();
+		
 		translate([0,0,PCBholder_height/2])
 			cube([PCB_dimX-PCB_holder_edge_length*2,PCB_dimY-PCB_holder_edge_length*2, 2*PCBholder_height+1], center=true);
 		translate([-PCB_dimX/2+PCB_holder_edge_length,0,-0.5])

@@ -394,8 +394,8 @@ module Cyclone_Y_rightSmoothRodIdler(mirrorLogo = false) {
 	footSeparation = screwSize*2;
 	footThickness = 10;
 	
-	difference() {
-		color(color_stillPart) union() {
+	color(color_stillPart) difference() {
+		union() {
 			translate([0,0,-axes_Yreference_height])
 				cube([dimX,dimY,dimZ+holderThickness+axes_Ysmooth_rodD/2]);
 			translate([-holderOuterRadius,0,-axes_Yreference_height])
