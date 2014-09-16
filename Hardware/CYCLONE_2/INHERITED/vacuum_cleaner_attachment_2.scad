@@ -1,4 +1,12 @@
+// This file is part of Cyclone PCB Factory: an open-source 3D printable CNC machine for PCB manufacture
+// http://reprap.org/wiki/Cyclone_PCB_Factory
+// Original author: Carlosgs (http://carlosgs.es)
+// License: CC BY-SA 4.0 (Attribution-ShareAlike 4.0 International, http://creativecommons.org/licenses/by-sa/4.0/)
+// Designed with http://www.openscad.org/
 
+// Increase the resolution of default shapes
+$fa = 5; // Minimum angle for fragments [degrees]
+$fs = 0.5; // Minimum fragment size [mm]
 
 
 dremel_accessory_diam = 20;
@@ -54,10 +62,10 @@ use <MCAD/nuts_and_bolts.scad>
 module aspirator_accessory_2Dshape() {
 	hull() {
 		translate([aspirator_tube_separation/2,-dremel_accessory_tube_offset/2])
-			circle(r=aspirator_thickness_thick+aspirator_tube_diam/2, h=dremel_accesory_height, $fn=60);
-		circle(r=aspirator_thickness_thick+dremel_accessory_diam/2, h=dremel_accesory_height, $fn=60);
+			circle(r=aspirator_thickness_thick+aspirator_tube_diam/2, h=dremel_accesory_height);
+		circle(r=aspirator_thickness_thick+dremel_accessory_diam/2, h=dremel_accesory_height);
 		translate([-aspirator_tube_separation/2,-dremel_accessory_tube_offset/2])
-			circle(r=aspirator_thickness_thick+aspirator_tube_diam/2, h=dremel_accesory_height, $fn=60);
+			circle(r=aspirator_thickness_thick+aspirator_tube_diam/2, h=dremel_accesory_height);
 	}
 }
 
@@ -70,25 +78,25 @@ module aspirator_accessory_filledshape() {
 				aspirator_accessory_2Dshape();
 		translate([0,dremel_accessory_hole_offset/2,-dremel_accesory_height/2-aspirator_hole_height])
 			linear_extrude(height=0.001,center=true)
-				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_thickness_slim+aspirator_hole_diam/2, $fn=60);
+				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_thickness_slim+aspirator_hole_diam/2);
 	}
 	hull() {
 		translate([0,dremel_accessory_hole_offset/2,-dremel_accesory_height/2-aspirator_hole_height])
 			linear_extrude(height=0.001,center=true)
-				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_thickness_slim+aspirator_hole_diam/2, $fn=60);
+				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_thickness_slim+aspirator_hole_diam/2);
 		translate([0,dremel_accessory_hole_offset/2,-dremel_accesory_height/2-aspirator_hole_height-edge_height])
 			linear_extrude(height=0.001,center=true)
-				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_thickness_slim+aspirator_hole_diam/2+edge_height/2, $fn=60);
+				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_thickness_slim+aspirator_hole_diam/2+edge_height/2);
 	
 	}
 }
 
 module aspirator_accessory_2Dholes() {
 	translate([aspirator_tube_separation/2,-dremel_accessory_tube_offset/2])
-		circle(r=aspirator_tube_diam/2, $fn=60);
-	circle(r=dremel_accessory_diam/2, $fn=60);
+		circle(r=aspirator_tube_diam/2);
+	circle(r=dremel_accessory_diam/2);
 	translate([-aspirator_tube_separation/2,-dremel_accessory_tube_offset/2])
-		circle(r=aspirator_tube_diam/2, $fn=60);
+		circle(r=aspirator_tube_diam/2);
 }
 
 module screwHole() {
@@ -101,7 +109,7 @@ module screwHole() {
 		}
 	translate([0,aspirator_tube_diam/2,0])
 		rotate([90,0,0])
-			boltHole(size=3, length=30, tolerance=0.4, proj=-1, $fn=40);
+			boltHole(size=3, length=30, tolerance=0.4, proj=-1);
 }
 
 module aspirator_accessory_holes() {
@@ -113,11 +121,11 @@ module aspirator_accessory_holes() {
 				aspirator_accessory_2Dholes();
 		translate([0,dremel_accessory_hole_offset/2,-dremel_accesory_height/2-aspirator_hole_height+1-0.01])
 			linear_extrude(height=0.001,center=true)
-				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_hole_diam/2, $fn=60);
+				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_hole_diam/2);
 	}
 	translate([0,dremel_accessory_hole_offset/2,-dremel_accesory_height/2-aspirator_hole_height-1])
 			linear_extrude(height=2+edge_height+0.1,center=true)
-				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_hole_diam/2, $fn=60);
+				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_hole_diam/2);
 	// Hole for the tightener
 	translate([0,-dremel_accessory_tube_offset/4,0])
 		cube([aspirator_tube_separation,2.5,dremel_accesory_height+0.01],center=true);
@@ -133,7 +141,33 @@ module aspirator_accessory_holes() {
 			screwHole();
 }
 
+
+
+module aspirator_accessory_extender() {
+	extender_length = 20;
+	extender_thickness = 2;
+	difference() {
+		translate([0,dremel_accessory_hole_offset/2,-dremel_accesory_height/2-aspirator_hole_height+edge_height-2])
+			rotate([180,0,0]) linear_extrude(height=extender_length)
+				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_hole_diam/2+2+extender_thickness);
+		translate([0,dremel_accessory_hole_offset/2,-dremel_accesory_height/2-aspirator_hole_height+edge_height-4])
+			rotate([180,0,0]) linear_extrude(height=extender_length+5)
+				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_hole_diam/2+2);
+		translate([0,0,-0.01])
+			aspirator_accessory_filledshape();
+		translate([0,dremel_accessory_hole_offset/2-48,-dremel_accesory_height/2-aspirator_hole_height+edge_height])
+			rotate([180,0,0]) cylinder(r=100/2, h=4.5);
+		translate([0,-aspirator_hole_Yscale*aspirator_hole_diam/2,-dremel_accesory_height/2-aspirator_hole_height+edge_height])
+			rotate([180,0,0]) cylinder(r=15/2, h=extender_length+5);
+	}
+}
+
+// Render the dremel part
 difference() {
 	aspirator_accessory_filledshape();
 	aspirator_accessory_holes();
 }
+
+// Render the detachable extender
+!aspirator_accessory_extender();
+
