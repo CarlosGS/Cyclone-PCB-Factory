@@ -144,21 +144,28 @@ module aspirator_accessory_holes() {
 
 
 module aspirator_accessory_extender() {
-	extender_length = 20;
+	extender_length = 15;
 	extender_thickness = 2;
+	extender_bottom_reduction = 5;
 	difference() {
 		translate([0,dremel_accessory_hole_offset/2,-dremel_accesory_height/2-aspirator_hole_height+edge_height-2])
-			rotate([180,0,0]) linear_extrude(height=extender_length)
-				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_hole_diam/2+2+extender_thickness);
+			hull() {
+				scale([1,aspirator_hole_Yscale,1]) cylinder(r=aspirator_hole_diam/2+2+extender_thickness, h=0.01);
+				translate([0,0,-extender_length])
+					scale([1,aspirator_hole_Yscale+0.05,1]) cylinder(r=aspirator_hole_diam/2+2+extender_thickness-extender_bottom_reduction, h=0.01);
+			}
 		translate([0,dremel_accessory_hole_offset/2,-dremel_accesory_height/2-aspirator_hole_height+edge_height-4])
-			rotate([180,0,0]) linear_extrude(height=extender_length+5)
-				scale([1,aspirator_hole_Yscale,1]) circle(r=aspirator_hole_diam/2+2);
+			hull() {
+				scale([1,aspirator_hole_Yscale,1]) cylinder(r=aspirator_hole_diam/2+2, h=0.01);
+				translate([0,0,-extender_length+1])
+					scale([1,aspirator_hole_Yscale,1]) cylinder(r=aspirator_hole_diam/2+2-extender_bottom_reduction, h=0.01);
+			}
 		translate([0,0,-0.01])
 			aspirator_accessory_filledshape();
-		translate([0,dremel_accessory_hole_offset/2-48,-dremel_accesory_height/2-aspirator_hole_height+edge_height])
+		translate([0,dremel_accessory_hole_offset/2-50,-dremel_accesory_height/2-aspirator_hole_height+edge_height])
 			rotate([180,0,0]) cylinder(r=100/2, h=4.5);
 		translate([0,-aspirator_hole_Yscale*aspirator_hole_diam/2,-dremel_accesory_height/2-aspirator_hole_height+edge_height])
-			rotate([180,0,0]) cylinder(r=15/2, h=extender_length+5);
+			rotate([180,0,0]) cylinder(r=30/2-2, h=extender_length+5);
 	}
 }
 
