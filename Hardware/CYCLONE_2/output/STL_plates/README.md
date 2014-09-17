@@ -1,5 +1,5 @@
 
-Last updated: September 16th 2014
+Last updated: September 17th 2014
 ---
 This plate can serve as a reference on how to print the parts.  
 You can also open the STL with [Cura](http://wiki.ultimaker.com/Cura) and use the option "split into parts" to easily arrange your own plates.  
