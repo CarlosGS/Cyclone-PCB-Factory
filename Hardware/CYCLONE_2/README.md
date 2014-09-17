@@ -1,22 +1,22 @@
 Hardware for Cyclone-PCB-Factory  
 ===================
 
-Version 2.0a  
+Version 2.0  
 --  
 Adressing all the issues from the original design, and implementing improvements by yOPERO, Martin Zabojnik and others.
 
 * More robust design with tougher parts:
  * Better holders for the linear bearings (vibration made them slide away)
  * Reinforced nut/screw holders
+* Anti-backlash mechanisms
 * Improved [gears](INHERITED) with smoother edges
 * Attachment for a vacuum cleaner
 * Better scalability (parameterized design)
 * Using a [Dremel 200](http://www.dremel.com/en-us/tools/Pages/ToolDetail.aspx?pid=200+Series) as the spindle motor
 * Integrated endstop holders
 
-Work in progress. Pending tasks:  
+Future improvements:  
 --  
-* Improve vacuum cleaner attachment (make it detachable)
 * Endstop integration for Z (integrated probe)
 * Re-implement the [Z carriage](INHERITED), currently inherited from Cyclone V1
 
