@@ -9,7 +9,7 @@
 module Cyclone_Z_carriage() {
 	color(color_stillPart)
 		translate([axes_Zsmooth_separation/2,0,0]) rotate([0,0,-90])
-			import("INHERITED/stl/Cyclone_Zcarriage.stl");
+			import("INHERITED/stl/Cycl_Zcarriage.stl");
 	
 	// Bearings
 	linearBearing_single(model="LM8UU", echoPart=true);
