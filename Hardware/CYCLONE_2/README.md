@@ -3,7 +3,10 @@ Hardware for Cyclone-PCB-Factory
 
 Version 2.0  
 --  
-Adressing all the issues from the original design, and implementing improvements by yOPERO, Martin Zabojnik and others.
+
+Developed in the department of innovation and robotics of bq.
+
+Adressing all the issues from the original design, and implementing improvements by yOPERO, Martin Zabojnik and others. 
 
 * More robust design with tougher parts:
  * Better holders for the linear bearings (vibration made them slide away)
