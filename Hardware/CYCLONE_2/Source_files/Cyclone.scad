@@ -8,11 +8,6 @@
 //   First of all, make sure you are using the latest version of OpenScad (>= 2014.05.31)
 //   Then, it is important to change a default setting. Go to: Edit --> Preferences --> Advanced
 //   And increase "Turn off rendering at 2000 elements" to a larger number like 20000
-//   
-//   If problems persist, you may need to install the MCAD (<http://reprap.org/wiki/MCAD>)
-//   and Obiscad (<https://github.com/Obijuan/obiscad>) libraries into the /libs directory.
-//   With Git, this can be achieved automatically by running the following command:
-//      git submodule update --init
 // -------------------------------------------------------------
 
 // ---------- GENERATING THE STL FILES  ------------------------
@@ -46,7 +41,7 @@ use <libs/obiscad/obiscad/vector.scad>
 use <libs/obiscad/obiscad/attach.scad>
 use <libs/obiscad/obiscad/bcube.scad>
 use <libs/standard_parts.scad>
-use <MCAD/materials.scad>
+use <libs/MCAD/materials.scad>
 
 // Functions for animations. Quick and dirty implementation, will need some cleanup
 animated_parts_number = 10;
@@ -139,11 +134,11 @@ render_bases_outline = false; // Toggle for rendering outline DXFs
 DXF_offset = 0.4; // Needed to adjust the tolerance of the laser cutter
 
 // Include Cyclone parts
-include <Cyclone_X_carriage.scad>
-include <Cyclone_Z_carriage.scad>
-include <Cyclone_X_frames.scad>
-include <Cyclone_Y_carriage.scad>
-include <Cyclone_Y_frames.scad>
+include <Cycl_X_carriage.scad>
+include <Cycl_Z_carriage.scad>
+include <Cycl_X_frames.scad>
+include <Cycl_Y_carriage.scad>
+include <Cycl_Y_frames.scad>
 
 
 // This small module is used to select if an object is rendered as a 2D plane or as a 3D object

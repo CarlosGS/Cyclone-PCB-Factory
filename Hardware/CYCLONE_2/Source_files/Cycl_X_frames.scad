@@ -17,7 +17,7 @@ module Cyclone_X_rightFrame() {
 	scale([-1,1,1]) Cyclone_X_leftFrame(isLeft=false);
 }
 
-include <MCAD/stepper.scad>
+include <libs/MCAD/stepper.scad>
 module Cyclone_X_leftFrame(isLeft=true) {
 	
 	screwSize = 3; // M3, M4, etc (integers only)

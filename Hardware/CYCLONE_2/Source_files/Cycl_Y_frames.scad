@@ -11,7 +11,7 @@ module mirrorOrNot(mirrorPart=false, axes=[-1,1,1]) {
 
 
 
-use <MCAD/bearing.scad>
+use <libs/MCAD/bearing.scad>
 
 
 
