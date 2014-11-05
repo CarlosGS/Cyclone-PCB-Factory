@@ -1,6 +1,0 @@
-[submodule "Hardware/CYCLONE_2/libs/MCAD"]
-	path = Hardware/CYCLONE_2/libs/MCAD
-	url = ssh://git@github.com/openscad/MCAD.git
-[submodule "Hardware/CYCLONE_2/libs/obiscad"]
-	path = Hardware/CYCLONE_2/libs/obiscad
-	url = ssh://git@github.com/Obijuan/obiscad.git
