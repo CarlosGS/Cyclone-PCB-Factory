@@ -24,11 +24,11 @@ Future improvements:
 * Re-implement the [Z carriage](INHERITED), currently inherited from Cyclone V1
 
 
-![ScreenShot](output/cyclone.png)  
+![ScreenShot](Output_files/cyclone.png)  
 
 The new design tries to be more parameterized:
 
-![ScreenShot](output/cyclone.gif)  
+![ScreenShot](Output_files/cyclone.gif)  
 
 Disclaimer  
 --
