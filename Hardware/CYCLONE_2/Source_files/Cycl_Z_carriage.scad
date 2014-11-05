@@ -22,7 +22,7 @@ module Cyclone_Z_carriage() {
 	
 	// Motor
 	translate([axes_Zsmooth_separation/2,30,51]) rotate([180,0,0])
-		stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
+		stepperMotor(screwHeight=0, echoPart=true);
 	
 	// Dremel tool
 	translate([axes_Zsmooth_separation/2,-40,-40]) {
