@@ -160,7 +160,7 @@ module stepperMotor_mount(height, tolerance=0.15, slide_distance=6, sideLen=42.2
 	else
 		translate([0,0,-25]) bcube([sideLen+2*tolerance,sideLen+slide_distance+2*tolerance,50],cr=3,cres=10);
 	}
-	scale([1,1,height]) {
+	linear_extrude(height=height) {
 		stepper_motor_mount(nema_standard=17, slide_distance=slide_distance, mochup=false);
 	}
 }
