@@ -23,6 +23,7 @@ module Cyclone_YsubPart_nutHolder() {
 	rodSize = 8; // M3, M4, etc (integers only)
 	washer_D = 15.8;
 	washer_thickness = 1.6;
+	screwSize = 3; // M3, M4, etc (integers only)
 	
 	difference() {
 		// Main shape
@@ -58,10 +59,10 @@ module Cyclone_YsubPart_nutHolder() {
 		// Holes for the supporting screws
 		translate([0,-screwSeparation/2,workbed_separation_from_Y_threaded_rod+workbed_thickness])
 			rotate([90,0,0])
-				hole_for_screw(size=3,length=workbed_thickness+footThickness,nutDepth=-dimZ,nutAddedLen=dimZ,captiveLen=0);
+				hole_for_screw(size=screwSize,length=workbed_thickness+footThickness,nutDepth=-dimZ,nutAddedLen=dimZ,captiveLen=0);
 		translate([0,+screwSeparation/2,workbed_separation_from_Y_threaded_rod+workbed_thickness])
 			rotate([90,0,0])
-				hole_for_screw(size=3,length=workbed_thickness+footThickness,nutDepth=-dimZ,nutAddedLen=dimZ,captiveLen=0);
+				hole_for_screw(size=screwSize,length=workbed_thickness+footThickness,nutDepth=-dimZ,nutAddedLen=dimZ,captiveLen=0);
 	}
 	translate([0,dimY/2+rod_nut_len/2,0])
 		rotate([0,90,0]) rotate([90,0,0]) nut(size=8, echoPart=true);
@@ -150,14 +151,15 @@ module Cyclone_YsubPart_PCBholder() {
 	PCB_holder_edge_length = 3;
 	PCB_holder_tolerance = 1;
 	
-	screwSeparation = 2.5;
-	
 	holderArmLength = 30;
 	
 	holderL_thickness = 2;
 	holderL_thickness_btm = 1;
 	holderL_width = workbed_size_Y-PCB_dimY-PCB_holder_tolerance*2;
 	holderL_innerWidth = holderL_width/2;
+
+	screwSize = 3; // M3, M4, etc (integers only)
+	screwSeparation = screwSize*0.84;
 	
 	// Draw the PCB (transparent)
 	%translate([0,0,PCBholder_height])
@@ -183,13 +185,13 @@ module Cyclone_YsubPart_PCBholder() {
 		
 		// Holes for the screws
 		for (x = [-1,1], y=[-1,0,1]) {
-			translate([x*(PCB_dimX/2+screwSeparation),y*PCB_dimY/4,PCBholder_height+2.9])
-				rotate([0,0,x*-90]) rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height+3,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
+			translate([x*(PCB_dimX/2+screwSeparation),y*PCB_dimY/4,PCBholder_height+screwSize])
+				rotate([0,0,x*-90]) rotate([90,0,0]) hole_for_screw(size=screwSize,length=PCBholder_height+3,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
 		}
-		translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+2.9])
-			rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height+3,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
-		scale([-1,-1,1]) translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+2.9])
-			rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height+3,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
+		translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+screwSize])
+			rotate([90,0,0]) hole_for_screw(size=screwSize,length=PCBholder_height+3,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
+		scale([-1,-1,1]) translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+screwSize])
+			rotate([90,0,0]) hole_for_screw(size=screwSize,length=PCBholder_height+3,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
 
 	}
 	// Holder top L supports
@@ -212,14 +214,14 @@ module Cyclone_YsubPart_PCBholder() {
 		// Holes for the screws
 		translate([0,0,holderL_thickness+(holderL_thickness+holderL_thickness_btm)/2]) {
 			for (x = [-1,1], y=[-1,0,1]) {
-				translate([x*(PCB_dimX/2+screwSeparation),y*PCB_dimY/4,PCBholder_height+2.9])
-					rotate([0,0,x*-90]) rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height*10,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
+				translate([x*(PCB_dimX/2+screwSeparation),y*PCB_dimY/4,PCBholder_height+screwSize])
+					rotate([0,0,x*-90]) rotate([90,0,0]) hole_for_screw(size=screwSize,length=PCBholder_height*10,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
 			}
 		
-			translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+2.9])
-				rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height*10,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
-			scale([-1,-1,1]) translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+2.9])
-				rotate([90,0,0]) hole_for_screw(size=3,length=PCBholder_height*10,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
+			translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+screwSize])
+				rotate([90,0,0]) hole_for_screw(size=screwSize,length=PCBholder_height*10,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
+			scale([-1,-1,1]) translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+screwSize])
+				rotate([90,0,0]) hole_for_screw(size=screwSize,length=PCBholder_height*10,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
 		}
 	}
 }
