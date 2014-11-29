@@ -137,6 +137,48 @@ COURSE_METRIC_BOLT_MAJOR_THREAD_DIAMETERS =
 	35.940//m36
 ];
 
+//Based on: http://www.roymech.co.uk/Useful_Tables/Screws/cap_screws.htm
+METRIC_BOLT_CAP_DIAMETERS =
+[
+	-1, //0 index is not used but reduces computation
+	-1,
+	-1,
+	5.50,//m3
+	7.00,//m4
+	8.50,//m5
+	10.00,//m6
+	-1,
+	13.00,//m8
+	-1,
+	16.00,//m10
+	-1,
+	18.00,//m12
+	-1,
+	-1,
+	-1,
+	24.00,//m16
+	-1,
+	-1,
+	-1,
+	30.00//m20
+	-1,
+	-1,
+	-1,
+	36.00,//m24
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	45.00,//m30
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	54.00//m36
+];
+
 module nutHole(size, units=MM, tolerance = +0.0001, proj = -1)
 {
 	//takes a metric screw/nut size and looksup nut dimensions
@@ -160,9 +202,8 @@ module nutHole(size, units=MM, tolerance = +0.0001, proj = -1)
 module boltHole(size, units=MM, length, tolerance = +0.0001, proj = -1)
 {
 	radius = COURSE_METRIC_BOLT_MAJOR_THREAD_DIAMETERS[size]/2+tolerance;
-//TODO: proper screw cap values
-	capHeight = METRIC_NUT_THICKNESS[size]+tolerance; //METRIC_BOLT_CAP_HEIGHTS[size]+tolerance;
-	capRadius = METRIC_NUT_AC_WIDTHS[size]/2+tolerance; //METRIC_BOLT_CAP_RADIUS[size]+tolerance;
+	capHeight = size+tolerance;
+	capRadius = METRIC_BOLT_CAP_DIAMETERS[size]/2+tolerance;
 
 	if (proj == -1)
 	{
