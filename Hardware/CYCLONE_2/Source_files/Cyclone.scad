@@ -133,6 +133,22 @@ render_DXF_workbed = false;
 render_bases_outline = false; // Toggle for rendering outline DXFs
 DXF_offset = 0.4; // Needed to adjust the tolerance of the laser cutter
 
+//Screw size - M3, M4, etc (integers only), at the moment only M3 and M4 will work.
+Y_frontFrame_footScrewSize = 3;
+Y_backFrame_footScrewSize = 3;
+Y_rightSmoothRodIdler_footScrewSize = 3;
+X_Frame_footScrewSize = 3;
+
+Y_nutHolder_screwSize = 3;
+Y_singleLinearBearingHolder_screwSize = 3;
+Y_PCBholder_screwSize = 3;
+
+X_carriage_screwSize = 3;
+
+Y_rightSmoothRodIdler_rodScrewSize = 3;
+X_Frame_rodScrewSize = 3; 
+
+
 // Include Cyclone parts
 include <Cycl_X_carriage.scad>
 include <Cycl_Z_carriage.scad>
@@ -287,7 +303,7 @@ render_2D_or_3D() {
 		if(draw_references) %frame();
 		
 		if(render_DXF_workbed)
-			!Cyclone_Y_carriage(); // Render carriage exclusively
+			Cyclone_Y_carriage(); // Render carriage exclusively
 		else Cyclone_Y_carriage();
 	}
 }
