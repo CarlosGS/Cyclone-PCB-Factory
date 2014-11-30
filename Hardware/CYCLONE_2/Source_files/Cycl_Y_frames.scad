@@ -18,7 +18,9 @@ use <libs/MCAD/bearing.scad>
 Ymotor_sideLen = 42.20;
 
 axes_YgearSeparation = 37;
-axes_YgearRatio = 21/21; // Number of tooth (motor/rod)
+Y_rodGearRatio = 21; // Number of tooth
+Y_motorGearRatio = 21; // Number of tooth
+axes_YgearRatio = Y_motorGearRatio/Y_rodGearRatio; // Number of tooth (motor/rod)
 
 
 module Cyclone_Y_frontFrame() {
@@ -203,7 +205,8 @@ module Cyclone_Y_frontFrame() {
 					translate([-axes_YgearSeparation,0,0])
 						rotate([0,motorRotatedOffset,0]) {
 							translate([0,motorWallSeparation-0.01,0])
-							rotate([0,0,90]) rotate([0,-90,0]) stepperMotor_mount(motorWallSeparation, sideLen=Ymotor_sideLen, slideOut=false);
+							rotate([0,0,90]) rotate([0,-90,0]) 
+								stepperMotor_mount(motorWallSeparation, sideLen=Ymotor_sideLen, slideOut=false);
 						}
 				}
 			}
@@ -230,9 +233,9 @@ module Cyclone_Y_frontFrame() {
 						translate([0,motorWallSeparation,0])
 							rotate([90,0,0])
 								stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
-						translate([0,-rod_nut_len-gear_thickness-bearing_width+bearingDepth,0])
-							rotate([-90,0,0]) color(color_movingPart) 
-								motorGear(r=axes_YgearSeparation/(1+axes_YgearRatio), echoPart=true);
+						translate([0,-rod_nut_len-gear_thickness,0])
+							rotate([-90,180,0]) color(color_movingPart) 
+							  cyclone_motor_gear(Gear_N_Teeth=Y_motorGearRatio,gearHeight=gear_thickness,tolerance=0);
 					}
 			}
 			// Draw the Y gear cover
@@ -242,15 +245,15 @@ module Cyclone_Y_frontFrame() {
 		rotate([-90,0,0])
 			radialBearing(echoPart=true);
 	}
-	translate([0,0.01,0])
+	translate([0,-METRIC_NUT_THICKNESS[axes_Ythreaded_rodD]/2,0])
 		rotate([-90,0,0])
 			rotate([0,0,45]) nut(size=axes_Ythreaded_rodD, chamfer=true, echoPart=true);
 	translate([0,rod_nut_len+gear_thickness,0])
 		rotate([-90,0,0])
 			nut(size=axes_Ythreaded_rodD, echoPart=true);
-	translate([0,rod_nut_len,0])
+	translate([0,METRIC_NUT_THICKNESS[axes_Ythreaded_rodD]/4+rod_nut_len,0])
 		rotate([-90,0,0]) color(color_movingPart)
-			rodGear(r=axes_YgearSeparation/(1+1/axes_YgearRatio), echoPart=true);
+			cyclone_rod_gear(Gear_N_Teeth=Y_rodGearRatio,gearHeight=gear_thickness,nutSize=8,tolerance=0);
 }
 
 
