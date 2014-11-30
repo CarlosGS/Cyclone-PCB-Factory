@@ -20,7 +20,7 @@ module Cyclone_X_carriage() {
 	
 	ZrodHolderLength = 30;
 	
-	screwSize = 3; // M3, M4, etc (integers only)
+	screwSize = X_carriage_screwSize;
 	screwLength = linearBearingDiameter+sideExtensions;
 	screwAditionalLength = 2;
 	
