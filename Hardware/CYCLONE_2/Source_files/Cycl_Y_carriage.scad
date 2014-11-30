@@ -23,7 +23,7 @@ module Cyclone_YsubPart_nutHolder() {
 	rodSize = 8; // M3, M4, etc (integers only)
 	washer_D = 15.8;
 	washer_thickness = 1.6;
-	screwSize = 3; // M3, M4, etc (integers only)
+	screwSize = Y_nutHolder_screwSize;
 	
 	difference() {
 		// Main shape
@@ -87,7 +87,7 @@ module Cyclone_YsubPart_singleLinearBearingHolder(onlyScrews=false) {
 	
 	holderExtension = linearBearingDiameter/3;
 	
-	screwSize = 3; // M3, M4, etc (integers only)
+	screwSize = Y_singleLinearBearingHolder_screwSize;
 	
 	footSeparation = screwSize*2;
 	footThickness = 7;
@@ -158,7 +158,7 @@ module Cyclone_YsubPart_PCBholder() {
 	holderL_width = workbed_size_Y-PCB_dimY-PCB_holder_tolerance*2;
 	holderL_innerWidth = holderL_width/2;
 
-	screwSize = 3; // M3, M4, etc (integers only)
+	screwSize = Y_PCBholder_screwSize;
 	screwSeparation = screwSize*0.84;
 	
 	// Draw the PCB (transparent)
