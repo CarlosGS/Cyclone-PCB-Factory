@@ -8,8 +8,9 @@
 Xmotor_sideLen = 42.20;
 
 axes_XgearSeparation = 37;
-axes_XgearRatio = 21/21; // Number of tooth (motor/rod)
-axes_XgearThickness = 10;
+X_rodGearRatio = 21; // Number of tooth
+X_motorGearRatio = 21; // Number of tooth
+axes_XgearRatio = X_motorGearRatio/X_rodGearRatio; // Number of tooth (motor/rod)
 
 X_frames_additional_thickness = 5;
 
@@ -37,6 +38,10 @@ module Cyclone_X_leftFrame(isLeft=true) {
 	footSeparation = footScrewSize*3;
 	footThickness = 10;
 	footWidth = dimX+2*footSeparation;
+	
+  rod_nut_len = 0.8*axes_Xthreaded_rodD;
+	gear_thickness = 10;
+	
 	
 	bearingDepth = 3;
 	
@@ -290,15 +295,25 @@ module Cyclone_X_leftFrame(isLeft=true) {
 			translate([-bearingDepth,0,0]) rotate([0,90,0])
 				radialBearing(echoPart=true);
 			if(isLeft) {
-				translate([gearWallSeparation,0,0]) rotate([0,90,0]) color(color_movingPart)
-					rodGear(r=axes_XgearSeparation/(1+1/axes_XgearRatio), h=axes_XgearThickness, echoPart=true);
+				translate([gear_thickness*2+axes_Xthreaded_rodD-7,0,0])
+					rotate([0,-90,0])
+						rotate([0,0,45]) nut(size=axes_Xthreaded_rodD, chamfer=true, echoPart=true);
+				translate([axes_Xthreaded_rodD,0,0]){
+					rotate([0,-90,0])
+						nut(size=axes_Xthreaded_rodD, echoPart=true);
+					translate([axes_Xthreaded_rodD-7,0,0])
+						rotate([0,-90,0]) color(color_movingPart)
+						cyclone_rod_gear(Gear_N_Teeth=X_rodGearRatio,gearHeight=gear_thickness,nutSize=8,tolerance=0);
+				}
 				// Translate to motor position
-			        rotate([motorRotatedOffset,0,0]) {
+			  rotate([motorRotatedOffset,0,0]) {
 					translate([0,axes_XgearSeparation,0])
 						rotate([-motorRotatedOffset,0,0]) {
-							translate([-motorWallSeparation,0,0]) rotate([0,90,0]) stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
-							translate([gearWallSeparation,0,0]) rotate([0,90,0])
-								color(color_movingPart) motorGear(r=axes_XgearSeparation/(1+axes_XgearRatio), h=axes_XgearThickness, echoPart=true);
+							translate([-motorWallSeparation,0,0]) rotate([0,90,0])
+							  stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
+							translate([axes_Xthreaded_rodD+1.5,0,0])
+							  rotate([0,-90,0]) color(color_movingPart)
+							    cyclone_motor_gear(Gear_N_Teeth=X_motorGearRatio,gearHeight=gear_thickness,tolerance=0);
 						}
 				}
 				translate([0.1,0,0])
