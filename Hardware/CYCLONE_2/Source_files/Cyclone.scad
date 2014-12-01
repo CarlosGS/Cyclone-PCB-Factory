@@ -262,18 +262,18 @@ render_2D_or_3D() {
 	
 	
 	
-	// TRANSLATE REFERENCE POSITION to the FRONT RIGHT Y rod idler, Y smooth rod end
+	// TRANSLATE REFERENCE POSITION to the FRONT LEFT Y rod idler, Y smooth rod end
 	translate([-axes_Ysmooth_separation/2,-axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
 		if(draw_references) %frame();
 	
-		Cyclone_Y_rightSmoothRodIdler();
+		Cyclone_Y_leftSmoothRodIdler();
 	}
 	
-	// TRANSLATE REFERENCE POSITION to the FRONT LEFT Y rod idler, Y smooth rod end
+	// TRANSLATE REFERENCE POSITION to the FRONT RIGHT Y rod idler, Y smooth rod end
 	translate([axes_Ysmooth_separation/2,-axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
 		if(draw_references) %frame();
 	
-		Cyclone_Y_leftSmoothRodIdler();
+		Cyclone_Y_rightSmoothRodIdler();
 	}
 
 
