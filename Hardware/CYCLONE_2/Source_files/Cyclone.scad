@@ -189,26 +189,24 @@ render_2D_or_3D() {
 	}
 
 
-
-	// TRANSLATE REFERENCE POSITION to the RIGHT frame, Y smooth rod end
+	// TRANSLATE REFERENCE POSITION to the LEFT frame, Y smooth rod end
 	translate([-axes_Ysmooth_separation/2,axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
-		if(draw_references) %frame();
+	if(draw_references) %frame();
 
-		// Draw right Y smooth rod
-		rotate([0,0,180]) standard_rod(diam=axes_Ysmooth_rodD, length=axes_Ysmooth_rodLen, threaded=false, echoPart=true);
-	
-		Cyclone_X_rightFrame();
-	
-	
-		// TRANSLATE REFERENCE POSITION to the LEFT frame, Y smooth rod end
-		translate([axes_Ysmooth_separation,0,0]) {
-			if(draw_references) %frame();
-		
-			// Draw right Y smooth rod
+			// Draw left Y smooth rod
 			rotate([0,0,180]) standard_rod(diam=axes_Ysmooth_rodD, length=axes_Ysmooth_rodLen, threaded=false, echoPart=true);
-		
-			Cyclone_X_leftFrame();
-		}
+				
+				Cyclone_X_leftFrame();
+
+			// TRANSLATE REFERENCE POSITION to the RIGHT frame, Y smooth rod end
+			translate([axes_Ysmooth_separation,0,0]) {
+					if(draw_references) %frame();
+
+					// Draw right Y smooth rod
+					rotate([0,0,180]) standard_rod(diam=axes_Ysmooth_rodD, length=axes_Ysmooth_rodLen, threaded=false, echoPart=true);
+						
+						Cyclone_X_rightFrame();
+			}
 	
 	
 		// TRANSLATE REFERENCE POSITION to the right frame, X lower smooth rod end
