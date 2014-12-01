@@ -14,12 +14,12 @@ axes_XgearRatio = X_motorGearRatio/X_rodGearRatio; // Number of tooth (motor/rod
 
 X_frames_additional_thickness = 5;
 
-module Cyclone_X_rightFrame() {
-	scale([-1,1,1]) Cyclone_X_leftFrame(isLeft=false);
+module Cyclone_X_leftFrame() {
+	scale([-1,1,1]) Cyclone_X_rightFrame(isLeft=true);
 }
 
 include <libs/MCAD/stepper.scad>
-module Cyclone_X_leftFrame(isLeft=true) {
+module Cyclone_X_rightFrame(isLeft=false) {
 	
 	footScrewSize = X_Frame_footScrewSize;
 	rodScrewSize = X_Frame_rodScrewSize;
@@ -196,7 +196,7 @@ module Cyclone_X_leftFrame(isLeft=true) {
 							SingleCrocodileClipHolder();
 					}
 				}
-			if(!isLeft) {
+			if(isLeft) {
 				// Wire slot
 				translate([wireSlotDepth-dimX, dimY-frameFrontalThickness-wireSlotSeparation-wireSlotThicknessSlim/2, dimZ/2+0.01]) {
 					translate([-wireSlotDepth,0,0])
@@ -227,7 +227,7 @@ module Cyclone_X_leftFrame(isLeft=true) {
 				translate([-0.01,axes_Xsmooth_separation,0]) {
 					rotate([0,-90,0])
 					 	color(color_stillPart) cylinder(r=axes_Xsmooth_separation,h=partThickness);
-					if(!isLeft) 
+					if(isLeft) 
 						Cyclone_X_endstopHolder(holes=false);
 				}
 			}
@@ -249,14 +249,14 @@ module Cyclone_X_leftFrame(isLeft=true) {
 				rotate([0,-90,0]) bearingHole(depth=bearingDepth, thickness=partThickness);
 				
 				// Translate to motor position
-				if(isLeft)
+				if(!isLeft)
 					translate([-motorWallSeparation,0,0])
 					rotate([motorRotatedOffset,0,0])
 						translate([0,axes_XgearSeparation,0])
 							rotate([-motorRotatedOffset,0,0])
 								rotate([0,90,0]) stepperMotor_mount(motorWallSeparation, sideLen=Xmotor_sideLen, slideOut=true);
 			// Endstop holder
-			if(!isLeft) 
+			if(isLeft) 
 						Cyclone_X_endstopHolder(holes=true);
 			
 			translate([0,0,axes_Xsmooth_separation]) {
@@ -294,7 +294,7 @@ module Cyclone_X_leftFrame(isLeft=true) {
 			if(draw_references) color("green") %frame(20);
 			translate([-bearingDepth,0,0]) rotate([0,90,0])
 				radialBearing(echoPart=true);
-			if(isLeft) {
+			if(!isLeft) {
 				translate([gear_thickness*2+axes_Xthreaded_rodD-7,0,0])
 					rotate([0,-90,0])
 						rotate([0,0,45]) nut(size=axes_Xthreaded_rodD, chamfer=true, echoPart=true);
