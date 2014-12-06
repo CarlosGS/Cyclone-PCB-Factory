@@ -243,7 +243,7 @@ render_2D_or_3D() {
 						rotate([90,0,0]) standard_rod(diam=axes_Zthreaded_rodD, length=axes_Zthreaded_rodLen, threaded=true, echoPart=true);
 					
 					// TRANSLATE REFERENCE POSITION to the Z axis reference
-						translate([0,0,axes_Zcarriage_pos]) {
+						translate([axes_Zsmooth_separation/2,0,axes_Zcarriage_pos]) {
 							if(draw_references) %frame();
 						
 							Cyclone_Z_carriage();
