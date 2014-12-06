@@ -63,11 +63,13 @@ module herringbone_gear( teeth=12, circles=0, shaft=5 ) {
 				circles=circles,
 				twist=twist/teeth
 			);
-			mirror([0,0,1]) translate([0,0,-height/2-0.01]) {
-				difference() {
-					cylinder(r=diam/2, h=truncation_height);
-					translate([0,0,-0.01])
-						cylinder(r1=diam/2-truncation_length, r2=diam/2+1, h=truncation_height+0.02);
+			if (teeth>=10) {
+				mirror([0,0,1]) translate([0,0,-height/2-0.01]) {
+					difference() {
+						cylinder(r=diam/2, h=truncation_height);
+						translate([0,0,-0.01])
+							cylinder(r1=diam/2-truncation_length, r2=diam/2+1, h=truncation_height+0.02);
+					}
 				}
 			}
 		}
