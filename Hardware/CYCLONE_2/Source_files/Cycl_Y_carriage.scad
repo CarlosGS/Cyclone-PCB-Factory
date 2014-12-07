@@ -9,8 +9,6 @@ include <libs/MCAD/nuts_and_bolts.scad>
 
 workbed_separation_from_Y_threaded_rod = axes_Y_smoothThreaded_verticalSeparation+workbed_separation_from_Y_smooth_rod+axes_Ysmooth_rodD/2;
 
-PCBholder_height = 10;
-
 module Cyclone_YsubPart_nutHolder() {
 	footThickness = 10;
 	screwSeparation = 10;
@@ -19,10 +17,9 @@ module Cyclone_YsubPart_nutHolder() {
 	dimY = screwSeparation+22;
 	dimZ = workbed_separation_from_Y_threaded_rod;
 	holderExtension = 10;
-	rodTolerance = 0.5;
-	rodSize = 8; // M3, M4, etc (integers only)
-	washer_D = 15.8;
-	washer_thickness = 1.6;
+	rodNutSize = Y_threaded_rodNutSize;
+	washer_D = Y_backlash_washer_D;
+	washer_thickness = Y_backlash_washer_thickness;
 	screwSize = Y_nutHolder_screwSize;
 	
 	difference() {
@@ -31,23 +28,23 @@ module Cyclone_YsubPart_nutHolder() {
 			color(color_movingPart) bcube([dimX,dimY,dimZ+holderExtension],cr=2,cres=10);
 		// Hole for the rod
 		hull() {
-			standard_rod(diam=axes_Ythreaded_rodD+rodTolerance, length=dimY*4, threaded=true, renderPart=true, center=true);
+			standard_rod(diam=axes_Ythreaded_rodD+Y_threaded_rod_Tolerance, length=dimY*4, threaded=true, renderPart=true, center=true);
 			translate([0,0,-holderExtension*2])
-				standard_rod(diam=axes_Ythreaded_rodD+rodTolerance, length=dimY*4, threaded=true, renderPart=true, center=true);
+				standard_rod(diam=axes_Ythreaded_rodD+Y_threaded_rod_Tolerance, length=dimY*4, threaded=true, renderPart=true, center=true);
 		}
 		// Hole for the main nut
 		translate([0,dimY/2+0.01+rod_nut_len/2,0])
 			hull() {
-				rotate([0,90,0]) hole_for_nut(size=rodSize,nutAddedLen=0,captiveLen=0,tolerance=0.1);
+				rotate([0,90,0]) hole_for_nut(size=rodNutSize,nutAddedLen=0,captiveLen=0,tolerance=0.1);
 				translate([0,0,-holderExtension*2])
-					rotate([0,90,0]) hole_for_nut(size=rodSize,nutAddedLen=0,captiveLen=0,tolerance=0.1);
+					rotate([0,90,0]) hole_for_nut(size=rodNutSize,nutAddedLen=0,captiveLen=0,tolerance=0.1);
 			}
 		translate([0,dimY/2+0.01-rod_nut_len/2-3,0]) {
 			// Hole for the sliding nut
 			hull() {
-				rotate([0,90,0]) hole_for_nut(size=rodSize,nutAddedLen=dimY,captiveLen=0,tolerance=0.3);
+				rotate([0,90,0]) hole_for_nut(size=rodNutSize,nutAddedLen=dimY,captiveLen=0,tolerance=0.3);
 				translate([0,0,-holderExtension*2])
-					rotate([0,90,0]) hole_for_nut(size=rodSize,nutAddedLen=dimY,captiveLen=0,tolerance=0.3);
+					rotate([0,90,0]) hole_for_nut(size=rodNutSize,nutAddedLen=dimY,captiveLen=0,tolerance=0.3);
 			}
 			// Hole for the washer
 			hull() {
@@ -75,9 +72,8 @@ module Cyclone_YsubPart_nutHolder() {
 
 use <libs/linear_bearing.scad>
 module Cyclone_YsubPart_singleLinearBearingHolder(onlyScrews=false) {
-	linearBearingModel = "LM8UU";
-	linearBearingLength = linearBearing_L(linearBearingModel);
-	linearBearingDiameter = linearBearing_D(linearBearingModel);
+	linearBearingLength = linearBearing_L(Y_linearBearingModel);
+	linearBearingDiameter = linearBearing_D(Y_linearBearingModel);
 	
 	plasticHolderLength = 3;
 	
@@ -94,7 +90,7 @@ module Cyclone_YsubPart_singleLinearBearingHolder(onlyScrews=false) {
 	
 	workbed_screws_aditional_length = PCBholder_height;
 	
-	linearBearing_pressureFitTolerance = 0.5;
+	//Y_linearBearing_pressureFitTolerance = 0.5;
 	
 	if(onlyScrews) {
 		// Hole for the screw and nut
@@ -117,15 +113,15 @@ module Cyclone_YsubPart_singleLinearBearingHolder(onlyScrews=false) {
 					bcube([dimX,dimY,holderExtension], cr=3, cres=0);
 			}
 			// Hole for linear bearing
-			linearBearingHole(model=linearBearingModel, lateralExtension=holderExtension, lengthExtension=2*plasticHolderLength, holderLength=plasticHolderLength/2);
-			//linearBearingHole(model=linearBearingModel);
+			linearBearingHole(model=Y_linearBearingModel, lateralExtension=holderExtension, lengthExtension=2*plasticHolderLength, holderLength=plasticHolderLength/2);
+			//linearBearingHole(model=Y_linearBearingModel);
 			// Hole for the screw and nut
 			translate([dimX/2+footSeparation,0,dimZ+workbed_thickness+workbed_screws_aditional_length])
 				rotate([90,0,0]) hole_for_screw(size=screwSize,length=workbed_screws_aditional_length+footThickness+workbed_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0);
 		}
 
 		translate([0,linearBearingLength/2,0])
-			rotate([90,0,0]) linearBearing_single(model=linearBearingModel, echoPart=true);
+			rotate([90,0,0]) linearBearing_single(model=Y_linearBearingModel, echoPart=true);
 	}
 }
 
@@ -144,13 +140,6 @@ module Cyclone_YsubPart_linearBearingHolders(onlyScrews=false) {
 
 
 module Cyclone_YsubPart_PCBholder() {
-	PCB_dimX = 160;
-	PCB_dimY = 100;
-	PCB_dimZ = 1.6;
-	
-	PCB_holder_edge_length = 3;
-	PCB_holder_tolerance = 1;
-	
 	holderArmLength = 30;
 	
 	holderL_thickness = 2;

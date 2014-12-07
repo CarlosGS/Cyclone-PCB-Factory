@@ -74,7 +74,7 @@ module beveledBase(size=[100,200,10], radius=10, res=15, renderPart=false, echoP
 
 include <MCAD/nuts_and_bolts.scad>
 
-module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0.02,rot=0,invert=false, echoPart=false) {
+module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0.4,rot=0,invert=false, echoPart=false) {
 	height = METRIC_NUT_THICKNESS[size]+tolerance;
 	rotate([0,0,invert ? 180 : 0])
 	translate([0,invert ? length/2 : -length/2,0]) {
@@ -123,7 +123,7 @@ module nut(size=8, chamfer=false, renderPart=false, echoPart=false) {
 }
 
 
-module hole_for_nut(size=3,nutAddedLen=0,captiveLen=0,rot=0,tolerance=0.035) {
+module hole_for_nut(size=3,nutAddedLen=0,captiveLen=0,rot=0,tolerance=0.35) {
 	height = METRIC_NUT_THICKNESS[size]+tolerance;
 	scale([1,(height+nutAddedLen)/height,1])
 		rotate([90,0,0])

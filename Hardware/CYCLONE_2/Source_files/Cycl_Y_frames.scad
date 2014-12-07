@@ -14,12 +14,8 @@ module mirrorOrNot(mirrorPart=false, axes=[-1,1,1]) {
 use <libs/MCAD/bearing.scad>
 
 
-
-Ymotor_sideLen = 42.20;
-
-axes_YgearSeparation = 37;
-Y_rodGearRatio = 21; // Number of tooth
-Y_motorGearRatio = 21; // Number of tooth
+Y_motorModel = Nema17;
+Ymotor_sideLen = lookup(NemaSideSize, Y_motorModel); //42.20;
 axes_YgearRatio = Y_motorGearRatio/Y_rodGearRatio; // Number of tooth (motor/rod)
 
 
@@ -33,9 +29,9 @@ module Cyclone_Y_frontFrame() {
 	motor_YgearSeparation_projected = axes_YgearSeparation*cos(-motorRotatedOffset);
 	
 	rod_nut_len = 0.8*axes_Ythreaded_rodD;
-	gear_thickness = 5;
-	bearing_width = bearingWidth(608);
-	bearing_diam = bearingOuterDiameter(608);
+	gear_thickness = Y_gear_thickness;
+	bearing_width = bearingWidth(Y_threaded_rodBearingModel);
+	bearing_diam = bearingOuterDiameter(Y_threaded_rodBearingModel);
 	bearingDepth = 3;
 	partThickness = 5+screwSize*2;
 	
@@ -58,7 +54,7 @@ module Cyclone_Y_frontFrame() {
 		coverHeight = 16;
 		coverExtraHeight = 5;
 		coverExtraRadius = -7;
-		nema_screw_separation = lookup(NemaDistanceBetweenMountingHoles, Nema17);
+		nema_screw_separation = lookup(NemaDistanceBetweenMountingHoles, Y_motorModel);
 		
 		truncationAngle = 10;
 		
@@ -267,8 +263,8 @@ module Cyclone_Y_backFrame() {
 	screwSize = Y_backFrame_footScrewSize;
 	
 	rod_nut_len = 0.8*axes_Ythreaded_rodD;
-	bearing_width = bearingWidth(608);
-	bearing_diam = bearingOuterDiameter(608);
+	bearing_width = bearingWidth(Y_threaded_rodBearingModel);
+	bearing_diam = bearingOuterDiameter(Y_threaded_rodBearingModel);
 	bearingDepth = 3;
 	partThickness = 5+screwSize*2;
 	

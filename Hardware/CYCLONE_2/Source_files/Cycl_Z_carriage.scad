@@ -19,33 +19,12 @@ use <libs/obiscad/obiscad/bcube.scad>
 use <libs/standard_parts.scad>
 use <libs/MCAD/materials.scad>
 
-Z_linearBearingModel = "LM8UU";
-
-spindle_motor_diam_top = 51.3;
-spindle_motor_diam_top_smaller = 47.5;
-spindle_motor_diam = 47.5;
-spindle_motor_sidelen = 32;
-spindle_holder_thickness = 8;
-spindle_motor_length = 90;
-spindle_holder_screwSize = 3; //Screw size - M3, M4, etc (integers only)
-
-bottom_thickness = 4;
-base_width = 20;
-base_length = 25;
-base_screw_diameter = 5;
-
-motor_width = 43;
-motor_length = 49; // not used
-motor_screw_distance = 31.3;
-motor_center_diameter = 23;
-
-motor_adjust_margin = 5;
+Z_motorModel = Nema17;
+motor_width = lookup(NemaSideSize, Z_motorModel); //43;
 
 motor_screw_head_diameter = 8;
 
-Z_bearing_width = bearingWidth(608);
-
-M8_rod_diameter = 8.2;
+Z_bearing_width = bearingWidth(Z_threaded_rodBearingModel);
 
 axis_distance = 21;
 
@@ -53,21 +32,16 @@ wall_thickness = 9;
 wall_height = motor_width;
 wall_width = 54;
 
-Z_rodGearRatio = 15; // Number of tooth
-Z_motorGearRatio = 8; // Number of tooth
 axes_ZgearRatio = Z_motorGearRatio/Z_rodGearRatio; // Number of tooth (motor/rod)
 
-Z_smooth_rods_sep = 40;
-
-textHscale = 0.8;
-textThickness = 1.5;
+Z_smooth_rods_sep = axes_Xsmooth_separation;
 
 module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, exploded=false) {
   // Settings
 	linearBearingDiameter = linearBearing_D(Z_linearBearingModel);
   linearBearingLength = linearBearing_L(Z_linearBearingModel);
   spindle_holder_distance = linearBearingLength*2+3;
-	gear_thickness = 10;
+	gear_thickness = Z_gear_thickness;
 	
 	ZthreadedOffset = -3.5;
 	axes_Xsmooth_separation = 16+ZthreadedOffset;
@@ -86,9 +60,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 	}
 
 	// Derived from Spindle mount for ShapeOko by Misan (http://www.thingiverse.com/thing:26740)
-	module spindle_holder_holes(length,spindiam, basediam,top_part) {
-		translate([20,8,-0.05]) cylinder(r=basediam/2,h=length+2);
-		translate([-20,8,-0.05]) cylinder(r=basediam/2,h=length+2);
+	module spindle_holder_holes(length,spindiam,top_part) {
 		translate([0,spindle_front_offset,0])
 		if (top_part){
 			translate([0,38,0]) rotate([0,0,0]) {
@@ -118,7 +90,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 	}
 
 	module motorHolesZ() {
-		nema_screw_separation = lookup(NemaDistanceBetweenMountingHoles, Nema17);
+		nema_screw_separation = lookup(NemaDistanceBetweenMountingHoles, Z_motorModel);
 
 		// Screws for holding the motor
 		translate([0,0,-wall_thickness/1.9])
@@ -132,9 +104,9 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 		for(i=[-1,1]) for(j=[-1,1])
 		translate([i*nema_screw_separation/2,j*nema_screw_separation/2,2.5-wall_thickness/2+3]) {
 			hull() {
-				translate([0,motor_adjust_margin/2,0])
+				translate([0,Z_motor_adjust_margin/2,0])
 					cylinder(r=motor_screw_head_diameter/2,h=10*wall_thickness,center=false);
-				translate([0,-motor_adjust_margin/2,0])
+				translate([0,-Z_motor_adjust_margin/2,0])
 					cylinder(r=motor_screw_head_diameter/2,h=10*wall_thickness,center=false);
 			}
 		}
@@ -142,6 +114,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 
 
 	module motor_stand_holes_Z() {
+	  partThickness = wall_thickness;
 		// Position relative to motor shaft
 		translate([motor_width/2,motor_width/2,wall_thickness/2]) {
 			motorHolesZ();
@@ -151,9 +124,9 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 				bearingHole(depth=Z_bearing_width, thickness=partThickness);
 
 				hull() {
-						cylinder(r=(M8_rod_diameter*2)/2,h=10*wall_thickness,center=true);
+						cylinder(r=(axes_Zsmooth_rodD*2)/2,h=10*wall_thickness,center=true);
 					translate([0,-axis_distance,0])
-						cylinder(r=(M8_rod_diameter*2)/2,h=10*wall_thickness,center=true);
+						cylinder(r=(axes_Zsmooth_rodD*2)/2,h=10*wall_thickness,center=true);
 				}
 			}
 		}
@@ -162,7 +135,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 
 	module linearBearingHolderZ(h=10) {
 		linearBearingDiameter = linearBearing_D(Z_linearBearingModel);
-		translate([0,0,1.5]) cylinder(r=linearBearingDiameter/2,h=h);
+		translate([0,0,1.5]) cylinder(r=linearBearingDiameter/2+Z_linearBearingHole_tolerance,h=h);
 		cylinder(r=linearBearingDiameter/2.5,h=10*h,center=true);
 	}
 
@@ -206,7 +179,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 				// Write text in the front
 				color([0.5,0.5,0.5])
 						rotate([0,0,180]) scale([-1,1,-textHscale])
-							writecylinder("CYCLONE",[0,0,-wall_thickness/(2*textHscale)],spindle_motor_diam_top/2+spindle_holder_thickness,0,font="orbitron.dxf",space=1.1,h=wall_thickness,t=textThickness,center=true,ccw=true);
+							writecylinder(topText,[0,0,-wall_thickness/(2*textHscale)],spindle_motor_diam_top/2+spindle_holder_thickness,0,font="orbitron.dxf",space=1.1,h=wall_thickness,t=textThickness,center=true,ccw=true);
 						}
 					}
 			}
@@ -218,7 +191,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 						translate([spindle_motor_diam/2,-7-0.5,0]) cube([22,20,wall_thickness]);
 						color([0.2,0.2,0.5])
 						scale([1,1,textHscale])
-							writecylinder("PCB Factory",[0,0,wall_thickness/(2*textHscale)+1],spindle_motor_diam/2+spindle_holder_thickness,0,font="orbitron.dxf",space=1.1,h=wall_thickness-2,t=textThickness,center=true,ccw=true);
+							writecylinder(bottomText,[0,0,wall_thickness/(2*textHscale)+1],spindle_motor_diam/2+spindle_holder_thickness,0,font="orbitron.dxf",space=1.1,h=wall_thickness-2,t=textThickness,center=true,ccw=true);
 						}
 					}
 		}
@@ -232,7 +205,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 					Z_solid_body(top_part);
 					if(top_part) motor_stand_holes_Z();
 					translate([wall_height/2,wall_width-4,0])
-						spindle_holder_holes(wall_thickness,spindle_motor_diam,base_screw_diameter,top_part);
+						spindle_holder_holes(wall_thickness,spindle_motor_diam,top_part);
 					translate([wall_height/2-Z_smooth_rods_sep/2,Z_threaded_pos,0])
 						linearBearingHolderZ(wall_thickness);
 					translate([wall_height/2+Z_smooth_rods_sep/2,Z_threaded_pos,0])
@@ -243,7 +216,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 			// Hole for the threaded rod
 			if(!top_part) {
 				translate([-axes_Xsmooth_separation,0,0]) 
-					cylinder(r=6+M8_rod_diameter,h=wall_thickness*10,center=true);
+					cylinder(r=6+axes_Zsmooth_rodD,h=wall_thickness*10,center=true);
 			}
 
 			// Truncation in the base for avoiding collision with the X axis
@@ -301,7 +274,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 			color([0.9,0.9,0.9]) %cylinder(r1=0.5/2, r2=3/2, h=20);
 	}
 
-  if(z_thread_rod_length)
-    translate([-axes_Xsmooth_separation,0,-z_thread_rod_length/2+spindle_holder_distance]) rotate([90,0,0])
-      %rod(len=z_thread_rod_length, threaded=true);
+  //if(z_thread_rod_length)
+  //  translate([-axes_Xsmooth_separation,0,-z_thread_rod_length/2+spindle_holder_distance]) rotate([90,0,0])
+  //    %rod(len=z_thread_rod_length, threaded=true);
 }

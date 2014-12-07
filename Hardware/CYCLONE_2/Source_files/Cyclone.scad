@@ -49,105 +49,14 @@ animated_timePerPart = 1/animated_parts_number;
 function animationBump(tbegin,tend,t=$t%1) = ((t >= tbegin) && (t <= tend)) ? (1+sin((t-tbegin)*360/(tend-tbegin)-90)) : 0;
 function animatePart(n,dist=30,overlap=animated_timePerPart*0.25) = dist*animationBump((n-1)*animated_timePerPart-overlap,n*animated_timePerPart+overlap);
 
-
-// Parameters for the bottom base
-base_size_X			= 304.8 + animatePart(1,overlap=0);
-base_size_Y			= 261.62 + animatePart(2);
-base_thickness		= 8;
-base_corner_radius	= 20;
-base_corner_res		= 0;
-foot_offset = 25;
-
-
-// Parameters for the axes sizes
-axes_Xsmooth_rodLen	= 250 + animatePart(1,overlap=0);
-axes_Ysmooth_rodLen	= 210 + animatePart(2);
-axes_Zsmooth_rodLen	= 110 + animatePart(3);
-
-axes_Xthreaded_rodLen	= axes_Xsmooth_rodLen+50;
-axes_Ythreaded_rodLen	= axes_Ysmooth_rodLen-10;
-axes_Zthreaded_rodLen	= 90;
-
-axes_Xsmooth_rodD	= 8.5 + animatePart(4,dist=5);
-axes_Ysmooth_rodD	= 8.5 + animatePart(4,dist=5);
-axes_Zsmooth_rodD	= 8.2 + animatePart(4,dist=5);
-
-axes_Xthreaded_rodD	= 8.5 + animatePart(4,dist=5);
-axes_Ythreaded_rodD	= 8.5 + animatePart(4,dist=5);
-axes_Zthreaded_rodD	= 8.5 + animatePart(4,dist=5);
-
-// Parameters for the axes reference position
-// Note: The reference coordinates are centered like this:
-// Y axis reference is the Y smooth rod end, BACK of RIGHT FRAME
-// X axis reference is the frontal X smooth rod end, RIGHT FRAME
-// Z axis reference is the Z threaded rod, at the height of the Z nut, and relative to the X reference
-axes_Yreference_height	= 40 + animatePart(5);
-axes_Xreference_height	= 74 + animatePart(6); // relative to Y reference
-axes_Zreference_height	= -3 + animatePart(7) + animatePart(9); // relative to X reference
-
-axes_Xreference_posY	= -81-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
-axes_Zreference_posY	= 14; // relative to X reference. Positions Z rods between the Y rods
-
-axes_Y_threaded_height = 30 + animatePart(5);
-
-axes_Ysmooth_separation	= 165 + animatePart(1,overlap=0);
-axes_Xsmooth_separation = 40 + animatePart(9);
-axes_Zsmooth_separation = 40 + animatePart(10,overlap=0);
-
-
-// Carriage positions (for rendering)
-axes_Xcarriage_pos = axes_Xsmooth_rodLen/2+sin($t*360)*axes_Xsmooth_rodLen/3;
-axes_Ycarriage_pos = axes_Ysmooth_rodLen/2+sin($t*360)*axes_Ysmooth_rodLen/4.1;
-axes_Zcarriage_pos = axes_Zsmooth_rodLen/2+sin($t*360)*axes_Zsmooth_rodLen/8;
-
-
-
-
-// Parameters for the workbed
-Ycarriage_linearBearingSeparation = 50;
-workbed_size_X			= axes_Ysmooth_separation+50;
-workbed_size_Y			= Ycarriage_linearBearingSeparation+70;
-workbed_thickness		= 8+3;
-workbed_separation_from_Y_smooth_rod = 10;
-
-
-// Part colors
-blueColor = [0.3,0.6,0.9];
-redColor = [0.8,0.3,0.3];
-yellowColor = [0.9,0.9,0.1];
-blackColor = [0.2,0.2,0.2];
-color_movingPart = yellowColor+[0.1,0.1,0.1];
-color_stillPart = yellowColor;
-
+// Include config file (size and render options)
+include <configs/Default_config.h>
 
 // Calculations
 axes_Xreference_posX	= (axes_Ysmooth_separation-axes_Xsmooth_rodLen)/2; // relative to Y reference
 axes_Y_smoothThreaded_verticalSeparation = axes_Yreference_height-axes_Y_threaded_height;
 
 axes_ZthreadedReference_posY = axes_Xsmooth_separation-axes_Zreference_posY-axes_Zreference_posY; // Relative to X carriage reference
-
-// Activate/Deactivate rendering auxiliary references (LCS axis, etc)
-draw_references = false;
-render_DXF_base = false;
-render_DXF_workbed = false;
-render_bases_outline = false; // Toggle for rendering outline DXFs
-DXF_offset = 0.4; // Needed to adjust the tolerance of the laser cutter
-
-//Screw size - M3, M4, etc (integers only), at the moment only M3 and M4 will work.
-Y_frontFrame_footScrewSize = 3;
-Y_backFrame_footScrewSize = 3;
-Y_rightSmoothRodIdler_footScrewSize = 3;
-X_Frame_footScrewSize = 3;
-
-Y_nutHolder_screwSize = 3;
-Y_singleLinearBearingHolder_screwSize = 3;
-Y_PCBholder_screwSize = 3;
-
-X_carriage_screwSize = 3;
-
-Y_rightSmoothRodIdler_rodScrewSize = 3;
-X_Frame_rodScrewSize = 3; 
-
 
 // Include Cyclone parts
 include <Cycl_X_carriage.scad>
@@ -259,9 +168,6 @@ render_2D_or_3D() {
 	translate([axes_Xsmooth_rodLen/2,0,0])
 		control_board(plasticColor=color_stillPart);
 	
-	
-	
-	
 	// TRANSLATE REFERENCE POSITION to the FRONT LEFT Y rod idler, Y smooth rod end
 	translate([-axes_Ysmooth_separation/2,-axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
 		if(draw_references) %frame();
@@ -301,7 +207,7 @@ render_2D_or_3D() {
 		if(draw_references) %frame();
 		
 		if(render_DXF_workbed)
-			Cyclone_Y_carriage(); // Render carriage exclusively
+			!Cyclone_Y_carriage(); // Render carriage exclusively
 		else Cyclone_Y_carriage();
 	}
 }
