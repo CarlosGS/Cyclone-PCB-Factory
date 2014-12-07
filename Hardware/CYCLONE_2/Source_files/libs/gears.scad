@@ -37,9 +37,8 @@ $fa = 5; // Minimum angle for fragments [degrees]
 $fs = 0.5; // Minimum fragment size [mm]
 
 /* Herringbone gear module, adapted from MCAD/involute_gears */
-module herringbone_gear( teeth=12, circles=0, shaft=5 ) {
+module herringbone_gear( teeth=12, height=10, circles=0, shaft=5 ) {
 	twist=0;//100;
-	height=10;
 	pressure_angle=30;
 
 	diam = teeth*2;

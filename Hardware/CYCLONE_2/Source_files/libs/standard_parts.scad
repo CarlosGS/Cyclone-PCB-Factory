@@ -187,17 +187,16 @@ module stepperMotor(screwHeight=10, renderPart=false, echoPart=false) {
 
 module cyclone_motor_gear(Gear_N_Teeth = 21, gearHeight=10, saveMaterial=false, tolerance=0) {
 motor_rod_diam = 5/2+tolerance;
-// TODO add support for gearHeight in the gears.scad
 // Motor gear
 	union() difference() {	 
 		union() {
 
 			//gear
-			herringbone_gear( teeth=Gear_N_Teeth );
+			herringbone_gear(teeth=Gear_N_Teeth,height=gearHeight);
 
 			translate( [0, 0, 12] ) mirror( [0, 0, 1] ) difference() {
 				//shaft
-				cylinder( r=9, h=15);
+				cylinder( r=9, h=8);
 				//captive nut and grub holes
 				translate( [0, 19.5, 3.5] ) rotate( [90, 0, 0] ) union() {
 					//enterance
@@ -231,7 +230,7 @@ nut_radius = METRIC_NUT_AC_WIDTHS[nutSize]/2+tolerance;
 	difference() {
 		union() {
 			//gear
-			rotate([180,0,0]) herringbone_gear( teeth=Gear_N_Teeth, circles=0, shaft=rod_diam);
+			rotate([180,0,0]) herringbone_gear(teeth=Gear_N_Teeth, height=gearHeight, circles=0, shaft=rod_diam);
 		}
 		
 		if(saveMaterial)
