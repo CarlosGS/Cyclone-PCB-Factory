@@ -1,5 +1,7 @@
 
-![Cyclone PCB Factory](Media/CycloneLogo_1/CycloneLogo_1.png)  
+<p align="center">
+<img src="Media/CycloneLogo_1/CycloneLogo_1.png" width="70%">
+</p>
 
 A 3D-printable (Rep-Rap alike) CNC machine, intended for PCB manufacture.  
 
@@ -71,7 +73,7 @@ Future improvements:
 </p>  
 
 <p align="center">
-<img src="Media/Cyclone_v2.0.gif" width="80%">
+<img src="Media/Cyclone_v2.0.gif" width="60%">
 <div align="center"><i>The new design tries to be more parametrized</i></div>
 </p>
 
