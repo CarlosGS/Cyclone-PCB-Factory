@@ -90,7 +90,7 @@ Carlosgs' <https://docs.google.com/spreadsheet/ccc?key=0AsQp8IK25R4IdGk3LTdOWmpF
 <p align="center">
 <img src="Media/Cyclone_v2.0.png" width="80%">
 <div align="center"><i>Render of Cyclone v2.0</i></div>
-</p>
+</p>  
 
 <p align="center">
 <img src="Media/Cyclone_v2.0.gif" width="80%">
