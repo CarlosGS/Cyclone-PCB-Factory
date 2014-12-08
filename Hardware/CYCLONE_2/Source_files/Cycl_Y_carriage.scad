@@ -93,6 +93,8 @@ module Cyclone_YsubPart_singleLinearBearingHolder(onlyScrews=false) {
 		// Hole for the screw and nut
 		translate([dimX/2+footSeparation,0,dimZ+workbed_thickness+workbed_screws_aditional_length])
 			rotate([90,0,0]) hole_for_screw(size=screwSize,length=workbed_screws_aditional_length+footThickness+workbed_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance);
+		translate([dimX/2+footSeparation,0,dimZ+workbed_thickness+workbed_screws_aditional_length])
+			rotate([90,0,0]) screw_and_nut(size=screwSize,length=workbed_screws_aditional_length+footThickness+workbed_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0);
 	} else {
 		difference() {
 			// Main part
@@ -212,6 +214,16 @@ module Cyclone_YsubPart_PCBholder() {
 			}
 		}
 	}
+	
+	// Add the screws and nuts
+	for (x = [-1,1], y=[-1,0,1]) {
+		translate([x*(PCB_dimX/2+screwSeparation),y*PCB_dimY/4,PCBholder_height+(2*screwSize)])
+			rotate([0,0,x*-90]) rotate([90,0,90]) screw_and_nut(size=screwSize,length=PCBholder_height+3,nutDepth=4.5-screwSize,nutAddedLen=0,captiveLen=0);
+	}
+	translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+(2*screwSize)])
+		rotate([90,0,90]) screw_and_nut(size=screwSize,length=PCBholder_height+3,nutDepth=4.5-screwSize,nutAddedLen=0,captiveLen=0);
+	scale([-1,-1,1]) translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+(2*screwSize)])
+		rotate([90,0,90]) screw_and_nut(size=screwSize,length=PCBholder_height+3,nutDepth=4.5-screwSize,nutAddedLen=0,captiveLen=0);
 }
 
 module Cyclone_Y_carriage() {

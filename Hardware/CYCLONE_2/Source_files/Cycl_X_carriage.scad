@@ -4,8 +4,13 @@
 // License: CC BY-SA 4.0 (Attribution-ShareAlike 4.0 International, http://creativecommons.org/licenses/by-sa/4.0/)
 // Designed with http://www.openscad.org/
 
+rod_nut_len = 0.8*axes_Xthreaded_rodD;
+washer_D = X_backlash_washer_D;
+washer_thickness = X_backlash_washer_thickness;
+holderExtension = 10;
 
 use <libs/linear_bearing.scad>
+use <libs/standard_parts.scad>
 module Cyclone_X_carriage() {
 	linearBearingLength = linearBearing_L(X_linearBearingModel);
 	linearBearingDiameter = linearBearing_D(X_linearBearingModel);
@@ -28,7 +33,6 @@ module Cyclone_X_carriage() {
 	dimX = 2*linearBearingLength+linearBearingLengthExtension;
 	
 	module Cyclone_XsubPart_ZnutHolder(holes=false) {
-		rod_nut_len = 0.8*axes_Zthreaded_rodD;
 		rodTolerance = X_threaded_rod_Tolerance;
 		rodSize = Z_threaded_rodNutSize; // M3, M4, etc (integers only)
 		dimZ = rod_nut_len+3; // Nut holder thickness
@@ -51,12 +55,7 @@ module Cyclone_X_carriage() {
 	}
 	
 	module Cyclone_XsubPart_XnutHolder(holes=false) {
-		rod_nut_len = 0.8*axes_Xthreaded_rodD;
-		rodSize = X_threaded_rodNutSize; // M3, M4, etc (integers only)
-		washer_D = X_backlash_washer_D;
-		washer_thickness = X_backlash_washer_thickness;
-		
-		holderExtension = 10;
+		rodSize = X_threaded_rodNutSize; // M3, M4, etc (integers only)		
 		
 		armWidth = axes_Xthreaded_rodD*2+6;
 		
@@ -116,7 +115,7 @@ module Cyclone_X_carriage() {
 	}
 	
 	module Cyclone_XsubPart_XnutHolder_SINGLE_NUT(holes=false) {
-		rod_nut_len = 0.8*axes_Xthreaded_rodD;
+		
 		rodSize = X_threaded_rodNutSize; // M3, M4, etc (integers only)
 		washer_D = X_backlash_washer_D;
 		
@@ -245,5 +244,34 @@ module Cyclone_X_carriage() {
 	rotate([0,90,0]) linearBearing_single(model=X_linearBearingModel, echoPart=true);
 	rotate([0,-90,0]) linearBearing_single(model=X_linearBearingModel, echoPart=true);
 	translate([linearBearingLength/2,axes_effective_Xsmooth_separation,axes_effective_Xsmooth_separation])
-			rotate([0,-90,0]) linearBearing_single(model=X_linearBearingModel, echoPart=true);			
+			rotate([0,-90,0]) linearBearing_single(model=X_linearBearingModel, echoPart=true);	
+
+  // Draw nuts and screws
+	translate([0,axes_Zreference_posY+axes_ZthreadedReference_posY,axes_effective_Xsmooth_separation+(linearBearingDiameter+sideExtensions)/2])	
+		rotate([180,0,0]) 
+			nut(size=8, echoPart=true);
+			
+	translate([-dimX/2,axes_effective_Xsmooth_separation,0]) rotate([-135,0,0]){
+	//translate([0,dimY/2+rod_nut_len/2,0])
+	//	rotate([0,90,0]) rotate([90,0,0])
+	//translate([0,-rod_nut_len-3-washer_thickness/2,0])
+	translate([-rod_nut_len/2+1,0,0]) rotate([90,90,90])
+		nut(size=8, echoPart=true);
+	//translate([0,-dimY/2,0])
+	//	rotate([0,90,0]) rotate([-90,0,0])
+	translate([rod_nut_len/2+3+1+holderExtension,0,0]) rotate([90,90,90])
+		nut(size=8, echoPart=true);
+	//translate([0,dimY/2+0.01-rod_nut_len/2-3,0])
+	translate([rod_nut_len/2+3+1,0,0]) rotate([0,0,-90]) rotate([180,0,0])
+		washer_single(diam=washer_D, thickness=washer_thickness, echoPart=true);
+	}
+			
+	translate([-linearBearingLength/2-X_linearBearingSeparation/2,-screwLength/2-screwAditionalLength/2,-linearBearingDiameter/2-screwExtension/2])
+		rotate([0,0,180]) screw_and_nut(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0);
+	// Bottom left screw
+	translate([linearBearingLength/2+X_linearBearingSeparation/2,-screwLength/2-screwAditionalLength/2,-linearBearingDiameter/2-screwExtension/2])
+		rotate([0,0,180]) screw_and_nut(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0);
+	// Top screw
+	translate([0,axes_effective_Xsmooth_separation+screwExtension/2+linearBearingDiameter/2,axes_effective_Xsmooth_separation+screwLength/2+screwAditionalLength/2])
+		rotate([90,0,0]) screw_and_nut(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0);
 }
