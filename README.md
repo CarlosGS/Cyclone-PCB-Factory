@@ -97,6 +97,26 @@ Kobus' <https://docs.google.com/spreadsheet/ccc?key=0AjYcEd1WlkqCdERINEFvRk9mVTZ
 Robsbots' <https://docs.google.com/spreadsheet/ccc?key=0AmiiQRLnjs9cdE12VDFmTHJ4N3JoTzcwbkJPb0ZLSWc#gid=0>  
 Carlosgs' <https://docs.google.com/spreadsheet/ccc?key=0AsQp8IK25R4IdGk3LTdOWmpFR0Nrc0RhaVJaUC1CMUE>  
 
+
+More pictures  
+--  
+
+<p align="center">
+<img src="Media/Cyclone_v2.0_logoAndKeychain.jpg" width="80%">
+</p>  
+
+<p align="center">
+<img src="Media/Cyclone_v2.0_logoMill.jpg" width="80%">
+</p>  
+
+<p align="center">
+<img src="Media/Cyclone_v2.0_smallBoard1.jpg" width="80%">
+</p>  
+
+<p align="center">
+<img src="Media/Cyclone_v2.0_smallBoard2.jpg" width="80%">
+</p>  
+
 License  
 --
 License: **Attribution - Share Alike - Creative Commons (<http://creativecommons.org/licenses/by-sa/3.0/>)**  
