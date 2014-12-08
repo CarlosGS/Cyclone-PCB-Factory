@@ -5,6 +5,8 @@ The original python scripts were only a proof of concept: the lack of GUI was a 
 
 Some alternatives were suggested, and two of them have been made by developers inside the group. Kobus Du Toit and Patrick Knöbel have worked on two different alternatives that simplify the task of Z probing by making it more visual and intuitive for the end users:  
 
+**UPDATE: A modification of CNC-Gcode-Controller (pre-configured with Cyclone v2.0 parameters) can be downloaded from** <https://github.com/carlosgs/cncgcodecontroller/blob/master/CNC-GCode-Controller_libs.jar?raw=true>  
+
 * [Kobus's GUI](https://www.dropbox.com/sh/k7p896n0upv29u1/1T_lcIZDnH/prototypeGui2) ([forum](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/S3m1baPzwRk/DtyngGGJmBoJ)) and [Patrick Knöbel's gcode postprocessor](https://github.com/pknoe3lh/cncgcodecontroller/releases) ([forum](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/ToTGIpXWUmA/gyQMDqDOXfUJ)):
 
 ![ScreenShot](Media/Cyclone_first_year_13_GUIs.jpg)
