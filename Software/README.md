@@ -9,6 +9,8 @@ Some alternatives were suggested, and two of them have been made by developers i
 
 ![ScreenShot](Media/Cyclone_first_year_13_GUIs.jpg)
 
+**UPDATE: A modification of CNC-Gcode-Controller (pre-configured with Cyclone v2.0 parameters) can be downloaded from** <https://github.com/carlosgs/cncgcodecontroller/blob/master/CNC-GCode-Controller_libs.jar?raw=true>
+
 
 * [Python scripts by Carlosgs](PythonScripts/):
 
