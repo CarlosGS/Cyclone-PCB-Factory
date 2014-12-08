@@ -204,24 +204,24 @@ module Cyclone_X_carriage() {
 		// ----- Holes for the linear bearings ------
 		// Bottom right linear bearing
 		translate([-linearBearingLength/2-X_linearBearingSeparation/2,0,0])
-			rotate([0,0,90]) linearBearingHole(model=X_linearBearingModel, lateralExtension=sideExtensions*2+screwExtension*2, lengthExtension=linearBearingLengthExtension);
+			rotate([0,0,90]) linearBearingHole(model=X_linearBearingModel, lateralExtension=sideExtensions*2+screwExtension*2, pressureFitTolerance=LinearBearingPressureFitTolerance, lengthExtension=linearBearingLengthExtension);
 		// Bottom left linear bearing
 		translate([linearBearingLength/2+X_linearBearingSeparation/2,0,0])
-			rotate([0,0,90]) linearBearingHole(model=X_linearBearingModel, lateralExtension=sideExtensions*2+screwExtension*2, lengthExtension=linearBearingLengthExtension);
+			rotate([0,0,90]) linearBearingHole(model=X_linearBearingModel, lateralExtension=sideExtensions*2+screwExtension*2, pressureFitTolerance=LinearBearingPressureFitTolerance, lengthExtension=linearBearingLengthExtension);
 		// Top linear bearing
 		translate([0,axes_effective_Xsmooth_separation,axes_effective_Xsmooth_separation])
-			rotate([90,0,0]) rotate([0,0,90]) linearBearingHole(model=X_linearBearingModel, lateralExtension=sideExtensions*2+screwExtension*2, lengthExtension=linearBearingLength+linearBearingLengthExtension+X_linearBearingSeparation);
+			rotate([90,0,0]) rotate([0,0,90]) linearBearingHole(model=X_linearBearingModel, lateralExtension=sideExtensions*2+screwExtension*2, pressureFitTolerance=LinearBearingPressureFitTolerance, lengthExtension=linearBearingLength+linearBearingLengthExtension+X_linearBearingSeparation);
 	
 		// ----- Holes for the screws ------
 		// Bottom right screw
 		translate([-linearBearingLength/2-X_linearBearingSeparation/2,-screwLength/2-screwAditionalLength/2,-linearBearingDiameter/2-screwExtension/2])
-			rotate([0,0,180]) hole_for_screw(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0);
+			rotate([0,0,180]) hole_for_screw(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance);
 		// Bottom left screw
 		translate([linearBearingLength/2+X_linearBearingSeparation/2,-screwLength/2-screwAditionalLength/2,-linearBearingDiameter/2-screwExtension/2])
-			rotate([0,0,180]) hole_for_screw(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0);
+			rotate([0,0,180]) hole_for_screw(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance);
 		// Top screw
 		translate([0,axes_effective_Xsmooth_separation+screwExtension/2+linearBearingDiameter/2,axes_effective_Xsmooth_separation+screwLength/2+screwAditionalLength/2])
-			rotate([90,0,0]) hole_for_screw(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0);
+			rotate([90,0,0]) hole_for_screw(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance);
 		
 		// ----- Hole for the Z nut ------
 		translate([0,axes_Zreference_posY+axes_ZthreadedReference_posY,axes_effective_Xsmooth_separation+(linearBearingDiameter+sideExtensions)/2])
@@ -247,4 +247,3 @@ module Cyclone_X_carriage() {
 	translate([linearBearingLength/2,axes_effective_Xsmooth_separation,axes_effective_Xsmooth_separation])
 			rotate([0,-90,0]) linearBearing_single(model=X_linearBearingModel, echoPart=true);			
 }
-

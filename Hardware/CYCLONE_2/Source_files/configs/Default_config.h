@@ -49,13 +49,27 @@
 		PCB_holder_edge_length = 3;
 		
 	// --- Z carriage ---
-		X_backlash_armThickness = 30;
+	  Z_carriage_wall_thickness = 9;
+	  Z_carriage_wall_width = 54;		
 		
   // --- X frames ---
 	  X_frames_additional_thickness = 5;
-		footThickness = 10;
-		corner_radius = 10;
-		frameFrontalThickness = 15;
+		X_frame_footThickness = 10;
+		X_frame_corner_radius = 10;
+		X_frame_FrontalThickness = 15;
+		X_backlash_armThickness = 30;
+		X_motorWallSeparation = 5;
+		X_motorRotatedOffset = 5;
+		X_gearWallSeparation = 5;
+		
+  // --- Y frames ---
+		Y_frame_footThickness = 10;
+		Y_motorWallSeparation = 5;
+		Y_motorRotatedOffset = 5;
+		Y_gearWallSeparation = 5;
+		Y_foot_additional_separation = 5;
+		Y_endstopHolderRotation = 5;
+		Logo = true; // Add logo to the Y Smooth Rod Idlers
 		
 	// --- Axes sizes ---
 	// *_rodLen = length
@@ -87,6 +101,7 @@
 		Z_linearBearingModel = "LM8UU";
 		Z_threaded_rodBearingModel = 608;
 		Y_threaded_rodBearingModel = 608;
+		Y_threaded_rodBearingDepth = 3;
 		
 	// --- Steppers ---
 		//Y_motorModel = Nema17;
@@ -140,9 +155,9 @@
 		gearCover_wallThickness = 0.4*4;
 		gearCover_screwHeadSpaceHeight = 4;
 		gearCover_screwHeadSpaceDiam = 6;
-		coverHeight = 16;
-		coverExtraHeight = 5;
-		coverExtraRadius = -7;
+		gearCoverHeight = 16;
+		gearCoverExtraHeight = 5;
+		gearCoverExtraRadius = -7;
 		gearCover_truncationAngle = 10;
 		
 	// --- Spindle Motor ---
@@ -166,6 +181,9 @@
 		axes_Xsmooth_separation_tolerance = 0.5;
 		X_threaded_rod_Tolerance = 0.5;
 		Z_linearBearingHole_tolerance = 0.5;
+		LinearBearingPressureFitTolerance = 0.4;
+		screwHoleTolerance = 0.4;
+		
 		
 // --- Render options ---
 
@@ -190,10 +208,30 @@
 		axes_Ycarriage_pos = axes_Ysmooth_rodLen/2+sin($t*360)*axes_Ysmooth_rodLen/4.1;
 		axes_Zcarriage_pos = axes_Zsmooth_rodLen/2+sin($t*360)*axes_Zsmooth_rodLen/8;	
 		
-		
-		
-		
-		
+	// --- Parts ---
+		Render_X_leftFrame = true;
+		Render_X_rightFrame = true;
+		Render_X_carriage = true;
+		Render_Z_carriage = true;
+		Render_Z_carriageTop = true;
+		Render_Z_carriageBottom = true;
+		Render_Y_leftSmoothRodIdler = true;
+		Render_Y_rightSmoothRodIdler = true;
+		Render_Y_frontFrame = true;
+		Render_Y_backFrame = true;
+		Render_Y_carriage = true;
+		Render_control_board = true;
+		Render_Y_gearCover = true;
+		Render_Y_motorGear = true;
+		Render_Y_rodGear = true;
+		Render_X_gearCover = true;
+		Render_X_motorGear = true;
+		Render_X_rodGear = true;
+		Render_PCBholderTop = true;
+		Render_PCBholderBottom = true;
+		Render_YsubPart_linearBearingHolders = true;
+		Render_YsubPart_nutHolder = true;
+		//Render_rodHolder = true;
 		
 		
 		

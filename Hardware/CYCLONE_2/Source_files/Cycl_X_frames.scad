@@ -4,9 +4,8 @@
 // License: CC BY-SA 4.0 (Attribution-ShareAlike 4.0 International, http://creativecommons.org/licenses/by-sa/4.0/)
 // Designed with http://www.openscad.org/
 
-
-Xmotor_sideLen = 42.20;
-
+X_motorModel = Nema17;	
+Xmotor_sideLen = lookup(NemaSideSize, X_motorModel); //42.20;
 axes_XgearRatio = X_motorGearRatio/X_rodGearRatio; // Number of tooth (motor/rod)
 
 module Cyclone_X_leftFrame() {
@@ -15,13 +14,17 @@ module Cyclone_X_leftFrame() {
 
 include <libs/MCAD/stepper.scad>
 module Cyclone_X_rightFrame(isLeft=false) {
+
+	footThickness = X_frame_footThickness;
+	corner_radius = X_frame_corner_radius;
+	frameFrontalThickness = X_frame_FrontalThickness;
 	
 	footScrewSize = X_Frame_footScrewSize;
 	rodScrewSize = X_Frame_rodScrewSize;
 	
-	motorWallSeparation = 5;
-	motorRotatedOffset = 5;
-	gearWallSeparation = 5;
+	motorWallSeparation = X_motorWallSeparation;
+	motorRotatedOffset = X_motorRotatedOffset;
+	gearWallSeparation = X_gearWallSeparation;
 	
 	partThickness = X_frames_additional_thickness+rodScrewSize*2;
 	
@@ -34,12 +37,20 @@ module Cyclone_X_rightFrame(isLeft=false) {
 	footWidth = dimX+2*footSeparation;
 	
   rod_nut_len = 0.8*axes_Xthreaded_rodD;
-  X_motorModel = Nema17;	
 	
 	module Cyclone_XsubPart_gearCover() {
+		margin = gearCover_margin;
+		rodGearAddedMargin = rodGearAddedgearCover_margin;
 		effectiveXgearSeparation = axes_XgearSeparation+0.5;
+		wallThickness = gearCover_wallThickness;
+		screwHeadSpaceHeight = gearCover_screwHeadSpaceHeight;
+		screwHeadSpaceDiam = gearCover_screwHeadSpaceDiam;
+		coverHeight = gearCoverHeight;
+		coverExtraHeight = gearCoverExtraHeight;
+		coverExtraRadius = gearCoverExtraRadius;
 		nema_screw_separation = lookup(NemaDistanceBetweenMountingHoles, X_motorModel);
-		
+		truncationAngle = gearCover_truncationAngle;
+	
 		motorGearRadius = axes_XgearSeparation/(1+axes_XgearRatio)+gearCover_margin;
 		rodGearRadius = axes_XgearSeparation/(1+1/axes_XgearRatio)+gearCover_margin+rodGearAddedgearCover_margin;
 		
@@ -120,8 +131,7 @@ module Cyclone_X_rightFrame(isLeft=false) {
 				}
 		}
 	}
-	
-	
+
 	module Cyclone_X_endstopHolder(holes=false) {
 		// Endstop holder
 		translate([-partThickness-0.04,19,-5+axes_Xsmooth_separation])
@@ -189,7 +199,6 @@ module Cyclone_X_rightFrame(isLeft=false) {
 		}
 	}
 	
-	
 	difference() {
 		// Main block
 		union() {
@@ -247,15 +256,15 @@ module Cyclone_X_rightFrame(isLeft=false) {
 		translate([-axes_Xreference_posX-dimX-footSeparation,axes_Xreference_posY+footSeparation,-axes_Yreference_height+footThickness]) {
 			rotate([0,90,0])
 					rotate([0,0,90])
-						hole_for_screw(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, invert=true);
+						hole_for_screw(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, invert=true);
 			translate([0,dimY/2,0])
 				rotate([0,90,0])
 						rotate([0,0,90])
-							hole_for_screw(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, invert=true);
+							hole_for_screw(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, invert=true);
 			translate([0,dimY-2*footSeparation,0])
 				rotate([0,90,0])
 						rotate([0,0,90])
-							hole_for_screw(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, invert=true);
+							hole_for_screw(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, invert=true);
 		}
 	}
 	
@@ -278,9 +287,11 @@ module Cyclone_X_rightFrame(isLeft=false) {
 				translate([axes_Xthreaded_rodD,0,0]){
 					rotate([0,-90,0])
 						nut(size=axes_Xthreaded_rodD, echoPart=true);
-					translate([axes_Xthreaded_rodD-7,0,0])
-						rotate([0,-90,0]) color(color_movingPart)
-						cyclone_rod_gear(Gear_N_Teeth=X_rodGearRatio,gearHeight=X_gear_thickness,nutSize=8,tolerance=0);
+					if(Render_X_rodGear) {
+						translate([axes_Xthreaded_rodD-7,0,0])
+							rotate([0,-90,0]) color(color_movingPart)
+							cyclone_rod_gear(Gear_N_Teeth=X_rodGearRatio,gearHeight=X_gear_thickness,nutSize=8,tolerance=0);
+					}
 				}
 				// Translate to motor position
 			  rotate([motorRotatedOffset,0,0]) {
@@ -288,13 +299,18 @@ module Cyclone_X_rightFrame(isLeft=false) {
 						rotate([-motorRotatedOffset,0,0]) {
 							translate([-motorWallSeparation,0,0]) rotate([0,90,0])
 							  stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
-							translate([axes_Xthreaded_rodD+1.5,0,0])
-							  rotate([0,-90,0]) color(color_movingPart)
-							    cyclone_motor_gear(Gear_N_Teeth=X_motorGearRatio,gearHeight=X_gear_thickness,tolerance=0);
+							if(Render_X_motorGear) {
+								translate([axes_Xthreaded_rodD+1.5,0,0])
+									rotate([0,-90,0]) color(color_movingPart)
+										cyclone_motor_gear(Gear_N_Teeth=X_motorGearRatio,gearHeight=X_gear_thickness,tolerance=0);
+							}
 						}
 				}
+				if(Render_Y_gearCover) {
+				// Draw the X gear cover
 				translate([0.1,0,0])
 					color(color_stillPart) Cyclone_XsubPart_gearCover();
+				}
 			}
 			translate([0,0,axes_Xsmooth_separation])
 				rotate([0,0,-90])
@@ -304,22 +320,17 @@ module Cyclone_X_rightFrame(isLeft=false) {
 	translate([-axes_Xreference_posX-dimX-footSeparation,axes_Xreference_posY+footSeparation,-axes_Yreference_height+footThickness]) {
 		rotate([0,90,0])
 				rotate([0,0,90])
-					screw_and_nut(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, invert=true, autoNutOffset=true, echoPart=true);
+					screw_and_nut(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, invert=true, autoNutOffset=true, echoPart=true);
 		translate([0,dimY/2,0])
 			rotate([0,90,0])
 					rotate([0,0,90])
-						screw_and_nut(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, invert=true, autoNutOffset=true, echoPart=true);
+						screw_and_nut(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, invert=true, autoNutOffset=true, echoPart=true);
 		translate([0,dimY-2*footSeparation,0])
 			rotate([0,90,0])
 					rotate([0,0,90])
-						screw_and_nut(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0, invert=true, autoNutOffset=true, echoPart=true);
+						screw_and_nut(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, invert=true, autoNutOffset=true, echoPart=true);
 	}
 }
-
-
-
-
-
 
 module rodHolder(rodD=8.5, screwSize=3, height=0, sideLen=0, thickness=5, space=2, negative=false) {
 	screwAditionalDistance = rodD/2;
@@ -332,14 +343,16 @@ module rodHolder(rodD=8.5, screwSize=3, height=0, sideLen=0, thickness=5, space=
 	if(negative) {
 		translate([screwSize+screwAditionalDistance,-dimY/2,dimZ])
 				rotate([90,0,0])
-					hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10, rot=90);
+					hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10,tolerance=screwHoleTolerance, rot=90);
 		translate([-screwSize-screwAditionalDistance,-dimY/2,dimZ])
 			rotate([90,0,0])
-				hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10, rot=90);
+				hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10,tolerance=screwHoleTolerance, rot=90);
 	} else {
 		difference() {
 			union() {
-				color(color_movingPart) translate([0,-dimY/2,dimZ/2+space/4]) bcube([dimX,dimY,dimZ-space/2],cr=corner_radius,cres=10);
+				//if(Render_rodHolder) {
+					color(color_movingPart) translate([0,-dimY/2,dimZ/2+space/4]) bcube([dimX,dimY,dimZ-space/2],cr=corner_radius,cres=10);
+				//}
 				color(color_stillPart)
 					if(sideLen>dimX/2)
 						translate([sideLen/2-dimX/4,-dimY/2,-height/2-space/4]) bcube([dimX/2+sideLen,dimY,height-space/2],cr=corner_radius,cres=10);
@@ -348,21 +361,19 @@ module rodHolder(rodD=8.5, screwSize=3, height=0, sideLen=0, thickness=5, space=
 			}
 			translate([screwSize+screwAditionalDistance,-dimY/2,dimZ])
 				rotate([90,0,0])
-					hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10, rot=90);
+					hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10,tolerance=screwHoleTolerance, rot=90);
 			translate([-screwSize-screwAditionalDistance,-dimY/2,dimZ])
 				rotate([90,0,0])
-					hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10, rot=90);
+					hole_for_screw(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=10,tolerance=screwHoleTolerance, rot=90);
 			standard_rod(diam=rodD, length=dimY*4, threaded=false, renderPart=true, center=true);
-			rodHolder(rodD=rodD, screwSize=screwSize, negative=true);
+			//rodHolder(rodD=rodD, screwSize=screwSize, negative=true);
 		}
 		// Draw screws
 		translate([screwSize+screwAditionalDistance,-dimY/2,dimZ+0.01])
 			rotate([90,0,0])
-				screw_and_nut(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=0, rot=90, echoPart=true);
+				screw_and_nut(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, rot=90, echoPart=true);
 		translate([-screwSize-screwAditionalDistance,-dimY/2,dimZ+0.01])
 			rotate([90,0,0])
-				screw_and_nut(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=0, rot=90, echoPart=true);
+				screw_and_nut(size=screwSize,length=dimZ+15,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, rot=90, echoPart=true);
 	}
 }
-
-

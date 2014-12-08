@@ -134,7 +134,6 @@ module hole_for_nut(size=3,nutAddedLen=0,captiveLen=0,rot=0,tolerance=0.35) {
 			}
 }
 
-
 module screw_single(size=3,length=10,tolerance=0, renderPart=false, echoPart=false) {
 	height = METRIC_NUT_THICKNESS[size]+tolerance;
 	color(BlackPaint)
@@ -225,7 +224,6 @@ module cyclone_rod_gear(Gear_N_Teeth = 21, gearHeight=10, nutSize = 8, saveMater
 rod_diam = COURSE_METRIC_BOLT_MAJOR_THREAD_DIAMETERS[nutSize]+tolerance;
 nut_separation = METRIC_NUT_THICKNESS[nutSize]/2+tolerance;
 nut_radius = METRIC_NUT_AC_WIDTHS[nutSize]/2+tolerance;
-// TODO add support for gearHeight in the gears.scad
 // Rod Gear
 	difference() {
 		union() {
