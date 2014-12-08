@@ -6,6 +6,7 @@
 
 use <obiscad/obiscad/bcube.scad>
 use <MCAD/metric_fastners.scad>
+use <gears.scad>
 
 /*Oak = [0.65, 0.5, 0.4];*/
 /*Pine = [0.85, 0.7, 0.45];*/
@@ -18,6 +19,11 @@ use <MCAD/metric_fastners.scad>
 /*Aluminum = [0.77, 0.77, 0.8];*/
 /*Brass = [0.88, 0.78, 0.5];*/
 /*Transparent = [1, 1, 1, 0.2];*/
+
+//Gear material save holes
+nholes = 9; // 7
+holes_diam = 6;
+hole_distance_from_center = 13.5-4.5+holes_diam/2;
 
 // Activate to generate STL for the fully assembled machine
 render_all_parts = false;
@@ -128,7 +134,6 @@ module hole_for_nut(size=3,nutAddedLen=0,captiveLen=0,rot=0,tolerance=0.35) {
 			}
 }
 
-
 module screw_single(size=3,length=10,tolerance=0, renderPart=false, echoPart=false) {
 	height = METRIC_NUT_THICKNESS[size]+tolerance;
 	color(BlackPaint)
@@ -179,21 +184,63 @@ module stepperMotor(screwHeight=10, renderPart=false, echoPart=false) {
 	//if(echoPart) echo(str("BOM: Motor. Nema17")); // The motor library already outputs motor information
 }
 
+module cyclone_motor_gear(Gear_N_Teeth = 21, gearHeight=10, saveMaterial=false, tolerance=0) {
+motor_rod_diam = 5/2+tolerance;
+// Motor gear
+	union() difference() {	 
+		union() {
 
+			//gear
+			herringbone_gear(teeth=Gear_N_Teeth,height=gearHeight);
 
-module motorGear(r=30,h=10,renderPart=false, echoPart=false) {
-	renderStandardPart(renderPart)
-		cylinder(r=r,h=h)
-	if(echoPart) echo(str("BOM: Gear. Motor."));
+			translate( [0, 0, 12] ) mirror( [0, 0, 1] ) difference() {
+				//shaft
+				cylinder( r=9, h=8);
+				//captive nut and grub holes
+				translate( [0, 19.5, 3.5] ) rotate( [90, 0, 0] ) union() {
+					//enterance
+					translate( [0, -3, 14.5] ) cube( [6, 6, 2.8], center=true );
+					//nut
+					translate( [0, 0, 14.5] ) rotate( [0, 0, 30] )
+						cylinder( r=6/2+0.5, h=2.8, $fn=6, center=true);
+					//grub hole
+					translate( [0, 0, 9] ) cylinder( r=3.3/2, h=10);
+				}
+			}
+		}
+
+		if(saveMaterial)
+			for(i=[0:nholes-1])
+				rotate( [0, 0, i*360/(nholes)+45])
+					translate( [hole_distance_from_center, 0] )
+						cylinder( r=holes_diam/2, h=11, center=true);
+
+		//shaft hole
+		translate( [0, 0, -6] ) cylinder( r=motor_rod_diam, h=20);
+	}
 }
 
-module rodGear(r=30,h=10,renderPart=false, echoPart=false) {
-	renderStandardPart(renderPart)
-		cylinder(r=r,h=h)
-	if(echoPart) echo(str("BOM: Gear. Rod."));
+module cyclone_rod_gear(Gear_N_Teeth = 21, gearHeight=10, nutSize = 8, saveMaterial=false, tolerance=0) {
+rod_diam = COURSE_METRIC_BOLT_MAJOR_THREAD_DIAMETERS[nutSize]+tolerance;
+nut_separation = METRIC_NUT_THICKNESS[nutSize]/2+tolerance;
+nut_radius = METRIC_NUT_AC_WIDTHS[nutSize]/2+tolerance;
+// Rod Gear
+	difference() {
+		union() {
+			//gear
+			rotate([180,0,0]) herringbone_gear(teeth=Gear_N_Teeth, height=gearHeight, circles=0, shaft=rod_diam);
+		}
+		
+		if(saveMaterial)
+			for(i=[0:nholes-1])
+				rotate( [0, 0, i*360/(nholes)+45])
+					translate( [hole_distance_from_center, 0] )
+						cylinder( r=holes_diam/2, h=11, center=true);
+
+		translate( [0, 0, (nut_separation/2)] )
+  		cylinder(r=nut_radius,h=7,$fn=6);
+	}
 }
-
-
 
 use <MCAD/bearing.scad>
 module bearingHole(depth=3, thickness=10, model=608, tolerance=1) {

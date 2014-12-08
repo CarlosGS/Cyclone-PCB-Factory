@@ -7,33 +7,30 @@
 
 use <libs/linear_bearing.scad>
 module Cyclone_X_carriage() {
-	linearBearingModel = "LM8UU";
-	linearBearingLength = linearBearing_L(linearBearingModel);
-	linearBearingDiameter = linearBearing_D(linearBearingModel);
+	linearBearingLength = linearBearing_L(X_linearBearingModel);
+	linearBearingDiameter = linearBearing_D(X_linearBearingModel);
 	
 	// Correction is needed to account for 3D printer tolerances
-	axes_effective_Xsmooth_separation = axes_Xsmooth_separation-0.5;
-	
-	linearBearingSeparation = 0;
+	axes_effective_Xsmooth_separation = axes_Xsmooth_separation-axes_Xsmooth_separation_tolerance;
 	
 	sideExtensions = linearBearingDiameter/3+2;
 	
 	ZrodHolderLength = 30;
 	
-	screwSize = 3; // M3, M4, etc (integers only)
+	screwSize = X_carriage_screwSize;
 	screwLength = linearBearingDiameter+sideExtensions;
 	screwAditionalLength = 2;
 	
 	screwExtension = screwSize*1.2;
 	
-	linearBearingLengthExtension = 6+max(axes_Zsmooth_rodD+axes_Zsmooth_separation-2*linearBearingLength-linearBearingSeparation, linearBearingSeparation);
+	linearBearingLengthExtension = 6+max(axes_Zsmooth_rodD+axes_Zsmooth_separation-2*linearBearingLength-X_linearBearingSeparation, X_linearBearingSeparation);
 	
 	dimX = 2*linearBearingLength+linearBearingLengthExtension;
 	
 	module Cyclone_XsubPart_ZnutHolder(holes=false) {
 		rod_nut_len = 0.8*axes_Zthreaded_rodD;
-		rodTolerance = 0.5;
-		rodSize = 8; // M3, M4, etc (integers only)
+		rodTolerance = X_threaded_rod_Tolerance;
+		rodSize = Z_threaded_rodNutSize; // M3, M4, etc (integers only)
 		dimZ = rod_nut_len+3; // Nut holder thickness
 		
 		if(!holes) {
@@ -55,21 +52,18 @@ module Cyclone_X_carriage() {
 	
 	module Cyclone_XsubPart_XnutHolder(holes=false) {
 		rod_nut_len = 0.8*axes_Xthreaded_rodD;
-		rodTolerance = 0.5;
-		rodSize = 8; // M3, M4, etc (integers only)
-		washer_D = 15.8-0.5;
-		washer_thickness = 1.6-0.9;
+		rodSize = X_threaded_rodNutSize; // M3, M4, etc (integers only)
+		washer_D = X_backlash_washer_D;
+		washer_thickness = X_backlash_washer_thickness;
 		
 		holderExtension = 10;
 		
 		armWidth = axes_Xthreaded_rodD*2+6;
 		
-		armThickness = 30;
-		
 		if(!holes) {
 			// Main shape
-			translate([armThickness/2,0,-axes_effective_Xsmooth_separation/2+holderExtension])
-				rotate([0,90,0]) bcube([axes_effective_Xsmooth_separation,armWidth,armThickness], cr=3,cres=10);
+			translate([X_backlash_armThickness/2,0,-axes_effective_Xsmooth_separation/2+holderExtension])
+				rotate([0,90,0]) bcube([axes_effective_Xsmooth_separation,armWidth,X_backlash_armThickness], cr=3,cres=10);
 			*translate([32/2,0,0])
 				rotate([180,0,0]) rotate([0,0,90]) Cyclone_YsubPart_nutHolder();
 		} else {
@@ -89,12 +83,12 @@ module Cyclone_X_carriage() {
 					}
 				// Hole for the sliding nut
 				translate([0,-rod_nut_len-3-washer_thickness/2,0]) hull() {
-					rotate([0,180,0]) hole_for_nut(size=rodSize,nutAddedLen=armThickness,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.3);
+					rotate([0,180,0]) hole_for_nut(size=rodSize,nutAddedLen=X_backlash_armThickness,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.3);
 					translate([0,-2.25,0])
-						rotate([0,180,0]) hole_for_nut(size=rodSize,nutAddedLen=armThickness,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.3);
+						rotate([0,180,0]) hole_for_nut(size=rodSize,nutAddedLen=X_backlash_armThickness,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.3);
 				}
 				// Hole for the rod
-				rotate([0,180,0])hole_for_nut(size=rodSize-2,nutAddedLen=armThickness,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
+				rotate([0,180,0])hole_for_nut(size=rodSize-2,nutAddedLen=X_backlash_armThickness,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
 			}
 			// Hole for the washer
 			translate([rod_nut_len/2+3+1,0,0]) rotate([0,0,-90]) rotate([180,0,0])
@@ -116,25 +110,23 @@ module Cyclone_X_carriage() {
 					translate([2,0,0])
 						rotate([0,0,-90]) hole_for_nut(size=rodSize-2,nutAddedLen=0,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
 				}
-			*translate([armThickness+0.01,0,0])
-				rotate([0,0,-90]) hole_for_nut(size=rodSize-2,nutAddedLen=armThickness,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
+			*translate([X_backlash_armThickness+0.01,0,0])
+				rotate([0,0,-90]) hole_for_nut(size=rodSize-2,nutAddedLen=X_backlash_armThickness,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
 		}
 	}
 	
 	module Cyclone_XsubPart_XnutHolder_SINGLE_NUT(holes=false) {
 		rod_nut_len = 0.8*axes_Xthreaded_rodD;
-		rodTolerance = 0.5;
-		rodSize = 8; // M3, M4, etc (integers only)
-		washer_D = 15.8;
-		washer_thickness = 1.6;
+		rodSize = X_threaded_rodNutSize; // M3, M4, etc (integers only)
+		washer_D = X_backlash_washer_D;
 		
 		armWidth = axes_Xthreaded_rodD*2+5;
 		
-		armThickness = rod_nut_len*2;
+		X_backlash_armThickness = rod_nut_len*2;
 		
 		if(!holes) {
-			translate([armThickness/2,0,-axes_effective_Xsmooth_separation/2+washer_D/2])
-				rotate([0,90,0]) bcube([axes_effective_Xsmooth_separation,armWidth,armThickness], cr=3,cres=10);
+			translate([X_backlash_armThickness/2,0,-axes_effective_Xsmooth_separation/2+washer_D/2])
+				rotate([0,90,0]) bcube([axes_effective_Xsmooth_separation,armWidth,X_backlash_armThickness], cr=3,cres=10);
 		} else {
 			if(draw_references) %frame();
 			translate([-0.01+rod_nut_len/2+6,0,0])
@@ -143,8 +135,8 @@ module Cyclone_X_carriage() {
 					translate([2,0,0])
 						rotate([0,0,-90]) hole_for_nut(size=6,nutAddedLen=0,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
 				}
-			translate([armThickness+0.01,0,0])
-				rotate([0,0,-90]) hole_for_nut(size=6,nutAddedLen=armThickness,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
+			translate([X_backlash_armThickness+0.01,0,0])
+				rotate([0,0,-90]) hole_for_nut(size=6,nutAddedLen=X_backlash_armThickness,captiveLen=axes_Xthreaded_rodD*3,rot=90,tolerance=0.1);
 		}
 	}
 	
@@ -178,10 +170,10 @@ module Cyclone_X_carriage() {
 				rotate([0,90,0]) 
 					bcube([linearBearingDiameter+sideExtensions,linearBearingDiameter+screwExtension, dimX], cr=3, cres=5);
 			// Bottom right screw
-			translate([-linearBearingLength/2-linearBearingSeparation/2,0,-linearBearingDiameter/2-screwExtension/2])
+			translate([-linearBearingLength/2-X_linearBearingSeparation/2,0,-linearBearingDiameter/2-screwExtension/2])
 				rotate([90,0,0]) cylinder(r=screwSize*2,h=screwLength, center=true, $fn=6);
 			// Bottom left screw
-			translate([linearBearingLength/2+linearBearingSeparation/2,0,-linearBearingDiameter/2-screwExtension/2])
+			translate([linearBearingLength/2+X_linearBearingSeparation/2,0,-linearBearingDiameter/2-screwExtension/2])
 				rotate([90,0,0]) cylinder(r=screwSize*2,h=screwLength, center=true, $fn=6);
 			// Top screw
 			translate([0,axes_effective_Xsmooth_separation+screwExtension/2+linearBearingDiameter/2,axes_effective_Xsmooth_separation])
@@ -211,25 +203,25 @@ module Cyclone_X_carriage() {
 		
 		// ----- Holes for the linear bearings ------
 		// Bottom right linear bearing
-		translate([-linearBearingLength/2-linearBearingSeparation/2,0,0])
-			rotate([0,0,90]) linearBearingHole(model=linearBearingModel, lateralExtension=sideExtensions*2+screwExtension*2, lengthExtension=linearBearingLengthExtension);
+		translate([-linearBearingLength/2-X_linearBearingSeparation/2,0,0])
+			rotate([0,0,90]) linearBearingHole(model=X_linearBearingModel, lateralExtension=sideExtensions*2+screwExtension*2, pressureFitTolerance=LinearBearingPressureFitTolerance, lengthExtension=linearBearingLengthExtension);
 		// Bottom left linear bearing
-		translate([linearBearingLength/2+linearBearingSeparation/2,0,0])
-			rotate([0,0,90]) linearBearingHole(model=linearBearingModel, lateralExtension=sideExtensions*2+screwExtension*2, lengthExtension=linearBearingLengthExtension);
+		translate([linearBearingLength/2+X_linearBearingSeparation/2,0,0])
+			rotate([0,0,90]) linearBearingHole(model=X_linearBearingModel, lateralExtension=sideExtensions*2+screwExtension*2, pressureFitTolerance=LinearBearingPressureFitTolerance, lengthExtension=linearBearingLengthExtension);
 		// Top linear bearing
 		translate([0,axes_effective_Xsmooth_separation,axes_effective_Xsmooth_separation])
-			rotate([90,0,0]) rotate([0,0,90]) linearBearingHole(model=linearBearingModel, lateralExtension=sideExtensions*2+screwExtension*2, lengthExtension=linearBearingLength+linearBearingLengthExtension+linearBearingSeparation);
+			rotate([90,0,0]) rotate([0,0,90]) linearBearingHole(model=X_linearBearingModel, lateralExtension=sideExtensions*2+screwExtension*2, pressureFitTolerance=LinearBearingPressureFitTolerance, lengthExtension=linearBearingLength+linearBearingLengthExtension+X_linearBearingSeparation);
 	
 		// ----- Holes for the screws ------
 		// Bottom right screw
-		translate([-linearBearingLength/2-linearBearingSeparation/2,-screwLength/2-screwAditionalLength/2,-linearBearingDiameter/2-screwExtension/2])
-			rotate([0,0,180]) hole_for_screw(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0);
+		translate([-linearBearingLength/2-X_linearBearingSeparation/2,-screwLength/2-screwAditionalLength/2,-linearBearingDiameter/2-screwExtension/2])
+			rotate([0,0,180]) hole_for_screw(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance);
 		// Bottom left screw
-		translate([linearBearingLength/2+linearBearingSeparation/2,-screwLength/2-screwAditionalLength/2,-linearBearingDiameter/2-screwExtension/2])
-			rotate([0,0,180]) hole_for_screw(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0);
+		translate([linearBearingLength/2+X_linearBearingSeparation/2,-screwLength/2-screwAditionalLength/2,-linearBearingDiameter/2-screwExtension/2])
+			rotate([0,0,180]) hole_for_screw(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance);
 		// Top screw
 		translate([0,axes_effective_Xsmooth_separation+screwExtension/2+linearBearingDiameter/2,axes_effective_Xsmooth_separation+screwLength/2+screwAditionalLength/2])
-			rotate([90,0,0]) hole_for_screw(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0);
+			rotate([90,0,0]) hole_for_screw(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance);
 		
 		// ----- Hole for the Z nut ------
 		translate([0,axes_Zreference_posY+axes_ZthreadedReference_posY,axes_effective_Xsmooth_separation+(linearBearingDiameter+sideExtensions)/2])
@@ -250,9 +242,8 @@ module Cyclone_X_carriage() {
 		}
 	}
 	// Draw linear bearings
-	rotate([0,90,0]) linearBearing_single(model=linearBearingModel, echoPart=true);
-	rotate([0,-90,0]) linearBearing_single(model=linearBearingModel, echoPart=true);
+	rotate([0,90,0]) linearBearing_single(model=X_linearBearingModel, echoPart=true);
+	rotate([0,-90,0]) linearBearing_single(model=X_linearBearingModel, echoPart=true);
 	translate([linearBearingLength/2,axes_effective_Xsmooth_separation,axes_effective_Xsmooth_separation])
-			rotate([0,-90,0]) linearBearing_single(model=linearBearingModel, echoPart=true);			
+			rotate([0,-90,0]) linearBearing_single(model=X_linearBearingModel, echoPart=true);			
 }
-
