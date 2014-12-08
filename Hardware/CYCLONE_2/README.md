@@ -65,6 +65,17 @@ Future improvements:
 * Re-implement the Z carriage, currently inherited from Cyclone V1
 
 
+<p align="center">
+<img src="Media/Cyclone_v2.0.png" width="80%">
+<div align="center"><i>Render of Cyclone v2.0</i></div>
+</p>  
+
+<p align="center">
+<img src="Media/Cyclone_v2.0.gif" width="80%">
+<div align="center"><i>The new design tries to be more parametrized</i></div>
+</p>
+
+
 Videos  
 --  
 - v2.0 Plexiglass "Open Source Hardware" keychain: <http://www.youtube.com/watch?v=3Kftgog89wQ>
@@ -86,25 +97,14 @@ Kobus' <https://docs.google.com/spreadsheet/ccc?key=0AjYcEd1WlkqCdERINEFvRk9mVTZ
 Robsbots' <https://docs.google.com/spreadsheet/ccc?key=0AmiiQRLnjs9cdE12VDFmTHJ4N3JoTzcwbkJPb0ZLSWc#gid=0>  
 Carlosgs' <https://docs.google.com/spreadsheet/ccc?key=0AsQp8IK25R4IdGk3LTdOWmpFR0Nrc0RhaVJaUC1CMUE>  
 
-
-<p align="center">
-<img src="Media/Cyclone_v2.0.png" width="80%">
-<div align="center"><i>Render of Cyclone v2.0</i></div>
-</p>  
-
-<p align="center">
-<img src="Media/Cyclone_v2.0.gif" width="80%">
-<div align="center"><i>The new design tries to be more parametrized</i></div>
-</p>
-
 License  
 --
 License: **Attribution - Share Alike - Creative Commons (<http://creativecommons.org/licenses/by-sa/3.0/>)**  
 
 Authors:  
 --
-Carlos García Saura (Carlosgs <http://carlosgs.es>) is the original author of V2.0.  
-Many other people keeps contributing to the project (check "most active posters" at <https://groups.google.com/forum/#!aboutgroup/cyclone-pcb-factory>).  
+**Carlos García Saura (Carlosgs <http://carlosgs.es>)** is the original author of V2.0.  
+**Many other people keeps contributing to the project (check "most active posters" at <https://groups.google.com/forum/#!aboutgroup/cyclone-pcb-factory>).**  
 
 Special thanks  
 --  
