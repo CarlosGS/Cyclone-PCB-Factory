@@ -5,8 +5,9 @@ A 3D-printable (Rep-Rap alike) CNC machine, intended for PCB manufacture.
 
 Read this, it's important!
 ===========================
-If you are reading this, then you are looking at the development version of Cyclone PCB Factory. This means files may present inconsistencies (dimensions mismatch, lack of tolerances, etc).  
-If you just want to build the machine, take a look at the following locations:  
+If you are reading this, then you are looking at the development version of Cyclone PCB Factory.
+This means files may present inconsistencies (dimensions mismatch, lack of tolerances, etc).
+If you just want to build the machine, take a look at the following locations:
 
 - **Releases: <https://github.com/carlosgs/Cyclone-PCB-Factory/releases>**
 - **Documentation: <http://reprap.org/wiki/Cyclone_PCB_Factory>**
