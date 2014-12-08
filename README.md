@@ -1,9 +1,8 @@
 
 <p align="center">
 <img src="Media/CycloneLogo_1/CycloneLogo_1.png" width="70%">
-</p>
-
-A 3D-printable (Rep-Rap alike) CNC machine, intended for PCB manufacture.  
+<div align="center"><i>A 3D-printable (Rep-Rap alike) CNC machine, intended for PCB manufacture.</i></div>
+</p>  
 
 Read this, it's important!
 ===========================
