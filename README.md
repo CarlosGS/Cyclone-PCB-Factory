@@ -106,15 +106,15 @@ More pictures
 </p>  
 
 <p align="center">
+<img src="Media/Cyclone_v2.0_smallBoard2.jpg" width="80%">
+</p>  
+
+<p align="center">
 <img src="Media/Cyclone_v2.0_logoMill.jpg" width="80%">
 </p>  
 
 <p align="center">
 <img src="Media/Cyclone_v2.0_smallBoard1.jpg" width="80%">
-</p>  
-
-<p align="center">
-<img src="Media/Cyclone_v2.0_smallBoard2.jpg" width="80%">
 </p>  
 
 License  
