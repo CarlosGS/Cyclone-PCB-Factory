@@ -53,6 +53,7 @@ V2.0 addresses all the issues from the original design, and implementing improve
  * Reinforced nut/screw holders
 * Anti-backlash mechanisms
 * Improved gears with smoother edges
+* Protective cover for the gears
 * Attachment for a vacuum cleaner
 * Better scalability (parametrized design)
 * Using a [Dremel 200](http://www.dremel.com/en-us/tools/Pages/ToolDetail.aspx?pid=200+Series) as the spindle motor
@@ -86,11 +87,15 @@ Robsbots' <https://docs.google.com/spreadsheet/ccc?key=0AmiiQRLnjs9cdE12VDFmTHJ4
 Carlosgs' <https://docs.google.com/spreadsheet/ccc?key=0AsQp8IK25R4IdGk3LTdOWmpFR0Nrc0RhaVJaUC1CMUE>  
 
 
-![ScreenShot](Media/Cyclone_v2.0.png)  
+<p align="center">
+<img src="Media/Cyclone_v2.0.png" width="80%">
+<div align="center"><i>Render of Cyclone v2.0</i></div>
+</p>
 
-The new design tries to be more parametrized:
-
-![ScreenShot](Media/Cyclone_v2.0.gif)  
+<p align="center">
+<img src="Media/Cyclone_v2.0.gif" width="80%">
+<div align="center"><i>The new design tries to be more parametrized</i></div>
+</p>
 
 License  
 --
