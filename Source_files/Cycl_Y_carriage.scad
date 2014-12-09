@@ -259,7 +259,7 @@ module Cyclone_Y_carriage() {
 				}
 			}
 		}
-		color([0.9,0.9,0.9, 1]) translate([0,0,workbed_separation_from_Y_threaded_rod+workbed_thickness])
+		color([0.9,0.9,0.9, 0.5]) translate([0,0,workbed_separation_from_Y_threaded_rod+workbed_thickness])
 			beveledBase(size=[workbed_size_X,workbed_size_Y,workbed_thickness], radius=3, res=15, echoPart=true);
 	}
 }
