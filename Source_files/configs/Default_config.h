@@ -97,11 +97,12 @@
 		Y_linearBearingModel = "LM8UU";
 		X_linearBearingModel = "LM8UU";
 		X_linearBearingSeparation = 0;
-		X_threaded_rod_bearingDepth = 3;
 		Z_linearBearingModel = "LM8UU";
 		Z_threaded_rodBearingModel = 608;
 		Y_threaded_rodBearingModel = 608;
 		Y_threaded_rodBearingDepth = 3;
+		X_threaded_rodBearingModel = 608;
+		X_threaded_rod_bearingDepth = 3;
 		
 	// --- Steppers ---
 		//Y_motorModel = Nema17;
@@ -147,7 +148,7 @@
 		axes_YgearSeparation = 37;
 		Y_rodGearRatio = 21; // Number of tooth
 		Y_motorGearRatio = 21; // Number of tooth
-		Y_gear_thickness = 5;
+		Y_gear_thickness = 10;
 		
 	// --- Gear Cover ---
 	  gearCover_margin = 4;
