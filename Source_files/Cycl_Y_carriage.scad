@@ -62,11 +62,15 @@ module Cyclone_YsubPart_nutHolder() {
 				hole_for_screw(size=screwSize,length=workbed_thickness+footThickness,nutDepth=-dimZ,nutAddedLen=dimZ,captiveLen=0,tolerance=screwHoleTolerance);
 	}
 	translate([0,dimY/2+rod_nut_len/2,0])
-		rotate([0,90,0]) rotate([90,0,0]) nut(size=8, echoPart=true);
+		rotate([0,90,0]) rotate([90,0,0]) nut(size=rodNutSize, echoPart=true);
 	translate([0,-dimY/2,0])
-		rotate([0,90,0]) rotate([-90,0,0]) nut(size=8, echoPart=true);
+		rotate([0,90,0]) rotate([-90,0,0]) nut(size=rodNutSize, echoPart=true);
 	translate([0,dimY/2+0.01-rod_nut_len/2-3,0])
 		washer_single(diam=washer_D, thickness=washer_thickness, echoPart=true);
+	translate([0,-screwSeparation/2,workbed_separation_from_Y_threaded_rod+workbed_thickness+screwSize])
+		rotate([90,0,0]) screw_and_nut(size=screwSize,length=workbed_thickness+footThickness+screwSize,nutDepth=0,nutAddedLen=0,captiveLen=0,echoPart=true);
+	translate([0,+screwSeparation/2,workbed_separation_from_Y_threaded_rod+workbed_thickness+screwSize])
+		rotate([90,0,0]) screw_and_nut(size=screwSize,length=workbed_thickness+footThickness+screwSize,nutDepth=0,nutAddedLen=0,captiveLen=0,echoPart=true);
 }
 
 use <libs/linear_bearing.scad>
@@ -94,7 +98,7 @@ module Cyclone_YsubPart_singleLinearBearingHolder(onlyScrews=false) {
 		translate([dimX/2+footSeparation,0,dimZ+workbed_thickness+workbed_screws_aditional_length])
 			rotate([90,0,0]) hole_for_screw(size=screwSize,length=workbed_screws_aditional_length+footThickness+workbed_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance);
 		translate([dimX/2+footSeparation,0,dimZ+workbed_thickness+workbed_screws_aditional_length])
-			rotate([90,0,0]) screw_and_nut(size=screwSize,length=workbed_screws_aditional_length+footThickness+workbed_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0);
+			rotate([90,0,0]) screw_and_nut(size=screwSize,length=workbed_screws_aditional_length+footThickness+workbed_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,echoPart=true);
 	} else {
 		difference() {
 			// Main part
@@ -216,14 +220,16 @@ module Cyclone_YsubPart_PCBholder() {
 	}
 	
 	// Add the screws and nuts
-	for (x = [-1,1], y=[-1,0,1]) {
-		translate([x*(PCB_dimX/2+screwSeparation),y*PCB_dimY/4,PCBholder_height+(2*screwSize)])
-			rotate([0,0,x*-90]) rotate([90,0,90]) screw_and_nut(size=screwSize,length=PCBholder_height+3,nutDepth=4.5-screwSize,nutAddedLen=0,captiveLen=0);
+	translate([0,0,holderL_thickness+(holderL_thickness+holderL_thickness_btm)/2]) {
+		for (x = [-1,1], y=[-1,0,1]) {
+			translate([x*(PCB_dimX/2+screwSeparation),y*PCB_dimY/4,PCBholder_height+screwSize])
+				rotate([0,0,x*-90]) rotate([90,0,90]) screw_and_nut(size=screwSize,length=PCBholder_height+screwSize,nutDepth=4.5-screwSize,nutAddedLen=0,captiveLen=0,echoPart=true);
+		}
+		translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+screwSize])
+			rotate([90,0,90]) screw_and_nut(size=screwSize,length=PCBholder_height+screwSize,nutDepth=4.5-screwSize,nutAddedLen=0,captiveLen=0,echoPart=true);
+		scale([-1,-1,1]) translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+screwSize])
+			rotate([90,0,90]) screw_and_nut(size=screwSize,length=PCBholder_height+screwSize,nutDepth=4.5-screwSize,nutAddedLen=0,captiveLen=0,echoPart=true);
 	}
-	translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+(2*screwSize)])
-		rotate([90,0,90]) screw_and_nut(size=screwSize,length=PCBholder_height+3,nutDepth=4.5-screwSize,nutAddedLen=0,captiveLen=0);
-	scale([-1,-1,1]) translate([PCB_dimX/2-holderArmLength/2,PCB_dimY/2+screwSeparation,PCBholder_height+(2*screwSize)])
-		rotate([90,0,90]) screw_and_nut(size=screwSize,length=PCBholder_height+3,nutDepth=4.5-screwSize,nutAddedLen=0,captiveLen=0);
 }
 
 module Cyclone_Y_carriage() {
@@ -253,7 +259,7 @@ module Cyclone_Y_carriage() {
 				}
 			}
 		}
-		color([0.9,0.9,0.9, 1]) translate([0,0,workbed_separation_from_Y_threaded_rod+workbed_thickness])
+		color([0.9,0.9,0.9, 0.5]) translate([0,0,workbed_separation_from_Y_threaded_rod+workbed_thickness])
 			beveledBase(size=[workbed_size_X,workbed_size_Y,workbed_thickness], radius=3, res=15, echoPart=true);
 	}
 }

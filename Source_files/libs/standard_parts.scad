@@ -197,15 +197,8 @@ motor_rod_diam = 5/2+tolerance;
 				//shaft
 				cylinder( r=9, h=8);
 				//captive nut and grub holes
-				translate( [0, 19.5, 3.5] ) rotate( [90, 0, 0] ) union() {
-					//enterance
-					translate( [0, -3, 14.5] ) cube( [6, 6, 2.8], center=true );
-					//nut
-					translate( [0, 0, 14.5] ) rotate( [0, 0, 30] )
-						cylinder( r=6/2+0.5, h=2.8, $fn=6, center=true);
-					//grub hole
-					translate( [0, 0, 9] ) cylinder( r=3.3/2, h=10);
-				}
+				translate( [0, 13, 3.5] ) //rotate([90,0,0]) union() {
+				  rotate([0,180,0]) hole_for_screw(size=3,length=14,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
 			}
 		}
 
@@ -218,12 +211,13 @@ motor_rod_diam = 5/2+tolerance;
 		//shaft hole
 		translate( [0, 0, -6] ) cylinder( r=motor_rod_diam, h=20);
 	}
+	translate( [0, 13, 12-3.5]) //rotate([180,0,180])
+	screw_and_nut(size=3,length=8,nutDepth=1,nutAddedLen=0,autoNutOffset=true,invert=false,rot=90,echoPart=true);
 }
 
 module cyclone_rod_gear(Gear_N_Teeth = 21, gearHeight=10, nutSize = 8, saveMaterial=false, tolerance=0) {
 rod_diam = COURSE_METRIC_BOLT_MAJOR_THREAD_DIAMETERS[nutSize]+tolerance;
 nut_separation = METRIC_NUT_THICKNESS[nutSize]/2+tolerance;
-nut_radius = METRIC_NUT_AC_WIDTHS[nutSize]/2+tolerance;
 // Rod Gear
 	difference() {
 		union() {
@@ -238,7 +232,7 @@ nut_radius = METRIC_NUT_AC_WIDTHS[nutSize]/2+tolerance;
 						cylinder( r=holes_diam/2, h=11, center=true);
 
 		translate( [0, 0, (nut_separation/2)] )
-  		cylinder(r=nut_radius,h=7,$fn=6);
+			rotate([-90,0,0]) hole_for_nut(size=nutSize);
 	}
 }
 
@@ -318,7 +312,7 @@ module control_board(plasticColor="green") {
 	translate([15,0]) {
 		difference() {
 			translate([-15,-12.5])
-				cube([102.5,64.5,1.6]);
+				color("green") cube([102.5,64.5,1.6]);
 			translate([0,0,5]) rotate([90,0,0]) hole_for_screw(size=3,length=10,nutDepth=0,nutAddedLen=0,captiveLen=0);
 			translate([82.5,0,5]) rotate([90,0,0]) hole_for_screw(size=3,length=10,nutDepth=0,nutAddedLen=0,captiveLen=0);
 			translate([0,48.5,5]) rotate([90,0,0]) hole_for_screw(size=3,length=10,nutDepth=0,nutAddedLen=0,captiveLen=0);

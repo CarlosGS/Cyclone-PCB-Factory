@@ -252,26 +252,20 @@ module Cyclone_X_carriage() {
 			nut(size=8, echoPart=true);
 			
 	translate([-dimX/2,axes_effective_Xsmooth_separation,0]) rotate([-135,0,0]){
-	//translate([0,dimY/2+rod_nut_len/2,0])
-	//	rotate([0,90,0]) rotate([90,0,0])
-	//translate([0,-rod_nut_len-3-washer_thickness/2,0])
-	translate([-rod_nut_len/2+1,0,0]) rotate([90,90,90])
-		nut(size=8, echoPart=true);
-	//translate([0,-dimY/2,0])
-	//	rotate([0,90,0]) rotate([-90,0,0])
-	translate([rod_nut_len/2+3+1+holderExtension,0,0]) rotate([90,90,90])
-		nut(size=8, echoPart=true);
-	//translate([0,dimY/2+0.01-rod_nut_len/2-3,0])
-	translate([rod_nut_len/2+3+1,0,0]) rotate([0,0,-90]) rotate([180,0,0])
-		washer_single(diam=washer_D, thickness=washer_thickness, echoPart=true);
+		translate([-rod_nut_len/2+1,0,0]) rotate([90,90,90])
+			nut(size=8, echoPart=true);
+		translate([rod_nut_len/2+3+1+holderExtension,0,0]) rotate([90,90,90])
+			nut(size=8, echoPart=true);
+		translate([rod_nut_len/2+3+1,0,0]) rotate([0,0,-90]) rotate([180,0,0])
+			washer_single(diam=washer_D, thickness=washer_thickness, echoPart=true);
 	}
 			
 	translate([-linearBearingLength/2-X_linearBearingSeparation/2,-screwLength/2-screwAditionalLength/2,-linearBearingDiameter/2-screwExtension/2])
-		rotate([0,0,180]) screw_and_nut(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0);
+		rotate([0,0,180]) screw_and_nut(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0,echoPart=true);
 	// Bottom left screw
 	translate([linearBearingLength/2+X_linearBearingSeparation/2,-screwLength/2-screwAditionalLength/2,-linearBearingDiameter/2-screwExtension/2])
-		rotate([0,0,180]) screw_and_nut(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0);
+		rotate([0,0,180]) screw_and_nut(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0,echoPart=true);
 	// Top screw
 	translate([0,axes_effective_Xsmooth_separation+screwExtension/2+linearBearingDiameter/2,axes_effective_Xsmooth_separation+screwLength/2+screwAditionalLength/2])
-		rotate([90,0,0]) screw_and_nut(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0);
+		rotate([90,0,0]) screw_and_nut(size=screwSize,length=screwLength+screwAditionalLength,nutDepth=0,nutAddedLen=0,captiveLen=0,echoPart=true);
 }

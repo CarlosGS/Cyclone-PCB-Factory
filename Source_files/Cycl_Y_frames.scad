@@ -27,8 +27,9 @@ module Cyclone_Y_frontFrame() {
 	gearWallSeparation = Y_gearWallSeparation;
 	
 	motor_YgearSeparation_projected = axes_YgearSeparation*cos(-motorRotatedOffset);
-	
-	rod_nut_len = 0.8*axes_Ythreaded_rodD;
+
+	rod_nut_len = METRIC_NUT_THICKNESS[Y_threaded_rodNutSize];
+	nut_separation = rod_nut_len/2;
 	gear_thickness = Y_gear_thickness;
 	bearing_width = bearingWidth(Y_threaded_rodBearingModel);
 	bearing_diam = bearingOuterDiameter(Y_threaded_rodBearingModel);
@@ -42,6 +43,8 @@ module Cyclone_Y_frontFrame() {
 	footSeparation = screwSize*2;
 	foot_additional_separation = Y_foot_additional_separation;
 	footThickness = Y_frame_footThickness;
+	
+	rodNutSize = Y_threaded_rodNutSize;
 	
 	
 	module Cyclone_YsubPart_gearCover() {
@@ -140,7 +143,7 @@ module Cyclone_Y_frontFrame() {
 		}
 	}
 	
-	translate([0,2*rod_nut_len+gear_thickness,0]) {
+	translate([0,2*rod_nut_len+gear_thickness-nut_separation,0]) {
 		translate([0,bearing_width-bearingDepth,0]) {
 			if(draw_references) color("blue") %frame(20);
 			difference() {
@@ -179,7 +182,7 @@ module Cyclone_Y_frontFrame() {
 				}
 				translate([0,-0.01,0])
 					rotate([-90,0,0])
-						bearingHole(depth=bearingDepth, thickness=partThickness);
+						bearingHole(depth=bearingDepth, thickness=partThickness, model=Y_threaded_rodBearingModel);
 				translate([0,dimY/2,-dimZ+footThickness]) {
 					translate([footSeparation+dimX/2,0,0])
 						rotate([0,90,0])
@@ -210,15 +213,15 @@ module Cyclone_Y_frontFrame() {
 				translate([footSeparation+dimX/2,0,0])
 					rotate([0,90,0])
 						rotate([0,0,90])
-							screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, rot=90, invert=true, autoNutOffset=true, echoPart=true);
+							screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,rot=90,invert=true,autoNutOffset=true,echoPart=true);
 				translate([dimX/3,dimY/2+footSeparation+foot_additional_separation,0])
 					rotate([0,90,0])
 						rotate([0,0,90])
-							screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, rot=90, invert=true, autoNutOffset=true, echoPart=true);
+							screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,rot=90,invert=true,autoNutOffset=true,echoPart=true);
 				translate([-footSeparation-foot_additional_separation-motor_YgearSeparation_projected-Ymotor_sideLen/2,0,0])
 					rotate([0,90,0])
 						rotate([0,0,90])
-							screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, rot=90, invert=true, autoNutOffset=true, echoPart=true);
+							screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,rot=90,invert=true,autoNutOffset=true,echoPart=true);
 			}
 			// Translate to motor position
 			rotate([0,-motorRotatedOffset,0]) {
@@ -228,39 +231,39 @@ module Cyclone_Y_frontFrame() {
 							rotate([90,0,0])
 								stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
 						if(Render_Y_motorGear) {
-							translate([0,-rod_nut_len-gear_thickness,0])
+							translate([0,-(bearing_width-bearingDepth)-motorWallSeparation-nut_separation,0])
 								rotate([-90,180,0]) color(color_movingPart) 
 									cyclone_motor_gear(Gear_N_Teeth=Y_motorGearRatio,gearHeight=gear_thickness,tolerance=0);
 						}
 					}
 			}
 			if(Render_Y_gearCover) {
-			// Draw the Y gear cover
-			translate([0,-0.1,0])
-				color(color_stillPart) Cyclone_YsubPart_gearCover();
+				// Draw the Y gear cover
+				translate([0,-0.1,0])
+					color(color_stillPart) Cyclone_YsubPart_gearCover();
 			}
 		}
 		rotate([-90,0,0])
 			radialBearing(echoPart=true);
 	}
-	translate([0,-METRIC_NUT_THICKNESS[axes_Ythreaded_rodD]/2,0])
-		rotate([-90,0,0])
-			rotate([0,0,45]) nut(size=axes_Ythreaded_rodD, chamfer=true, echoPart=true);
-	translate([0,rod_nut_len+gear_thickness,0])
-		rotate([-90,0,0])
-			nut(size=axes_Ythreaded_rodD, echoPart=true);
+	translate([0,0.1,0])
+		rotate([-90,0,0]) rotate([0,0,45]) nut(size=rodNutSize, chamfer=true, echoPart=true);
 	if(Render_Y_rodGear) {
-		translate([0,METRIC_NUT_THICKNESS[axes_Ythreaded_rodD]/4+rod_nut_len,0])
+		translate([0,2*rod_nut_len-(nut_separation/2),0])
 			rotate([-90,0,0]) color(color_movingPart)
-				cyclone_rod_gear(Gear_N_Teeth=Y_rodGearRatio,gearHeight=gear_thickness,nutSize=8,tolerance=0);
+				cyclone_rod_gear(Gear_N_Teeth=Y_rodGearRatio,gearHeight=gear_thickness,nutSize=Y_threaded_rodNutSize,tolerance=0);
 	}
+	translate([0,rod_nut_len+gear_thickness-nut_separation,0])
+		rotate([-90,0,0])	nut(size=rodNutSize, echoPart=true);
 }
 
 module Cyclone_Y_backFrame() {
 	
 	screwSize = Y_backFrame_footScrewSize;
 	
-	rod_nut_len = 0.8*axes_Ythreaded_rodD;
+	rodNutSize = Y_threaded_rodNutSize;
+	//rod_nut_len = 0.8*axes_Ythreaded_rodD;
+	rod_nut_len = METRIC_NUT_THICKNESS[rodNutSize];
 	bearing_width = bearingWidth(Y_threaded_rodBearingModel);
 	bearing_diam = bearingOuterDiameter(Y_threaded_rodBearingModel);
 	bearingDepth = Y_threaded_rodBearingDepth;
@@ -306,7 +309,7 @@ module Cyclone_Y_backFrame() {
 				
 				translate([0,0.01,0])
 					rotate([90,0,0])
-						bearingHole(depth=bearingDepth, thickness=partThickness);
+						bearingHole(depth=bearingDepth, thickness=partThickness, model=Y_threaded_rodBearingModel);
 				translate([0,-dimY/2,-axes_Y_threaded_height+footThickness]) {
 					translate([-footSeparation-dimX/2,0,0])
 						rotate([0,90,0])
@@ -328,15 +331,15 @@ module Cyclone_Y_backFrame() {
 				translate([-footSeparation-dimX/2,0,0])
 					rotate([0,90,0])
 						rotate([0,0,90])
-							screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, rot=90, invert=true, autoNutOffset=true, echoPart=true);
+							screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,rot=90,invert=true,autoNutOffset=true,echoPart=true);
 				translate([footSeparation+dimX/2,0,0])
 					rotate([0,90,0])
 						rotate([0,0,90])
-							screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, rot=90, invert=true, autoNutOffset=true, echoPart=true);
+							screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,rot=90,invert=true,autoNutOffset=true,echoPart=true);
 				translate([0,dimY/2+footSeparation+foot_additional_separation,0])
 					rotate([0,90,0])
 						rotate([0,0,90])
-							screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, rot=90, invert=true, autoNutOffset=true, echoPart=true);
+							screw_and_nut(size=screwSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,rot=90,invert=true,autoNutOffset=true,echoPart=true);
 			}
 		}
 		rotate([90,0,0])
@@ -344,10 +347,10 @@ module Cyclone_Y_backFrame() {
 	}
 	translate([0,0.01,0])
 		rotate([90,0,0])
-			rotate([0,0,45]) nut(size=axes_Ythreaded_rodD, chamfer=true, echoPart=true);
+			rotate([0,0,45]) nut(size=rodNutSize, chamfer=true, echoPart=true);
 	translate([0,-rod_nut_len,0])
 		rotate([90,0,0])
-			nut(size=axes_Ythreaded_rodD, echoPart=true);
+			nut(size=rodNutSize, echoPart=true);
 }
 
 module Cyclone_logo(sizemm = 30, thickness = 10, mirrorLogo = false) {
@@ -428,20 +431,20 @@ module Cyclone_Y_rightSmoothRodIdler(mirrorLogo = false) {
 	translate([2.5+holderOuterRadius,dimY/2,holderOuterRadius])
 		rotate([0,90,0])
 				rotate([0,0,90])
-					screw_and_nut(size=rodScrewSize,length=screwLength+10,nutDepth=10,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, rot=90, echoPart=true);
+					screw_and_nut(size=rodScrewSize,length=screwLength+10,nutDepth=10,nutAddedLen=0,captiveLen=0,rot=90,echoPart=true);
 	translate([0,dimY/2,-axes_Yreference_height+footThickness]) {
 		translate([-holderOuterRadius-footSeparation,0,0])
 			rotate([0,90,0])
 				rotate([0,0,90])
-					screw_and_nut(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, autoNutOffset=true, rot=90, invert=true, echoPart=true);
+					screw_and_nut(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,autoNutOffset=true,rot=90,invert=true,echoPart=true);
 		translate([holderOuterRadius*2+footSeparation,0,0])
 			rotate([0,90,0])
 				rotate([0,0,90])
-					screw_and_nut(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, autoNutOffset=true, rot=90, invert=true, echoPart=true);
+					screw_and_nut(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,autoNutOffset=true,rot=90,invert=true,echoPart=true);
 		translate([holderOuterRadius/2,dimY/2+footSeparation,0])
 			rotate([0,90,0])
 				rotate([0,0,90])
-					screw_and_nut(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, autoNutOffset=true, rot=90, invert=true, echoPart=true);
+					screw_and_nut(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,autoNutOffset=true,rot=90,invert=true,echoPart=true);
 	}
 }
 
