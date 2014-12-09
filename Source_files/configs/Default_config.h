@@ -87,10 +87,10 @@
 			axes_Xthreaded_rodLen	= axes_Xsmooth_rodLen+50;
 			axes_Xthreaded_rodD	= 8.5 + animatePart(4,dist=5);
 		// Z smooth rod
-			axes_Zsmooth_rodLen	= 110 + animatePart(3);
+			axes_Zsmooth_rodLen	= 110 + 40 + animatePart(3);
 			axes_Zsmooth_rodD	= 8.2 + animatePart(4,dist=5);
 		// Z threaded rod
-			axes_Zthreaded_rodLen	= 90;
+			axes_Zthreaded_rodLen	= 90 + 30;
 			axes_Zthreaded_rodD	= 8.5 + animatePart(4,dist=5);
 			
 	// --- Bearings ---

@@ -59,8 +59,12 @@ axes_Y_smoothThreaded_verticalSeparation = axes_Yreference_height-axes_Y_threade
 axes_ZthreadedReference_posY = axes_Xsmooth_separation-axes_Zreference_posY-axes_Zreference_posY; // Relative to X carriage reference
 
 // Include Cyclone parts
+//include <Cycl_X_carriage_alt.scad>
+//include <Cycl_Z_carriage_alt.scad>
 include <Cycl_X_carriage.scad>
+include <Cycl_X_carriage_alt.scad>
 include <Cycl_Z_carriage.scad>
+include <Cycl_Z_carriage_alt.scad>
 include <Cycl_X_frames.scad>
 include <Cycl_Y_carriage.scad>
 include <Cycl_Y_frames.scad>
@@ -139,7 +143,10 @@ render_2D_or_3D() {
 				if(draw_references) %frame();
 				
 				if(Render_X_carriage)
-					Cyclone_X_carriage();
+				  if(!alt_XZ_carriage) {
+						Cyclone_X_carriage();}
+					else {
+						Cyclone_X_carriage_alt();}
 				
 				// TRANSLATE REFERENCE POSITION to the Z axis origin (right smooth rod)
 				translate([-axes_Zsmooth_separation/2,axes_Zreference_posY,axes_Zreference_height]) {
@@ -154,6 +161,7 @@ render_2D_or_3D() {
 					translate([axes_Zsmooth_separation/2,axes_ZthreadedReference_posY,0])
 						rotate([90,0,0]) standard_rod(diam=axes_Zthreaded_rodD, length=axes_Zthreaded_rodLen, threaded=true, echoPart=true);
 					
+					if(!alt_XZ_carriage) {
 					// TRANSLATE REFERENCE POSITION to the Z axis reference
 						translate([axes_Zsmooth_separation/2,0,axes_Zcarriage_pos]) {
 							if(draw_references) %frame();
@@ -161,12 +169,17 @@ render_2D_or_3D() {
 							if(Render_Z_carriage)
 								Cyclone_Z_carriage();
 						}
+					} else {
+						translate([axes_Zsmooth_separation/2,0,axes_Zsmooth_rodLen-80]) {
+							if(draw_references) %frame();
+							Cyclone_Z_carriage_alt();
+						}
+					}
 				}
 			}
 		}
 	
 	}
-	
 	
 	if(Render_control_board) {
 		translate([axes_Xsmooth_rodLen/2,0,0])
