@@ -187,19 +187,21 @@ module stepperMotor(screwHeight=10, renderPart=false, echoPart=false) {
 module cyclone_motor_gear(Gear_N_Teeth = 21, gearHeight=10, saveMaterial=false, tolerance=0) {
 motor_rod_diam = 5/2+tolerance;
 // Motor gear
-	union() difference() {	 
+	difference() {
 		union() {
-
 			//gear
 			herringbone_gear(teeth=Gear_N_Teeth,height=gearHeight);
 
-			translate( [0, 0, 12] ) mirror( [0, 0, 1] ) difference() {
+			translate( [0, 0, 12] ) mirror( [0, 0, 1] ) {
 				//shaft
 				cylinder( r=9, h=8);
-				//captive nut and grub holes
-				translate( [0, 13, 3.5] ) //rotate([90,0,0]) union() {
-				  rotate([0,180,0]) hole_for_screw(size=3,length=14,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90);
 			}
+		}
+		
+		translate( [0, 0, 12] ) mirror( [0, 0, 1] ) {
+			//captive nut and grub holes
+			translate( [0, 13, 3.5] )
+				rotate([0,180,0]) hole_for_screw(size=3,length=14,nutDepth=4.5,nutAddedLen=0,captiveLen=10, rot=90, tolerance=tolerance);
 		}
 
 		if(saveMaterial)
@@ -232,7 +234,7 @@ nut_separation = METRIC_NUT_THICKNESS[nutSize]/2+tolerance;
 						cylinder( r=holes_diam/2, h=11, center=true);
 
 		translate( [0, 0, (nut_separation/2)] )
-			rotate([-90,0,0]) hole_for_nut(size=nutSize);
+			rotate([-90,0,0]) hole_for_nut(size=nutSize, tolerance=tolerance);
 	}
 }
 
