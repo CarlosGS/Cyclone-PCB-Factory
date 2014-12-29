@@ -6,9 +6,9 @@
 
 Read this, it's important!
 ===========================
-If you are reading this, then you are looking at the development version of Cyclone PCB Factory.
+If you are reading this, then you are looking at the **development version** of Cyclone PCB Factory.
 This means files may present inconsistencies (dimensions mismatch, lack of tolerances, etc).
-If you just want to build the machine, take a look at the following locations:
+**If you just want to build the machine, take a look at the following locations:**
 
 - **Releases: <https://github.com/carlosgs/Cyclone-PCB-Factory/releases>**
 - **Documentation: <http://reprap.org/wiki/Cyclone_PCB_Factory>**
@@ -42,7 +42,7 @@ Install git (http://git-scm.com/) onto your system. Then run a clone:
 This will download the latest sources into a directory named 'Cyclone-PCB-Factory'.  
 
 
-Version 2.0  
+Version 2.1 (Unstable, Work In Progress)  
 --  
 
 **Cyclone PCB Factory V2.0 was developed in the department of innovation and robotics at [bq](http://www.bq.com/)**  
@@ -62,8 +62,8 @@ V2.0 addresses all the issues from the original design, and implementing improve
 
 Future improvements:  
 --  
-* Endstop integration for Z (integrated probe)
-* Re-implement the Z carriage, currently inherited from Cyclone V1
+* Endstop integration for Z (integrated probe?)
+* Re-implement/Improve the Z carriage, currently inherited from Cyclone V1
 
 
 <p align="center">
@@ -94,9 +94,9 @@ Videos
 
 Bill of materials (obsolete, to be updated and moved to the RepRap wiki page)  
 --  
-Kobus' <https://docs.google.com/spreadsheet/ccc?key=0AjYcEd1WlkqCdERINEFvRk9mVTZvdXZFR0VHVjRWc2c#gid=0>  
-Robsbots' <https://docs.google.com/spreadsheet/ccc?key=0AmiiQRLnjs9cdE12VDFmTHJ4N3JoTzcwbkJPb0ZLSWc#gid=0>  
-Carlosgs' <https://docs.google.com/spreadsheet/ccc?key=0AsQp8IK25R4IdGk3LTdOWmpFR0Nrc0RhaVJaUC1CMUE>  
+- Kobus' <https://docs.google.com/spreadsheet/ccc?key=0AjYcEd1WlkqCdERINEFvRk9mVTZvdXZFR0VHVjRWc2c#gid=0>  
+- Robsbots' <https://docs.google.com/spreadsheet/ccc?key=0AmiiQRLnjs9cdE12VDFmTHJ4N3JoTzcwbkJPb0ZLSWc#gid=0>  
+- Carlosgs' <https://docs.google.com/spreadsheet/ccc?key=0AsQp8IK25R4IdGk3LTdOWmpFR0Nrc0RhaVJaUC1CMUE> (consumables)  
 
 
 More pictures  
@@ -124,12 +124,15 @@ License: **Attribution - Share Alike - Creative Commons (<http://creativecommons
 
 Authors:  
 --
-**Carlos García Saura (Carlosgs <http://carlosgs.es>)** is the original author of V2.0.  
-**Many other people keeps contributing to the project (check "most active posters" at <https://groups.google.com/forum/#!aboutgroup/cyclone-pcb-factory>).**  
+**Carlos García Saura (<http://carlosgs.es>)** released the project as open-source and is the current maintainer.
+
+**Many other people keeps contributing to the project (check GitHub contributions and "most active posters" at <https://groups.google.com/forum/#!aboutgroup/cyclone-pcb-factory>).**  
 
 Special thanks  
 --  
-- Plenty of feedback from **Pedro de Oro**, **Alberto Valero**, **Alberto Mendez** (and **Obijuan**, **Pacle**, **Jesus**, **Ana**, **Santi**, **Antonio**, **Jose**... :-P) at the _department of innovation and robotics at [bq](http://www.bq.com/)_. **Cyclone is much more user-friendly thanks to you!**
+- **Arne Durr (D-Byte)** finished the OpenScad assembly and made the code much more parametric.  
+- Plenty of feedback from **Pedro de Oro**, **Alberto Valero**, **Alberto Mendez** (and **Obijuan**, **Pacle**, **Jesus**, **Ana**, **Santi**, **Antonio**, **Jose**... :-P) at the _department of innovation and robotics at [bq](http://www.bq.com/)_. **Cyclone is much more user-friendly thanks to you!**  
+- **Glen Chung** (<https://github.com/glenchung>) improved the OpenScad code quite a lot (a much more elegant code), providing a great start point for V2.0.  
 - Z axis concepts by **Quim Borras** and the spindle motor holder by **Misan** were really useful!! Also, **Diego Viejo**'s machine was of great inspiration for the Z axis (<https://plus.google.com/u/0/photos/113930344830086538817/albums/5868944432651911713?authkey=CLDJgdehlN773gE>) **Thank you all!!**  
 - This design woudn't have been possible without the encouragement of the **Panda CNC community** (<https://plus.google.com/u/0/communities/102402711800402614517>)  
 - Also, thanks to **Juan González-Gómez (Obijuan <http://iearobotics.com>)** for naming the machine Cyclone :)  
