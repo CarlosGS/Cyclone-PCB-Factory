@@ -194,8 +194,9 @@
 		blueColor = [0.3,0.6,0.9];
 		redColor = [0.8,0.3,0.3];
 		yellowColor = [0.9,0.9,0.1];
+		orangeColor = [0.9,0.5,0.1];
 		blackColor = [0.2,0.2,0.2];
-		color_movingPart = yellowColor+[0.1,0.1,0.1];
+		color_movingPart = orangeColor;
 		color_stillPart = yellowColor;
 
 	// --- DXF output ---
