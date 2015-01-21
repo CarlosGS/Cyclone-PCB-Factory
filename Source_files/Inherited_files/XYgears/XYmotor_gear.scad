@@ -102,14 +102,14 @@ union() difference() {
 			//shaft
 			cylinder( r=9, h=15);
 			//captive nut and grub holes
-			translate( [0, 19.5, 3.5] ) rotate( [90, 0, 0] ) union() {
+			translate( [0, 20, 3.5] ) rotate( [90, 0, 0] ) union() {
 				//enterance
-				translate( [0, -3, 14.5] ) cube( [6, 6, 2.8], center=true );
+				translate( [0, -3, 14.8] ) cube( [6.3, 6, 2.8], center=true );
 				//nut
-				translate( [0, 0, 14.5] ) rotate( [0, 0, 30] )
+				translate( [0, 0, 14.8] ) rotate( [0, 0, 30] )
 					cylinder( r=6/2+0.5, h=2.8, $fn=6, center=true);
 				//grub hole
-				translate( [0, 0, 9] ) cylinder( r=3.3/2, h=10);
+				translate( [0, 0, 9] ) cylinder( r=3.6/2, h=10);
 			}
 		}
 	}
