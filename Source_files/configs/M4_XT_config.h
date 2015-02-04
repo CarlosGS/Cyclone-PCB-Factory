@@ -181,6 +181,7 @@
 		axes_Xsmooth_separation_tolerance = 0.5;
 		X_threaded_rod_Tolerance = 0.5;
 		Z_linearBearingHole_tolerance = 0.1;
+		Z_radialBearingHole_tolerance = 0.1;
 		LinearBearingPressureFitTolerance = 0.1;
 		screwHoleTolerance = 0.04;
 		

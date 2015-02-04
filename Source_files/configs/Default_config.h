@@ -181,7 +181,8 @@
 		PCB_holder_tolerance = 1;
 		axes_Xsmooth_separation_tolerance = 0.5;
 		X_threaded_rod_Tolerance = 0.5;
-		Z_linearBearingHole_tolerance = 0.5;
+		Z_linearBearingHole_tolerance = 0.25;
+		Z_radialBearingHole_tolerance = 0.25;
 		LinearBearingPressureFitTolerance = 0.4;
 		screwHoleTolerance = 0.4;
 		

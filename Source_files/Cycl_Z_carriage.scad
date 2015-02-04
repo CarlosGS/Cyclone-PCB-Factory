@@ -121,7 +121,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 
 			// Bearing holes
 			translate([0,axis_distance,0]) {
-				bearingHole(depth=Z_bearing_width, thickness=partThickness, model=Z_threaded_rodBearingModel);
+				bearingHole(depth=Z_bearing_width, thickness=partThickness, model=Z_threaded_rodBearingModel, tolerance=Z_radialBearingHole_tolerance);
 
 				hull() {
 						cylinder(r=(axes_Zsmooth_rodD*2)/2,h=10*wall_thickness,center=true);

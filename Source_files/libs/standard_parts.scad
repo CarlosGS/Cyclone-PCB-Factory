@@ -154,7 +154,7 @@ module screw_single(size=3,length=10,tolerance=0, renderPart=false, echoPart=fal
 
 use <MCAD/motors.scad>
 include <MCAD/stepper.scad>
-module stepperMotor_mount(height, tolerance=0.15, slide_distance=6, sideLen=42.20, slideOut=false, renderPart=false) {
+module stepperMotor_mount(height, tolerance=0.25, slide_distance=6, sideLen=42.20, slideOut=false, renderPart=false) {
 	render() union() {
 	linear_extrude(height=height) offset(delta = tolerance, join_type = "round") union() {
 		stepper_motor_mount(nema_standard=17, slide_distance=slide_distance, mochup=false);
@@ -239,8 +239,8 @@ nut_separation = METRIC_NUT_THICKNESS[nutSize]/2+tolerance;
 }
 
 use <MCAD/bearing.scad>
-module bearingHole(depth=3, thickness=10, model=608, tolerance=1) {
-	bearingD = bearingOuterDiameter(model)+tolerance;
+module bearingHole(depth=3, thickness=10, model=608, tolerance=0.4) {
+	bearingD = bearingOuterDiameter(model)+2*tolerance;
 	union() {
 		cylinder(r=bearingD/2,h=depth);
 		cylinder(r1=bearingD/2+0.5,r2=bearingD/2,h=0.5);
