@@ -89,7 +89,43 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 			}
 			}
 	}
+	
+	// Creates the part where the alluminium spindle holder will be attached to. 
+	// This part is joined to the current Z carriage instead of the dremel holder.
+	module SpindleHolder(top_part=true, boltDiam=6, horizontalBoltDistance=70, verticalBoltDistance=18, holderWidth=90){
 
+			holderHeight = (spindle_holder_distance+1.5)/2;
+			translate([0,18,holderHeight/2]){
+				difference(){
+					union(){
+						hull(){
+							translate([(holderWidth)/2,-10,-0.5])cylinder(r=3,h=holderHeight-1,center=true);
+							translate([-(holderWidth)/2,-10,-0.5])cylinder(r=3,h=holderHeight-1,center=true);
+							translate([20,-21,-0.5])cylinder(r=8,h=holderHeight-1,center=true);
+							translate([-20,-21,-0.5])cylinder(r=8,h=holderHeight-1,center=true);
+						}
+					}
+					translate([0,-65,0])cylinder(r=48,h=holderHeight,center=true);
+					translate([0,-30,0])cylinder(r=16,h=holderHeight,center=true);
+
+					translate([horizontalBoltDistance/2,-36,holderHeight/2-verticalBoltDistance/2])
+						scale([1,5,1])
+							rotate([-90,360/12,0])
+								union(){
+									nutHole(6, units=MM,length=80, tolerance = +screwHoleTolerance, proj = -1);
+									boltHole(6, units=MM,length=80, tolerance = +screwHoleTolerance, proj = -1);
+								}
+					translate([-horizontalBoltDistance/2,-36,holderHeight/2-verticalBoltDistance/2])
+						scale([1,5,1])
+							rotate([-90,360/12,0])
+								union(){
+									nutHole(6, units=MM,length=80, tolerance = +screwHoleTolerance, proj = -1);
+									boltHole(6, units=MM,length=80, tolerance = +screwHoleTolerance, proj = -1);
+								}					
+				}
+			}
+	}
+	
 	module motorHolesZ() {
 		nema_screw_separation = lookup(NemaDistanceBetweenMountingHoles, Z_motorModel);
 
@@ -163,33 +199,41 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 				translate([wall_height/2+Z_smooth_rods_sep/2,Z_threaded_pos,0])
 					cylinder(r=3+linearBearingDiameter/2,h=wall_thickness);
 			}
-
-			// For the claw of the spindle holder
-			translate([0,spindle_front_offset,0])
-			if(top_part){
+			
+			// Select tool holder
+			if(tool==dremel)
+			{
+				// For the claw of the spindle holder
+				translate([0,spindle_front_offset,0])
+				if(top_part){
+					translate([wall_height/2,wall_width-4,0])
+						translate([0,38,0]) {
+							rotate([0,0,0]) {
+								translate([spindle_motor_diam_top/2,-12.5,0]) cube([20,20,wall_thickness]);
+								
+					// Write text in the front
+					color([0.5,0.5,0.5])
+							rotate([0,0,180]) scale([-1,1,-textHscale])
+								writecylinder(topText,[0,0,-wall_thickness/(2*textHscale)],spindle_motor_diam_top/2+spindle_holder_thickness,0,font="orbitron.dxf",space=1.1,h=wall_thickness,t=textThickness,center=true,ccw=true);
+							}
+						}
+				}
+				else
 				translate([wall_height/2,wall_width-4,0])
 					translate([0,38,0]) {
-						rotate([0,0,0]) {
-							translate([spindle_motor_diam_top/2,-12.5,0]) cube([20,20,wall_thickness]);
-							
-				// Write text in the front
-				color([0.5,0.5,0.5])
-						rotate([0,0,180]) scale([-1,1,-textHscale])
-							writecylinder(topText,[0,0,-wall_thickness/(2*textHscale)],spindle_motor_diam_top/2+spindle_holder_thickness,0,font="orbitron.dxf",space=1.1,h=wall_thickness,t=textThickness,center=true,ccw=true);
+						
+						rotate([0,0,180]) {
+						translate([spindle_motor_diam/2,-7-0.5,0]) cube([22,20,wall_thickness]);
+						color([0.2,0.2,0.5])
+						scale([1,1,textHscale])
+							writecylinder(bottomText,[0,0,wall_thickness/(2*textHscale)+1],spindle_motor_diam/2+spindle_holder_thickness,0,font="orbitron.dxf",space=1.1,h=wall_thickness-2,t=textThickness,center=true,ccw=true);
 						}
 					}
+			}else{
+				//Tool = SpindleHolder
+				translate([(wall_height/2+Z_smooth_rods_sep/2)/2+0.5,Z_threaded_pos,0])
+					SpindleHolder(top_part=top_part,boltDiam=spindle_holder_bolt_diam, horizontalBoltDistance=spindle_holder_bolt_X_separation, verticalBoltDistance=spindle_holder_bolt_Z_separation);
 			}
-			else
-			translate([wall_height/2,wall_width-4,0])
-				translate([0,38,0]) {
-					
-					rotate([0,0,180]) {
-					translate([spindle_motor_diam/2,-7-0.5,0]) cube([22,20,wall_thickness]);
-					color([0.2,0.2,0.5])
-					scale([1,1,textHscale])
-						writecylinder(bottomText,[0,0,wall_thickness/(2*textHscale)+1],spindle_motor_diam/2+spindle_holder_thickness,0,font="orbitron.dxf",space=1.1,h=wall_thickness-2,t=textThickness,center=true,ccw=true);
-					}
-				}
 		}
 	}
 
@@ -199,12 +243,19 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 				difference () {
 					Z_solid_body(top_part);
 					if(top_part) motor_stand_holes_Z();
-					translate([wall_height/2,wall_width-4,0])
-						spindle_holder_holes(wall_thickness,spindle_motor_diam,top_part);
+					if(tool==dremel) { 
+						translate([wall_height/2,wall_width-4,0])
+							spindle_holder_holes(wall_thickness,spindle_motor_diam,top_part);
+					}
+					
 					translate([wall_height/2-Z_smooth_rods_sep/2,Z_threaded_pos,0])
-						linearBearingHolderZ(wall_thickness);
+						linearBearingHolderZ(10*wall_thickness);
 					translate([wall_height/2+Z_smooth_rods_sep/2,Z_threaded_pos,0])
-						linearBearingHolderZ(wall_thickness);
+						linearBearingHolderZ(10*wall_thickness);
+					if(tool==spindle_holder)
+					{//Substract dremel holder
+						translate([(wall_height/2+Z_smooth_rods_sep/2)/2,Z_threaded_pos+51,25])cube([200,80,50], center=true);
+					}
 				}
 			}
 
@@ -259,17 +310,20 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 	  nut(size=rodNutSize, echoPart=true);
 	translate([0,axes_Xsmooth_separation,spindle_holder_distance+1.5-wall_thickness/2-Z_bearing_width*2-gear_thickness*1.4])
 	  nut(size=rodNutSize, chamfer=true, echoPart=true);
-	
-  // Dremel tool
-	translate([0,-40,-40]) {
-		color([0.2,0.2,0.2]) %cylinder(r1=30/2, r2=50/2, h=40);
-		translate([0,0,50])
-			color([0.2,0.2,0.2]) %cylinder(r=50/2, h=80);
-		translate([0,0,50+80])
-			color([0.2,0.2,0.2]) %cylinder(r1=50/2, r2=30/2, h=10);
-		translate([0,0,-20])
-			color([0.4,0.4,0.4]) %cylinder(r1=12/2, r2=10/2, h=20);
-		translate([0,0,-20-20])
-			color([0.9,0.9,0.9]) %cylinder(r1=0.5/2, r2=3/2, h=20);
+	  
+	if( tool == dremel){
+	  // Dremel tool
+		translate([0,-40,-40]) {
+			color([0.2,0.2,0.2]) %cylinder(r1=30/2, r2=50/2, h=40);
+			translate([0,0,50])
+				color([0.2,0.2,0.2]) %cylinder(r=50/2, h=80);
+			translate([0,0,50+80])
+				color([0.2,0.2,0.2]) %cylinder(r1=50/2, r2=30/2, h=10);
+			translate([0,0,-20])
+				color([0.4,0.4,0.4]) %cylinder(r1=12/2, r2=10/2, h=20);
+			translate([0,0,-20-20])
+				color([0.9,0.9,0.9]) %cylinder(r1=0.5/2, r2=3/2, h=20);
+			
+		}
 	}
 }
