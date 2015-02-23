@@ -4,6 +4,7 @@ bq Additions
 The files contained in this folder are part of the Cyclone branch developed at bq's department of innovation by Pedro de Oro. These improvements will be re-implemented in the OpenScad parametric version of Cyclone.
 
 * **Updates**
+
 - **Cycl_Tapa_Electrónica**: Final version.
 - **Cycl_engranajeMotorXY**: Nut hollow more deep in to the gear.
 - **Cycl_marcoFrontalY**: Added a extension for motor support. This avoid the vibrations transmision on the mechanism.
@@ -14,9 +15,8 @@ The files contained in this folder are part of the Cyclone branch developed at b
 - **Electrodo_Calibracion_Cyclone_doblado**: Added fold.
 
 <p align="center">
-<img src="Media/CycloneV2.jpg" width="80%">
+<img src="../Media/CycloneV2.jpg" width="80%">
 <div align="center"><i>Cyclone v2.0</i></div>
 </p>
-
 
 
