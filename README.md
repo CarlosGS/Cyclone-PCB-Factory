@@ -6,7 +6,7 @@
 
 Read this, it's important!
 ===========================
-If you are reading this, then you are looking at the **development version** of Cyclone PCB Factory.
+If you are reading this, then you may be looking at the **development version** of Cyclone PCB Factory.
 This means files may present inconsistencies (dimensions mismatch, lack of tolerances, etc).
 **If you just want to build the machine, take a look at the following locations:**
 
@@ -22,13 +22,15 @@ This means files may present inconsistencies (dimensions mismatch, lack of toler
 Mail list / Forum  
 -------------------
 If you are interested in this project, please consider joining our mail list:  
-**<https://groups.google.com/forum/#!forum/cyclone-pcb-factory>**  
+**English: <https://groups.google.com/forum/#!forum/cyclone-pcb-factory>**  
+**Spanish/Español: <https://groups.google.com/forum/#!forum/cyclone-pcb-factory-es>**  
 Any help and feedback will be appreciated, particularly with software usage and software development :)  
 
 Links of interest  
 ====================
 - **[Project network](https://github.com/carlosgs/Cyclone-PCB-Factory/network)** (useful to find the latest work by collaborators)
 - **[Wiki entry on RepRap.org](http://reprap.org/wiki/Cyclone_PCB_Factory)**
+- **[Joco's Cyclone journey in the mail list](https://groups.google.com/forum/#!topic/cyclone-pcb-factory/o_YzXokpLnA)**
 - **[A year of development (01/20/2014)](http://carlosgs.es/node/47)** (with information regarding the evolution of the project in 2013)
 
 Getting the (development) source files  
@@ -42,12 +44,19 @@ Install git (http://git-scm.com/) onto your system. Then run a clone:
 This will download the latest sources into a directory named 'Cyclone-PCB-Factory'.  
 
 
-Version 2.1 (Unstable, Work In Progress)  
+Current stable version: 2.1  
 --  
 
-**Cyclone PCB Factory V2.0 was developed in the department of innovation and robotics at [bq](http://www.bq.com/)**  
+**V2.1 incorporates:**
 
-V2.0 addresses all the issues from the original design, and implementing improvements by yOPERO, Martin Zabojnik and others.  
+* [Source code improvements](https://github.com/carlosgs/Cyclone-PCB-Factory/pull/33) by [Arne Durr (D-Byte)](https://github.com/D-Byte).
+* An [aluminium spindle holder](https://github.com/carlosgs/Cyclone-PCB-Factory/pull/40) by [Marc Muntada (quikshot)](https://github.com/quikshot).
+* There is also [a folder](master/bq_additions) with the version by [Pedro de Oro](https://github.com/PedroDeOro) and [Luis Díaz](http://diwo.bq.com/author/ldiaz/) from bq, with small aditions that simplify the assembly process.
+* Daniel Evrard has [assembled Cyclone in Sketchup](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/1TpFxE7avRo/EBSx7ouy9GwJ) which can be very useful as a template.
+* Thanks must also go to [ve3sjk](https://github.com/ve3sjk), [joco-nz](https://github.com/joco-nz), Aisflow, Yiannis Mandravellos, Samuel Kranz and [yOPERO](https://github.com/yOPERO) for their constructive discussions and support.
+
+V2.0 addressed all the issues from the original design, and implementing improvements by yOPERO, Martin Zabojnik and others.  
+**Cyclone PCB Factory V2.0 was developed in the department of innovation and robotics at [bq](http://www.bq.com/)**  
 
 * More robust design with tougher parts:
  * Better holders for the linear bearings (vibration made them slide away)
@@ -60,10 +69,10 @@ V2.0 addresses all the issues from the original design, and implementing improve
 * Using a [Dremel 200](http://www.dremel.com/en-us/tools/Pages/ToolDetail.aspx?pid=200+Series) as the spindle motor
 * Integrated endstop holders
 
-Future improvements:  
+Future improvements (you can help!):  
 --  
-* Endstop integration for Z (integrated probe?)
-* Re-implement/Improve the Z carriage, currently inherited from Cyclone V1
+* There is a [long discussion](https://github.com/carlosgs/Cyclone-PCB-Factory/issues/32) in regards to the re-design of the Z carriage (currently inherited from Cyclone V1)
+* The improvements in [bq_additions](bq_additions) need to be parameterised into the OpenScad design.
 
 
 <p align="center">
