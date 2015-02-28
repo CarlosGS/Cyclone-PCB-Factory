@@ -3,6 +3,8 @@ Electronics for Cyclone-PCB-Factory
 
 Electronic boards (and firmwares) for controlling Cyclone PCB Factory and similar machines  
 
+* (Feb/2015) Samuel Kranz is working in [another iteration](https://groups.google.com/d/msg/cyclone-pcb-factory/YUhSF-1WIsQ/zLMxC9SWfXoJ) of his board
+
 * [Spindle controller by Samuel Kranz](https://github.com/secures92/SpindleControlStick) and [Controller board by Robert Last](https://github.com/robsbots/Cyclone_Pcb):
 
 ![ScreenShot](Media/Cyclone_first_year_12_ControllerBoards.jpg)
@@ -17,5 +19,5 @@ Electronic boards (and firmwares) for controlling Cyclone PCB Factory and simila
 
 Disclaimer  
 --
-This hardware/software is provided "as is", and you use the hardware/software at your own risk. Under nocircumstances shall any author be liable for direct, indirect, special, incidental, or consequential damages resulting from the use, misuse, or inability to use this hardware/software, even if the authors have been advised of the possibility of such damages.  
+This hardware/software is provided "as is", and you use the hardware/software at your own risk. Under no circumstances shall any author be liable for direct, indirect, special, incidental, or consequential damages resulting from the use, misuse, or inability to use this hardware/software, even if the authors have been advised of the possibility of such damages.  
 
