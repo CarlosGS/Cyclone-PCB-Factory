@@ -254,7 +254,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 						linearBearingHolderZ(10*wall_thickness);
 					if(tool==spindle_holder)
 					{//Substract dremel holder
-						translate([(wall_height/2+Z_smooth_rods_sep/2)/2,Z_threaded_pos+51,25])cube([200,80,50], center=true);
+						translate([(wall_height/2+Z_smooth_rods_sep/2)/2,Z_threaded_pos+51,25])cube([200,80,51], center=true);
 					}
 				}
 			}
