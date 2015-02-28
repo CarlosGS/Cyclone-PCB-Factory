@@ -28,10 +28,10 @@ Any help and feedback will be appreciated, particularly with software usage and 
 
 Links of interest  
 ====================
-- **[Project network](https://github.com/carlosgs/Cyclone-PCB-Factory/network)** (useful to find the latest work by collaborators)
+- **[GitHub project network](https://github.com/carlosgs/Cyclone-PCB-Factory/network)** (useful to find the latest work by collaborators)
 - **[Wiki entry on RepRap.org](http://reprap.org/wiki/Cyclone_PCB_Factory)**
 - **[Joco's Cyclone journey in the mail list](https://groups.google.com/forum/#!topic/cyclone-pcb-factory/o_YzXokpLnA)**
-- **[A year of development (01/20/2014)](http://carlosgs.es/node/47)** (with information regarding the evolution of the project in 2013)
+- **[A year of development (Jan/2014)](http://carlosgs.es/node/47)** (project evolution during 2013)
 
 Getting the (development) source files  
 ========================================
@@ -49,14 +49,14 @@ Current stable version: 2.1
 
 **V2.1 incorporates:**
 
-* [Source code improvements](https://github.com/carlosgs/Cyclone-PCB-Factory/pull/33) by [Arne Durr (D-Byte)](https://github.com/D-Byte).
+* [Source code improvements (better parameterization, M4 screw version)](https://github.com/carlosgs/Cyclone-PCB-Factory/pull/33) by [Arne Durr (D-Byte)](https://github.com/D-Byte).
 * An [aluminium spindle holder](https://github.com/carlosgs/Cyclone-PCB-Factory/pull/40) by [Marc Muntada (quikshot)](https://github.com/quikshot).
-* There is also [a folder](master/bq_additions) with the version by [Pedro de Oro](https://github.com/PedroDeOro) and [Luis Díaz](http://diwo.bq.com/author/ldiaz/) from bq, with small aditions that simplify the assembly process.
+* There is also [a folder](master/bq_additions) with the version by [Pedro de Oro](https://github.com/PedroDeOro) and [Luis Díaz](http://diwo.bq.com/author/ldiaz/) from **bq**, with small aditions that simplify the assembly process.
 * Daniel Evrard has [assembled Cyclone in Sketchup](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/1TpFxE7avRo/EBSx7ouy9GwJ) which can be very useful as a template.
-* Thanks must also go to [ve3sjk](https://github.com/ve3sjk), [joco-nz](https://github.com/joco-nz), Aisflow, Yiannis Mandravellos, Samuel Kranz and [yOPERO](https://github.com/yOPERO) for their constructive discussions and support.
+* Thanks must also go to [ve3sjk](https://github.com/ve3sjk), [joco-nz](https://github.com/joco-nz), Aisflow, Yiannis Mandravellos, Samuel Kranz and [yOPERO](https://github.com/yOPERO) for their constructive discussions and continuous support.
 
-V2.0 addressed all the issues from the original design, and implementing improvements by yOPERO, Martin Zabojnik and others.  
 **Cyclone PCB Factory V2.0 was developed in the department of innovation and robotics at [bq](http://www.bq.com/)**  
+**V2.0** addressed all the issues from the original design, and implementing improvements by yOPERO, Martin Zabojnik and others:  
 
 * More robust design with tougher parts:
  * Better holders for the linear bearings (vibration made them slide away)
@@ -72,7 +72,7 @@ V2.0 addressed all the issues from the original design, and implementing improve
 Future improvements (you can help!):  
 --  
 * There is a [long discussion](https://github.com/carlosgs/Cyclone-PCB-Factory/issues/32) in regards to the re-design of the Z carriage (currently inherited from Cyclone V1)
-* The improvements in [bq_additions](bq_additions) need to be parameterised into the OpenScad design.
+* Some of the improvements in [bq_additions](bq_additions), made in FreeCAD, should be implemented into the OpenScad parametric design.
 
 
 <p align="center">
