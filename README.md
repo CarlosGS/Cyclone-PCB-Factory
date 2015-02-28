@@ -51,7 +51,7 @@ Current stable version: 2.1
 
 * [Source code improvements (better parameterization, M4 screw version)](https://github.com/carlosgs/Cyclone-PCB-Factory/pull/33) by [Arne Durr (D-Byte)](https://github.com/D-Byte).
 * An [aluminium spindle holder](https://github.com/carlosgs/Cyclone-PCB-Factory/pull/40) by [Marc Muntada (quikshot)](https://github.com/quikshot).
-* There is also [a folder](master/bq_additions) with the version by [Pedro de Oro](https://github.com/PedroDeOro) and [Luis Díaz](http://diwo.bq.com/author/ldiaz/) from **bq**, with some additions that simplify the assembly process.
+* There is also [a folder](bq_additions) with the version by [Pedro de Oro](https://github.com/PedroDeOro) and [Luis Díaz](http://diwo.bq.com/author/ldiaz/) from **bq**, with some additions that simplify the assembly process.
 * Daniel Evrard has [assembled Cyclone in Sketchup](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/1TpFxE7avRo/EBSx7ouy9GwJ) which can be very useful as a template.
 * Thanks must also go to [ve3sjk](https://github.com/ve3sjk), [joco-nz](https://github.com/joco-nz), Aisflow, Yiannis Mandravellos, Samuel Kranz and [yOPERO](https://github.com/yOPERO) for their constructive discussions and continuous support.
 
