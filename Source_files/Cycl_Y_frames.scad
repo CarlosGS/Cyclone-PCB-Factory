@@ -429,7 +429,7 @@ module Cyclone_Y_rightSmoothRodIdler(mirrorLogo = false) {
 		translate([dimX,dimY/2,-axes_Yreference_height/2]) {
 			rotate([0,0,90+(mirrorLogo?180:0)])
 				rotate([90,0,0])
-					linear_extrude(height=2,center=true)
+					linear_extrude(height=1,center=true)
 						text(mirrorLogo?"L":"R", size = 7.5, font = "cmu", halign = "center", valign = "center", $fn = 16);
 		}
 	}
