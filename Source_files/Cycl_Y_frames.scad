@@ -426,6 +426,12 @@ module Cyclone_Y_rightSmoothRodIdler(mirrorLogo = false) {
 					rotate([0,0,90])
 						hole_for_screw(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, rot=90, invert=true);
 		}
+		translate([dimX,dimY/2,-axes_Yreference_height/2]) {
+			rotate([0,0,90+(mirrorLogo?180:0)])
+				rotate([90,0,0])
+					linear_extrude(height=2,center=true)
+						text(mirrorLogo?"L":"R", size = 7.5, font = "cmu", halign = "center", valign = "center", $fn = 16);
+		}
 	}
 	// Draw nuts and bolts
 	translate([2.5+holderOuterRadius,dimY/2,holderOuterRadius])
