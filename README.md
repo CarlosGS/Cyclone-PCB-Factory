@@ -47,8 +47,10 @@ This will download the latest sources into a directory named 'Cyclone-PCB-Factor
 Current stable version: 2.1  
 --  
 
-**V2.1 incorporates:**
+**Recent news:**
 
+* Z carriage modified for Dremel 3000 ([get it here](Output_files/Cycl_Zcarriage_Dremel3000.stl)) by [Nicolas Arias](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/mfZC0KEy7gw/TaSLBKO9QJUJ) and [Marcos Bladauskas](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/WJLWC5qAm-w/70eSQ2DBCAAJ).
+* Check out the [Arduino CNC shield housing](http://www.thingiverse.com/thing:929981) by Oliver Kreuzenbeck (Helicon).
 * [Source code improvements (better parameterization, M4 screw version)](https://github.com/carlosgs/Cyclone-PCB-Factory/pull/33) by [Arne Durr (D-Byte)](https://github.com/D-Byte).
 * An [aluminium spindle holder](https://github.com/carlosgs/Cyclone-PCB-Factory/pull/40) by [Marc Muntada (quikshot)](https://github.com/quikshot).
 * There is also [a folder](bq_additions) with the version by [Pedro de Oro](https://github.com/PedroDeOro) and [Luis Díaz](http://diwo.bq.com/author/ldiaz/) from **bq**, with some additions that simplify the assembly process.
