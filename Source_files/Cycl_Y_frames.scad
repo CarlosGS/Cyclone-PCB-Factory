@@ -231,7 +231,7 @@ module Cyclone_Y_frontFrame() {
 							rotate([90,0,0])
 								stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
 						if(Render_Y_motorGear) {
-							translate([0,-(bearing_width-bearingDepth)-motorWallSeparation-nut_separation,0])
+							translate([-2,-(bearing_width-bearingDepth)-motorWallSeparation-nut_separation,0])
 								rotate([-90,180,0]) color(color_movingPart)
 									cyclone_motor_gear(Gear_N_Teeth=Y_motorGearRatio, gearHeight=gear_thickness, tolerance=screwHoleTolerance);
 						}

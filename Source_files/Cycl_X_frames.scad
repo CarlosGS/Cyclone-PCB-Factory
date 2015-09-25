@@ -306,7 +306,7 @@ module Cyclone_X_rightFrame(isLeft=false) {
 							translate([-motorWallSeparation,0,0]) rotate([0,90,0])
 							  stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
 							if(Render_X_motorGear) {
-								translate([X_threaded_rod_bearingDepth+(2*rod_nut_len)-(nut_separation/2)-2,0,0])
+								translate([X_threaded_rod_bearingDepth+(2*rod_nut_len)-(nut_separation/2)-2,2,0])
 									rotate([0,-90,0]) color(color_movingPart)
 										cyclone_motor_gear(Gear_N_Teeth=X_motorGearRatio, gearHeight=X_gear_thickness, tolerance=screwHoleTolerance);
 							}
