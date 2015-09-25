@@ -121,7 +121,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 								union(){
 									nutHole(6, units=MM,length=80, tolerance = +screwHoleTolerance, proj = -1);
 									boltHole(6, units=MM,length=80, tolerance = +screwHoleTolerance, proj = -1);
-								}					
+								}
 				}
 			}
 	}
@@ -255,6 +255,11 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 					if(tool==spindle_holder)
 					{//Substract dremel holder
 						translate([(wall_height/2+Z_smooth_rods_sep/2)/2,Z_threaded_pos+51,25])cube([200,80,51], center=true);
+					} else {// Additional drills next to the linear bearings
+						translate([wall_height/2-Z_smooth_rods_sep/2,Z_threaded_pos+14,0])
+							cylinder(r=4.5/2,h=50,center=true);
+						translate([wall_height/2+Z_smooth_rods_sep/2,Z_threaded_pos+14,0])
+							cylinder(r=4.5/2,h=50,center=true);
 					}
 				}
 			}
