@@ -362,7 +362,7 @@ module Cyclone_logo(sizemm = 30, thickness = 10, mirrorLogo = false) {
 		linear_extrude(height=thickness) scale(scale_factor) import("dxf/CycloneLogo.dxf", layer="logo");
 }
 
-module Cyclone_Y_rightSmoothRodIdler(mirrorLogo = false) {
+module Cyclone_Y_leftSmoothRodIdler(mirrorLogo = false) {
 	holderThickness = 5;
 	holderOuterRadius = holderThickness+axes_Ysmooth_rodD/2;
 	
@@ -430,7 +430,7 @@ module Cyclone_Y_rightSmoothRodIdler(mirrorLogo = false) {
 			rotate([0,0,90+(mirrorLogo?180:0)])
 				rotate([90,0,0])
 					linear_extrude(height=1,center=true)
-						text(mirrorLogo?"L":"R", size = 7.5, font = "cmu", halign = "center", valign = "center", $fn = 16);
+						text(mirrorLogo?"R":"L", size = 7.5, font = "cmu", halign = "center", valign = "center", $fn = 16);
 		}
 	}
 	// Draw nuts and bolts
@@ -454,6 +454,6 @@ module Cyclone_Y_rightSmoothRodIdler(mirrorLogo = false) {
 	}
 }
 
-module Cyclone_Y_leftSmoothRodIdler() {
-	scale([-1,1,1]) Cyclone_Y_rightSmoothRodIdler(mirrorLogo = true);
+module Cyclone_Y_rightSmoothRodIdler() {
+	scale([-1,1,1]) Cyclone_Y_leftSmoothRodIdler(mirrorLogo = true);
 }
