@@ -48,6 +48,7 @@ Current stable version: 2.1
 --  
 
 **Recent news:**
+* Released [Cyclone XL](Output_files/Cyclone_XL) with a milling area of 50x25cm.
 * BQ additions have been re-incorporated into the main parametric design (zip-ties in the Y carriage linear bearing holders, longer Z motor gear, same orientation for the Y rod idlers).
 * If you use RAMPS, you may want to try this [GRBL mod](https://github.com/carlosgs/grblForCyclone), it is better than Marlin. Control it with the [bCNC](https://github.com/vlachoudis/bCNC) graphical interface.
 * Z carriage modified for Dremel 3000 ([get it here](Output_files/Cycl_Zcarriage_Dremel3000.stl)) by [Nicolas Arias](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/mfZC0KEy7gw/TaSLBKO9QJUJ) and [Marcos Bladauskas](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/WJLWC5qAm-w/70eSQ2DBCAAJ).
