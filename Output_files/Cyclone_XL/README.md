@@ -4,7 +4,7 @@ Cyclone XL (beta)
 
 <p align="center">
 <img src="Cyclone_XL.png" width="80%">
-<div align="center"><i>Cyclone v2.0</i></div>
+<div align="center"><i>Cyclone XL</i></div>
 </p>
 
 Differences from regular version:  
