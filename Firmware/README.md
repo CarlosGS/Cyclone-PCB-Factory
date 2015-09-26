@@ -4,7 +4,7 @@ Firmware for Cyclone PCB Factory
 
 Currently tested with RAMPS-based electronics:  
 - **Marlin** (for use with [CNC-Gcode-Controller](https://github.com/pknoe3lh/cncgcodecontroller)): <https://github.com/carlosgs/MarlinForCyclone>  
-- **GRBL** (for use with [bCNC](https://github.com/vlachoudis/bCNC)): <https://github.com/carlosgs/grblForCyclone>  
+- **GRBL (recommended)** (for use with [bCNC](https://github.com/vlachoudis/bCNC)): <https://github.com/carlosgs/grblForCyclone>  
 
 Disclaimer  
 --
