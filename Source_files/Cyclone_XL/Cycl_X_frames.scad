@@ -29,7 +29,7 @@ module Cyclone_X_rightFrame(isLeft=false) {
 	partThickness = X_frames_additional_thickness+rodScrewSize*2;
 	
 	dimX = partThickness;
-	dimY = max(-axes_Xreference_posY,axes_Xsmooth_separation+axes_XgearSeparation*cos(motorRotatedOffset)+Xmotor_sideLen/2+1.6);
+	dimY = axes_Xsmooth_separation+axes_XgearSeparation*cos(motorRotatedOffset)+Xmotor_sideLen/2+1.6;
 	dimZ = axes_Yreference_height+axes_Xreference_height+axes_Xsmooth_separation;
 	
 	footSeparation = footScrewSize*3;
@@ -208,6 +208,7 @@ module Cyclone_X_rightFrame(isLeft=false) {
 				cube([dimX,dimY,dimZ-axes_Xsmooth_separation]);
 				translate([-footWidth/2+dimX,dimY/2,footThickness/2]) bcube([footWidth,dimY,footThickness], cr=corner_radius, cres=10);
 			}
+			if(!Render_Y_leftSmoothRodIdler_back && !Render_Y_rightSmoothRodIdler_back)
 			rodHolder(rodD=axes_Ysmooth_rodD, screwSize=rodScrewSize, height=axes_Yreference_height, sideLen=-axes_Xreference_posX-1);
 			// TRANSLATE REFERENCE POSITION to the left frame, X lower smooth rod end
 			translate([-axes_Xreference_posX,axes_Xreference_posY,axes_Xreference_height]) {

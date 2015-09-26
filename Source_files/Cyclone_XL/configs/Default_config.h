@@ -10,8 +10,8 @@
 // --- Size parameters ---
 
 	// --- Bottom base ---
-		base_size_X			= 280 + animatePart(1,overlap=0);
-		base_size_Y			= 250 + animatePart(2);
+		base_size_X			= 400 + animatePart(1,overlap=0);
+		base_size_Y			= 850 + animatePart(2);
 		base_thickness		= 8;
 		base_corner_radius	= 20;
 		base_corner_res		= 10;
@@ -26,26 +26,26 @@
 		axes_Xreference_height	= 74 + animatePart(6); // relative to Y reference
 		axes_Zreference_height	= -3 + animatePart(7) + animatePart(9); // relative to X reference
 
-		axes_Xreference_posY	= -81-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
+		axes_Xreference_posY	= -260-81-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
 		axes_Zreference_posY	= 14; // relative to X reference. Positions Z rods between the Y rods
 
 		axes_Y_threaded_height = 30 + animatePart(5);
 
-		axes_Ysmooth_separation	= 165 + animatePart(1,overlap=0);
+		axes_Ysmooth_separation	= 200 + animatePart(1,overlap=0);
 		axes_Xsmooth_separation = 40 + animatePart(9);
 		axes_Zsmooth_separation = 40 + animatePart(10,overlap=0);
 
 		
 	// --- Work bed ---
-		Ycarriage_linearBearingSeparation = 50;
-		workbed_size_X			= axes_Ysmooth_separation+50;
-		workbed_size_Y			= Ycarriage_linearBearingSeparation+70;
+		Ycarriage_linearBearingSeparation = 200;
+		workbed_size_X			= axes_Ysmooth_separation+60;
+		workbed_size_Y			= Ycarriage_linearBearingSeparation+300;
 		workbed_thickness		= 8+3;
-		workbed_separation_from_Y_smooth_rod = 10;
+		workbed_separation_from_Y_smooth_rod = 15;
 		PCBholder_height = 10;
-		PCB_dimX = 160;
-		PCB_dimY = 100;
-		PCB_dimZ = 1.6;
+		PCB_dimX = 200;
+		PCB_dimY = 450;
+		PCB_dimZ = 10;
 		PCB_holder_edge_length = 3;
 		
 	// --- Z carriage ---
@@ -75,13 +75,13 @@
 	// *_rodLen = length
 	// *_rodD = diameter
 		// Y smooth rod
-			axes_Ysmooth_rodLen	= 210 + animatePart(2);
-			axes_Ysmooth_rodD	= 8.5 + animatePart(4,dist=5);
+			axes_Ysmooth_rodLen	= 770 + animatePart(2);
+			axes_Ysmooth_rodD	= 10.5 + animatePart(4,dist=5);
 		// Y threaded rod
 			axes_Ythreaded_rodLen	= axes_Ysmooth_rodLen-10;
 			axes_Ythreaded_rodD	= 8.5 + animatePart(4,dist=5);
 		// X smooth rod
-			axes_Xsmooth_rodLen	= 250 + animatePart(1,overlap=0);
+			axes_Xsmooth_rodLen	= 340 + animatePart(1,overlap=0);
 			axes_Xsmooth_rodD	= 8.5 + animatePart(4,dist=5);
 		// X threaded rod
 			axes_Xthreaded_rodLen	= axes_Xsmooth_rodLen+50;
@@ -94,7 +94,7 @@
 			axes_Zthreaded_rodD	= 8.5 + animatePart(4,dist=5);
 			
 	// --- Bearings ---
-		Y_linearBearingModel = "LM8UU";
+		Y_linearBearingModel = "LM10UU";
 		X_linearBearingModel = "LM8UU";
 		X_linearBearingSeparation = 0;
 		Z_linearBearingModel = "LM8UU";
@@ -232,18 +232,20 @@
 		Render_Z_carriageBottom = true;
 		Render_Y_leftSmoothRodIdler = true;
 		Render_Y_rightSmoothRodIdler = true;
+		Render_Y_leftSmoothRodIdler_back = true;
+		Render_Y_rightSmoothRodIdler_back = true;
 		Render_Y_frontFrame = true;
 		Render_Y_backFrame = true;
 		Render_Y_carriage = true;
-		Render_control_board = true;
+		Render_control_board = false;
 		Render_Y_gearCover = true;
 		Render_Y_motorGear = true;
 		Render_Y_rodGear = true;
 		Render_X_gearCover = true;
 		Render_X_motorGear = true;
 		Render_X_rodGear = true;
-		Render_PCBholderTop = true;
-		Render_PCBholderBottom = true;
+		Render_PCBholderTop = false;
+		Render_PCBholderBottom = false;
 		Render_YsubPart_linearBearingHolders = true;
 		Render_YsubPart_nutHolder = true;
 		//Render_rodHolder = true;
