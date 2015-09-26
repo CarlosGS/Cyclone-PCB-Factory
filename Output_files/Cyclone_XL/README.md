@@ -1,0 +1,18 @@
+
+Cyclone XL (beta)
+===========================
+
+<p align="center">
+<img src="Cyclone_XL.png" width="80%">
+<div align="center"><i>Cyclone v2.0</i></div>
+</p>
+
+Differences from regular version:  
+- Smooth rod lengths: X=340mm Y=770mm (cut them with some additional margin).  
+- Note that the Y rods (the long ones) must be M10 rather than M8, and the Y linear bearings LM10UU.  
+
+
+Disclaimer  
+--
+This hardware/software is provided "as is", and you use the hardware/software at your own risk. Under no circumstances shall any author be liable for direct, indirect, special, incidental, or consequential damages resulting from the use, misuse, or inability to use this hardware/software, even if the authors have been advised of the possibility of such damages.  
+

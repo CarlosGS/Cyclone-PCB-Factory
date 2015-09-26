@@ -112,7 +112,7 @@ module Cyclone_X_rightFrame(isLeft=false) {
 								}
 								// Inner hole for the support screw
 								translate([0,-nema_screw_separation/2,nema_screw_separation/2])
-									rotate([0,90,0]) cylinder(r=(gearCover_screwHeadSpaceDiam+1)/2, h=coverHeight+0.1);
+									rotate([0,90,0]) cylinder(r=(X_Frame_footScrewSize+1)/2, h=coverHeight+0.1);
 								// Holes for the other three screws
 								translate([0,nema_screw_separation/2,nema_screw_separation/2])
 									rotate([0,90,0]) cylinder(r=gearCover_screwHeadSpaceDiam/2, h=gearCover_screwHeadSpaceHeight/2);
@@ -208,8 +208,8 @@ module Cyclone_X_rightFrame(isLeft=false) {
 				cube([dimX,dimY,dimZ-axes_Xsmooth_separation]);
 				translate([-footWidth/2+dimX,dimY/2,footThickness/2]) bcube([footWidth,dimY,footThickness], cr=corner_radius, cres=10);
 			}
-			if(!Render_Y_leftSmoothRodIdler_back && !Render_Y_rightSmoothRodIdler_back)
-			rodHolder(rodD=axes_Ysmooth_rodD, screwSize=rodScrewSize, height=axes_Yreference_height, sideLen=-axes_Xreference_posX-1);
+			if(!Cyclone_XL)
+				rodHolder(rodD=axes_Ysmooth_rodD, screwSize=rodScrewSize, height=axes_Yreference_height, sideLen=-axes_Xreference_posX-1);
 			// TRANSLATE REFERENCE POSITION to the left frame, X lower smooth rod end
 			translate([-axes_Xreference_posX,axes_Xreference_posY,axes_Xreference_height]) {
 				// TRANSLATE REFERENCE POSITION to the threaded rod

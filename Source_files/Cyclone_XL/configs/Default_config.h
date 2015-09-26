@@ -4,14 +4,14 @@
 // License: CC BY-SA 4.0 (Attribution-ShareAlike 4.0 International, http://creativecommons.org/licenses/by-sa/4.0/)
 // Designed with http://www.openscad.org/
 
-// Default machine config file
+// Cyclone XL
 
 
 // --- Size parameters ---
 
 	// --- Bottom base ---
-		base_size_X			= 400 + animatePart(1,overlap=0);
-		base_size_Y			= 850 + animatePart(2);
+		base_size_X			= 350 + animatePart(1,overlap=0);
+		base_size_Y			= 800 + animatePart(2);
 		base_thickness		= 8;
 		base_corner_radius	= 20;
 		base_corner_res		= 10;
@@ -26,7 +26,9 @@
 		axes_Xreference_height	= 74 + animatePart(6); // relative to Y reference
 		axes_Zreference_height	= -3 + animatePart(7) + animatePart(9); // relative to X reference
 
-		axes_Xreference_posY	= -260-81-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
+		Cyclone_XL = true;
+
+		axes_Xreference_posY	= -270-81-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
 		axes_Zreference_posY	= 14; // relative to X reference. Positions Z rods between the Y rods
 
 		axes_Y_threaded_height = 30 + animatePart(5);
@@ -164,7 +166,7 @@
 	// --- Tool type: Select tool
 		spindle_holder = 1;  //Aluminium part to hold the spindle
 		dremel = 0;
-		tool = dremel;
+		tool = spindle_holder;
 
 	// --- Spindle Motor Holder ---
 		spindle_holder_bolt_X_separation = 70;
