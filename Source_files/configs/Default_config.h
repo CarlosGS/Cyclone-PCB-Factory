@@ -10,11 +10,11 @@
 // --- Size parameters ---
 
 	// --- Bottom base ---
-		base_size_X			= 304.8 + animatePart(1,overlap=0);
-		base_size_Y			= 261.62 + animatePart(2);
+		base_size_X			= 280 + animatePart(1,overlap=0);
+		base_size_Y			= 250 + animatePart(2);
 		base_thickness		= 8;
 		base_corner_radius	= 20;
-		base_corner_res		= 0;
+		base_corner_res		= 10;
 		foot_offset = 25;
 		
 	// --- Axes reference position ---
