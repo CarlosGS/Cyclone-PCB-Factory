@@ -189,6 +189,21 @@ render_2D_or_3D() {
 			Cyclone_Y_rightSmoothRodIdler();
 	}
 
+	// TRANSLATE REFERENCE POSITION to the BACK LEFT Y rod idler, Y smooth rod end
+	translate([-axes_Ysmooth_separation/2,axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
+		if(draw_references) %frame();
+	
+		if(Render_Y_leftSmoothRodIdler_back)
+			rotate([0,0,180]) Cyclone_Y_leftSmoothRodIdler();
+	}
+	
+	// TRANSLATE REFERENCE POSITION to the BACK RIGHT Y rod idler, Y smooth rod end
+	translate([axes_Ysmooth_separation/2,axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
+		if(draw_references) %frame();
+	
+		if(Render_Y_rightSmoothRodIdler_back)
+			rotate([0,0,180]) Cyclone_Y_rightSmoothRodIdler();
+	}
 
 	// TRANSLATE REFERENCE POSITION to the FRONT Y frame, Y threaded rod end
 	translate([0,-axes_Ythreaded_rodLen/2,axes_Y_threaded_height]) {
