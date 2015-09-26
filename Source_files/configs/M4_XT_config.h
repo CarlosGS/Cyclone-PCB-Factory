@@ -4,7 +4,7 @@
 // License: CC BY-SA 4.0 (Attribution-ShareAlike 4.0 International, http://creativecommons.org/licenses/by-sa/4.0/)
 // Designed with http://www.openscad.org/
 
-// Default machine config file
+// Version with M4 screws
 
 
 // --- Size parameters ---
