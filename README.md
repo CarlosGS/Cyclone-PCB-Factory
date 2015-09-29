@@ -24,7 +24,7 @@ Mail list / Forum
 If you are interested in this project, please consider joining our mail list:  
 **English: <https://groups.google.com/forum/#!forum/cyclone-pcb-factory>**  
 **Spanish/Español: <https://groups.google.com/forum/#!forum/cyclone-pcb-factory-es>**  
-Any help and feedback will be appreciated, particularly with software usage and software development :)  
+
 
 Links of interest  
 ====================
@@ -74,11 +74,6 @@ Current stable version: 2.1
 * Using a [Dremel 200](http://www.dremel.com/en-us/tools/Pages/ToolDetail.aspx?pid=200+Series) as the spindle motor
 * Integrated endstop holders
 
-Future improvements (you can help!):  
---  
-* There is a [long discussion](https://github.com/carlosgs/Cyclone-PCB-Factory/issues/32) in regards to the re-design of the Z carriage (currently inherited from Cyclone V1)
-* Some of the improvements in [bq_additions](bq_additions), made in FreeCAD, should be implemented into the OpenScad parametric design.
-
 
 <p align="center">
 <img src="Media/Cyclone_v2.0.png" width="80%">
@@ -104,13 +99,6 @@ Videos
 - v0.8 Drawing test: <http://www.youtube.com/watch?v=Y-HSdE89JOM>  
 - v0.7.5 XY axis test: <http://www.youtube.com/watch?v=9umlq4oHG64>  
 - v0.7.5 High speed XY test: <http://www.youtube.com/watch?v=H3uYCXryj60>  
-
-
-Bill of materials (obsolete, to be updated and moved to the RepRap wiki page)  
---  
-- Kobus' <https://docs.google.com/spreadsheet/ccc?key=0AjYcEd1WlkqCdERINEFvRk9mVTZvdXZFR0VHVjRWc2c#gid=0>  
-- Robsbots' <https://docs.google.com/spreadsheet/ccc?key=0AmiiQRLnjs9cdE12VDFmTHJ4N3JoTzcwbkJPb0ZLSWc#gid=0>  
-- Carlosgs' <https://docs.google.com/spreadsheet/ccc?key=0AsQp8IK25R4IdGk3LTdOWmpFR0Nrc0RhaVJaUC1CMUE> (consumables)  
 
 
 More pictures  
