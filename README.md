@@ -48,6 +48,7 @@ Current stable version: 2.1
 --  
 
 **Recent news:**
+* Introductory tutorial: [**Milling a bowl with bCNC**](https://github.com/carlosgs/grblForCyclone/wiki/2%29-Hello-World!-Mill-a-bowl-with-bCNC) (**implemented support for GRBL firmware in RAMPS and Sanguinololu** 3D printer electronics. GRBL is better for CNCs than Marlin).
 * Released [Cyclone XL](Output_files/Cyclone_XL) with a milling area of 50x25cm.
 * BQ additions have been re-incorporated into the main parametric design (zip-ties in the Y carriage linear bearing holders, longer Z motor gear, same orientation for the Y rod idlers).
 * If you use RAMPS, you may want to try this [GRBL mod](https://github.com/carlosgs/grblForCyclone), it is better than Marlin. Control it with the [bCNC](https://github.com/vlachoudis/bCNC) graphical interface.
