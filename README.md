@@ -49,17 +49,20 @@ Current stable version: 2.1
 
 **Recent news:**
 * Introductory tutorial: [**Milling a bowl with bCNC**](https://github.com/carlosgs/grblForCyclone/wiki/2%29-Hello-World!-Mill-a-bowl-with-bCNC) (**implemented support for GRBL firmware in RAMPS and Sanguinololu** 3D printer electronics. GRBL is better for CNCs than Marlin).
-* Released [Cyclone XL](Output_files/Cyclone_XL) with a milling area of 50x25cm.
+* Released [**Cyclone XL (beta)**](Output_files/Cyclone_XL) with a milling area of **500x250mm**.
 * BQ additions have been re-incorporated into the main parametric design (zip-ties in the Y carriage linear bearing holders, longer Z motor gear, same orientation for the Y rod idlers).
 * If you use RAMPS, you may want to try this [GRBL mod](https://github.com/carlosgs/grblForCyclone), it is better than Marlin. Control it with the [bCNC](https://github.com/vlachoudis/bCNC) graphical interface.
-* Z carriage modified for Dremel 3000 ([get it here](Output_files/Cycl_Zcarriage_Dremel3000.stl)) by [Nicolas Arias](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/mfZC0KEy7gw/TaSLBKO9QJUJ) and [Marcos Bladauskas](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/WJLWC5qAm-w/70eSQ2DBCAAJ).
+* Z carriage modified for Dremel 3000 by [Nicolas Arias](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/mfZC0KEy7gw/TaSLBKO9QJUJ) and [Marcos Bladauskas](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/WJLWC5qAm-w/70eSQ2DBCAAJ) ([download it here](Output_files/Zcarriages)).
 * Check out the [Arduino CNC shield housing](http://www.thingiverse.com/thing:929981) by Oliver Kreuzenbeck (Helicon).
 * [Source code improvements (better parameterization, M4 screw version)](https://github.com/carlosgs/Cyclone-PCB-Factory/pull/33) by [Arne Durr (D-Byte)](https://github.com/D-Byte).
-* An [aluminium spindle holder](https://github.com/carlosgs/Cyclone-PCB-Factory/pull/40) by [Marc Muntada (quikshot)](https://github.com/quikshot).
-* There is also [a folder](bq_additions) with the version by [Pedro de Oro](https://github.com/PedroDeOro) and [Luis Díaz](http://diwo.bq.com/author/ldiaz/) from **bq**, with some additions that simplify the assembly process.
+* An [**aluminium spindle holder**](https://github.com/carlosgs/Cyclone-PCB-Factory/pull/40) by [Marc Muntada (quikshot)](https://github.com/quikshot) ([download it here](Output_files/Zcarriages)).
+* There is also [a folder](bq_additions) with the version by [Pedro de Oro](https://github.com/PedroDeOro) and [Luis Díaz](http://diwo.bq.com/author/ldiaz/) from **bq**, with some additions that simplify the assembly process (these have already been merged into the main branch).
 * Daniel Evrard has [assembled Cyclone in Sketchup](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/1TpFxE7avRo/EBSx7ouy9GwJ) which can be very useful as a template.
 * Thanks must also go to [ve3sjk](https://github.com/ve3sjk), [joco-nz](https://github.com/joco-nz), Aisflow, Yiannis Mandravellos, Samuel Kranz and [yOPERO](https://github.com/yOPERO) for their constructive discussions and continuous support.
-* If your printer is too small to print the main frames of the machine, take a look at the [shorter version](Output_files/ShorterVersion) (thanks [Burt Bicksler!!](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/ue6NiWs713w/A7_4h4Ynf54J)).
+* If your printer is too small to print the main frames of the machine, take a look at the [**shorter version of the frames**](Output_files/ShorterVersion) (thanks [Burt Bicksler!!](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/ue6NiWs713w/A7_4h4Ynf54J)).
+
+
+
 
 **Cyclone PCB Factory V2.0 was developed in the department of innovation and robotics at [bq](http://www.bq.com/)**  
 **V2.0** addressed all the issues from the original design, and implementing improvements by yOPERO, Martin Zabojnik and others:  
