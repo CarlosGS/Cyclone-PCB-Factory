@@ -11,11 +11,11 @@ This means files may present inconsistencies (dimensions mismatch, lack of toler
 **If you just want to build the machine, take a look at the following locations:**
 
 - **Releases: <https://github.com/carlosgs/Cyclone-PCB-Factory/releases>**
-- **Documentation: <http://reprap.org/wiki/Cyclone_PCB_Factory>**
+- **Documentation: <https://github.com/carlosgs/Cyclone-PCB-Factory/wiki>**
 
 <p align="center">
 <img src="Media/CycloneV2.jpg" width="80%">
-<div align="center"><i>Cyclone v2.0</i></div>
+<div align="center"><i>Cyclone v2. Picture by bq</i></div>
 </p>
 
 
@@ -32,6 +32,7 @@ Links of interest
 - **[Wiki entry on RepRap.org](http://reprap.org/wiki/Cyclone_PCB_Factory)**
 - **[Joco's Cyclone journey in the mail list](https://groups.google.com/forum/#!topic/cyclone-pcb-factory/o_YzXokpLnA)**
 - **[A year of development (Jan/2014)](http://carlosgs.es/node/47)** (project evolution during 2013)
+- **[List of suppliers](https://github.com/carlosgs/Cyclone-PCB-Factory/wiki/List-of-suppliers)**
 
 Getting the (development) source files  
 ========================================
