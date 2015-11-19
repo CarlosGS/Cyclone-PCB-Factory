@@ -49,6 +49,7 @@ Current stable version: 2.1
 --  
 
 **Recent news:**
+* [Kris Wauters](http://www.digitalplayground.be/) has designed [a set of feet](http://www.thingiverse.com/thing:1131591) that raise up the machine and allow to place the electronics underneath. He has also made a [Z endstop support](http://www.thingiverse.com/thing:1131591). Check out his beautiful build in [his blog](www.digitalplayground.be/?p=3255).
 * Introductory tutorial: [**Milling a bowl with bCNC**](https://github.com/carlosgs/grblForCyclone/wiki/2%29-Hello-World!-Mill-a-bowl-with-bCNC) (**implemented support for GRBL firmware in RAMPS and Sanguinololu** 3D printer electronics. GRBL is better for CNCs than Marlin).
 * Released [**Cyclone XL (beta)**](Output_files/Cyclone_XL) with a milling area of **500x250mm**.
 * BQ additions have been re-incorporated into the main parametric design (zip-ties in the Y carriage linear bearing holders, longer Z motor gear, same orientation for the Y rod idlers).
@@ -93,17 +94,26 @@ Current stable version: 2.1
 
 Videos  
 --  
+- October 2015. Full milling process with bCNC, by Carlosgs: <https://www.youtube.com/watch?v=tWrt1B1CeP0>
+- September 2015. Cyclone PCB jogging and homing test with bCNC, by Ianmcmill: <https://www.youtube.com/watch?v=GqbSjCq_hWg>
+- July 2015. v2.0 Milling a PCB, timelapse by Helicon007: <https://www.youtube.com/watch?v=GpFG2Z8Jt-w>
+- April 2015. Cyclone PCB Factory belt drive, by Nihilianth: <https://www.youtube.com/watch?v=bdu1vz6ndGs>
+- April 2015. Introduction & assembly tips, by Project23D: <https://www.youtube.com/watch?v=0mW087ijIdE>
 - v2.0 Plexiglass "Open Source Hardware" keychain: <http://www.youtube.com/watch?v=3Kftgog89wQ>
 - v2.0 Cyclone Logo in PCB (October 2014): <http://www.youtube.com/watch?v=_6oWuco_N8U>
 - v2.0a Plexiglass Cyclone logo (August 2014): <http://www.youtube.com/watch?v=lPQlIvBf7Ak>
 - v2.0a Milling wax (August 2014): <http://www.youtube.com/watch?v=drV_r_OSsi4>
+- February 2014. First drawing test with the Cyclone PCB Factory CNC, by Samuel Ureta: <https://www.youtube.com/watch?v=F7SczbShmxA>
+- December 2013. Adjustment of Cyclone PCB Factory Y Stepper Motor Current, by Glen Chung: <https://www.youtube.com/watch?v=-TPqWOsY0Ls>
 - v0.9.7 Cyclone PCB factory, the process (June 2013): <http://www.youtube.com/watch?v=fKW3fwy1h0k>
-- v0.9.6 Y axis concept by yOPERO <http://www.youtube.com/watch?v=XzcobonQP40>  
-- v0.9.5 Probing a PCB <http://www.youtube.com/watch?v=m5zXL8k5T9E>  
-- v0.9.5 Milling MDF <http://www.youtube.com/watch?v=2QpxjheEjEc> and <http://www.youtube.com/watch?v=zjav0hBtmYA>  
-- v0.8 Drawing test: <http://www.youtube.com/watch?v=Y-HSdE89JOM>  
-- v0.7.5 XY axis test: <http://www.youtube.com/watch?v=9umlq4oHG64>  
-- v0.7.5 High speed XY test: <http://www.youtube.com/watch?v=H3uYCXryj60>  
+- v0.9.6 Y axis concept by yOPERO <http://www.youtube.com/watch?v=XzcobonQP40>
+- v0.9.5 Probing a PCB <http://www.youtube.com/watch?v=m5zXL8k5T9E>
+- v0.9.5 Milling MDF <http://www.youtube.com/watch?v=2QpxjheEjEc> and <http://www.youtube.com/watch?v=zjav0hBtmYA>
+- v0.8 Drawing test: <http://www.youtube.com/watch?v=Y-HSdE89JOM>
+- v0.7.5 XY axis test: <http://www.youtube.com/watch?v=9umlq4oHG64>
+- v0.7.5 High speed XY test: <http://www.youtube.com/watch?v=H3uYCXryj60>
+
+- October 2015. Evolution of the Cyclone-PCB-Factory GitHub repository (Gource Visualization), by Landon Wilkins: <https://www.youtube.com/watch?v=0ANaGCHkaco>
 
 
 More pictures  
