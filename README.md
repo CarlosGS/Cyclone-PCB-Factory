@@ -49,7 +49,7 @@ Current stable version: 2.1
 --  
 
 **Recent news:**
-* [Kris Wauters](http://www.digitalplayground.be/) has designed [a set of feet](http://www.thingiverse.com/thing:1131591) that raise up the machine and allow to place the electronics underneath. He has also made a [Z endstop support](http://www.thingiverse.com/thing:1131591). Check out his beautiful build in [his blog](www.digitalplayground.be/?p=3255).
+* [Kris Wauters](http://www.digitalplayground.be/) has designed [a set of feet](http://www.thingiverse.com/thing:1131591) that raise up the machine and allow to place the electronics underneath. He has also made a [Z endstop support](http://www.thingiverse.com/thing:1131591). Check out his beautiful build in [his blog](http://www.digitalplayground.be/?p=3255).
 * Introductory tutorial: [**Milling a bowl with bCNC**](https://github.com/carlosgs/grblForCyclone/wiki/2%29-Hello-World!-Mill-a-bowl-with-bCNC) (**implemented support for GRBL firmware in RAMPS and Sanguinololu** 3D printer electronics. GRBL is better for CNCs than Marlin).
 * Released [**Cyclone XL (beta)**](Output_files/Cyclone_XL) with a milling area of **500x250mm**.
 * BQ additions have been re-incorporated into the main parametric design (zip-ties in the Y carriage linear bearing holders, longer Z motor gear, same orientation for the Y rod idlers).
