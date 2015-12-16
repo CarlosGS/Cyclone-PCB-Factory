@@ -7,6 +7,8 @@ Cyclone XL (beta)
 <div align="center"><i>Cyclone XL</i></div>
 </p>
 
+**Warning: This machine is experimental and may be too wobbly due to the large dimensions involved. Build at your own risk.**
+
 Differences from regular version:  
 - Smooth rod lengths: X=340mm Y=770mm (cut them with some additional margin).  
 - Note that the Y rods (the long ones) must be M10 rather than M8, and the Y linear bearings LM10UU.  
