@@ -310,9 +310,9 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 	// Gears
 	color(color_stillPart) {
 		translate([0,axes_Xsmooth_separation+axis_distance+2,spindle_holder_distance+2-wall_thickness-gear_thickness])
-			cyclone_motor_gear(Gear_N_Teeth=Z_motorGearRatio,gearHeight=gear_thickness+5,tolerance=0);
+			cyclone_motor_gear(Gear_N_Teeth=Z_motorGearRatio,gearHeight=gear_thickness+5,tolerance=screwHoleTolerance);
 		translate([0,axes_Xsmooth_separation,spindle_holder_distance+1.5-wall_thickness/2-Z_bearing_width*2-gear_thickness/4])
-			cyclone_rod_gear(Gear_N_Teeth=Z_rodGearRatio,gearHeight=gear_thickness,nutSize=8,tolerance=0);
+			cyclone_rod_gear(Gear_N_Teeth=Z_rodGearRatio,gearHeight=gear_thickness,nutSize=8,tolerance= screwHoleTolerance);
 	}
 		
 	// Nuts	
