@@ -121,8 +121,13 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 								union(){
 									nutHole(6, units=MM,length=80, tolerance = +screwHoleTolerance, proj = -1);
 									boltHole(6, units=MM,length=80, tolerance = +screwHoleTolerance, proj = -1);
-								}					
+								}
 				}
+				// Draw screws
+				translate([horizontalBoltDistance/2,-25,holderHeight/2-verticalBoltDistance/2])
+					rotate([0,0,180]) screw_and_nut(size=6,length=90, rot=90, invert=true, echoPart=true);
+				translate([-horizontalBoltDistance/2,-25,holderHeight/2-verticalBoltDistance/2])
+					rotate([0,0,180]) screw_and_nut(size=6,length=90, rot=90, invert=true, echoPart=true);
 			}
 	}
 	
@@ -175,8 +180,8 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 	}
 
 	module Z_solid_body(top_part=true) {
-		color(color_stillPart) union() {
-			hull() {
+		union() {
+			color(color_stillPart) hull() {
 				if(top_part)
 					translate([wall_height/2,wall_width/2,wall_thickness/2])
 						bcube([wall_height,wall_width,wall_thickness],cr=4,cres=10);
@@ -255,6 +260,11 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 					if(tool==spindle_holder)
 					{//Substract dremel holder
 						translate([(wall_height/2+Z_smooth_rods_sep/2)/2,Z_threaded_pos+51,25])cube([200,80,51], center=true);
+					} else {// Additional drills next to the linear bearings
+						translate([wall_height/2-Z_smooth_rods_sep/2,Z_threaded_pos+14,0])
+							cylinder(r=4.5/2,h=50,center=true);
+						translate([wall_height/2+Z_smooth_rods_sep/2,Z_threaded_pos+14,0])
+							cylinder(r=4.5/2,h=50,center=true);
 					}
 				}
 			}
@@ -282,13 +292,13 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 	
 	// Bearings
 	translate([-axes_Zsmooth_separation/2,0,1.5])
-		linearBearing_single(model="LM8UU", echoPart=true);
+		linearBearing_single(model=Z_linearBearingModel, echoPart=true);
 	translate([axes_Zsmooth_separation/2,0,1.5])
-		linearBearing_single(model="LM8UU", echoPart=true);
+		linearBearing_single(model=Z_linearBearingModel, echoPart=true);
 	translate([-axes_Zsmooth_separation/2,0,linearBearingLength+0.5+1.5])
-		linearBearing_single(model="LM8UU", echoPart=true);
+		linearBearing_single(model=Z_linearBearingModel, echoPart=true);
 	translate([axes_Zsmooth_separation/2,0,linearBearingLength+0.5+1.5])
-		linearBearing_single(model="LM8UU", echoPart=true);
+		linearBearing_single(model=Z_linearBearingModel, echoPart=true);
 	translate([0,axes_Xsmooth_separation,spindle_holder_distance+1.5-wall_thickness/2])	
 		rotate([180,0,0])
 			radialBearing(echoPart=true);
@@ -299,10 +309,10 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 		
 	// Gears
 	color(color_stillPart) {
-		translate([0,axes_Xsmooth_separation+axis_distance,spindle_holder_distance+2-wall_thickness-gear_thickness])
-			cyclone_motor_gear(Gear_N_Teeth=Z_motorGearRatio,gearHeight=gear_thickness,tolerance=0);
+		translate([0,axes_Xsmooth_separation+axis_distance+2,spindle_holder_distance+2-wall_thickness-gear_thickness])
+			cyclone_motor_gear(Gear_N_Teeth=Z_motorGearRatio,gearHeight=gear_thickness+5,tolerance=screwHoleTolerance);
 		translate([0,axes_Xsmooth_separation,spindle_holder_distance+1.5-wall_thickness/2-Z_bearing_width*2-gear_thickness/4])
-			cyclone_rod_gear(Gear_N_Teeth=Z_rodGearRatio,gearHeight=gear_thickness,nutSize=8,tolerance=0);
+			cyclone_rod_gear(Gear_N_Teeth=Z_rodGearRatio,gearHeight=gear_thickness,nutSize=8,tolerance= screwHoleTolerance);
 	}
 		
 	// Nuts	
@@ -324,6 +334,21 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 			translate([0,0,-20-20])
 				color([0.9,0.9,0.9]) %cylinder(r1=0.5/2, r2=3/2, h=20);
 			
+		}
+	}
+	if( tool == spindle_holder){
+	  // Spindle tool
+		translate([0,-45,0]) {
+			translate([0,0,25]) color([0.8,0.8,0.8]) %difference() {
+				bcube([90,70,50],cr=10,cres=10);
+				cube([200,5,200],center=true);
+			}
+			translate([0,0,90-5]) color([0.95,0.95,0.95]) %cylinder(r=26,h=30,$fn=60);
+			translate([0,0,90-10]) color([0.95,0.95,0.95]) %cylinder(r=10/2,h=5,$fn=60);
+			translate([0,0,-10]) color([0.6,0.6,0.6]) %cylinder(r=26,h=90,$fn=60);
+			translate([0,0,-40]) color([0.9,0.9,0.9]) %cylinder(r=15/2,h=40,$fn=60);
+			translate([0,0,-50]) color([0.4,0.4,0.4]) %cylinder(r=20/2,h=10,$fn=60);
+			translate([0,0,-50-20]) color([0.9,0.9,0.9]) %cylinder(r1=1/2,r2=3/2,h=20,$fn=60);
 		}
 	}
 }

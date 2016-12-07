@@ -29,7 +29,7 @@ module Cyclone_X_rightFrame(isLeft=false) {
 	partThickness = X_frames_additional_thickness+rodScrewSize*2;
 	
 	dimX = partThickness;
-	dimY = max(-axes_Xreference_posY,axes_Xsmooth_separation+axes_XgearSeparation*cos(motorRotatedOffset)+Xmotor_sideLen/2+1.6);
+	dimY = axes_Xsmooth_separation+axes_XgearSeparation*cos(motorRotatedOffset)+Xmotor_sideLen/2+1.6;
 	dimZ = axes_Yreference_height+axes_Xreference_height+axes_Xsmooth_separation;
 	
 	footSeparation = footScrewSize*3;
@@ -112,7 +112,7 @@ module Cyclone_X_rightFrame(isLeft=false) {
 								}
 								// Inner hole for the support screw
 								translate([0,-nema_screw_separation/2,nema_screw_separation/2])
-									rotate([0,90,0]) cylinder(r=(gearCover_screwHeadSpaceDiam+1)/2, h=coverHeight+0.1);
+									rotate([0,90,0]) cylinder(r=(X_Frame_footScrewSize+1)/2, h=coverHeight+0.1);
 								// Holes for the other three screws
 								translate([0,nema_screw_separation/2,nema_screw_separation/2])
 									rotate([0,90,0]) cylinder(r=gearCover_screwHeadSpaceDiam/2, h=gearCover_screwHeadSpaceHeight/2);
@@ -208,7 +208,8 @@ module Cyclone_X_rightFrame(isLeft=false) {
 				cube([dimX,dimY,dimZ-axes_Xsmooth_separation]);
 				translate([-footWidth/2+dimX,dimY/2,footThickness/2]) bcube([footWidth,dimY,footThickness], cr=corner_radius, cres=10);
 			}
-			rodHolder(rodD=axes_Ysmooth_rodD, screwSize=rodScrewSize, height=axes_Yreference_height, sideLen=-axes_Xreference_posX-1);
+			if(!Cyclone_XL)
+				rodHolder(rodD=axes_Ysmooth_rodD, screwSize=rodScrewSize, height=axes_Yreference_height, sideLen=-axes_Xreference_posX-1);
 			// TRANSLATE REFERENCE POSITION to the left frame, X lower smooth rod end
 			translate([-axes_Xreference_posX,axes_Xreference_posY,axes_Xreference_height]) {
 				// TRANSLATE REFERENCE POSITION to the threaded rod
@@ -306,7 +307,7 @@ module Cyclone_X_rightFrame(isLeft=false) {
 							translate([-motorWallSeparation,0,0]) rotate([0,90,0])
 							  stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
 							if(Render_X_motorGear) {
-								translate([X_threaded_rod_bearingDepth+(2*rod_nut_len)-(nut_separation/2)-2,0,0])
+								translate([X_threaded_rod_bearingDepth+(2*rod_nut_len)-(nut_separation/2)-2,2,0])
 									rotate([0,-90,0]) color(color_movingPart)
 										cyclone_motor_gear(Gear_N_Teeth=X_motorGearRatio, gearHeight=X_gear_thickness, tolerance=screwHoleTolerance);
 							}

@@ -89,7 +89,7 @@ module Cyclone_YsubPart_singleLinearBearingHolder(onlyScrews=false) {
 	screwSize = Y_singleLinearBearingHolder_screwSize;
 	
 	footSeparation = screwSize*2;
-	footThickness = 7;
+	footThickness = 10;
 	
 	workbed_screws_aditional_length = PCBholder_height;
 	
@@ -120,7 +120,13 @@ module Cyclone_YsubPart_singleLinearBearingHolder(onlyScrews=false) {
 
 			// Hole for the screw and nut
 			translate([dimX/2+footSeparation,0,dimZ+workbed_thickness+workbed_screws_aditional_length])
-				rotate([90,0,0]) hole_for_screw(size=screwSize,length=workbed_screws_aditional_length+footThickness+workbed_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance);
+				rotate([0,0,90]) rotate([90,0,0]) hole_for_screw(size=screwSize,length=workbed_screws_aditional_length+footThickness+workbed_thickness,nutDepth=3,nutAddedLen=0,captiveLen=10,tolerance=screwHoleTolerance);
+			
+			// Slot for zip-tie
+			rotate([90,0,0]) difference() {
+				cylinder(r=dimX/2+2,h=4,center=true);
+				cylinder(r=dimX/2,h=4+0.1,center=true);
+			}
 		}
 
 		translate([0,linearBearingLength/2,0])

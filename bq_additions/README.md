@@ -1,7 +1,7 @@
 
 bq Additions
 ===========================
-The files contained in this folder are part of the Cyclone branch developed at bq's department of innovation by Pedro de Oro. These improvements will be re-implemented in the OpenScad parametric version of Cyclone.
+The files contained in this folder are part of the Cyclone branch developed at bq's department of innovation by [Pedro de Oro](https://github.com/PedroDeOro). These improvements will be re-implemented in the OpenScad parametric version of Cyclone.
 
 * **Updates**
 
@@ -13,6 +13,10 @@ The files contained in this folder are part of the Cyclone branch developed at b
 - **Cyclone_base_8mm_negro**: Added Electronic case drills, new outline design and reference system in the low left corner.
 - **Cyclone_workbed_8mm_transparente_bq**: Added bq logo and re-organize and resize logos.
 - **Electrodo_Calibracion_Cyclone_doblado**: Added fold.
+
+* **Documentation**
+
+Please visit [Diwo](http://diwo.bq.com/product/cyclone/).
 
 <p align="center">
 <img src="../Media/CycloneV2.jpg" width="80%">

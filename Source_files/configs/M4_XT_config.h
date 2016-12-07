@@ -4,7 +4,7 @@
 // License: CC BY-SA 4.0 (Attribution-ShareAlike 4.0 International, http://creativecommons.org/licenses/by-sa/4.0/)
 // Designed with http://www.openscad.org/
 
-// Default machine config file
+// Version with M4 screws
 
 
 // --- Size parameters ---
@@ -25,6 +25,8 @@
 		axes_Yreference_height	= 40 + animatePart(5);
 		axes_Xreference_height	= 74 + animatePart(6); // relative to Y reference
 		axes_Zreference_height	= -3 + animatePart(7) + animatePart(9); // relative to X reference
+
+		Cyclone_XL = false;
 
 		axes_Xreference_posY	= -81-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
 		axes_Zreference_posY	= 14; // relative to X reference. Positions Z rods between the Y rods
@@ -218,6 +220,8 @@
 		Render_Z_carriageBottom = true;
 		Render_Y_leftSmoothRodIdler = true;
 		Render_Y_rightSmoothRodIdler = true;
+		Render_Y_leftSmoothRodIdler_back = false; // Only needed for Cyclone XL
+		Render_Y_rightSmoothRodIdler_back = false;
 		Render_Y_frontFrame = true;
 		Render_Y_backFrame = true;
 		Render_Y_carriage = true;

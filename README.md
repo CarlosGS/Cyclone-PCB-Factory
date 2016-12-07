@@ -11,11 +11,11 @@ This means files may present inconsistencies (dimensions mismatch, lack of toler
 **If you just want to build the machine, take a look at the following locations:**
 
 - **Releases: <https://github.com/carlosgs/Cyclone-PCB-Factory/releases>**
-- **Documentation: <http://reprap.org/wiki/Cyclone_PCB_Factory>**
+- **Documentation: <https://github.com/carlosgs/Cyclone-PCB-Factory/wiki>**
 
 <p align="center">
 <img src="Media/CycloneV2.jpg" width="80%">
-<div align="center"><i>Cyclone v2.0</i></div>
+<div align="center"><i>Cyclone v2. Picture by bq</i></div>
 </p>
 
 
@@ -24,7 +24,7 @@ Mail list / Forum
 If you are interested in this project, please consider joining our mail list:  
 **English: <https://groups.google.com/forum/#!forum/cyclone-pcb-factory>**  
 **Spanish/Español: <https://groups.google.com/forum/#!forum/cyclone-pcb-factory-es>**  
-Any help and feedback will be appreciated, particularly with software usage and software development :)  
+
 
 Links of interest  
 ====================
@@ -32,6 +32,7 @@ Links of interest
 - **[Wiki entry on RepRap.org](http://reprap.org/wiki/Cyclone_PCB_Factory)**
 - **[Joco's Cyclone journey in the mail list](https://groups.google.com/forum/#!topic/cyclone-pcb-factory/o_YzXokpLnA)**
 - **[A year of development (Jan/2014)](http://carlosgs.es/node/47)** (project evolution during 2013)
+- **[List of suppliers](https://github.com/carlosgs/Cyclone-PCB-Factory/wiki/List-of-suppliers)**
 
 Getting the (development) source files  
 ========================================
@@ -47,13 +48,23 @@ This will download the latest sources into a directory named 'Cyclone-PCB-Factor
 Current stable version: 2.1  
 --  
 
-**V2.1 incorporates:**
-
+**Recent news:**
+* [Kris Wauters](http://www.digitalplayground.be/) has designed [a set of feet](http://www.thingiverse.com/thing:1131591) that raise up the machine and allow to place the electronics underneath. He has also made a [Z endstop support](http://www.thingiverse.com/thing:1131591). Check out his beautiful build in [his blog](http://www.digitalplayground.be/?p=3255).
+* Introductory tutorial: [**Milling a bowl with bCNC**](https://github.com/carlosgs/grblForCyclone/wiki/2%29-Hello-World!-Mill-a-bowl-with-bCNC) (**implemented support for GRBL firmware in RAMPS and Sanguinololu** 3D printer electronics. GRBL is better for CNCs than Marlin).
+* Released [**Cyclone XL (beta)**](Output_files/Cyclone_XL) with a milling area of **500x250mm**.
+* BQ additions have been re-incorporated into the main parametric design (zip-ties in the Y carriage linear bearing holders, longer Z motor gear, same orientation for the Y rod idlers).
+* If you use RAMPS, you may want to try this [GRBL mod](https://github.com/carlosgs/grblForCyclone), it is better than Marlin. Control it with the [bCNC](https://github.com/vlachoudis/bCNC) graphical interface.
+* Z carriage modified for Dremel 3000 by [Nicolas Arias](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/mfZC0KEy7gw/TaSLBKO9QJUJ) and [Marcos Bladauskas](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/WJLWC5qAm-w/70eSQ2DBCAAJ) ([download it here](Output_files/Zcarriages)).
+* Check out the [Arduino CNC shield housing](http://www.thingiverse.com/thing:929981) by Oliver Kreuzenbeck (Helicon).
 * [Source code improvements (better parameterization, M4 screw version)](https://github.com/carlosgs/Cyclone-PCB-Factory/pull/33) by [Arne Durr (D-Byte)](https://github.com/D-Byte).
-* An [aluminium spindle holder](https://github.com/carlosgs/Cyclone-PCB-Factory/pull/40) by [Marc Muntada (quikshot)](https://github.com/quikshot).
-* There is also [a folder](bq_additions) with the version by [Pedro de Oro](https://github.com/PedroDeOro) and [Luis Díaz](http://diwo.bq.com/author/ldiaz/) from **bq**, with some additions that simplify the assembly process.
+* An [**aluminium spindle holder**](https://github.com/carlosgs/Cyclone-PCB-Factory/pull/40) by [Marc Muntada (quikshot)](https://github.com/quikshot) ([download it here](Output_files/Zcarriages)).
+* There is also [a folder](bq_additions) with the version by [Pedro de Oro](https://github.com/PedroDeOro) and [Luis Díaz](http://diwo.bq.com/author/ldiaz/) from **bq**, with some additions that simplify the assembly process (these have already been merged into the main branch).
 * Daniel Evrard has [assembled Cyclone in Sketchup](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/1TpFxE7avRo/EBSx7ouy9GwJ) which can be very useful as a template.
 * Thanks must also go to [ve3sjk](https://github.com/ve3sjk), [joco-nz](https://github.com/joco-nz), Aisflow, Yiannis Mandravellos, Samuel Kranz and [yOPERO](https://github.com/yOPERO) for their constructive discussions and continuous support.
+* If your printer is too small to print the main frames of the machine, take a look at the [**shorter version of the frames**](Output_files/ShorterVersion) (thanks [Burt Bicksler!!](https://groups.google.com/forum/#!msg/cyclone-pcb-factory/ue6NiWs713w/A7_4h4Ynf54J)).
+
+
+
 
 **Cyclone PCB Factory V2.0 was developed in the department of innovation and robotics at [bq](http://www.bq.com/)**  
 **V2.0** addressed all the issues from the original design, and implementing improvements by yOPERO, Martin Zabojnik and others:  
@@ -69,11 +80,6 @@ Current stable version: 2.1
 * Using a [Dremel 200](http://www.dremel.com/en-us/tools/Pages/ToolDetail.aspx?pid=200+Series) as the spindle motor
 * Integrated endstop holders
 
-Future improvements (you can help!):  
---  
-* There is a [long discussion](https://github.com/carlosgs/Cyclone-PCB-Factory/issues/32) in regards to the re-design of the Z carriage (currently inherited from Cyclone V1)
-* Some of the improvements in [bq_additions](bq_additions), made in FreeCAD, should be implemented into the OpenScad parametric design.
-
 
 <p align="center">
 <img src="Media/Cyclone_v2.0.png" width="80%">
@@ -88,24 +94,26 @@ Future improvements (you can help!):
 
 Videos  
 --  
+- October 2015. Full milling process with bCNC, by Carlosgs: <https://www.youtube.com/watch?v=tWrt1B1CeP0>
+- September 2015. Cyclone PCB jogging and homing test with bCNC, by Ianmcmill: <https://www.youtube.com/watch?v=GqbSjCq_hWg>
+- July 2015. v2.0 Milling a PCB, timelapse by Helicon007: <https://www.youtube.com/watch?v=GpFG2Z8Jt-w>
+- April 2015. Cyclone PCB Factory belt drive, by Nihilianth: <https://www.youtube.com/watch?v=bdu1vz6ndGs>
+- April 2015. Introduction & assembly tips, by Project23D: <https://www.youtube.com/watch?v=0mW087ijIdE>
 - v2.0 Plexiglass "Open Source Hardware" keychain: <http://www.youtube.com/watch?v=3Kftgog89wQ>
 - v2.0 Cyclone Logo in PCB (October 2014): <http://www.youtube.com/watch?v=_6oWuco_N8U>
 - v2.0a Plexiglass Cyclone logo (August 2014): <http://www.youtube.com/watch?v=lPQlIvBf7Ak>
 - v2.0a Milling wax (August 2014): <http://www.youtube.com/watch?v=drV_r_OSsi4>
+- February 2014. First drawing test with the Cyclone PCB Factory CNC, by Samuel Ureta: <https://www.youtube.com/watch?v=F7SczbShmxA>
+- December 2013. Adjustment of Cyclone PCB Factory Y Stepper Motor Current, by Glen Chung: <https://www.youtube.com/watch?v=-TPqWOsY0Ls>
 - v0.9.7 Cyclone PCB factory, the process (June 2013): <http://www.youtube.com/watch?v=fKW3fwy1h0k>
-- v0.9.6 Y axis concept by yOPERO <http://www.youtube.com/watch?v=XzcobonQP40>  
-- v0.9.5 Probing a PCB <http://www.youtube.com/watch?v=m5zXL8k5T9E>  
-- v0.9.5 Milling MDF <http://www.youtube.com/watch?v=2QpxjheEjEc> and <http://www.youtube.com/watch?v=zjav0hBtmYA>  
-- v0.8 Drawing test: <http://www.youtube.com/watch?v=Y-HSdE89JOM>  
-- v0.7.5 XY axis test: <http://www.youtube.com/watch?v=9umlq4oHG64>  
-- v0.7.5 High speed XY test: <http://www.youtube.com/watch?v=H3uYCXryj60>  
+- v0.9.6 Y axis concept by yOPERO <http://www.youtube.com/watch?v=XzcobonQP40>
+- v0.9.5 Probing a PCB <http://www.youtube.com/watch?v=m5zXL8k5T9E>
+- v0.9.5 Milling MDF <http://www.youtube.com/watch?v=2QpxjheEjEc> and <http://www.youtube.com/watch?v=zjav0hBtmYA>
+- v0.8 Drawing test: <http://www.youtube.com/watch?v=Y-HSdE89JOM>
+- v0.7.5 XY axis test: <http://www.youtube.com/watch?v=9umlq4oHG64>
+- v0.7.5 High speed XY test: <http://www.youtube.com/watch?v=H3uYCXryj60>
 
-
-Bill of materials (obsolete, to be updated and moved to the RepRap wiki page)  
---  
-- Kobus' <https://docs.google.com/spreadsheet/ccc?key=0AjYcEd1WlkqCdERINEFvRk9mVTZvdXZFR0VHVjRWc2c#gid=0>  
-- Robsbots' <https://docs.google.com/spreadsheet/ccc?key=0AmiiQRLnjs9cdE12VDFmTHJ4N3JoTzcwbkJPb0ZLSWc#gid=0>  
-- Carlosgs' <https://docs.google.com/spreadsheet/ccc?key=0AsQp8IK25R4IdGk3LTdOWmpFR0Nrc0RhaVJaUC1CMUE> (consumables)  
+- October 2015. Evolution of the Cyclone-PCB-Factory GitHub repository (Gource Visualization), by Landon Wilkins: <https://www.youtube.com/watch?v=0ANaGCHkaco>
 
 
 More pictures  

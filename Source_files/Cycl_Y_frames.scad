@@ -231,7 +231,7 @@ module Cyclone_Y_frontFrame() {
 							rotate([90,0,0])
 								stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
 						if(Render_Y_motorGear) {
-							translate([0,-(bearing_width-bearingDepth)-motorWallSeparation-nut_separation,0])
+							translate([-2,-(bearing_width-bearingDepth)-motorWallSeparation-nut_separation,0])
 								rotate([-90,180,0]) color(color_movingPart)
 									cyclone_motor_gear(Gear_N_Teeth=Y_motorGearRatio, gearHeight=gear_thickness, tolerance=screwHoleTolerance);
 						}
@@ -362,7 +362,7 @@ module Cyclone_logo(sizemm = 30, thickness = 10, mirrorLogo = false) {
 		linear_extrude(height=thickness) scale(scale_factor) import("dxf/CycloneLogo.dxf", layer="logo");
 }
 
-module Cyclone_Y_rightSmoothRodIdler(mirrorLogo = false) {
+module Cyclone_Y_leftSmoothRodIdler(mirrorLogo = false) {
 	holderThickness = 5;
 	holderOuterRadius = holderThickness+axes_Ysmooth_rodD/2;
 	
@@ -426,6 +426,12 @@ module Cyclone_Y_rightSmoothRodIdler(mirrorLogo = false) {
 					rotate([0,0,90])
 						hole_for_screw(size=footScrewSize,length=footThickness+base_thickness,nutDepth=0,nutAddedLen=0,captiveLen=0,tolerance=screwHoleTolerance, rot=90, invert=true);
 		}
+		translate([dimX,dimY/2,-axes_Yreference_height/2]) {
+			rotate([0,0,90+(mirrorLogo?180:0)])
+				rotate([90,0,0])
+					linear_extrude(height=1,center=true)
+						text(mirrorLogo?"R":"L", size = 7.5, font = "cmu", halign = "center", valign = "center", $fn = 16);
+		}
 	}
 	// Draw nuts and bolts
 	translate([2.5+holderOuterRadius,dimY/2,holderOuterRadius])
@@ -448,6 +454,6 @@ module Cyclone_Y_rightSmoothRodIdler(mirrorLogo = false) {
 	}
 }
 
-module Cyclone_Y_leftSmoothRodIdler() {
-	scale([-1,1,1]) Cyclone_Y_rightSmoothRodIdler(mirrorLogo = true);
+module Cyclone_Y_rightSmoothRodIdler() {
+	scale([-1,1,1]) Cyclone_Y_leftSmoothRodIdler(mirrorLogo = true);
 }

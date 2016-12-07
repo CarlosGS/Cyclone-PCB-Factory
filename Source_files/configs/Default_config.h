@@ -10,11 +10,11 @@
 // --- Size parameters ---
 
 	// --- Bottom base ---
-		base_size_X			= 304.8 + animatePart(1,overlap=0);
-		base_size_Y			= 261.62 + animatePart(2);
+		base_size_X			= 280 + animatePart(1,overlap=0);
+		base_size_Y			= 250 + animatePart(2);
 		base_thickness		= 8;
 		base_corner_radius	= 20;
-		base_corner_res		= 0;
+		base_corner_res		= 10;
 		foot_offset = 25;
 		
 	// --- Axes reference position ---
@@ -25,6 +25,8 @@
 		axes_Yreference_height	= 40 + animatePart(5);
 		axes_Xreference_height	= 74 + animatePart(6); // relative to Y reference
 		axes_Zreference_height	= -3 + animatePart(7) + animatePart(9); // relative to X reference
+
+		Cyclone_XL = false;
 
 		axes_Xreference_posY	= -81-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
 		axes_Zreference_posY	= 14; // relative to X reference. Positions Z rods between the Y rods
@@ -232,6 +234,8 @@
 		Render_Z_carriageBottom = true;
 		Render_Y_leftSmoothRodIdler = true;
 		Render_Y_rightSmoothRodIdler = true;
+		Render_Y_leftSmoothRodIdler_back = false; // Only needed for Cyclone XL
+		Render_Y_rightSmoothRodIdler_back = false;
 		Render_Y_frontFrame = true;
 		Render_Y_backFrame = true;
 		Render_Y_carriage = true;
