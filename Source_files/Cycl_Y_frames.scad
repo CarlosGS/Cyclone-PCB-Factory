@@ -233,7 +233,7 @@ module Cyclone_Y_frontFrame() {
 						if(Render_Y_motorGear) {
 							translate([-2,-(bearing_width-bearingDepth)-motorWallSeparation-nut_separation,0])
 								rotate([-90,180,0]) color(color_movingPart)
-									cyclone_motor_gear(Gear_N_Teeth=Y_motorGearRatio, gearHeight=gear_thickness, tolerance=screwHoleTolerance);
+									cyclone_motor_gear(Gear_N_Teeth=Y_motorGearRatio, gearHeight=gear_thickness, tolerance=0);
 						}
 					}
 			}
@@ -251,7 +251,7 @@ module Cyclone_Y_frontFrame() {
 	if(Render_Y_rodGear) {
 		translate([0,2*rod_nut_len-(nut_separation/2),0])
 			rotate([-90,0,0]) color(color_movingPart)
-				cyclone_rod_gear(Gear_N_Teeth=Y_rodGearRatio, gearHeight=gear_thickness, nutSize=Y_threaded_rodNutSize, tolerance=screwHoleTolerance);
+				cyclone_rod_gear(Gear_N_Teeth=Y_rodGearRatio, gearHeight=gear_thickness, nutSize=Y_threaded_rodNutSize, tolerance=0);
 	}
 	translate([0,rod_nut_len+gear_thickness-nut_separation,0])
 		rotate([-90,0,0])	nut(size=rodNutSize, echoPart=true);

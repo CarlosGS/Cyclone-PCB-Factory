@@ -297,7 +297,7 @@ module Cyclone_X_rightFrame(isLeft=false) {
 							rotate([0,0,45]) nut(size=rodNutSize, chamfer=true, echoPart=true);
 					if(Render_X_rodGear) {
 							rotate([0,-90,0]) color(color_movingPart)
-							cyclone_rod_gear(Gear_N_Teeth=X_rodGearRatio, gearHeight=X_gear_thickness, nutSize=8, tolerance=screwHoleTolerance);
+							cyclone_rod_gear(Gear_N_Teeth=X_rodGearRatio, gearHeight=X_gear_thickness, nutSize=8, tolerance=0);
 					}
 				}
 				// Translate to motor position
@@ -309,7 +309,7 @@ module Cyclone_X_rightFrame(isLeft=false) {
 							if(Render_X_motorGear) {
 								translate([X_threaded_rod_bearingDepth+(2*rod_nut_len)-(nut_separation/2)-2,2,0])
 									rotate([0,-90,0]) color(color_movingPart)
-										cyclone_motor_gear(Gear_N_Teeth=X_motorGearRatio, gearHeight=X_gear_thickness, tolerance=screwHoleTolerance);
+										cyclone_motor_gear(Gear_N_Teeth=X_motorGearRatio, gearHeight=X_gear_thickness, tolerance=0);
 							}
 						}
 				}
