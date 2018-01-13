@@ -5,7 +5,10 @@
 </p>  
 
 Read this, it's important!
-===========================
+-----------
+
+Please note that this project is no longer active and is of historical interest only.
+===========
 
 Check out this thread before printing the parts: <https://github.com/CarlosGS/Cyclone-PCB-Factory/issues/57>
 
