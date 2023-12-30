@@ -1,4 +1,4 @@
-
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10442930.svg)](https://doi.org/10.5281/zenodo.10442930)
 <p align="center">
 <img src="Media/CycloneLogo_1/CycloneLogo_1.png" width="70%">
 <div align="center"><i>A 3D-printable (Rep-Rap alike) CNC machine, intended for PCB manufacture.</i></div>
@@ -35,7 +35,7 @@ Links of interest
 - **[GitHub project network](https://github.com/carlosgs/Cyclone-PCB-Factory/network)** (useful to find the latest work by collaborators)
 - **[Wiki entry on RepRap.org](http://reprap.org/wiki/Cyclone_PCB_Factory)**
 - **[Joco's Cyclone journey in the mail list](https://groups.google.com/forum/#!topic/cyclone-pcb-factory/o_YzXokpLnA)**
-- **[A year of development (Jan/2014)](http://carlosgs.es/node/47)** (project evolution during 2013)
+- **[A year of development (Jan/2014)](https://web.archive.org/web/20150627040708/http://carlosgs.es/node/47)** (project evolution during 2013)
 - **[List of suppliers](https://github.com/carlosgs/Cyclone-PCB-Factory/wiki/List-of-suppliers)**
 
 Getting the (development) source files  
@@ -145,7 +145,7 @@ License: **Attribution - Share Alike - Creative Commons (<http://creativecommons
 
 Authors:  
 --
-**Carlos García Saura (<http://carlosgs.es>)** released the project as open-source and is the current maintainer.
+**Carlos García Saura (<http://github.com/CarlosGS>)** released the project as open-source and is the current maintainer.
 
 **Many other people keeps contributing to the project (check GitHub contributions and "most active posters" at <https://groups.google.com/forum/#!aboutgroup/cyclone-pcb-factory>).**  
 
@@ -189,3 +189,18 @@ Disclaimer
 --
 This hardware/software is provided "as is", and you use the hardware/software at your own risk. Under no circumstances shall any author be liable for direct, indirect, special, incidental, or consequential damages resulting from the use, misuse, or inability to use this hardware/software, even if the authors have been advised of the possibility of such damages.  
 
+Please cite as:
+--
+Garcia-Saura, C. (2013). Cyclone PCB Factory. GitHub. https://doi.org/10.5281/ZENODO.10442930
+
+Latex / Bibtex citation:
+```bibtex
+@misc{cyclonepcb2013,
+  author = {Garcia-Saura, Carlos},
+  title = {Cyclone PCB Factory},
+  publisher = {GitHub},
+  year = {2013},
+  doi = {10.5281/ZENODO.10442930},
+  url = {https://doi.org/10.5281/ZENODO.10442930}
+}
+```
